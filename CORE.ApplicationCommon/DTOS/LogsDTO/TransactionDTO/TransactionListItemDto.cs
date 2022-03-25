@@ -4,8 +4,8 @@ using System.Text;
 
 namespace CORE.ApplicationCommon.DTOS.LogsDTO.TransactionDTO
 {
-    public class TransactionBaseDto
+    public class TransactionListItemDto : TransactionBaseDto
     {
-        public string TransactionNames { get; set; }
+        public int Id { get; set; }
     }
 }

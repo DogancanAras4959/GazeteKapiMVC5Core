@@ -32,6 +32,9 @@ namespace GazeteKapiMVC5Core.Profiles
             CreateMap<TransactionDto, TransactionBaseViewModel>();
             CreateMap<ProcessDto, ProcessBaseViewModel>();
             CreateMap<UserLogDto, UserLogBaseViewModel>();
+
+            CreateMap<ProcessesItemListDto, ProcessesListItemModel>();
+            CreateMap<TransactionListItemDto, TransactionListItemModel>();
         }
     }
 }

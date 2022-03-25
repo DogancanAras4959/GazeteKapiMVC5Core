@@ -1,5 +1,7 @@
 ﻿using DOMAIN.DataAccessLayer.Mapping;
 using DOMAIN.DataAccessLayer.Models;
+using GazeteKapiMVC5Core.DataAccessLayer.Mapping;
+using GazeteKapiMVC5Core.DataAccessLayer.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -18,14 +20,18 @@ namespace GazeteKapiMVC5Core.DataAccessLayer
         public virtual DbSet<Authorizes> authorize { get; set; }
         public virtual DbSet<RoleAuthorize> roleAuthorize { get; set; }
         public virtual DbSet<Categories> categories { get; set; }
-
+        public virtual DbSet<News> news { get; set; }
+        public virtual DbSet<Guest> guest { get; set; }
+        public virtual DbSet<PublishType> publishTypes { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new UserMapping());
             modelBuilder.ApplyConfiguration(new RolesMapping());
             modelBuilder.ApplyConfiguration(new AuthorizesMapping());
             modelBuilder.ApplyConfiguration(new RoleAuthorizeMapping());
-            modelBuilder.ApplyConfiguration(new CategoriesMapping());
+            modelBuilder.ApplyConfiguration(new CategoriesMapping()); modelBuilder.ApplyConfiguration(new NewsMapping());
+            modelBuilder.ApplyConfiguration(new GuestMapping());
+            modelBuilder.ApplyConfiguration(new PublishTypeMapping());
             base.OnModelCreating(modelBuilder);
         }
     }

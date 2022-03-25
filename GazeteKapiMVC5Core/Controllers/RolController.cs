@@ -19,12 +19,11 @@ namespace GazeteKapiMVC5Core.Controllers
 {
     public class RolController : Controller
     {
-        #region MyRegion
+        #region Fields / Constructre
 
         private readonly IRoleService _roleService;
         private readonly IMapper _mapper;
         private readonly ILogService _logService;
-        #endregion
 
         public RolController(IRoleService roleService, IMapper mapper, ILogService logService)
         {
@@ -33,18 +32,20 @@ namespace GazeteKapiMVC5Core.Controllers
             _logService = logService;
         }
 
+        #endregion
+
         //[RoleAuthorize("Roller")]
         public async Task<IActionResult> Roller()
         {
             try
             {
-                await CreateModeratorLog("Başarılı!", "Sayfa Girişi", "Roller", "Rol", "Sayfa girişi başarıyla gerçekleşti");
+                await CreateModeratorLog("Başarılı", "Sayfa Girişi", "Roller", "Rol", "Sayfa girişi başarıyla gerçekleşti");
                 return View(_mapper.Map<List<RoleListItemDto>, List<RolesListViewModel>>(_roleService.GetAllRole()));
             }
             catch (Exception ex)
             {
                 string detay = "Sistemden kaynaklı bir hata meydana geldi: " + ex.ToString();
-                await CreateModeratorLog("Sistem Hatası", "Sayfa Girişi", "Rol", "Yonetici", detay);
+                await CreateModeratorLog("Sistem Hatası", "Sayfa Girişi", "Roller", "Rol", detay);
                 return RedirectToAction("Home", "ErrorPage");
             }
         }
@@ -55,7 +56,7 @@ namespace GazeteKapiMVC5Core.Controllers
         {
             try
             {
-                await CreateModeratorLog("Başarılı!", "Sayfa Girişi", "RolOlustur", "Rol", "Sayfa girişi başarıyla gerçekleşti");
+                await CreateModeratorLog("Başarılı", "Sayfa Girişi", "RolOlustur", "Rol", "Sayfa girişi başarıyla gerçekleşti");
                 return View(new RoleCreateViewModel());
             }
             catch (Exception ex)
@@ -270,12 +271,10 @@ namespace GazeteKapiMVC5Core.Controllers
         {
             return _mapper.Map<List<AuthorizeListItemDto>, List<AuthorizeListViewModel>>(_roleService.GetAllAuthorizeList());
         }
-
         public List<AuthorizeRoleListViewModel> AuthorizeRoleList()
         {
             return _mapper.Map<List<AuthorizeRoleListItemDto>, List<AuthorizeRoleListViewModel>>(_roleService.GetAllAuthorizeRoleListItems());
         }
-
         public async Task<CheckLogService> CreateModeratorLog(string durum, string islem, string action, string controller, string details)
         {
             AccountEditViewModel yoneticiGetir = SessionExtensionMethod.GetObject<AccountEditViewModel>(HttpContext.Session, "user");
@@ -289,7 +288,7 @@ namespace GazeteKapiMVC5Core.Controllers
             return ct;
         }
 
-
         #endregion
+
     }
 }

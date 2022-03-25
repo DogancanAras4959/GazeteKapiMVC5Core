@@ -1,4 +1,5 @@
 ﻿using DOMAIN.DataAccessLayer.Models.Core;
+using GazeteKapiMVC5Core.DataAccessLayer.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -10,7 +11,7 @@ namespace DOMAIN.DataAccessLayer.Models
     {
         public Categories()
         {
-
+            newList = new List<News>();
         }
 
         public int Id { get; set; }
@@ -24,5 +25,7 @@ namespace DOMAIN.DataAccessLayer.Models
         [ForeignKey("user")]
         public int UserId { get; set; }
         public Users user { get; set; }
+
+        public ICollection<News> newList { get; set; } 
     }
 }

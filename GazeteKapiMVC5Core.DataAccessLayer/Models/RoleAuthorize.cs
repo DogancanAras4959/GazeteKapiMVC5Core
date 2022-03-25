@@ -12,6 +12,7 @@ namespace DOMAIN.DataAccessLayer.Models
         {
 
         }
+
         public int Id { get; set; }
 
         [ForeignKey("role")]

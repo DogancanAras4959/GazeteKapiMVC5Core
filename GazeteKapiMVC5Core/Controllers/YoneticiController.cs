@@ -40,7 +40,6 @@ namespace GazeteKapiMVC5Core.Controllers
         }
 
         #endregion
-
         public IActionResult GirisYap(string message)
         {
             if (message == null)
@@ -120,7 +119,6 @@ namespace GazeteKapiMVC5Core.Controllers
 
         [HttpGet]
         //[RoleAuthorize("KullaniciOlustur")]
-
         public async Task<IActionResult> KullaniciOlustur()
         {
             try

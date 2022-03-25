@@ -166,6 +166,11 @@ namespace SERVICES.Engine.Engines
             {
                 model.ProfileImage = userGet.ProfileImage;
             }
+
+            if (model.RoleId == 999)
+            {
+                model.RoleId = userGet.RoleId;
+            }
         
             Users getUser = await _unitOfWork.GetRepository<Users>().UpdateAsync(new Users
             {

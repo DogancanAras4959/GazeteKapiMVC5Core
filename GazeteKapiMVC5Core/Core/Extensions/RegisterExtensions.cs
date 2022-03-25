@@ -47,6 +47,7 @@ namespace GazeteKapiMVC5Core.Core.Extensions
             services.AddTransient(typeof(IRoleService), typeof(RoleService));
             services.AddTransient(typeof(ICategoryService), typeof(CategoryService));
             services.AddTransient(typeof(ILogService), typeof(LogService));
+            services.AddTransient(typeof(INewsService), typeof(NewsService));
             services.AddScoped(typeof(IUnitOfWork<>), typeof(UnitOfWork<>));
         }
     }

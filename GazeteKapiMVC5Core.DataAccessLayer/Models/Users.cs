@@ -1,4 +1,5 @@
 ﻿using DOMAIN.DataAccessLayer.Models.Core;
+using GazeteKapiMVC5Core.DataAccessLayer.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -12,6 +13,10 @@ namespace DOMAIN.DataAccessLayer.Models
         public Users()
         {
             categoriesList = new List<Categories>();
+            guestList = new List<Guest>();
+            newsList = new List<News>();
+            publishTypeList = new List<PublishType>();
+
         }
 
         public int Id { get; set; }
@@ -29,5 +34,9 @@ namespace DOMAIN.DataAccessLayer.Models
         public Roles roles { get; set; }
 
         public virtual ICollection<Categories> categoriesList { get; set; }
+        public virtual ICollection<Guest> guestList { get; set; }
+        public virtual ICollection<News> newsList { get; set; }
+        public virtual ICollection<PublishType> publishTypeList { get; set; }
+
     }
 }
