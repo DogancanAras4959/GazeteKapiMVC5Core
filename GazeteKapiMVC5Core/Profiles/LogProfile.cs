@@ -18,7 +18,11 @@ namespace GazeteKapiMVC5Core.Profiles
     {
         public LogProfile()
         {
-            CreateMap<LogDto, LogBaseViewModel>();
+            CreateMap<LogDto, LogBaseViewModel>()
+                .ForMember(x => x.processes, y => y.MapFrom(t => t.process))
+                .ForMember(x => x.transaction, y => y.MapFrom(t => t.transaction))
+                .ForMember(x => x.userlogs, y => y.MapFrom(t => t.userlogs));
+
             CreateMap<LogCreateViewModel, LogDto>();
             CreateMap<LogListItemDto, LogListViewModel>()
                 .ForMember(x => x.processes, y => y.MapFrom(t => t.process))

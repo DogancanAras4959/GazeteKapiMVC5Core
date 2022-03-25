@@ -17,5 +17,6 @@ namespace SERVICE.Engine.Interfaces
         Task<bool> CreateUserByLog(UserLogDto model);
         Task<bool> CreateLog(LogDto model);
         List<LogListItemDto> GetAllLogs();
+        LogDto GetLogDetail(int id);
     }
 }

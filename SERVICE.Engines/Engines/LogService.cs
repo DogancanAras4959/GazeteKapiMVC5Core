@@ -71,6 +71,30 @@ namespace SERVICE.Engine.Engines
             }).ToList();
         }
 
+        public LogDto GetLogDetail(int id)
+        {
+            Logs getLogs = _unitOfWork.GetRepository<Logs>().FindAsync(x => x.Id == id).Result;
+            UsersLog getUsersLog =  _unitOfWork.GetRepository<UsersLog>().FindAsync(x => x.Id == getLogs.UserID).Result;
+            Transactions getTransactions = _unitOfWork.GetRepository<Transactions>().FindAsync(x => x.Id == getLogs.TransactionID).Result;
+            Processes getProcesess = _unitOfWork.GetRepository<Processes>().FindAsync(x => x.Id == getLogs.ProcessID).Result;
+
+            return new LogDto
+            {
+                Id = getLogs.Id,
+                Action = getLogs.Action,
+                Controller = getLogs.Controller,
+                Details = getLogs.Details,
+                Date = getLogs.Date,
+                Hour = getLogs.Hour,
+                ProcessId = getLogs.ProcessID,
+                TransactionId = getLogs.TransactionID,
+                UserId = getLogs.UserID,
+                process = getProcesess,
+                transaction = getTransactions,
+                userlogs = getUsersLog
+            };
+        }
+
         public ProcessDto GetProcessByName(string processName)
         {
             Processes getProcess = _unitOfWork.GetRepository<Processes>().FindAsync(x => x.ProcessesName == processName).Result;
@@ -97,11 +121,19 @@ namespace SERVICE.Engine.Engines
         {
             UsersLog getUser = _unitOfWork.GetRepository<UsersLog>().FindAsync(x => x.UserNameLog == userName).Result;
 
-            return new UserLogDto
+            if (getUser != null)
             {
-                Id = getUser.Id,
-                UserNameLog = getUser.UserNameLog,
-            };
+                return new UserLogDto
+                {
+                    Id = getUser.Id,
+                    UserNameLog = getUser.UserNameLog,
+                };
+            }
+            else
+            {
+                return null;
+            }
+           
         }
     }
 }

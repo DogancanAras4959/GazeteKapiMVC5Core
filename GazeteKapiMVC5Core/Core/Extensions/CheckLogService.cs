@@ -23,7 +23,7 @@ namespace GazeteKapiMVC5Core.Core.Extensions
             _mapper = mapper;
         }
 
-        public async Task<LogDto> CreateLogs(string durumAdi, string IslemAdi, string action, string controller, string kulladi)
+        public async Task<LogDto> CreateLogs(string durumAdi, string IslemAdi, string action, string controller, string details, string kulladi)
         {
             LogDto newLog = new LogDto();
 
@@ -35,7 +35,6 @@ namespace GazeteKapiMVC5Core.Core.Extensions
 
                 if (getProcess != null)
                 {
-
                     UserLogDto getUser = _logService.GetUserByName(kulladi);
 
                     if (getUser == null)
@@ -49,6 +48,7 @@ namespace GazeteKapiMVC5Core.Core.Extensions
                         newLog.TransactionId = getTransaction.Id;
                         newLog.Hour = DateTime.Now;
                         newLog.Date = DateTime.Now;
+                        newLog.Details = details;
 
                         await _logService.CreateLog(newLog);
                         return newLog;
@@ -63,6 +63,7 @@ namespace GazeteKapiMVC5Core.Core.Extensions
                         newLog.TransactionId = getTransaction.Id;
                         newLog.Hour = DateTime.Now;
                         newLog.Date = DateTime.Now;
+                        newLog.Details = details;
 
                         await _logService.CreateLog(newLog);
                         return newLog;
