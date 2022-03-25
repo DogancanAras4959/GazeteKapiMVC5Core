@@ -3,10 +3,12 @@ using CORE.ApplicationCommon.DTOS.AuthorizeDTO;
 using CORE.ApplicationCommon.DTOS.AuthorizeRoleDto;
 using CORE.ApplicationCommon.DTOS.RoleDTO;
 using GazeteKapiMVC5Core.Core.Extensions;
+using GazeteKapiMVC5Core.Models.Account;
 using GazeteKapiMVC5Core.Models.Authorize;
 using GazeteKapiMVC5Core.Models.AuthorizeRole;
 using GazeteKapiMVC5Core.Models.Role;
 using Microsoft.AspNetCore.Mvc;
+using SERVICE.Engine.Interfaces;
 using SERVICES.Engine.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -21,123 +23,206 @@ namespace GazeteKapiMVC5Core.Controllers
 
         private readonly IRoleService _roleService;
         private readonly IMapper _mapper;
-
+        private readonly ILogService _logService;
         #endregion
 
-        public RolController(IRoleService roleService, IMapper mapper)
+        public RolController(IRoleService roleService, IMapper mapper, ILogService logService)
         {
             _roleService = roleService;
             _mapper = mapper;
+            _logService = logService;
         }
 
         //[RoleAuthorize("Roller")]
-        public IActionResult Roller()
+        public async Task<IActionResult> Roller()
         {
-            return View(_mapper.Map<List<RoleListItemDto>, List<RolesListViewModel>>(_roleService.GetAllRole()));
+            try
+            {
+                await CreateModeratorLog("Başarılı!", "Sayfa Girişi", "Roller", "Rol", "Sayfa girişi başarıyla gerçekleşti");
+                return View(_mapper.Map<List<RoleListItemDto>, List<RolesListViewModel>>(_roleService.GetAllRole()));
+            }
+            catch (Exception ex)
+            {
+                string detay = "Sistemden kaynaklı bir hata meydana geldi: " + ex.ToString();
+                await CreateModeratorLog("Sistem Hatası", "Sayfa Girişi", "Rol", "Yonetici", detay);
+                return RedirectToAction("Home", "ErrorPage");
+            }
         }
 
         [HttpGet]
         //[RoleAuthorize("RolOlustur")]
-        public IActionResult RolOlustur()
+        public async Task<IActionResult> RolOlustur()
         {
-            return View(new RoleCreateViewModel());
+            try
+            {
+                await CreateModeratorLog("Başarılı!", "Sayfa Girişi", "RolOlustur", "Rol", "Sayfa girişi başarıyla gerçekleşti");
+                return View(new RoleCreateViewModel());
+            }
+            catch (Exception ex)
+            {
+                string detay = "Sistemden kaynaklı bir hata meydana geldi: " + ex.ToString();
+                await CreateModeratorLog("Sistem Hatası", "Sayfa Girişi", "RolOlustur", "Rol", detay);
+                return RedirectToAction("Home", "ErrorPage");
+            }
         }
 
         [ValidateAntiForgeryToken]
         [HttpPost]
         public async Task<IActionResult> RolOlustur(RoleCreateViewModel model)
         {
-            if (ModelState.IsValid)
+            try
             {
-                if (!await _roleService.RoleIsExists(model.RoleName))
+                if (ModelState.IsValid)
                 {
-                    if (await _roleService.InsertRole(_mapper.Map<RoleCreateViewModel, RoleDto>(model)))
+                    if (!await _roleService.RoleIsExists(model.RoleName))
                     {
-                        return RedirectToAction(nameof(Roller));
+                        if (await _roleService.InsertRole(_mapper.Map<RoleCreateViewModel, RoleDto>(model)))
+                        {
+                            await CreateModeratorLog("Başarılı", "Ekleme", "RolOlustur", "Rol", "Kullanıcı için rol başarıyla oluşturuldu");
+                            return RedirectToAction(nameof(Roller));
+                        }
+                        else
+                        {
+                            await CreateModeratorLog("Başarısız", "Ekleme", "RolOlustur", "Rol", "Rol oluşturulurken bir hata meydana geldi");
+                            return RedirectToAction(nameof(Roller));
+                        }
                     }
                     else
                     {
-                        ViewBag.Message = "Rol oluşturulamadı";
+                        await CreateModeratorLog("Başarısız", "Ekleme", "RolOlustur", "Rol", "Oluşturulmak istenen rol zaten sistemde bulunuyor");
                         return RedirectToAction(nameof(Roller));
                     }
                 }
-                else
-                {
-                    ViewBag.Message = "Bu rol bulunuyor";
-                    return RedirectToAction(nameof(Roller));
-                }
+                return RedirectToAction(nameof(Roller));
             }
-            return RedirectToAction(nameof(Roller));
+            catch (Exception ex)
+            {
+                string detay = "Sistemden kaynaklı bir hata meydana geldi: " + ex.ToString();
+                await CreateModeratorLog("Sistem Hatası", "Ekleme", "RolOlustur", "Rol", detay);
+                return RedirectToAction("Home", "ErrorPage");
+            }
+
         }
 
         [HttpGet]
         //[RoleAuthorize("RolDuzenle")]
-        public IActionResult RolDuzenle(int id)
+        public async Task<IActionResult> RolDuzenle(int id)
         {
-            return View(_mapper.Map<RoleDto, RoleEditViewModel>(_roleService.GetRoleById(id)));
+            try
+            {
+                var rol = _mapper.Map<RoleDto, RoleEditViewModel>(_roleService.GetRoleById(id));
+                await CreateModeratorLog("Başarılı", "Sayfa Girişi", "RolDuzenle", "Rol", "Rol düzenleme sayfasına başarıyla girildi");
+                return View(rol);
+            }
+            catch (Exception ex)
+            {
+                string detay = "Sistemden kaynaklı bir hata meydana geldi: " + ex.ToString();
+                await CreateModeratorLog("Sistem Hatası", "Sayfa Girişi", "RolDuzenle", "Rol", detay);
+                return RedirectToAction("Home", "ErrorPage");
+            }
         }
 
         [ValidateAntiForgeryToken]
         [HttpPost]
         public async Task<IActionResult> RolDuzenle(RoleEditViewModel model)
         {
-            if (ModelState.IsValid)
+            try
             {
-                if (await _roleService.RoleIsExists(model.Id, model.RoleName))
+                if (ModelState.IsValid)
                 {
-                    ModelState.AddModelError("UserName", "Bu isimde kullanıcı zaten bulunuyor!");
-                    return View(model);
-                }
-                else
-                {
+
                     if (await _roleService.UpdateRole(_mapper.Map<RoleEditViewModel, RoleDto>(model)))
                     {
+                        await CreateModeratorLog("Başarılı", "Güncelleme", "RolDuzenle", "Rol", "Rol güncellemesi başarılı!");
                         return RedirectToAction(nameof(Roller));
                     }
                     else
                     {
-                        ViewBag.Message = "Rol güncellenemedi! Daha sonra tekrar deneyin";
+                        await CreateModeratorLog("Başarısız", "Güncelleme", "RolDuzenle", "Rol", "Rol güncellenirken bir hata meydana geldi");
                         return View(model);
 
                     }
                 }
+                return View(model);
             }
-            return View(model);
+            catch (Exception ex)
+            {
+                string detay = "Sistemden kaynaklı bir hata meydana geldi: " + ex.ToString();
+                await CreateModeratorLog("Sistem Hatası", "Güncelleme", "RolDuzenle", "Rol", detay);
+                return RedirectToAction("Home", "ErrorPage");
+            }
+
         }
 
         //[RoleAuthorize("RolSil")]
-        public IActionResult RolSil(int id)
+        public async Task<IActionResult> RolSil(int id)
         {
-            if (!_roleService.DeleteRoleById(id))
+            try
             {
-                return RedirectToAction(nameof(Roller));
+                if (!_roleService.DeleteRoleById(id))
+                {
+                    await CreateModeratorLog("Başarısız", "Silme", "RolSil", "Rol", "Rol silinirken bir hata meydana geldi");
+                    return RedirectToAction(nameof(Roller));
+                }
+                else
+                {
+                    await CreateModeratorLog("Başarılı", "Silme", "RolSil", "Rol", "Kullanıcı rolü başarıyla sistemden kaldırıldı");
+                    return RedirectToAction(nameof(Roller));
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return RedirectToAction(nameof(Roller));
+                string detay = "Sistemden kaynaklı bir hata meydana geldi: " + ex.ToString();
+                await CreateModeratorLog("Sistem Hatası", "Silme", "RolSil", "Rol", detay);
+                return RedirectToAction("Home", "ErrorPage");
             }
+            
         }
 
         //[RoleAuthorize("DurumDuzenleRol")]
         public async Task<IActionResult> DurumDuzenle(int id)
         {
-            if (await _roleService.EditIsActive(id))
+            try
             {
-                return RedirectToAction(nameof(Roller));
+                if (await _roleService.EditIsActive(id))
+                {
+                    await CreateModeratorLog("Başarılı", "Güncelleme", "DurumDuzenle", "Rol", "Kullanıcı rolünün durumu başarıyla değiştirildi!");
+
+                    return RedirectToAction(nameof(Roller));
+                }
+                else
+                {
+                    await CreateModeratorLog("Başarısız", "Güncelleme", "DurumDuzenle", "Rol", "Kullanıcı rolü değiştirilirken bir hata meydana geldi!");
+                    return RedirectToAction(nameof(Roller));
+                }
             }
-            else
+            catch (Exception ex)
             {
-                ViewBag.Message = "Bir hata oluştu";
-                return RedirectToAction(nameof(Roller));
+                string detay = "Sistemden kaynaklı bir hata meydana geldi: " + ex.ToString();
+                await CreateModeratorLog("Sistem Hatası", "Güncelleme", "DurumDuzenle", "Rol", detay);
+                return RedirectToAction("Home", "ErrorPage");
             }
+           
         }
 
         //[RoleAuthorize("RolDetay")]
-        public IActionResult RolDetay(int id)
+        public async Task<IActionResult> RolDetay(int id)
         {
-            ViewBag.ListAuthorize = AuthorizeList();
-            ViewBag.ListAuthorizeRole = AuthorizeRoleList();
-            return View(_mapper.Map<RoleDto, RoleEditViewModel>(_roleService.GetRoleById(id)));
+            try
+            {
+                var getRole = _mapper.Map<RoleDto, RoleEditViewModel>(_roleService.GetRoleById(id));
+                ViewBag.ListAuthorize = AuthorizeList();
+                ViewBag.ListAuthorizeRole = AuthorizeRoleList();
+                await CreateModeratorLog("Başarılı", "Sayfa Girişi", "RolDetay", "Rol", "Rol detayı sayfasına başarıyla giriş yapıldı");
+                return View(getRole);
+            }
+            catch (Exception ex)
+            {
+                string detay = "Sistemden kaynaklı bir hata meydana geldi: " + ex.ToString();
+                await CreateModeratorLog("Sistem Hatası", "Sayfa Girişi", "RolDetay", "Rol", detay);
+                return RedirectToAction("Home", "ErrorPage");
+            }
+          
         }
 
         [HttpPost]
@@ -190,6 +275,20 @@ namespace GazeteKapiMVC5Core.Controllers
         {
             return _mapper.Map<List<AuthorizeRoleListItemDto>, List<AuthorizeRoleListViewModel>>(_roleService.GetAllAuthorizeRoleListItems());
         }
+
+        public async Task<CheckLogService> CreateModeratorLog(string durum, string islem, string action, string controller, string details)
+        {
+            AccountEditViewModel yoneticiGetir = SessionExtensionMethod.GetObject<AccountEditViewModel>(HttpContext.Session, "user");
+            CheckLogService ct = new CheckLogService(_logService, _mapper);
+            if (yoneticiGetir.UserName == "" || yoneticiGetir.UserName == null)
+            {
+                await ct.CreateLogs(durum, islem, action, controller, details, "Sistem");
+                return ct;
+            }
+            await ct.CreateLogs(durum, islem, action, controller, details, yoneticiGetir.UserName);
+            return ct;
+        }
+
 
         #endregion
     }

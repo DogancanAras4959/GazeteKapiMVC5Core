@@ -62,125 +62,211 @@ namespace GazeteKapiMVC5Core.Controllers
         [HttpPost]
         public async Task<IActionResult> GirisYap(LoginViewModel model, string returnUrl)
         {
-            if (ModelState.IsValid)
+            try
             {
-                string passCrypto = new Cyrpto().TryEncrypt(model.Password);
-                bool result = await _userService.Login(model.UserName, passCrypto);
-
-                if (result && !string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
+                if (ModelState.IsValid)
                 {
-                    return Redirect(returnUrl);
-                }
+                    string passCrypto = new Cyrpto().TryEncrypt(model.Password);
+                    bool result = await _userService.Login(model.UserName, passCrypto);
 
-                AccountEditViewModel getUser = _mapper.Map<UserBaseDto, AccountEditViewModel>(_userService.GetUserByName(model.UserName));
+                    if (result && !string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
+                    {
+                        await CreateModeratorLog("Başarısız", "Giriş İşlemi", "GirisYap", "Yonetici", "Kullanıcı adı veya şifre yanlış. Kullanıcının giriş işlemi başarısız oldu!");
+                        return Redirect(returnUrl);
+                    }
 
-                if (getUser.IsActive != false)
-                {
-                    SessionExtensionMethod.SetObject(HttpContext.Session, "user", getUser);
-                    HttpContext.Session.GetString("user");
+                    AccountEditViewModel getUser = _mapper.Map<UserBaseDto, AccountEditViewModel>(_userService.GetUserByName(model.UserName));
 
-                    await CreateModeratorLog("Başarılı", "Giriş İşlemi", "GirisYap", "Yonetici", "Başarılı bir giriş işlemi gerçekleştirildi");
-                    return result ? RedirectToAction("Index", "Home") : RedirectToAction("GirisYap", "Yonetici", new { message = "<p> Kullanıcı adı veya şifre yanlış. Lütfen tekrar deneyin! </p>" });
+                    if (getUser.IsActive != false)
+                    {
+                        SessionExtensionMethod.SetObject(HttpContext.Session, "user", getUser);
+                        HttpContext.Session.GetString("user");
+
+                        await CreateModeratorLog("Başarılı", "Giriş İşlemi", "GirisYap", "Yonetici", "Başarılı bir giriş işlemi gerçekleştirildi");
+                        return result ? RedirectToAction("Index", "Home") : RedirectToAction("GirisYap", "Yonetici", new { message = "<p> Kullanıcı adı veya şifre yanlış. Lütfen tekrar deneyin! </p>" });
+                    }
+                    else
+                    {
+                        await CreateModeratorLog("Başarısız", "Giriş İşlemi", "GirisYap", "Yonetici", "Kullanıcının giriş işlemi başarısız oldu. Kullanıcı akti değil!");
+                        return RedirectToAction("GirisYap", "Yonetici", new { message = GetModelStateErrorsHtmlString() });
+                    }
                 }
-                else
-                {
-                    return RedirectToAction("GirisYap", "Yonetici", new { message = GetModelStateErrorsHtmlString() });
-                }
+                return RedirectToAction("GirisYap", "Yonetici", new { message = GetModelStateErrorsHtmlString() });
             }
-            return RedirectToAction("GirisYap", "Yonetici", new { message = GetModelStateErrorsHtmlString() });
+            catch (Exception ex)
+            {
+                string detay = "Sistemden kaynaklı bir hata meydana geldi: " + ex.ToString();
+                await CreateModeratorLog("Sistem Hatası", "Giriş İşlemi", "GirisYap", "Yonetici", detay);
+                return RedirectToAction("Home", "ErrorPage");
+            }
+
         }
 
         //[RoleAuthorize("Kullanicilar")]
-        public IActionResult Kullanicilar()
+        public async Task<IActionResult> Kullanicilar()
         {
-            return View(_mapper.Map<List<UserListItemDto>, List<UserListViewModel>>(_userService.GetAllUsers()));
+            try
+            {
+                await CreateModeratorLog("Başarılı", "Sayfa Girişi", "Kullanicilar", "Yonetici", "Kullanıcının yönetici sayfasına girişi başarılı!");
+                return View(_mapper.Map<List<UserListItemDto>, List<UserListViewModel>>(_userService.GetAllUsers()));
+            }
+            catch (Exception ex)
+            {
+                string detay = "Sistemden kaynaklı bir hata meydana geldi: " + ex.ToString();
+                await CreateModeratorLog("Sistem Hatası", "Sayfa Girişi", "Kullanicilar", "Yonetici", detay);
+                return RedirectToAction("Home", "ErrorPage");
+            }
         }
 
         [HttpGet]
         //[RoleAuthorize("KullaniciOlustur")]
 
-        public IActionResult KullaniciOlustur()
+        public async Task<IActionResult> KullaniciOlustur()
         {
-            var listRoles = _mapper.Map<List<RoleListItemDto>, List<RolesListViewModel>>(_roleService.GetAllRole());
-            ViewBag.Roles = new SelectList(listRoles, "Id", "RoleName");
-            return View(new AccountCreateViewModel());
+            try
+            {
+                var listRoles = _mapper.Map<List<RoleListItemDto>, List<RolesListViewModel>>(_roleService.GetAllRole());
+                ViewBag.Roles = new SelectList(listRoles, "Id", "RoleName");
+                await CreateModeratorLog("Başarılı", "Sayfa Girişi", "KullaniciOlustur", "Yonetici","Kullanıcı ekleme sayfasına giriş başarılı oldu!");
+                return View(new AccountCreateViewModel());
+            }
+            catch (Exception ex)
+            {
+                string detay = "Sistemden kaynaklı bir hata meydana geldi: " + ex.ToString();
+                await CreateModeratorLog("Sistem Hatası", "Sayfa Girişi", "KullaniciOlustur", "Yonetici", detay);
+                return RedirectToAction("Home", "ErrorPage");
+            }
+          
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> KullaniciOlustur(AccountCreateViewModel model, IFormFile file)
         {
-            if (ModelState.IsValid)
+            try
             {
-                if (model.Password == model.RePassword)
+                if (ModelState.IsValid)
                 {
-                    if (!await _userService.UserIsExists(model.UserName))
+                    if (model.Password == model.RePassword)
                     {
-                        if (file != null)
+                        if (!await _userService.UserIsExists(model.UserName))
                         {
-                            //model.ProfileImage = SaveImageProcess.ImageInsert(file,"Admin"); <- bunu sunucuya atınca kullanacağız
-                            string uploadfilename = Path.GetFileNameWithoutExtension(file.FileName);
-                            string extension = Path.GetExtension(file.FileName);
-                            uploadfilename = uploadfilename + DateTime.Now.ToString("yymmssfff") + extension;
-                            var path = Path.Combine(this._webHostEnvironment.WebRootPath, "Files", uploadfilename);
-                            var stream = new FileStream(path, FileMode.Create);
-                            await file.CopyToAsync(stream);
-                            model.ProfileImage = file.FileName;
-                        }
-                        else
-                        {
-                            model.ProfileImage = "user.png";
-                        }
-
-                        if (model.Password != null || model.Password == "")
-                        {
-                            if (await _userService.Register(_mapper.Map<AccountCreateViewModel, UserDto>(model)))
+                            if (file != null)
                             {
-                                return RedirectToAction(nameof(Kullanicilar));
+                                //model.ProfileImage = SaveImageProcess.ImageInsert(file,"Admin"); <- bunu sunucuya atınca kullanacağız
+                                string uploadfilename = Path.GetFileNameWithoutExtension(file.FileName);
+                                string extension = Path.GetExtension(file.FileName);
+                                uploadfilename = uploadfilename + DateTime.Now.ToString("yymmssfff") + extension;
+                                var path = Path.Combine(this._webHostEnvironment.WebRootPath, "Files", uploadfilename);
+                                var stream = new FileStream(path, FileMode.Create);
+                                await file.CopyToAsync(stream);
+                                model.ProfileImage = file.FileName;
                             }
-                        }
+                            else
+                            {
+                                model.ProfileImage = "user.png";
+                            }
 
-                        else
-                        {
-                            ViewBag.Message = "Lütfen bir şifre girin!";
+                            if (model.Password != null || model.Password == "")
+                            {
+                                if (await _userService.Register(_mapper.Map<AccountCreateViewModel, UserDto>(model)))
+                                {
+                                    return RedirectToAction(nameof(Kullanicilar));
+                                }
+                            }
+
+                            else
+                            {
+                                await CreateModeratorLog("Başarısız", "Ekleme", "KullaniciOlustur", "Yonetici", "Kullanıcının oluşturulması için şifre bilgisi gerekmektedir.");
+                                return View(model);
+                            }
+
+                            await CreateModeratorLog("Başarısız", "Ekleme", "KullaniciOlustur", "Yonetici", "Oluşurulmaya çalışılan yönetici sistemde bulunuyor");
                             return View(model);
                         }
-
-                        ViewBag.Message = "Bu yönetici sistemde bulunuyor!";
+                        await CreateModeratorLog("Başarısız", "Ekleme", "KullaniciOlustur", "Yonetici", "Oluşurulmaya çalışılan yönetici sistemde bulunuyor");
                         return View(model);
                     }
-                    ModelState.AddModelError("UserName", "Yönetici adı farklı ve benzersiz olmalıdır");
-                    return View(model);
+                    else
+                    {
+                        await CreateModeratorLog("Başarısız", "Ekleme", "KullaniciOlustur", "Yonetici", "Şifreler birbiriyle uyuşmuyor. Bu yüzden kullanıcı oluşturulamadı!");
+                        return View(model);
+                    }
                 }
-                else
-                {
-                    ViewBag.Message = "Şifreler birbiriyle uyuşmuyor!";
-                    return View(model);
-                }
+                return View(model);
             }
-            return View(model);
+            catch (Exception ex) 
+            {
+                string detay = "Sistemden kaynaklı bir hata meydana geldi: " + ex.ToString();
+                await CreateModeratorLog("Sistem Hatası", "Ekleme", "KullaniciOlustur", "Yonetici", detay);
+                return RedirectToAction("Home","ErrorPage");
+            }
+
         }
 
         [HttpGet]
         //[RoleAuthorize("KullaniciDuzenle")]
-        public IActionResult KullaniciDuzenle(int Id)
+        public async Task<IActionResult> KullaniciDuzenle(int Id)
         {
-            var getUser = _mapper.Map<UserDto, AccountEditViewModel>(_userService.GetUserById(Id));
-            var listRoles = _mapper.Map<List<RoleListItemDto>, List<RolesListViewModel>>(_roleService.GetAllRole());
-            ViewBag.Roles = new SelectList(listRoles, "Id", "RoleName", getUser.RoleId);
-            return View(getUser);
+            try
+            {
+                var getUser = _mapper.Map<UserDto, AccountEditViewModel>(_userService.GetUserById(Id));
+                var listRoles = _mapper.Map<List<RoleListItemDto>, List<RolesListViewModel>>(_roleService.GetAllRole());
+                ViewBag.Roles = new SelectList(listRoles, "Id", "RoleName", getUser.RoleId);
+                await CreateModeratorLog("Başarılı","Sayfa Girişi","KullaniciDuzenle","Yonetici","Kullanıcı Düzenleme sayfasına giriş başarılı!");
+                return View(getUser);
+            }
+            catch (Exception ex)
+            {
+                string detay = "Sistemden kaynaklı bir hata meydana geldi: " + ex.ToString();
+                await CreateModeratorLog("Sistem Hatası", "Sayfa Girişi", "KullaniciDuzenle", "Yonetici", detay);
+                return RedirectToAction("Home", "ErrorPage");
+            }
+           
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> KullaniciDuzenle(AccountEditViewModel model, IFormFile file)
         {
-            if (ModelState.IsValid)
+            try
             {
-
-                if (model.Password != "" || model.Password != null)
+                if (ModelState.IsValid)
                 {
-                    if (model.Password == model.RePassword)
+
+                    if (model.Password != "" || model.Password != null)
+                    {
+                        if (model.Password == model.RePassword)
+                        {
+                            if (file != null)
+                            {
+                                //model.ProfileImage = SaveImageProcess.ImageInsert(file,"Admin"); <- bunu sunucuya atınca kullanacağız
+                                var path = Path.Combine(this._webHostEnvironment.WebRootPath, "Files", file.FileName);
+                                var stream = new FileStream(path, FileMode.Create);
+                                await file.CopyToAsync(stream);
+                                model.ProfileImage = file.FileName;
+                            }
+                            else
+                            {
+                                model.ProfileImage = "user.png";
+                            }
+
+                            if (await _userService.UpdateUser(_mapper.Map<AccountEditViewModel, UserDto>(model)))
+                            {
+                                await CreateModeratorLog("Başarılı", "Güncelleme", "KullaniciDuzenle", "Yonetici", "Kullanıcı başarıyla güncellendi!");
+                                return RedirectToAction(nameof(Kullanicilar));
+                            }
+                           
+                            return View(model);
+                        }
+
+                        else
+                        {
+                            await CreateModeratorLog("Başarısız", "Güncelleme", "KullaniciDuzenle", "Yonetici", "Kullanıcı güncellenemedi. Şifreler birbiriyle uyuşmuyor!");
+                            return View(model);
+                        }
+                    }
+                    else
                     {
                         if (file != null)
                         {
@@ -190,86 +276,95 @@ namespace GazeteKapiMVC5Core.Controllers
                             await file.CopyToAsync(stream);
                             model.ProfileImage = file.FileName;
                         }
-                        else
-                        {
-                            model.ProfileImage = "user.png";
-                        }
 
                         if (await _userService.UpdateUser(_mapper.Map<AccountEditViewModel, UserDto>(model)))
                         {
+                            await CreateModeratorLog("Başarılı", "Güncelleme", "KullaniciDuzenle", "Yonetici", "Kullanıcı başarıyla güncellendi!");
                             return RedirectToAction(nameof(Kullanicilar));
                         }
 
-                        ViewBag.Message = "Kullanıcı güncellenemedi! Lütfen daha sonra tekrar deneyiniz";
                         return View(model);
                     }
 
-                    else
-                    {
-                        ViewBag.Message = "Şifreler birbiriyle uyuşmuyor";
-                        return View(model);
-                    }
                 }
-                else
-                {
-                    if (file != null)
-                    {
-                        //model.ProfileImage = SaveImageProcess.ImageInsert(file,"Admin"); <- bunu sunucuya atınca kullanacağız
-                        var path = Path.Combine(this._webHostEnvironment.WebRootPath, "Files", file.FileName);
-                        var stream = new FileStream(path, FileMode.Create);
-                        await file.CopyToAsync(stream);
-                        model.ProfileImage = file.FileName;
-                    }
-
-                    if (await _userService.UpdateUser(_mapper.Map<AccountEditViewModel, UserDto>(model)))
-                    {
-                        return RedirectToAction(nameof(Kullanicilar));
-                    }
-
-                    ViewBag.Message = "Kullanıcı güncellenemedi! Lütfen daha sonra tekrar deneyiniz";
-                    return View(model);
-                }
-
+                return View(model);
             }
-            return View(model);
+            catch (Exception ex)
+            {
+                string detay = "Sistemden kaynaklı bir hata meydana geldi: " + ex.ToString();
+                await CreateModeratorLog("Sistem Hatası", "Güncelleme", "KullaniciDuzenle", "Yonetici", detay);
+                return RedirectToAction("Home", "ErrorPage");
+            }
+   
         }
 
         //[RoleAuthorize("KullaniciSil")]
-        public IActionResult KullaniciSil(int id)
+        public async Task<IActionResult> KullaniciSil(int id)
         {
-            if (!_userService.DeleteUserById(id))
+            try
             {
-                ViewBag.Message = "Kullanıcı silinirken hata meydana geldi";
-                return RedirectToAction(nameof(Kullanicilar));
+                if (!_userService.DeleteUserById(id))
+                {
+                    await CreateModeratorLog("Başarısız", "Silme", "KullaniciSil", "Yonetici", "Kullanıcı sistemden kaldırılırken bir hata meydana geldi!");
+                    return RedirectToAction(nameof(Kullanicilar));
+                }
+                else
+                {
+                    await CreateModeratorLog("Başarılı", "Silme", "KullaniciSil", "Yonetici", "Kullanıcı başarıyla sistemden kaldırıldı");
+                    return RedirectToAction(nameof(Kullanicilar));
+                }
             }
-            else
+            catch (Exception ex)
             {
-                ViewBag.Message = "Kullanıcı başarıyla sistemden kaldırıldı";
-                return RedirectToAction(nameof(Kullanicilar));
+                string detay = "Sistemden kaynaklı bir hata meydana geldi: " + ex.ToString();
+                await CreateModeratorLog("Sistem Hatası", "Silme", "KullaniciSil", "Yonetici", detay);
+                return RedirectToAction("Home", "ErrorPage");
             }
+           
         }
 
         //[RoleAuthorize("DurumDuzenleKullanici")]
         public async Task<IActionResult> DurumDuzenle(int id)
         {
-            if (await _userService.EditIsActive(id))
+            try
             {
-                return RedirectToAction(nameof(Kullanicilar));
+                if (await _userService.EditIsActive(id))
+                {
+                    await CreateModeratorLog("Başarılı", "Güncelleme", "DurumDuzenle", "Yonetici", "Kullanıcı başarıyla güncellendi. Kullanıcını durumu düzenlendi!");
+                    return RedirectToAction(nameof(Kullanicilar));
+                }
+                else
+                {
+                    await CreateModeratorLog("Başarısız", "Güncelleme", "DurumDuzenle", "Yonetici", "Kullanıcının durumu güncellenemedi!");
+                    return RedirectToAction(nameof(Kullanicilar));
+                }
             }
-            else
+            catch (Exception ex)
             {
-                ViewBag.Message = "Bir hata oluştu";
-                return RedirectToAction(nameof(Kullanicilar));
+                string detay = "Sistemden kaynaklı bir hata meydana geldi: " + ex.ToString();
+                await CreateModeratorLog("Sistem Hatası", "Güncelleme", "DurumDuzenle", "Yonetici", detay);
+                return RedirectToAction("Home", "ErrorPage");
             }
+           
         }
 
         //[RoleAuthorize("HesapDetay")]
-        public IActionResult HesapDetay(int id)
+        public async Task<IActionResult> HesapDetay(int id)
         {
-            return View(_mapper.Map<UserDto, AccountEditViewModel>(_userService.GetUserById(id)));
+            try
+            {
+                await CreateModeratorLog("Başarılı", "Sayfa Girişi", "HesapDetay", "Yonetici", "Kullanıcı hesabına başarılı bir şekilde erişildi!");
+                return View(_mapper.Map<UserDto, AccountEditViewModel>(_userService.GetUserById(id)));
+            }
+            catch (Exception ex)
+            {
+                string detay = "Sistemden kaynaklı bir hata meydana geldi: " + ex.ToString();
+                await CreateModeratorLog("Sistem Hatası", "Sayfa Girişi", "HesapDetay", "Yonetici", detay);
+                return RedirectToAction("Home", "ErrorPage");
+            }
         }
 
-        public IActionResult LogOut()
+        public IActionResult CikisYap()
         {
             HttpContext.Session.Clear();
             HttpContext.Session.Remove("user");
@@ -302,7 +397,6 @@ namespace GazeteKapiMVC5Core.Controllers
             await ct.CreateLogs(durum, islem, action, controller, details, yoneticiGetir.UserName);
             return ct;
         }
-
 
         #endregion
     }
