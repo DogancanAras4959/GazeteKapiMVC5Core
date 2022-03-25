@@ -1,0 +1,90 @@
+﻿@model GazeteKapiMVC5Core.Models.Account.LoginViewModel
+@{
+    ViewData["Title"] = "Login";
+    Layout = null;
+}
+
+<!doctype html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8">
+    <title>GAZETE KAPI | GİRİŞ </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="Gazete Kapı Yönetim Paneliyle tüm haberlerinizi yönetin" name="description">
+    <meta content="GKapı" name="author">
+    <!-- App favicon -->
+    <link rel="shortcut icon" href="assets/images/favicon.ico">
+
+    <!-- Bootstrap Css -->
+    <link href="~/assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css">
+    <!-- Icons Css -->
+    <link href="~/assets/css/icons.min.css" rel="stylesheet" type="text/css">
+    <!-- App Css-->
+    <link href="~/assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+    <!-- Loader -->
+    <!-- Begin page -->
+    <div class="accountbg" style="background: url('assets/images/bg.jpg');background-size: cover;background-position: center;"></div>
+
+    <div class="account-pages mt-5 pt-5">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-8 col-lg-5 col-xl-4">
+                    @Html.PartialAsync("~/Views/Shared/_ErrorMessage.cshtml").Result
+
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="text-center mt-4">
+                                <div class="mb-3">
+                                    <a href="index.html"><img src="~/assets/images/logo.png" height="30" alt="logo"></a>
+                                </div>
+                            </div>
+                            <div class="p-3">
+                                <h4 class="font-size-18 mt-2 text-center">Hoşgeldiniz !</h4>
+                                <p class="text-muted text-center mb-4">Giriş yaparak yönetime devam edin!</p>
+                                <form asp-controller="Yonetici" asp-action="GirisYap" class="form-horizontal" asp-route-returnUrl="@Context.Request.Query["ReturnUrl"]">
+                                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                    <div class="mb-3">
+                                        <label class="form-label" asp-for="UserName" for="username"></label>
+                                        <input type="text" class="form-control" asp-for="UserName" id="username" placeholder="Kullanıcı adını girin" />
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label class="form-label" asp-for="Password" for="userpassword"></label>
+                                        <input type="password" class="form-control" id="userpassword" asp-for="Password" placeholder="Şifrenizi girin">
+                                    </div>
+
+                                    <div class="row mt-4">
+                                        <div class="col-sm-12 text-end">
+                                            <button class="btn btn-primary w-md waves-effect waves-light" type="submit">Giriş Yap</button>
+                                        </div>
+                                    </div>
+
+                                </form>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="~/assets/libs/jquery/jquery.min.js"></script>
+    <script src="~/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/assets/libs/metismenu/metisMenu.min.js"></script>
+    <script src="~/assets/libs/simplebar/simplebar.min.js"></script>
+    <script src="~/assets/libs/node-waves/waves.min.js"></script>
+
+    <script src="~/assets/js/app.js"></script>
+
+</body>
+</html>
+

@@ -1,0 +1,89 @@
+﻿@model IEnumerable<GazeteKapiMVC5Core.Models.Account.UserListViewModel>
+@{
+    ViewData["Title"] = "Kullanicilar";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .link-disabled {
+        pointer-events: none;
+        cursor: default;
+    }
+</style>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <h4 class="card-title">Yöneticiler</h4>
+                        <p class="card-title-desc">Yöneticiler ile ilgili tüm işlemlerinizi gerçekleştirin</p>
+                    </div>
+                    <div class="col-sm-8">
+                        <div style="float:right;"><a asp-controller="Yonetici" asp-action="KullaniciOlustur" class="btn btn-primary btn-sm">Yönetici Oluştur <i class="fas fa-plus fa-sm"></i></a></div>
+                    </div>
+                </div>
+                <div class="table-rep-plugin">
+                    <div class="table-responsive mb-0" data-bs-pattern="priority-columns">
+                        <table id="tech-companies-1" class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Id</th>
+                                    <th>Kullanıcı Adı</th>
+                                    <th>Email Adresi</th>
+                                    <th>Rol</th>
+                                    <th>Oluşturulma</th>
+                                    <th>Güncellenme</th>
+                                    <th>Durum</th>
+                                    <th>İşlem</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td><img src="~/Files/@item.ProfileImage" class="img img-fluid" width="30" height="30" /></td>
+                                        <td>@Html.DisplayFor(modelItem => item.Id)</td>
+                                        <td><a data-original-title="Hesaba git" title="" asp-action="HesapDetay" asp-controller="Yonetici" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.UserName)</a></td>
+                                        <td>@Html.DisplayFor(modelItem => item.EmailAdress)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.roles.RoleName)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.CreatedTime)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.UpdatedTime)</td>
+                                        @if (item.IsActive == true)
+                                        {
+                                            <td><strong><span class="text-success">Aktif</span></strong></td>
+                                        }
+                                        else
+                                        {
+                                            <td><strong><span class="text-danger">Pasif</span></strong></td>
+                                        }
+                                        <td>
+
+                                            @if (item.IsActive == false)
+                                            {
+                                                <a style="padding:3px;" asp-action="DurumDuzenle" asp-route-id="@item.Id"><i class="mdi mdi-lock-open mdi-24px text-success"></i></a>
+                                                <a style="padding:3px;" asp-action="KullaniciDuzenle" class="link-disabled" asp-route-id="@item.Id"><i class="mdi mdi-account-edit mdi-24px"></i></a>
+                                                <a style="padding:3px;" asp-action="KullaniciSil" asp-route-id="@item.Id" class="text-danger ml-1 link-disabled" onclick="return confirm('Bu kullanıcıyı silmek istiyor musunuz?')"><i class="mdi mdi-delete-circle mdi-24px"></i></a>
+                                            }
+                                            else
+                                            {
+                                                <a style="padding:3px;" asp-action="DurumDuzenle" asp-route-id="@item.Id"><i class="mdi mdi-lock mdi-24px text-danger"></i></a>
+                                                <a style="padding:3px;" asp-action="KullaniciDuzenle" asp-route-id="@item.Id"><i class="mdi mdi-account-edit mdi-24px"></i></a>
+                                                <a style="padding:3px;" asp-action="KullaniciSil" asp-route-id="@item.Id" class="text-danger ml-1" onclick="return confirm('Bu kullanıcıyı silmek istiyor musunuz?')"><i class="mdi mdi-delete-circle mdi-24px"></i></a>
+                                            }
+
+
+                                        </td>
+
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,31 @@
+﻿@model GazeteKapiMVC5Core.Models.Role.RoleCreateViewModel
+@{
+    ViewData["Title"] = "RolOlustur";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-5" style="display:block; margin:0 auto;">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h4 class="card-title text-center">Rol Oluştur</h4>
+                        <p class="card-title-desc text-center">Rollerinizi oluşturun ve yetkilerinizi yönetmeye başlayın</p>
+                    </div>
+                </div>
+                @using (Html.BeginForm("RolOlustur", "Rol", FormMethod.Post))
+                {
+                    <div class="mb-3">
+                        <label for="example-text-input" class="col-sm-12 col-form-label">Rol Adı</label>
+                        <input asp-for="RoleName" data-toggle="tooltip" data-placement="bottom" class="form-control" type="text" placeholder="Rol Giriniz" id="example-text-input">
+                        <span asp-validation-for="RoleName" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <input type="submit" class="btn btn-primary btn-sm" style="min-width: 215px; font-size: 18px; display: block; margin: 0 auto;" value="ROL OLUŞTUR" />
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

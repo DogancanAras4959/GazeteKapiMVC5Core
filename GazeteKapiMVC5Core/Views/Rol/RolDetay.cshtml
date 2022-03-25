@@ -1,0 +1,133 @@
+﻿@model GazeteKapiMVC5Core.Models.Role.RoleEditViewModel
+@using GazeteKapiMVC5Core.Models.Authorize
+@using GazeteKapiMVC5Core.Models.AuthorizeRole
+
+@{
+    ViewData["Title"] = "RolDetay";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    IEnumerable<AuthorizeListViewModel> listAuthorize = ViewBag.ListAuthorize as IEnumerable<AuthorizeListViewModel>;
+    IEnumerable<AuthorizeRoleListViewModel> listAuthorizeRole = ViewBag.ListAuthorizeRole as IEnumerable<AuthorizeRoleListViewModel>;
+
+    List<AuthorizeRoleListViewModel> listViewModelsNew = new List<AuthorizeRoleListViewModel>();
+
+}
+
+<style>
+    .form-label {
+        margin-bottom: 0px;
+    }
+
+    input[switch] + label {
+        font-size: 1em;
+        float: right;
+        line-height: 1;
+        width: 56px;
+        height: 25px;
+        background-color: #ced4da;
+        background-image: none;
+        border-radius: 2rem;
+        padding: 0.16667rem;
+        cursor: pointer;
+        display: inline-block;
+        text-align: center;
+        position: relative;
+        font-weight: 500;
+        -webkit-transition: all .1s ease-in-out;
+        transition: all .1s ease-in-out;
+    }
+
+    .card-title-desc {
+        color: #6c757d;
+        margin-bottom: -4px;
+    }
+</style>
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">@Model.RoleName</h4>
+                <p class="card-title-desc">@Model.RoleName adlı rolünüzün yetkilerini düzenleyin!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+
+    @foreach (var item in listAuthorize)
+    {
+        string authName = "";
+
+        foreach (var item2 in listAuthorizeRole)
+        {
+            if (item.Id == item2.AuthorizeId && item2.RoleId == Model.Id && item2.isChecked == true)
+            {
+                <input type="hidden" value="@Model.Id" />
+                <div class="col-sm-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <span class="p-2 bold">@item.AuthorizeName</span>
+                            <input class="form-check form-switch" type="checkbox" id="switch_@item.Id" value="@item.Id" switch="none" checked>
+                            <label class="form-label" for="switch_@item.Id" data-on-label="On"
+                                   data-off-label="Off"></label>
+                        </div>
+                    </div>
+                </div>
+                authName = item.AuthorizeName;
+            }
+        }
+
+        if (authName != item.AuthorizeName)
+        {
+            <input type="hidden" value="@Model.Id" />
+            <div class="col-sm-3">
+                <div class="card">
+                    <div class="card-body">
+                        <span class="p-2 bold">@item.AuthorizeName</span>
+                        <input class="form-check form-switch" type="checkbox" id="switch_@item.Id" value="@item.Id" switch="none">
+                        <label class="form-label" for="switch_@item.Id" data-on-label="On"
+                               data-off-label="Off"></label>
+                    </div>
+                </div>
+            </div>
+        }
+
+    }
+</div>
+
+<script src="~/assets/libs/jquery/jquery.min.js"></script>
+
+<script>
+
+    $('input[type=checkbox]').on('click', function () {
+        var authorizeId = $(this).attr("value");
+        var roleId = $("input[type=hidden]").attr("value");
+        var Ischecked = $("#switch_" + authorizeId).is(":checked", true);
+
+        if (Ischecked) {
+            $.ajax({
+                url: "/Rol/InsertAuthorizeInRole",
+                type: "post",
+                data: { "authorizeId": authorizeId, "roleId": roleId },
+                success: function (response) {
+                    //toastr['success']('Ürünleri bağlama işlemi başarıyla gerçekleşti!', 'Ürün Düzenleme');
+                    window.location = "/Rol/RolDetay/" + roleId;
+                }
+            });
+        }
+        else {
+            $.ajax({
+                url: "/Rol/RemoveAuthorizeInRole",
+                type: "post",
+                data: { "authorizeId": authorizeId, "roleId": roleId },
+                success: function (response) {
+                    //toastr['success']('Ürünleri bağlama işlemi başarıyla gerçekleşti!', 'Ürün Düzenleme');
+                    window.location = "/Rol/RolDetay/" + roleId;
+                }
+            });
+        }
+    });
+
+</script>

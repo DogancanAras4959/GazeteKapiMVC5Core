@@ -1,0 +1,176 @@
+﻿@model GazeteKapiMVC5Core.Models.Account.AccountEditViewModel
+@{
+    ViewData["Title"] = "HesapDetay";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                @if (Model.IsActive == true)
+                {
+                    <div class="profile-widget text-center">
+                        <img src="~/Files/@Model.ProfileImage" class="avatar-lg rounded-circle img-thumbnail" alt="img">
+                        <h5 class="mt-3">@Model.DisplayName</h5>
+                        <p>Admin</p> @*Bu bölüm roller için olacak*@
+
+                        <p class="text-muted mb-1">
+                            Oluşturulma: <strong>@Model.CreatedTime</strong>
+                        </p>
+                        <p class="text-muted">
+                            Son Düzenlenme: <strong>@Model.UpdatedTime</strong>
+                        </p>
+                        @if (Model.EmailAdress != null)
+                        {
+                            <p class="text-muted">
+                                Eposta: <strong>@Model.EmailAdress</strong>
+                            </p>
+                        }
+                        <a asp-action="KullaniciDuzenle" asp-controller="Yonetici" asp-route-id="@Model.Id" class="btn btn-sm btn-purple mt-2">Yöneticiyi Düzenle</a>
+                        <ul class="list-inline row mt-4 clearfix mb-0">
+                            <li class="col-4">
+                                <p class="mb-1 font-size-18 fw-bold">23514</p>
+                                <p class="text-muted mb-0">Yazı</p>
+                            </li>
+                            <li class="col-4">
+                                <p class="mb-1 font-size-18 fw-bold">2510</p>
+                                <p class="text-muted mb-0">Haber</p>
+                            </li>
+                            <li class="col-4">
+                                <p class="mb-1 font-size-18 fw-bold">68541</p>
+                                <p class="text-muted mb-0">Yetki</p>
+                            </li>
+                        </ul>
+                    </div>
+                }
+                else
+                {
+                    <div class="profile-widget text-center">
+                        <img src="~/Files/@Model.ProfileImage" class="avatar-lg rounded-circle img-thumbnail" alt="img">
+                        <h5 class="mt-3">@Model.DisplayName</h5>
+                        <p>Admin</p> @*Bu bölüm roller için olacak*@
+
+                        <p class="text-danger mb-1">
+                            <strong>Bu profile kilitlenmiştir</strong>
+                        </p>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <h4 class="card-title">Yazılar</h4>
+                                <p class="card-title-desc"></p>
+                            </div>
+                            <div class="col-sm-8">
+                                <div style="float:right;"><a asp-controller="Account" asp-action="KullaniciOlustur" class="btn btn-primary btn-sm">Yazılarınızı Görün</i></a></div>
+                            </div>
+                        </div>
+                        <div class="table-rep-plugin">
+                            <div class="table-responsive mb-0" data-bs-pattern="priority-columns">
+                                <table id="tech-companies-1" class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th>Id</th>
+                                            <th>Kullanıcı Adı</th>
+                                            <th>Rol</th>
+                                            <th>Oluşturulma</th>
+                                            <th>Güncellenme</th>
+                                            <th>Durum</th>
+                                            <th>İşlem</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <h4 class="card-title">Haberler</h4>
+                                <p class="card-title-desc"></p>
+                            </div>
+                            <div class="col-sm-8">
+                                <div style="float:right;"><a asp-controller="Account" asp-action="KullaniciOlustur" class="btn btn-primary btn-sm">Haberlere Git</a></div>
+                            </div>
+                        </div>
+                        <div class="table-rep-plugin">
+                            <div class="table-responsive mb-0" data-bs-pattern="priority-columns">
+                                <table id="tech-companies-1" class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th>Id</th>
+                                            <th>Kullanıcı Adı</th>
+                                            <th>Rol</th>
+                                            <th>Oluşturulma</th>
+                                            <th>Güncellenme</th>
+                                            <th>Durum</th>
+                                            <th>İşlem</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <h4 class="card-title">Hesap Hareketleri</h4>
+                                <p class="card-title-desc"></p>
+                            </div>
+                            <div class="col-sm-8">
+                                <div style="float:right;"><a asp-controller="Account" asp-action="KullaniciOlustur" class="btn btn-primary btn-sm">Hareketleri Gör</a></div>
+                            </div>
+                        </div>
+                        <div class="table-rep-plugin">
+                            <div class="table-responsive mb-0" data-bs-pattern="priority-columns">
+                                <table id="tech-companies-1" class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th>Id</th>
+                                            <th>Kullanıcı Adı</th>
+                                            <th>Rol</th>
+                                            <th>Oluşturulma</th>
+                                            <th>Güncellenme</th>
+                                            <th>Durum</th>
+                                            <th>İşlem</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

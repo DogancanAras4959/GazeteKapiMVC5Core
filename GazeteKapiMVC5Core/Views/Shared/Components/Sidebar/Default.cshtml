@@ -1,0 +1,84 @@
+﻿
+<div class="vertical-menu">
+
+    <div data-simplebar class="h-100">
+
+        <!--- Sidemenu -->
+        <div id="sidebar-menu">
+            <!-- Left Menu Start -->
+            <ul class="metismenu list-unstyled" id="side-menu">
+
+                <li>
+                    <a href="javascript:void(0);" class="has-arrow waves-effect">
+                        <i class="mdi mdi-monitor-dashboard"></i>
+                        <span> Yönetim </span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li><a asp-area="" asp-controller="Yonetici" asp-action="Kullanicilar">Kullanıcılar</a></li>
+                        <li><a asp-area="" asp-controller="Rol" asp-action="Roller">Roller</a></li>
+                        <li><a asp-area="" asp-controller="Log" asp-action="Loglar">Loglar</a></li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class="mdi mdi-newspaper-plus"></i>
+                        <span> Haber Merkezi </span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li><a asp-area="" asp-controller="Haber" asp-action="Kategoriler">Kategoriler</a></li>
+                        <li><a asp-area="" asp-controller="Haber" asp-action="Roller">Haberler</a></li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="javascript: void(0);" class="waves-effect">
+                        <i class="mdi mdi-pencil-box-multiple"></i>
+                        <span> Haber Yerleşimi </span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="calendar.html" class="waves-effect">
+                        <i class="mdi mdi-server-network"></i>
+                        <span>Ajans Haberleri</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="javascript: void(0);" class="waves-effect">
+                        <i class="mdi mdi-buffer"></i>
+                        <span>Fotoğraf Arşivi </span>
+                    </a>
+
+                </li>
+
+                <li>
+                    <a href="javascript: void(0);" class="waves-effect">
+                        <i class="mdi mdi-space-station"></i>
+                        <span>Astroloji Yönetimi </span>
+                    </a>
+
+                </li>
+
+                <li>
+                    <a href="javascript: void(0);" class="waves-effect">
+                        <i class="mdi mdi-blogger"></i>
+                        <span>Yazar Yönetimi</span>
+                    </a>
+
+                </li>
+
+                <li>
+                    <a asp-area="" asp-controller="Yonetici" asp-action="CikisYap" class="waves-effect">
+                        <i class="mdi mdi-logout"></i>
+                        <span>Güvenli Çıkış</span>
+                    </a>
+
+                </li>
+            </ul>
+        </div>
+        <!-- Sidebar -->
+    </div>
+
+</div>

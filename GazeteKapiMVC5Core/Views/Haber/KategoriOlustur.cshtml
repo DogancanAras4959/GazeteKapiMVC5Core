@@ -1,0 +1,46 @@
+﻿@model GazeteKapiMVC5Core.Models.Category.CategoryCreateViewModel
+
+@{
+    ViewData["Title"] = "KategoriOlustur";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-8" style="display:block; margin:0 auto;">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h4 class="card-title text-center">Kategori Oluştur</h4>
+                        <p class="card-title-desc text-center">Kategori oluşturun ve haberlerinizi yönetmeye başlayın</p>
+                    </div>
+                </div>
+                @using (Html.BeginForm("KategoriOlustur", "Haber", FormMethod.Post))
+                {
+                    <div class="mb-3">
+                        <label for="example-text-input" class="col-sm-12 col-form-label">Kategori</label>
+                        <input asp-for="CategoryName" data-toggle="tooltip" data-placement="bottom" class="form-control" type="text" placeholder="Kategori adınızı Giriniz" id="example-text-input">
+                        <span asp-validation-for="CategoryName" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="example-text-input" class="col-sm-12 col-form-label">Açıklama</label>
+                        <textarea asp-for="Description" rows="4" cols="50" data-toggle="tooltip" data-placement="bottom" class="form-control" type="text" placeholder="Kategori açıklaması giriniz" id="example-text-input"></textarea>
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="example-text-input" class="col-sm-12 col-form-label">Üst Kategori</label>
+                        <select asp-for="ParentCategoryId" asp-items="@ViewBag.CategoriesParent" class="form-control">
+                            <option>Lütfen bir üst kategori seçiniz (Zorunlu Değildir)</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <input type="submit" class="btn btn-primary btn-sm" style="min-width: 215px; font-size: 18px; display: block; margin: 0 auto;" value="KATEGORİ OLUŞTUR" />
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,130 @@
+﻿@model GazeteKapiMVC5Core.Models.Account.AccountEditViewModel
+
+@{
+    ViewData["Title"] = "KullaniciDuzenle";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .input-group {
+        position: relative;
+        display: -ms-flexbox;
+        -ms-flex-wrap: wrap;
+        -webkit-box-align: stretch;
+        -ms-flex-align: stretch;
+        width: 100%;
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+
+<div class="row">
+    <div class="col-8" style="display:block; margin:0 auto;">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h4 class="card-title text-center">Yönetici Güncelle</h4>
+                        <p class="card-title-desc text-center">Yöneticinizi güncelleyin ve sayfanızı yönetmeye başlayın</p>
+                    </div>
+                </div>
+                @using (Html.BeginForm("KullaniciDuzenle", "Yonetici", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+                {
+                    <input type="hidden" asp-for="Id" />
+                    <div class="row g-3 needs-validation mb-3" novalidate>
+
+                        <div class="row justify-content-center">
+                            <div class="col-md-4">
+                                <div class="mb-3 text-center">
+                                    <img class="rounded rounded-circle" width="100" height="100" id="img" src="~/Files/@Model.ProfileImage" />
+                                </div>
+                                <div class="mb-0 text-center">
+                                    <label class="form-label">Profil Fotoğrafı seçin</label>
+                                    <small>(Zorunlu değildir)</small>
+                                </div>
+                                <div class="mb-4">
+                                    <input type="file" class="filestyle" id="upload" data-input="false" name="file" data-buttonname="btn-secondary">
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-md-6">
+
+                            <label for="example-text-input" class="col-sm-12 col-form-label">Kullanıcı Adı</label>
+                            <input asp-for="UserName" data-toggle="tooltip" data-placement="bottom" class="form-control" type="text" placeholder="Kullanıcı Adını Giriniz" id="example-text-input">
+                            <span asp-validation-for="UserName" class="text-danger"></span>
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <label for="example-text-input" class="col-sm-12 col-form-label">Görünen Ad</label>
+                            <input asp-for="DisplayName" data-toggle="tooltip" data-placement="bottom" class="form-control" type="text" placeholder="Görünecek Adını Giriniz" id="example-text-input">
+                            <span asp-validation-for="DisplayName" class="text-danger"></span>
+
+                        </div>
+
+                    </div>
+                    <div class="row g-3 needs-validation mb-3" novalidate>
+
+                        <div class="col-md-6">
+                            <label for="example-text-input" class="col-sm-12 col-form-label">Şifre</label>
+                            <input asp-for="Password" data-toggle="tooltip" data-placement="bottom" class="form-control" type="password" placeholder="Şifrenizi Giriniz" id="example-text-input">
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <label for="example-text-input" class="col-sm-12 col-form-label">Şifre Tekrar</label>
+                            <input asp-for="RePassword" data-toggle="tooltip" data-placement="bottom" class="form-control" type="password" placeholder="Şifrenizi Tekrar Giriniz" id="example-text-input">
+                            <span asp-validation-for="RePassword" class="text-danger"></span>
+
+                        </div>
+
+                    </div>
+                    <div class="mb-3">
+                        <label for="example-text-input" class="col-sm-12 col-form-label">Email Adresi</label>
+                        <input asp-for="EmailAdress" data-toggle="tooltip" data-placement="bottom" class="form-control" type="email" placeholder="Email Adresinizi Giriniz" id="example-text-input">
+                        <span asp-validation-for="EmailAdress" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label for="example-text-input" class="col-sm-12 col-form-label">Rol</label>
+                        <select asp-for="RoleId" asp-items="@ViewBag.Roles" class="form-control">
+                            <option>Lütfen bir rol seçiniz!</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <input type="submit" class="btn btn-primary btn-sm" style="min-width: 215px; font-size: 18px; display: block; margin: 0 auto;" value="YÖNETİCİYİ GÜNCELLE" />
+                    </div>
+                }
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/assets/libs/jquery/jquery.min.js"></script>
+
+<script>
+    $(function () {
+        $('#upload').change(function () {
+            var input = this;
+            var url = $(this).val();
+            var ext = url.substring(url.lastIndexOf('.') + 1).toLowerCase();
+            if (input.files && input.files[0] && (ext == "gif" || ext == "png" || ext == "jpeg" || ext == "jpg")) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#img').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+            else {
+                $('#img').attr('src', '~/assets/Files/user.png');
+            }
+        });
+
+    });
+</script>

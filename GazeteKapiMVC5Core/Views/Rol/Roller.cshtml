@@ -1,0 +1,83 @@
+﻿@model IEnumerable<GazeteKapiMVC5Core.Models.Role.RolesListViewModel>
+@{
+    ViewData["Title"] = "Roller";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .link-disabled {
+        pointer-events: none;
+        cursor: default;
+    }
+</style>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <h4 class="card-title">Yönetici Rolleri</h4>
+                        <p class="card-title-desc">Yönetici rolleri ile ilgili tüm işlemlerinizi gerçekleştirin</p>
+                    </div>
+                    <div class="col-sm-8">
+                        <div style="float:right;"><a asp-controller="Role" asp-action="RolOlustur" class="btn btn-primary btn-sm">Rol Oluştur <i class="fas fa-plus fa-sm"></i></a></div>
+                    </div>
+                </div>
+                <div class="table-rep-plugin">
+                    <div class="table-responsive mb-0" data-bs-pattern="priority-columns">
+                        <table id="tech-companies-1" class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Rol Adı</th>
+                                    <th>Oluşturulma</th>
+                                    <th>Güncellenme</th>
+                                    <th>Durum</th>
+                                    <th>İşlem</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>@Html.DisplayFor(modelItem => item.Id)</td>
+                                        <td><a asp-action="RolDetay" asp-controller="Rol" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.RoleName)</a></td>
+
+                                        <td>@Html.DisplayFor(modelItem => item.CreatedTime)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.UpdatedTime)</td>
+                                        @if (item.IsActive == true)
+                                        {
+                                            <td><strong><span class="text-success">Aktif</span></strong></td>
+                                        }
+                                        else
+                                        {
+                                            <td><strong><span class="text-danger">Pasif</span></strong></td>
+                                        }
+                                        <td>
+                                            @if (item.IsActive == false)
+                                            {
+                                                <a style="padding:3px;" asp-action="DurumDuzenle" asp-route-id="@item.Id"><i class="mdi mdi-lock-open mdi-24px text-success"></i></a>
+                                                <a style="padding:3px;" asp-action="RolDuzenle" class="link-disabled" asp-route-id="@item.Id"><i class="mdi mdi-account-edit mdi-24px"></i></a>
+                                                <a style="padding:3px;" asp-action="RolSil" asp-route-id="@item.Id" class="text-danger ml-1 link-disabled" onclick="return confirm('Bu rolü silmek istiyor musunuz?')"><i class="mdi mdi-delete-circle mdi-24px"></i></a>
+                                            }
+                                            else
+                                            {
+                                                <a style="padding:3px;" asp-action="DurumDuzenle" asp-route-id="@item.Id"><i class="mdi mdi-lock mdi-24px text-danger"></i></a>
+                                                <a style="padding:3px;" asp-action="RolDuzenle" asp-route-id="@item.Id"><i class="mdi mdi-account-edit mdi-24px"></i></a>
+                                                <a style="padding:3px;" asp-action="RolSil" asp-route-id="@item.Id" class="text-danger ml-1" onclick="return confirm('Bu rolü silmek istiyor musunuz?')"><i class="mdi mdi-delete-circle mdi-24px"></i></a>
+                                            }
+                                        </td>
+
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
