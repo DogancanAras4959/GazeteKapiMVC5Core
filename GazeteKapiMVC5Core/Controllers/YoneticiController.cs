@@ -70,10 +70,18 @@ namespace GazeteKapiMVC5Core.Controllers
                 }
 
                 AccountEditViewModel getUser = _mapper.Map<UserBaseDto, AccountEditViewModel>(_userService.GetUserByName(model.UserName));
-                SessionExtensionMethod.SetObject(HttpContext.Session, "user", getUser);
-                HttpContext.Session.GetString("user");
+               
+                if (getUser.IsActive != false)
+                {
+                    SessionExtensionMethod.SetObject(HttpContext.Session, "user", getUser);
+                    HttpContext.Session.GetString("user");
 
-                return result ? RedirectToAction("Index", "Home") : RedirectToAction("GirisYap", "Yonetici", new { message = "<p> Kullanıcı adı veya şifre yanlış. Lütfen tekrar deneyin! </p>" });
+                    return result ? RedirectToAction("Index", "Home") : RedirectToAction("GirisYap", "Yonetici", new { message = "<p> Kullanıcı adı veya şifre yanlış. Lütfen tekrar deneyin! </p>" });
+                }
+                else
+                {
+                    return RedirectToAction("GirisYap", "Yonetici", new { message = GetModelStateErrorsHtmlString() });
+                }
             }
             return RedirectToAction("GirisYap", "Yonetici", new { message = GetModelStateErrorsHtmlString() });
         }

@@ -8,7 +8,7 @@ namespace GazeteKapiMVC5Core.Controllers
 {
     public class LogController : Controller
     {
-        public IActionResult Index()
+        public IActionResult Loglar()
         {
             return View();
         }

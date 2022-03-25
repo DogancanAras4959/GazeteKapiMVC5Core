@@ -9,6 +9,10 @@
         pointer-events: none;
         cursor: default;
     }
+    .table th {
+        font-weight: 600;
+        font-family: Roboto,sans-serif;
+    }
 </style>
 
 <div class="row">
@@ -29,7 +33,6 @@
                         <table id="tech-companies-1" class="table table-striped">
                             <thead>
                                 <tr>
-                                    <th>Id</th>
                                     <th>Rol Adı</th>
                                     <th>Oluşturulma</th>
                                     <th>Güncellenme</th>
@@ -41,9 +44,7 @@
                                 @foreach (var item in Model)
                                 {
                                     <tr>
-                                        <td>@Html.DisplayFor(modelItem => item.Id)</td>
                                         <td><a asp-action="RolDetay" asp-controller="Rol" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.RoleName)</a></td>
-
                                         <td>@Html.DisplayFor(modelItem => item.CreatedTime)</td>
                                         <td>@Html.DisplayFor(modelItem => item.UpdatedTime)</td>
                                         @if (item.IsActive == true)

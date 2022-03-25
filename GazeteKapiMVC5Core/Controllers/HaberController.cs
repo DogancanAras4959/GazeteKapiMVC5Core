@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using CORE.ApplicationCommon.DTOS.CategoryDTO;
+using GazeteKapiMVC5Core.Core.Extensions;
+using GazeteKapiMVC5Core.Models.Account;
 using GazeteKapiMVC5Core.Models.Category;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -34,7 +36,7 @@ namespace GazeteKapiMVC5Core.Controllers
         public IActionResult KategoriOlustur()
         {
             var list = _mapper.Map<List<CategoryListItemDto>, List<CategoryListViewModel>>(_categoryService.GetParentCategoryList());
-            ViewBag.CategoriesParent = new SelectList(list, "Id", "Name");
+            ViewBag.CategoriesParent = new SelectList(list, "Id", "CategoryName");
             return View(new CategoryCreateViewModel());
         }
 
@@ -42,6 +44,8 @@ namespace GazeteKapiMVC5Core.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> KategoriOlustur(CategoryCreateViewModel category)
         {
+            AccountEditViewModel yoneticiGetir = SessionExtensionMethod.GetObject<AccountEditViewModel>(HttpContext.Session, "user");
+            category.UserId = yoneticiGetir.Id;
             if (ModelState.IsValid)
             {
                 if (!await _categoryService.CategoryIfExists(category.CategoryName))
@@ -74,7 +78,7 @@ namespace GazeteKapiMVC5Core.Controllers
         {
             var categories = _mapper.Map<CategoryDto, CategoryEditViewModel>(_categoryService.GetCategoryById(id));
             var list = _mapper.Map<List<CategoryListItemDto>, List<CategoryListViewModel>>(_categoryService.GetParentCategoryList());
-            ViewBag.CategoriesParent = new SelectList(list, "Id", "Name", categories.Id);
+            ViewBag.CategoriesParent = new SelectList(list, "Id", "CategoryName", categories.Id);
             return View(categories);
         }
 

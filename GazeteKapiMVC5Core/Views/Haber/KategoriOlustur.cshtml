@@ -32,7 +32,7 @@
                     <div class="mb-3">
                         <label for="example-text-input" class="col-sm-12 col-form-label">Üst Kategori</label>
                         <select asp-for="ParentCategoryId" asp-items="@ViewBag.CategoriesParent" class="form-control">
-                            <option>Lütfen bir üst kategori seçiniz (Zorunlu Değildir)</option>
+                            <option selected="selected" value="999">Lütfen bir üst kategori seçiniz (Zorunlu Değildir)</option>
                         </select>
                     </div>
 

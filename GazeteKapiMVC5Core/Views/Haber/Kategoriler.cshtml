@@ -9,6 +9,10 @@
         pointer-events: none;
         cursor: default;
     }
+    .table th {
+        font-weight: 600;
+        font-family: Roboto,sans-serif;
+    }
 </style>
 
 <div class="row">
@@ -29,7 +33,6 @@
                         <table id="tech-companies-1" class="table table-striped">
                             <thead>
                                 <tr>
-                                    <th>#</th>
                                     <th>Kategori Adı</th>
                                     <th>Oluşturulma</th>
                                     <th>Güncellenme</th>
@@ -42,7 +45,6 @@
                                 @foreach (var item in Model)
                                 {
                                     <tr>
-                                        <td>@Html.DisplayFor(model => item.Id)</td>
                                         <td>@Html.DisplayFor(model => item.CategoryName)</td>
                                         <td>@Html.DisplayFor(model => item.CreatedTime)</td>
                                         <td>@Html.DisplayFor(model => item.UpdatedTime)</td>

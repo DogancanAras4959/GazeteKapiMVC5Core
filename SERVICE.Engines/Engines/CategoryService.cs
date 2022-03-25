@@ -29,6 +29,10 @@ namespace SERVICES.Engine.Engines
      
         public async Task<bool> CreateCategory(CategoryDto model)
         {
+            if (model.ParentCategoryId == 999)
+            {
+                model.ParentCategoryId = 0;
+            }
             Categories newCategory = await _unitOfWork.GetRepository<Categories>().AddAsync(new Categories
             {
                 CategoryName = model.CategoryName,
@@ -36,6 +40,7 @@ namespace SERVICES.Engine.Engines
                 Description = model.Description,
                 CreatedTime = DateTime.Now,
                 UpdatedTime = DateTime.Now,
+                UserId = model.UserId,
                 IsActive = true,
             });
 
@@ -85,23 +90,24 @@ namespace SERVICES.Engine.Engines
 
         public CategoryDto GetCategoryById(int id)
         {
-            Categories getUser = _unitOfWork.GetRepository<Categories>().FindAsync(x => x.Id == id).Result;
+            Categories getCategory = _unitOfWork.GetRepository<Categories>().FindAsync(x => x.Id == id).Result;
 
-            if (getUser == null)
+            if (getCategory == null)
             {
                 return new CategoryDto();
             }
 
             return new CategoryDto
             {
-                Id = getUser.Id,
-                CategoryName = getUser.CategoryName,
-                Description = getUser.Description,
-                ParentCategoryId = getUser.ParentCategoryId,
-                IsActive = getUser.IsActive,
-                UpdatedTime = getUser.UpdatedTime,
-                CreatedTime = getUser.CreatedTime,
-                user = getUser.user
+                Id = getCategory.Id,
+                CategoryName = getCategory.CategoryName,
+                Description = getCategory.Description,
+                ParentCategoryId = getCategory.ParentCategoryId,
+                IsActive = getCategory.IsActive,
+                UpdatedTime = getCategory.UpdatedTime,
+                CreatedTime = getCategory.CreatedTime,
+                UserId = getCategory.UserId,
+                user = getCategory.user
             };
         }
 
@@ -118,7 +124,8 @@ namespace SERVICES.Engine.Engines
                 IsActive = x.IsActive,
                 UpdatedTime = x.UpdatedTime,
                 CreatedTime = x.CreatedTime,
-                user = x.user
+                user = x.user,
+                UserId = x.UserId,
 
             }).ToList();
         }
@@ -126,7 +133,10 @@ namespace SERVICES.Engine.Engines
         public async Task<bool> UpdateCategory(CategoryDto model)
         {
             Categories categoryGet = await _unitOfWork.GetRepository<Categories>().FindAsync(x => x.Id == model.Id);
-
+            if (model.ParentCategoryId == 999)
+            {
+                categoryGet.ParentCategoryId = 0;
+            }
             Categories getCategory = await _unitOfWork.GetRepository<Categories>().UpdateAsync(new Categories
             {
                 Id = categoryGet.Id,

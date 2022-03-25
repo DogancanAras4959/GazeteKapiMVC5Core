@@ -16,7 +16,7 @@ namespace DOMAIN.DataAccessLayer.Models
         public int Id { get; set; }
         public string CategoryName { get; set; }
         public string Description { get; set; }
-        public int ParentCategoryId { get; set; }
+        public int? ParentCategoryId { get; set; }
         public bool IsActive { get; set; }
         public DateTime CreatedTime { get; set; }
         public DateTime UpdatedTime { get; set; }
