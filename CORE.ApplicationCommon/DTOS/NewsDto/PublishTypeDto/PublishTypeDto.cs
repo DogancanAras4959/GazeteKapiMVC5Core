@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace CORE.ApplicationCommon.DTOS.NewsDto
+namespace CORE.ApplicationCommon.DTOS.NewsDto.PublishTypeDto
 {
-    public class NewsListItemDto : NewBaseDto
+    public class PublishTypeDto : PublishTypeBaseDto
     {
         public int Id { get; set; }
     }

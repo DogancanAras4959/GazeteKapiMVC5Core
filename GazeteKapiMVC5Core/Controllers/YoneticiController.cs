@@ -158,7 +158,7 @@ namespace GazeteKapiMVC5Core.Controllers
                                 var path = Path.Combine(this._webHostEnvironment.WebRootPath, "Files", uploadfilename);
                                 var stream = new FileStream(path, FileMode.Create);
                                 await file.CopyToAsync(stream);
-                                model.ProfileImage = file.FileName;
+                                model.ProfileImage = uploadfilename;
                             }
                             else
                             {
@@ -182,7 +182,6 @@ namespace GazeteKapiMVC5Core.Controllers
                             await CreateModeratorLog("Başarısız", "Ekleme", "KullaniciOlustur", "Yonetici", "Oluşurulmaya çalışılan yönetici sistemde bulunuyor");
                             return View(model);
                         }
-                        await CreateModeratorLog("Başarısız", "Ekleme", "KullaniciOlustur", "Yonetici", "Oluşurulmaya çalışılan yönetici sistemde bulunuyor");
                         return View(model);
                     }
                     else
@@ -239,10 +238,13 @@ namespace GazeteKapiMVC5Core.Controllers
                             if (file != null)
                             {
                                 //model.ProfileImage = SaveImageProcess.ImageInsert(file,"Admin"); <- bunu sunucuya atınca kullanacağız
-                                var path = Path.Combine(this._webHostEnvironment.WebRootPath, "Files", file.FileName);
+                                string uploadfilename = Path.GetFileNameWithoutExtension(file.FileName);
+                                string extension = Path.GetExtension(file.FileName);
+                                uploadfilename = uploadfilename + DateTime.Now.ToString("yymmssfff") + extension;
+                                var path = Path.Combine(this._webHostEnvironment.WebRootPath, "Files", uploadfilename);
                                 var stream = new FileStream(path, FileMode.Create);
                                 await file.CopyToAsync(stream);
-                                model.ProfileImage = file.FileName;
+                                model.ProfileImage = uploadfilename;
                             }
                             else
                             {

@@ -1,0 +1,84 @@
+﻿@model IEnumerable<GazeteKapiMVC5Core.Models.News.GuestModel.GuestListViewModel>
+@{
+    ViewData["Title"] = "Kategoriler";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .link-disabled {
+        pointer-events: none;
+        cursor: default;
+    }
+
+    .table th {
+        font-weight: 600;
+        font-family: Roboto,sans-serif;
+    }
+</style>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <h4 class="card-title">Yazarlar</h4>
+                        <p class="card-title-desc">Yazarlar ile tüm işlemlerinizi gerçekleştirin</p>
+                    </div>
+                    <div class="col-sm-8">
+                        <div style="float:right;"><a asp-controller="Haber" asp-action="YazarOlustur" class="btn btn-primary btn-sm">Yazar Oluştur <i class="fas fa-plus fa-sm"></i></a></div>
+                    </div>
+                </div>
+                <div class="table-rep-plugin">
+                    <div class="table-responsive mb-0" data-bs-pattern="priority-columns">
+                        <table id="tech-companies-1" class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Yazar Adı</th>
+                                    <th>Oluşturulma</th>
+                                    <th>Güncellenme</th>
+                                    <th>İşlem Yapan</th>
+                                    <th>Durum</th>
+                                    <th>İşlem</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                <tr>
+                                    <td><img src="~/Files/@item.GuestImage" class="img img-fluid" width="30" height="30" /></td>
+                                    <td><a data-original-title="Yazara git" title="" asp-action="YazarDetay" asp-controller="Haber" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.GuestName)</a></td>
+                                    <td>@Html.DisplayFor(model => item.CreatedTime)</td>
+                                    <td>@Html.DisplayFor(model => item.UpdatedTime)</td>
+                                    <td>@Html.DisplayFor(model => item.user.UserName)</td>
+
+                                    @if (item.IsActive == true)
+                                    {
+                                        <td><span class="text-success"><strong>Aktif</strong></span></td>
+                                        <td>
+                                            <a style="padding:3px;" asp-action="YazarDurumDuzenle" asp-route-id="@item.Id"><i class="mdi mdi-lock-open mdi-24px text-success"></i></a>
+                                            <a style="padding:3px;" asp-action="YazarDuzenle" asp-route-id="@item.Id"><i class="mdi mdi-account-edit mdi-24px"></i></a>
+                                            <a style="padding:3px;" asp-action="YazarSil" asp-route-id="@item.Id" class="text-danger ml-1" onclick="return confirm('Bu yazarı silmek istiyor musunuz?')"><i class="mdi mdi-delete-circle mdi-24px"></i></a>
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td><span class="text-danger"><strong>Pasif</strong></span></td>
+                                        <td>
+                                            <a style="padding:3px;" asp-action="YazarDurumDuzenle" asp-route-id="@item.Id"><i class="mdi mdi-lock mdi-24px text-danger"></i></a>
+                                            <a style="padding:3px;" asp-action="YazarDuzenle" class="link-disabled" asp-route-id="@item.Id"><i class="mdi mdi-account-edit mdi-24px"></i></a>
+                                            <a style="padding:3px;" asp-action="YazarSil" asp-route-id="@item.Id" class="text-danger ml-1 link-disabled" onclick="return confirm('Bu yazarı silmek istiyor musunuz?')"><i class="mdi mdi-delete-circle mdi-24px"></i></a>
+                                        </td>
+                                    }
+
+                                </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

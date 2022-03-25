@@ -1,15 +1,19 @@
 ﻿using AutoMapper;
 using CORE.ApplicationCommon.DTOS.CategoryDTO;
+using CORE.ApplicationCommon.DTOS.NewsDto.GuestDto;
 using GazeteKapiMVC5Core.Core.Extensions;
 using GazeteKapiMVC5Core.Models.Account;
 using GazeteKapiMVC5Core.Models.Category;
+using GazeteKapiMVC5Core.Models.News.GuestModel;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using SERVICE.Engine.Interfaces;
 using SERVICES.Engine.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -23,12 +27,16 @@ namespace GazeteKapiMVC5Core.Controllers
         private readonly ICategoryService _categoryService;
         private readonly IMapper _mapper;
         private readonly ILogService _logService;
+        private readonly INewsService _newService;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public HaberController(ICategoryService categoryService, IMapper mapper, ILogService logSerivce)
+        public HaberController(ICategoryService categoryService, IMapper mapper, ILogService logSerivce, INewsService newsService, IWebHostEnvironment webHostEnvironment)
         {
             _categoryService = categoryService;
             _mapper = mapper;
             _logService = logSerivce;
+            _newService = newsService;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         #endregion
@@ -80,6 +88,7 @@ namespace GazeteKapiMVC5Core.Controllers
             {
                 AccountEditViewModel yoneticiGetir = SessionExtensionMethod.GetObject<AccountEditViewModel>(HttpContext.Session, "user");
                 category.UserId = yoneticiGetir.Id;
+
                 if (ModelState.IsValid)
                 {
                     if (!await _categoryService.CategoryIfExists(category.CategoryName))
@@ -210,6 +219,210 @@ namespace GazeteKapiMVC5Core.Controllers
            
         }
 
+        #endregion
+
+        #region Yazarlar
+        public async Task<IActionResult> Yazarlar()
+        {
+            try
+            {
+                var listGuest = _mapper.Map<List<GuestListItemDto>, List<GuestListViewModel>>(_newService.guestList());
+
+                await CreateModeratorLog("Başarılı", "Sayfa Girişi", "Yazarlar", "Haber", "Yazarlar sayfasına giriş başarılı!");
+
+                return View(listGuest);
+            }
+            catch (Exception ex)
+            {
+                string detay = "Sistemden kaynaklı bir hata meydana geldi: " + ex.ToString();
+                await CreateModeratorLog("Sistem Hatası", "Sayfa Girişi", "Yazarlar", "Haber", detay);
+                return RedirectToAction("Home", "ErrorPage");
+            }
+        }
+        public async Task<IActionResult> YazarOlustur()
+        {
+            try
+            {
+                await CreateModeratorLog("Başarılı", "Sayfa Girişi", "YazarOlustur", "Haber", "Yazar oluşturma sayfasına giriş başarılı!");
+                return View(new GuestCreateViewModel());
+            }
+            catch (Exception ex)
+            {
+                string detay = "Sistemden kaynaklı bir hata meydana geldi: " + ex.ToString();
+                await CreateModeratorLog("Sistem Hatası", "Sayfa Girişi", "YazarOlustur", "Haber", detay);
+                return RedirectToAction("Home", "ErrorPage");
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> YazarOlustur(GuestCreateViewModel model, IFormFile file)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    AccountEditViewModel yoneticiGetir = SessionExtensionMethod.GetObject<AccountEditViewModel>(HttpContext.Session, "user");
+                    model.UserId = yoneticiGetir.Id;
+
+                    if (file != null)
+                    {
+                        string uploadfilename = Path.GetFileNameWithoutExtension(file.FileName);
+                        string extension = Path.GetExtension(file.FileName);
+                        uploadfilename = uploadfilename + DateTime.Now.ToString("yymmssfff") + extension;
+                        var path = Path.Combine(this._webHostEnvironment.WebRootPath, "Files", uploadfilename);
+                        var stream = new FileStream(path, FileMode.Create);
+                        await file.CopyToAsync(stream);
+                        model.GuestImage = uploadfilename;
+                    }
+                    else
+                    {
+                        model.GuestImage = "user.png";
+                    }
+
+                    if (await _newService.createGuets(_mapper.Map<GuestCreateViewModel, GuestDto>(model)))
+                    {
+                        await CreateModeratorLog("Başarılı", "Ekleme", "YazarOlustur", "Haber", "Yazar başarıyla eklendi!");
+                        return RedirectToAction(nameof(Yazarlar));
+                    }
+                    else
+                    {
+                        await CreateModeratorLog("Başarısız", "Ekleme", "YazarOlustur", "Haber", "Yazar oluşturulurken bir sorun ortaya çıktı");
+                    }
+                }
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                string detay = "Sistemden kaynaklı bir hata meydana geldi: " + ex.ToString();
+                await CreateModeratorLog("Sistem Hatası", "Ekleme", "YazarOlustur", "Haber", detay);
+                return RedirectToAction("Home", "ErrorPage");
+            }
+        }
+
+        public async Task<IActionResult> YazarSil(int Id)
+        {
+            try
+            {
+                if (!_newService.guestDelete(Id))
+                {
+                    await CreateModeratorLog("Başarısız", "Silme", "YazarSil", "Haber", "Yazar silinirken bir hata meydana geldi");
+                    return RedirectToAction(nameof(Yazarlar));
+                }
+                else
+                {
+                    await CreateModeratorLog("Başarılı", "Silme", "YazarSil", "Haber", "Yazar başarıyla sistemden kaldırıldı");
+                    return RedirectToAction(nameof(Yazarlar));
+                }
+            }
+            catch (Exception ex)
+            {
+                string detay = "Sistemden kaynaklı bir hata meydana geldi: " + ex.ToString();
+                await CreateModeratorLog("Sistem Hatası", "Silme", "YazarSil", "Haber", detay);
+                return RedirectToAction("Home", "ErrorPage");
+            }
+        }
+
+        public async Task<IActionResult> YazarDurumDuzenle(int Id)
+        {
+            try
+            {
+                if (await _newService.EditIsActive(Id))
+                {
+                    await CreateModeratorLog("Başarılı", "Güncelleme", "YazarDurumDuzenle", "Haber", "Yazar başarıyla güncellendi. Kullanıcını durumu düzenlendi!");
+                    return RedirectToAction(nameof(Yazarlar));
+                }
+                else
+                {
+                    await CreateModeratorLog("Başarısız", "Güncelleme", "YazarDurumDuzenle", "Haber", "Yazar durumu güncellenemedi!");
+                    return RedirectToAction(nameof(Yazarlar));
+                }
+            }
+            catch (Exception ex)
+            {
+                string detay = "Sistemden kaynaklı bir hata meydana geldi: " + ex.ToString();
+                await CreateModeratorLog("Sistem Hatası", "Silme", "YazarDurumDuzenle", "Haber", detay);
+                return RedirectToAction("Home", "ErrorPage");
+            }
+        }
+
+        public async Task<IActionResult> YazarDuzenle(int Id)
+        {
+            try
+            {
+                var getUser = _mapper.Map<GuestDto, GuestEditViewModel>(_newService.getGuest(Id));
+                await CreateModeratorLog("Başarılı", "Sayfa Girişi", "YazarDuzenle", "Haber", "Yazar düzenleme ekranına giriş başarılı!");
+                return View(getUser);
+            }
+            catch (Exception ex)
+            {
+                string detay = "Sistemden kaynaklı bir hata meydana geldi: " + ex.ToString();
+                await CreateModeratorLog("Sistem Hatası", "Sayfa Girişi", "YazarDuzenle", "Haber", detay);
+                return RedirectToAction("Home", "ErrorPage");
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> YazarDuzenle(GuestEditViewModel model, IFormFile file)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    AccountEditViewModel yoneticiGetir = SessionExtensionMethod.GetObject<AccountEditViewModel>(HttpContext.Session, "user");
+                    model.UserId = yoneticiGetir.Id;
+
+                    if (file != null)
+                    {
+                        string uploadfilename = Path.GetFileNameWithoutExtension(file.FileName);
+                        string extension = Path.GetExtension(file.FileName);
+                        uploadfilename = uploadfilename + DateTime.Now.ToString("yymmssfff") + extension;
+                        var path = Path.Combine(this._webHostEnvironment.WebRootPath, "Files", uploadfilename);
+                        var stream = new FileStream(path, FileMode.Create);
+                        await file.CopyToAsync(stream);
+                        model.GuestImage = uploadfilename;
+                    }
+                    else
+                    {
+                        model.GuestImage = "user.png";
+                    }
+
+                    if (await _newService.editGuest(_mapper.Map<GuestEditViewModel, GuestDto>(model)))
+                    {
+                        await CreateModeratorLog("Başarılı", "Güncelleme", "YazarDuzenle", "Haber", "Yazar başarıyla güncellendi!");
+                        return RedirectToAction(nameof(Yazarlar));
+                    }
+                    else
+                    {
+                        await CreateModeratorLog("Başarısız", "Güncelleme", "YazarDuzenle", "Haber", "Yazar güncellenirken bir sorun ortaya çıktı");
+                    }
+                }
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                string detay = "Sistemden kaynaklı bir hata meydana geldi: " + ex.ToString();
+                await CreateModeratorLog("Sistem Hatası", "Güncelleme", "YazarDuzenle", "Haber", detay);
+                return RedirectToAction("Home", "ErrorPage");
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> YazarDetay(int id)
+        {
+            try
+            {
+                await CreateModeratorLog("Başarılı", "Sayfa Girişi", "YazarDetay", "Haber", "Yazar detayına başarılı bir şekilde erişildi!");
+                return View(_mapper.Map<GuestDto, GuestEditViewModel>(_newService.getGuest(id)));
+            }
+            catch (Exception ex)
+            {
+                string detay = "Sistemden kaynaklı bir hata meydana geldi: " + ex.ToString();
+                await CreateModeratorLog("Sistem Hatası", "Sayfa Girişi", "YazarDetay", "Haber", detay);
+                return RedirectToAction("Home", "ErrorPage");
+            }
+        }
         #endregion
 
         #region Haberler

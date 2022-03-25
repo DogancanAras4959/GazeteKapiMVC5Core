@@ -140,11 +140,11 @@ namespace SERVICES.Engine.Engines
             Categories getCategory = await _unitOfWork.GetRepository<Categories>().UpdateAsync(new Categories
             {
                 Id = categoryGet.Id,
-                CategoryName = categoryGet.CategoryName,
-                Description = categoryGet.Description,
-                ParentCategoryId = categoryGet.ParentCategoryId,
+                CategoryName = model.CategoryName,
+                Description = model.Description,
+                ParentCategoryId = model.ParentCategoryId,
                 IsActive = categoryGet.IsActive,
-                UpdatedTime = categoryGet.UpdatedTime,
+                UpdatedTime = DateTime.Now,
                 CreatedTime = categoryGet.CreatedTime,
                 user = categoryGet.user,
                 UserId = model.UserId,

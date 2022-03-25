@@ -17,7 +17,7 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Models
         public int Id { get; set; }
         public string Title { get; set; }
         public string Spot { get; set; }
-        public string Content { get; set; }
+        public string NewsContent { get; set; }
         public string Sorted { get; set; }
         public string Image { get; set; }
         public DateTime? CreatedTime { get; set; }

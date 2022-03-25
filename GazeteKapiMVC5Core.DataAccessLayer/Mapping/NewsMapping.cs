@@ -13,7 +13,7 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Mapping
         {
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Image).HasMaxLength(100).IsRequired();
-            builder.Property(x => x.Content).HasMaxLength(2000).IsRequired();
+            builder.Property(x => x.NewsContent).HasMaxLength(2000).IsRequired();
             builder.Property(x => x.Title).HasMaxLength(100).IsRequired();
             builder.Property(x => x.Spot).HasMaxLength(500).IsRequired();
             builder.HasOne(x => x.users).WithMany(x => x.newsList).HasForeignKey(x => x.UserId);
