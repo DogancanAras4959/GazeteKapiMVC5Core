@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using CORE.ApplicationCommon.DTOS.CategoryDTO;
+using CORE.ApplicationCommon.DTOS.NewsDto;
 using CORE.ApplicationCommon.DTOS.NewsDto.GuestDto;
 using GazeteKapiMVC5Core.Models.Category;
 using GazeteKapiMVC5Core.Models.News.GuestModel;
+using GazeteKapiMVC5Core.Models.News.NewsModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +16,7 @@ namespace GazeteKapiMVC5Core.Profiles
     {
         public NewsProfile()
         {
-            #region News Create Map
+            #region Category Create Map
 
             CreateMap<CategoryCreateViewModel, CategoryDto>();
             CreateMap<CategoryDto, CategoryEditViewModel>();
@@ -34,7 +36,15 @@ namespace GazeteKapiMVC5Core.Profiles
 
             #endregion
 
+            #region Haber CreateMap
 
+            CreateMap<NewsListItemDto, NewsLıstItemModel>()
+                .ForMember(x => x.users, y => y.MapFrom(t => t.users))
+                .ForMember(x => x.categories, y => y.MapFrom(t => t.categories))
+                .ForMember(x => x.guest, y => y.MapFrom(t => t.guest))
+                .ForMember(x => x.publishtype, y => y.MapFrom(t => t.publishtype));
+
+            #endregion
         }
     }
 }

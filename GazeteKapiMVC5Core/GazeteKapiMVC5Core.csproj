@@ -29,7 +29,6 @@
 
   <ItemGroup>
     <Folder Include="Models\News\PublishTypeModel\" />
-    <Folder Include="Models\News\NewsModel\" />
   </ItemGroup>
 
 </Project>

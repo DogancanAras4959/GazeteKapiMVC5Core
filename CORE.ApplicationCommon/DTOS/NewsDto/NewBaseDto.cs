@@ -12,6 +12,7 @@ namespace CORE.ApplicationCommon.DTOS.NewsDto
         public string Spot { get; set; }
         public string NewsContent { get; set; }
         public string Image { get; set; }
+        public int Sorted { get; set; }
         public DateTime? UpdatedTime { get; set; }
         public DateTime? CreatedTime { get; set; }
         public DateTime? PublishedTime { get; set; }
@@ -26,7 +27,7 @@ namespace CORE.ApplicationCommon.DTOS.NewsDto
         public int GuestId { get; set; }
         public int PublishTypeId { get; set; }
 
-        public Categories category { get; set; }
+        public Categories categories { get; set; }
         public Users users { get; set; }
         public PublishType publishtype { get; set; }
         public Guest guest { get; set; }

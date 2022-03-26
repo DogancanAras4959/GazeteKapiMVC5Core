@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
 using CORE.ApplicationCommon.DTOS.CategoryDTO;
+using CORE.ApplicationCommon.DTOS.NewsDto;
 using CORE.ApplicationCommon.DTOS.NewsDto.GuestDto;
 using GazeteKapiMVC5Core.Core.Extensions;
 using GazeteKapiMVC5Core.Models.Account;
 using GazeteKapiMVC5Core.Models.Category;
 using GazeteKapiMVC5Core.Models.News.GuestModel;
+using GazeteKapiMVC5Core.Models.News.NewsModel;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -432,8 +434,9 @@ namespace GazeteKapiMVC5Core.Controllers
         {
             try
             {
-                //var haberlist = "";
-                return View();
+                var haberlist = _mapper.Map<List<NewsListItemDto>, List<NewsLıstItemModel>>(_newService.newsList());
+                await CreateModeratorLog("Başarılı", "Sayfa Girişi", "Haberler", "Haber", "Haber sayfasına giriş başarılı!");
+                return View(haberlist);
             }
             catch (Exception ex)
             {
@@ -443,6 +446,7 @@ namespace GazeteKapiMVC5Core.Controllers
             }
            
         }
+
 
         #endregion
 

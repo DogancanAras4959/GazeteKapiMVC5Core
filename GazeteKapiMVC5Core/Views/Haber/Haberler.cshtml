@@ -1,8 +1,105 @@
-﻿
+﻿@model IEnumerable<GazeteKapiMVC5Core.Models.News.NewsModel.NewsLıstItemModel>
 @{
-    ViewData["Title"] = "Haberler";
+    ViewData["Title"] = "Kategoriler";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Haberler</h1>
+<style>
+    .link-disabled {
+        pointer-events: none;
+        cursor: default;
+    }
 
+    .table th {
+        font-weight: 600;
+        font-family: Roboto,sans-serif;
+    }
+</style>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <h4 class="card-title">Haberler</h4>
+                        <p class="card-title-desc">Haberler ile tüm işlemlerinizi gerçekleştirin</p>
+                    </div>
+                    <div class="col-sm-8">
+                        <div style="float:right;"><a asp-controller="Haber" asp-action="Haber Oluştur" class="btn btn-primary btn-sm">Haber Oluştur <i class="fas fa-plus fa-sm"></i></a></div>
+                    </div>
+                </div>
+                <div class="table-rep-plugin">
+                    <div class="table-responsive mb-0" data-bs-pattern="priority-columns">
+                        <table id="tech-companies-1" class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Haber No</th>
+                                    <th>Başlık</th>
+                                    <th>Yayın Tarihi</th>
+                                    <th>Haber Tipi</th>
+                                    <th>Gösterim</th>
+                                    <th>Oluşturan</th>
+                                    <th>İşlem</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>No Search</td>
+                                    <td>Title Search</td>
+                                    <td></td>
+                                    <td>Type Search</td>
+                                    <td></td>
+                                    <td>Author Search</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>@Html.DisplayFor(model => item.Id)</td>
+                                        <td><a data-original-title="Yazara git" title="" asp-action="YazarDetay" asp-controller="Haber" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.Title)</a></td>
+                                        <td>@Html.DisplayFor(model => item.PublishedTime)</td>
+                                        <td>@Html.DisplayFor(model => item.categories.CategoryName)</td>
+                                        <td>@Html.DisplayFor(model => item.Views)</td>
+                                        <td>@Html.DisplayFor(model => item.users.DisplayName)</td>
+                                        <td>
+                                            @if (item.IsLock == true)
+                                            {
+                                                <a style="padding:3px;" asp-action="Kilitle" asp-route-id="@item.Id"><i class="mdi mdi-lock-open mdi-24px text-success"></i></a>
+                                            }
+                                            else
+                                            {
+                                                <a style="padding:3px;" asp-action="Kilitle" asp-route-id="@item.Id"><i class="mdi mdi-lock mdi-24px text-danger"></i></a>
+                                            }
+
+                                            @if (item.IsActive == false)
+                                            {
+                                                <a style="padding:3px;" asp-action="YayindaMi" asp-route-id="@item.Id"><i class="mdi mdi-publish mdi-24px"></i></a>
+                                            }
+                                            else
+                                            {
+                                                <a style="padding:3px;" asp-action="YayindaMi" asp-route-id="@item.Id"><i class="mdi mdi-earth-remove text-danger mdi-24px"></i></a>
+
+                                            }
+
+                                            @if (item.IsOpenNotifications == true)
+                                            {
+                                                <a style="padding:3px;" asp-action="BildirimDuzenle" asp-route-id="@item.Id" class="ml-1"><i class="mdi mdi-bell-alert mdi-24px"></i></a>
+                                            }
+                                            else
+                                            {
+                                                <a style="padding:3px;" asp-action="BildirimDuzenle" asp-route-id="@item.Id" class="ml-1"><i class="mdi mdi-bell-cancel text-success mdi-24px"></i></a>
+                                            }
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

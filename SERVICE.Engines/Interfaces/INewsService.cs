@@ -1,4 +1,5 @@
-﻿using CORE.ApplicationCommon.DTOS.NewsDto.GuestDto;
+﻿using CORE.ApplicationCommon.DTOS.NewsDto;
+using CORE.ApplicationCommon.DTOS.NewsDto.GuestDto;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -14,5 +15,6 @@ namespace SERVICE.Engine.Interfaces
         Task<bool> EditIsActive(int id);
         GuestDto getGuest(int id);
         Task<bool> editGuest(GuestDto model);
+        List<NewsListItemDto> newsList();
     }
 }
