@@ -11,7 +11,7 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Models
     {
         public News()
         {
-
+            tagNewsListForNews = new List<TagNews>();
         }
 
         public int Id { get; set; }
@@ -48,5 +48,7 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Models
         public virtual Users users { get; set; }
         public virtual Categories categories { get; set; }
         public virtual PublishType publishtype { get; set; }
+
+        public virtual ICollection<TagNews> tagNewsListForNews { get; set; }
     }
 }

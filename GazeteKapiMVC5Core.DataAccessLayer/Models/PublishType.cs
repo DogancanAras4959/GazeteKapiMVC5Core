@@ -20,8 +20,8 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Models
         [ForeignKey("user")]
         public int UserId { get; set; }
 
-        public Users user { get; set; }
+        public virtual Users user { get; set; }
 
-        public ICollection<News> newList { get; set; }
+        public virtual ICollection<News> newList { get; set; }
     }
 }

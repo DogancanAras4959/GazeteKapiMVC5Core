@@ -79,6 +79,11 @@ namespace CORE.ApplicationCore.Repository
             return await _context.Set<TEntity>().SingleOrDefaultAsync(predicate);
         }
 
+        //public async Task<TEntity> FindAsnycContains(Expression<Func<TEntity,bool>> predicate)
+        //{
+        //    return await _context.Set<TEntity>().Contains(predicate);
+        //}
+
         public async Task<ICollection<TEntity>> GetAllAsync()
         {
             return await _context.Set<TEntity>().ToListAsync();

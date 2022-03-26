@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace CORE.ApplicationCommon.DTOS.NewsDto.GuestDto
+namespace CORE.ApplicationCommon.DTOS.NewsDTO.GuestDTO
 {
     public class GuestDto : GuestBaseDto
     {

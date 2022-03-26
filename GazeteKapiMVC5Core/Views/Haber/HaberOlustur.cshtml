@@ -5,6 +5,14 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Xsrf
+@functions{
+    public string GetAntiXsrfRequestToken()
+    {
+        return Xsrf.GetAndStoreTokens(Context).RequestToken;
+    }
+}
+
 <style>
     .input-group {
         position: relative;
@@ -20,8 +28,7 @@
     }
 </style>
 
-
-<form method="post" action="@Url.Action("HaberOlustur","Haber")" enctype="multipart/form-data">
+<form method="post" asp-action="HaberOlustur" asp-controller="Haber" enctype="multipart/form-data">
     <div class="row">
         <div class="col-sm-8">
             <div class="card">
@@ -41,7 +48,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="example-text-input" class="col-sm-12 col-form-label">Etiket (Zorunlu Değildir - SEO için önerilir)</label>
-                        <input asp-for="Tag" data-toggle="tooltip" data-placement="bottom" class="form-control" type="text" placeholder="Haber için etiketler giriniz" id="example-text-input">
+                        <input asp-for="Tag" data-toggle="tooltip" name="Tag" data-placement="bottom" class="form-control" type="text" placeholder="Haber için etiketler giriniz" id="example-text-input">
                     </div>
                     <div class="mb-3">
                         <label for="example-text-input" class="col-sm-12 col-form-label">Haber Ayarları</label>
@@ -67,7 +74,7 @@
                 </div>
             </div>
         </div>
-       
+
         <div class="col-sm-4">
             <div class="row">
                 <div class="col-sm-12">
@@ -85,7 +92,7 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-sm-1">
-                                    <input type="checkbox" />
+                                    <input type="checkbox" asp-for="IsCommentActive" />
                                 </div>
                                 <div class="col-sm-11">
                                     <label class="col-sm-11">Haberi yorumlara aç</label>
@@ -101,7 +108,7 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-sm-1">
-                                    <input type="checkbox" />
+                                    <input type="checkbox" asp-for="IsOpenNotifications" />
                                 </div>
                                 <div class="col-sm-11">
                                     <label class="col-sm-11">Haber bildirimlerini etkinleştir</label>
@@ -117,7 +124,7 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-sm-1">
-                                    <input type="checkbox" />
+                                    <input type="checkbox" asp-for="IsSlide" />
                                 </div>
                                 <div class="col-sm-11">
                                     <label class="col-sm-11">Haberi manşete taşı</label>

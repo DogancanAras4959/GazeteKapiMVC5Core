@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace CORE.ApplicationCommon.DTOS.NewsDto
+namespace CORE.ApplicationCommon.DTOS.NewsDTO
 {
     public class NewBaseDto
     {

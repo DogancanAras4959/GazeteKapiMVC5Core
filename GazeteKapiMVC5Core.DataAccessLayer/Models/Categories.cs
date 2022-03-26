@@ -26,6 +26,6 @@ namespace DOMAIN.DataAccessLayer.Models
         public int UserId { get; set; }
         public Users user { get; set; }
 
-        public ICollection<News> newList { get; set; } 
+        public virtual ICollection<News> newList { get; set; } 
     }
 }

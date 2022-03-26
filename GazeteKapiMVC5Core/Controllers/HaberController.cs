@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using CORE.ApplicationCommon.DTOS.CategoryDTO;
-using CORE.ApplicationCommon.DTOS.NewsDto;
-using CORE.ApplicationCommon.DTOS.NewsDto.GuestDto;
-using CORE.ApplicationCommon.DTOS.NewsDto.PublishTypeDto;
+using CORE.ApplicationCommon.DTOS.NewsDTO;
+using CORE.ApplicationCommon.DTOS.NewsDTO.GuestDTO;
+using CORE.ApplicationCommon.DTOS.NewsDTO.PublishTypeDTO;
 using GazeteKapiMVC5Core.Core.Extensions;
 using GazeteKapiMVC5Core.Models.Account;
 using GazeteKapiMVC5Core.Models.Category;
@@ -220,7 +220,7 @@ namespace GazeteKapiMVC5Core.Controllers
                 await CreateModeratorLog("Sistem Hatası", "Güncelleme", "KategoriDurumDuzenle", "Haber", detay);
                 return RedirectToAction("Home", "ErrorPage");
             }
-           
+
         }
 
         #endregion
@@ -447,7 +447,7 @@ namespace GazeteKapiMVC5Core.Controllers
                 await CreateModeratorLog("Sistem Hatası", "Sayfa Girişi", "Haberler", "Haber", detay);
                 return RedirectToAction("Home", "ErrorPage");
             }
-           
+
         }
 
         [HttpGet]
@@ -455,8 +455,7 @@ namespace GazeteKapiMVC5Core.Controllers
         {
             try
             {
-
-                var publishTypeList = _mapper.Map<List<PublishTypeListItem>,List<PublishTypeListViewModel>>(_newService.publishTypeList());
+                var publishTypeList = _mapper.Map<List<PublishTypeListItem>, List<PublishTypeListViewModel>>(_newService.publishTypeList());
                 ViewBag.PublishTypes = new SelectList(publishTypeList, "Id", "TypeName");
 
                 var categoryList = _mapper.Map<List<CategoryListItemDto>, List<CategoryListViewModel>>(_categoryService.GetAllCategory());
@@ -476,6 +475,87 @@ namespace GazeteKapiMVC5Core.Controllers
             }
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> HaberOlustur(NewsCreateViewModel model, IFormFile file)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    if (!await _newService.NewsIfExists(model.Title))
+                    {
+                        if (file != null)
+                        {
+                            if (model.CategoryId != 0)
+                            {
+                                AccountEditViewModel yoneticiGetir = SessionExtensionMethod.GetObject<AccountEditViewModel>(HttpContext.Session, "user");
+                                model.UserId = yoneticiGetir.Id;
+
+                                string uploadfilename = Path.GetFileNameWithoutExtension(file.FileName);
+                                string extension = Path.GetExtension(file.FileName);
+                                uploadfilename = uploadfilename + DateTime.Now.ToString("yymmssfff") + extension;
+                                var path = Path.Combine(this._webHostEnvironment.WebRootPath, "Files", uploadfilename);
+                                var stream = new FileStream(path, FileMode.Create);
+                                await file.CopyToAsync(stream);
+                                model.Image = uploadfilename;
+
+                                int resultId = _newService.createNews(_mapper.Map<NewsCreateViewModel, NewsDto>(model)).Id;
+
+                                if (resultId > 0)
+                                {
+
+                                    if (!string.IsNullOrEmpty(model.Tag))
+                                    {
+                                        if (model.Tag[^1] == ',')
+                                        {
+                                            await InsertTagToProduct(model.Tag[0..^1], resultId);
+                                        }
+                                        else
+                                        {
+                                            await InsertTagToProduct(model.Tag, resultId);
+                                        }
+                                    }
+
+                                    await CreateModeratorLog("Başarılı", "Ekleme", "HaberOlustur", "Haber", "Haber oluşturulması başarıyla gerçekleşti. Haberinizi istediğiniz gibi düzenleyebilirsiniz!");
+                                    return RedirectToAction("HaberDuzenle", "Haber", new { Id = model.Id });
+                                }
+                                else
+                                {
+                                    await CreateModeratorLog("Başarısız", "Ekleme", "HaberOlustur", "Haber", "Haberiniz oluşturulurken bir hata meydana geldi. Haber oluşturulamadı!");
+                                    return View(model);
+                                }
+                            }
+                            else
+                            {
+                                await CreateModeratorLog("Başarısız", "Ekleme", "HaberOlustur", "Haber", "Haber için kategori girilmelidir. Haber bu yüzden oluşturulamadı!");
+                                return View(model);
+                            }
+                        }
+                        else
+                        {
+                            await CreateModeratorLog("Başarısız", "Ekleme", "HaberOlustur", "Haber", "Haber için öne çıkan görsel girilmelidir. Haber bu yüzden oluşturulamadı");
+                            return View(model);
+                        }
+                    }
+                    else
+                    {
+                        await CreateModeratorLog("Başarısız", "Ekleme", "HaberOlustur", "Haber", "Bu haber zaten sistemde bulunuyor!");
+                        return View(model);
+                    }
+                }
+                else
+                {
+                    return View(model);
+                }
+            }
+            catch (Exception ex)
+            {
+                string detay = "Sistemden kaynaklı bir hata meydana geldi: " + ex.ToString();
+                await CreateModeratorLog("Sistem Hatası", "Ekleme", "HaberOlustur", "Haber", detay);
+                return RedirectToAction("Home", "ErrorPage");
+            }
+        }
         #endregion
 
         #region Extend Methods
@@ -491,6 +571,41 @@ namespace GazeteKapiMVC5Core.Controllers
             }
             await ct.CreateLogs(durum, islem, action, controller, details, yoneticiGetir.UserName);
             return ct;
+        }
+
+        public async Task<int> InsertTagToProduct(string etiketler, int id)
+        {
+
+            NewsDto getNews = _newService.getNews(id);
+            string[] listTags = etiketler.Split(',');
+
+            for (int i = 0; i < listTags.Count(); i++)
+            {
+                Etiketler e = new Etiketler
+                {
+                    EtiketAdi = listTags[i].Trim().ToString()
+                };
+                await _unitOfWorkEtiketler.Repository.Add(e);
+                _unitOfWorkEtiketler.Repository.Save();
+            }
+
+            foreach (string item in listTags) //Çalışmıyor
+            {
+                string etiketAdi = item.Trim();
+                Etiketler etiketiGetir = await _unitOfWorkEtiketler.Repository.Where(x => x.EtiketAdi == etiketAdi).FirstOrDefaultAsync();
+                EtiketGonderi eg = new EtiketGonderi
+                {
+                    GonderiID = id,
+                    EtiketID = etiketiGetir.ID,
+                    etiketler = etiketiGetir,
+                    urunler = gelenU
+                };
+
+                await _unitOfWorkEtiketUrunler.Repository.Add(eg);
+                _unitOfWorkEtiketUrunler.Repository.Save();
+            }
+
+            return 1;
         }
 
         #endregion

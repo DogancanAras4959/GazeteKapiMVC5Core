@@ -1,6 +1,6 @@
-﻿using CORE.ApplicationCommon.DTOS.NewsDto;
-using CORE.ApplicationCommon.DTOS.NewsDto.GuestDto;
-using CORE.ApplicationCommon.DTOS.NewsDto.PublishTypeDto;
+﻿using CORE.ApplicationCommon.DTOS.NewsDTO;
+using CORE.ApplicationCommon.DTOS.NewsDTO.GuestDTO;
+using CORE.ApplicationCommon.DTOS.NewsDTO.PublishTypeDTO;
 using CORE.ApplicationCore.UnitOfWork;
 using GazeteKapiMVC5Core.DataAccessLayer;
 using GazeteKapiMVC5Core.DataAccessLayer.Models;
@@ -25,7 +25,7 @@ namespace SERVICE.Engine.Engines
 
         public async Task<bool> createGuets(GuestDto model)
         {
-            Guest newGuest = await _unitOfWork.GetRepository<Guest>().AddAsync(new Guest 
+            Guest newGuest = await _unitOfWork.GetRepository<Guest>().AddAsync(new Guest
             {
                 GuestName = model.GuestName,
                 GuestImage = model.GuestImage,
@@ -35,7 +35,7 @@ namespace SERVICE.Engine.Engines
                 CreatedTime = DateTime.Now,
                 Email = model.Email,
                 UserId = model.UserId,
-              
+
             });
 
             return newGuest != null && newGuest.Id != 0;
@@ -114,7 +114,7 @@ namespace SERVICE.Engine.Engines
         {
             IEnumerable<Guest> guestList = _unitOfWork.GetRepository<Guest>().Filter(null, x => x.OrderByDescending(y => y.Id), "users", 1, 30);
 
-            return guestList.Select(x=> new GuestListItemDto 
+            return guestList.Select(x => new GuestListItemDto
             {
                 Id = x.Id,
                 GuestName = x.GuestName,
@@ -129,14 +129,15 @@ namespace SERVICE.Engine.Engines
             }).ToList();
         }
 
-        public List<NewsListItemDto> newsList() 
+        public List<NewsListItemDto> newsList()
         {
             IEnumerable<News> newsList = _unitOfWork.GetRepository<News>().Filter(null, x => x.OrderByDescending(y => y.Id), "guest,users,categories,publishtype", 1, 700000);
 
             if (newsList != null)
             {
-                return newsList.Select(x => new NewsListItemDto {
-                
+                return newsList.Select(x => new NewsListItemDto
+                {
+
                     Id = x.Id,
                     Title = x.Title,
                     Spot = x.Spot,
@@ -160,7 +161,7 @@ namespace SERVICE.Engine.Engines
                     publishtype = x.publishtype,
                     users = x.users,
                     categories = x.categories,
-                    
+
                 }).ToList();
             }
             else
@@ -173,14 +174,84 @@ namespace SERVICE.Engine.Engines
         {
             IEnumerable<PublishType> listTypes = _unitOfWork.GetRepository<PublishType>().Filter(null, x => x.OrderByDescending(y => y.Id), "user", 1, 50);
 
-            return listTypes.Select(x => new PublishTypeListItem 
+            return listTypes.Select(x => new PublishTypeListItem
             {
                 Id = x.Id,
                 TypeName = x.TypeName,
                 user = x.user,
                 UserId = x.UserId,
-                
+
             }).ToList();
         }
+
+        public async Task<bool> NewsIfExists(string title) =>
+            await _unitOfWork.GetRepository<News>().FindAsync(x => x.Title == title) != null;
+
+        public async Task<bool> createNews(NewsDto model)
+        {
+            if (model.GuestId == 0)
+            {
+                model.GuestId = 3;
+            }
+
+            News createNews = await _unitOfWork.GetRepository<News>().AddAsync(new News
+            {
+                Title = model.Title,
+                Spot = model.Spot,
+                IsSlide = model.IsSlide,
+                IsActive = true,
+                IsLock = false,
+                IsCommentActive = model.IsCommentActive,
+                IsOpenNotifications = model.IsOpenNotifications,
+                UpdatedTime = DateTime.Now,
+                CreatedTime = DateTime.Now,
+                Views = 0,
+                CategoryId = model.CategoryId,
+                UserId = model.UserId,
+                GuestId = model.GuestId,
+                PublishTypeId = model.PublishTypeId,
+                NewsContent = model.NewsContent,
+                Image = model.Image,
+                Sorted = 0,
+            });
+
+            return createNews != null && createNews.Id != 0;
+        }
+
+        public NewsDto getNews(int id)
+        {
+
+            News getNews = _unitOfWork.GetRepository<News>().FindAsync(x => x.Id == id).Result;
+
+            if (getNews != null)
+            {
+                return new NewsDto
+                {
+                    Title = getNews.Title,
+                    Spot = getNews.Spot,
+                    IsSlide = getNews.IsSlide,
+                    IsActive = getNews.IsActive,
+                    IsLock = getNews.IsLock,
+                    IsCommentActive = getNews.IsCommentActive,
+                    IsOpenNotifications = getNews.IsOpenNotifications,
+                    UpdatedTime = getNews.UpdatedTime,
+                    CreatedTime = getNews.CreatedTime,
+                    Views = getNews.Views,
+                    CategoryId = getNews.CategoryId,
+                    UserId = getNews.UserId,
+                    GuestId = getNews.GuestId,
+                    PublishTypeId = getNews.PublishTypeId,
+                    NewsContent = getNews.NewsContent,
+                    Image = getNews.Image,
+                    Sorted = getNews.Sorted,
+                };
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+
     }
 }

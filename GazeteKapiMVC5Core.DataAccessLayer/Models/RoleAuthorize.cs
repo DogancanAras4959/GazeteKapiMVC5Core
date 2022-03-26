@@ -23,7 +23,7 @@ namespace DOMAIN.DataAccessLayer.Models
 
         public bool IsChecked { get; set; }
 
-        public Roles role { get; set; }
-        public Authorizes authroize { get; set; }
+        public virtual Roles role { get; set; }
+        public virtual Authorizes authroize { get; set; }
     }
 }

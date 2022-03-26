@@ -1,6 +1,6 @@
-﻿using CORE.ApplicationCommon.DTOS.NewsDto;
-using CORE.ApplicationCommon.DTOS.NewsDto.GuestDto;
-using CORE.ApplicationCommon.DTOS.NewsDto.PublishTypeDto;
+﻿using CORE.ApplicationCommon.DTOS.NewsDTO;
+using CORE.ApplicationCommon.DTOS.NewsDTO.GuestDTO;
+using CORE.ApplicationCommon.DTOS.NewsDTO.PublishTypeDTO;
 using GazeteKapiMVC5Core.DataAccessLayer.Models;
 using System;
 using System.Collections.Generic;
@@ -19,5 +19,8 @@ namespace SERVICE.Engine.Interfaces
         Task<bool> editGuest(GuestDto model);
         List<NewsListItemDto> newsList();
         List<PublishTypeListItem> publishTypeList();
+        Task<bool> NewsIfExists(string title);
+        Task<bool> createNews(NewsDto model);
+        NewsDto getNews(int id);
     }
 }

@@ -31,7 +31,7 @@ namespace DOMAIN.DataAccessLayer.Models
        
         [ForeignKey("roles")]
         public int RoleId { get; set; }
-        public Roles roles { get; set; }
+        public virtual Roles roles { get; set; }
 
         public virtual ICollection<Categories> categoriesList { get; set; }
         public virtual ICollection<Guest> guestList { get; set; }

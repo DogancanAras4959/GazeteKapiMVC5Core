@@ -22,6 +22,7 @@ namespace GazeteKapiMVC5Core.Models.News.NewsModel
         public bool IsLock { get; set; }
         public bool IsOpenNotifications { get; set; }
         public bool IsSlide { get; set; }
+        public bool IsCommentActive { get; set; }
         public int Views { get; set; }
 
         public int CategoryId { get; set; }
