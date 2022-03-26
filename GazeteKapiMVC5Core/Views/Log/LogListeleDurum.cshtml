@@ -1,0 +1,83 @@
+﻿@model IEnumerable<GazeteKapiMVC5Core.Models.Log.LogModel.LogListViewModel>
+@{
+    ViewData["Title"] = "Loglar";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .link-disabled {
+        pointer-events: none;
+        cursor: default;
+    }
+
+    .table th {
+        font-weight: 600;
+        font-family: Roboto,sans-serif;
+    }
+</style>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-7">
+                        <h4 class="card-title">Yönetici Hareketleri</h4>
+                        <p class="card-title-desc">Yöneticilerin gerçekleştirdiği tüm işlemlerle ilgili kayıtları bu sayfada bulabilirsiniz!</p>
+                    </div>
+                    <div class="col-sm-5">
+                        <div class="btn-toolbar" role="toolbar" style="float:right;">
+                            <div class="btn-group me-2 mb-2 mb-sm-0">
+                                <form asp-controller="Haber" asp-action="LogListeleIslem" method="get">
+                                    @Html.DropDownList("ProcessesName", (SelectList)ViewBag.Islemler, ("İşlem Seçiniz"), new { @class = "form-control", onchange = "this.form.submit();", name = "ProcessesName" })
+                                </form>
+                            </div>
+                            <div class="btn-group me-2 mb-2 mb-sm-0">
+                                <form asp-controller="Haber" asp-action="LogListeleDurum" method="get">
+                                    @Html.DropDownList("TransactionNames", (SelectList)ViewBag.Durumlar, ("Durum Seçiniz"), new { @class = "form-control", onchange = "this.form.submit();", name = "ProcessesName" })
+
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="table-rep-plugin">
+                    <div class="table-responsive mb-0" data-bs-pattern="priority-columns">
+                        <table id="tech-companies-1" class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>İşlem Yapan</th>
+                                    <th>Hareket</th>
+                                    <th>Zaman</th>
+                                    <th>Durum</th>
+                                    <th>Sayfa</th>
+                                    <th>Detay</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>@Html.DisplayFor(modelItem => item.userlogs.UserNameLog)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.processes.ProcessesName)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.Hour)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.transaction.TransactionNames)</td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Action) - @Html.DisplayFor(modelItem => item.Controller)
+                                        </td>
+                                        <td>
+                                            <a asp-action="LogDetay" asp-controller="Log" asp-route-id="@item.Id"><i class="mdi mdi-eye mdi-24px"></i></a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
