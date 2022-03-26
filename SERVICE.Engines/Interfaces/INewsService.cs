@@ -1,5 +1,7 @@
 ﻿using CORE.ApplicationCommon.DTOS.NewsDto;
 using CORE.ApplicationCommon.DTOS.NewsDto.GuestDto;
+using CORE.ApplicationCommon.DTOS.NewsDto.PublishTypeDto;
+using GazeteKapiMVC5Core.DataAccessLayer.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -16,5 +18,6 @@ namespace SERVICE.Engine.Interfaces
         GuestDto getGuest(int id);
         Task<bool> editGuest(GuestDto model);
         List<NewsListItemDto> newsList();
+        List<PublishTypeListItem> publishTypeList();
     }
 }

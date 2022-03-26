@@ -2,9 +2,11 @@
 using CORE.ApplicationCommon.DTOS.CategoryDTO;
 using CORE.ApplicationCommon.DTOS.NewsDto;
 using CORE.ApplicationCommon.DTOS.NewsDto.GuestDto;
+using CORE.ApplicationCommon.DTOS.NewsDto.PublishTypeDto;
 using GazeteKapiMVC5Core.Models.Category;
 using GazeteKapiMVC5Core.Models.News.GuestModel;
 using GazeteKapiMVC5Core.Models.News.NewsModel;
+using GazeteKapiMVC5Core.Models.News.PublishTypeModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -44,6 +46,7 @@ namespace GazeteKapiMVC5Core.Profiles
                 .ForMember(x => x.guest, y => y.MapFrom(t => t.guest))
                 .ForMember(x => x.publishtype, y => y.MapFrom(t => t.publishtype));
 
+            CreateMap<PublishTypeListItem, PublishTypeListViewModel>();
             #endregion
         }
     }

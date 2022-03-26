@@ -27,8 +27,4 @@
     <ProjectReference Include="..\SERVICE.Engines\SERVICE.Engine.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Models\News\PublishTypeModel\" />
-  </ItemGroup>
-
 </Project>

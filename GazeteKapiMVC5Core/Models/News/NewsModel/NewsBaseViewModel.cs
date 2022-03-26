@@ -14,6 +14,7 @@ namespace GazeteKapiMVC5Core.Models.News.NewsModel
         public string NewsContent { get; set; }
         public string Sorted { get; set; }
         public string Image { get; set; }
+        public string Tag { get; set; }
         public DateTime? UpdatedTime { get; set; }
         public DateTime? CreatedTime { get; set; }
         public DateTime? PublishedTime { get; set; }

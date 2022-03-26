@@ -1,5 +1,6 @@
 ﻿using CORE.ApplicationCommon.DTOS.NewsDto;
 using CORE.ApplicationCommon.DTOS.NewsDto.GuestDto;
+using CORE.ApplicationCommon.DTOS.NewsDto.PublishTypeDto;
 using CORE.ApplicationCore.UnitOfWork;
 using GazeteKapiMVC5Core.DataAccessLayer;
 using GazeteKapiMVC5Core.DataAccessLayer.Models;
@@ -168,5 +169,18 @@ namespace SERVICE.Engine.Engines
             }
         }
 
+        public List<PublishTypeListItem> publishTypeList()
+        {
+            IEnumerable<PublishType> listTypes = _unitOfWork.GetRepository<PublishType>().Filter(null, x => x.OrderByDescending(y => y.Id), "user", 1, 50);
+
+            return listTypes.Select(x => new PublishTypeListItem 
+            {
+                Id = x.Id,
+                TypeName = x.TypeName,
+                user = x.user,
+                UserId = x.UserId,
+                
+            }).ToList();
+        }
     }
 }

@@ -2,11 +2,13 @@
 using CORE.ApplicationCommon.DTOS.CategoryDTO;
 using CORE.ApplicationCommon.DTOS.NewsDto;
 using CORE.ApplicationCommon.DTOS.NewsDto.GuestDto;
+using CORE.ApplicationCommon.DTOS.NewsDto.PublishTypeDto;
 using GazeteKapiMVC5Core.Core.Extensions;
 using GazeteKapiMVC5Core.Models.Account;
 using GazeteKapiMVC5Core.Models.Category;
 using GazeteKapiMVC5Core.Models.News.GuestModel;
 using GazeteKapiMVC5Core.Models.News.NewsModel;
+using GazeteKapiMVC5Core.Models.News.PublishTypeModel;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -430,6 +432,7 @@ namespace GazeteKapiMVC5Core.Controllers
         #region Haberler
 
         //[RoleAuthorize("Haberler")]
+        [HttpGet]
         public async Task<IActionResult> Haberler()
         {
             try
@@ -447,6 +450,31 @@ namespace GazeteKapiMVC5Core.Controllers
            
         }
 
+        [HttpGet]
+        public async Task<IActionResult> HaberOlustur()
+        {
+            try
+            {
+
+                var publishTypeList = _mapper.Map<List<PublishTypeListItem>,List<PublishTypeListViewModel>>(_newService.publishTypeList());
+                ViewBag.PublishTypes = new SelectList(publishTypeList, "Id", "TypeName");
+
+                var categoryList = _mapper.Map<List<CategoryListItemDto>, List<CategoryListViewModel>>(_categoryService.GetAllCategory());
+                ViewBag.Categories = new SelectList(categoryList, "Id", "CategoryName");
+
+                var guestList = _mapper.Map<List<GuestListItemDto>, List<GuestListViewModel>>(_newService.guestList());
+                ViewBag.Guests = new SelectList(guestList, "Id", "GuestName");
+
+                //var publishedTypeList = _mapper.Map<List<PublishedTypeListItemDto>
+                return View(new NewsCreateViewModel());
+            }
+            catch (Exception ex)
+            {
+                string detay = "Sistemden kaynaklı bir hata meydana geldi: " + ex.ToString();
+                await CreateModeratorLog("Sistem Hatası", "Sayfa Girişi", "HaberOlustur", "Haber", detay);
+                return RedirectToAction("Home", "ErrorPage");
+            }
+        }
 
         #endregion
 
