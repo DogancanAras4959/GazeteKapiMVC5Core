@@ -1,6 +1,8 @@
 ﻿using CORE.ApplicationCommon.DTOS.NewsDTO;
 using CORE.ApplicationCommon.DTOS.NewsDTO.GuestDTO;
 using CORE.ApplicationCommon.DTOS.NewsDTO.PublishTypeDTO;
+using CORE.ApplicationCommon.DTOS.NewsDTO.TagDTO;
+using CORE.ApplicationCommon.DTOS.NewsDTO.TagNewsDTO;
 using CORE.ApplicationCore.UnitOfWork;
 using GazeteKapiMVC5Core.DataAccessLayer;
 using GazeteKapiMVC5Core.DataAccessLayer.Models;
@@ -187,35 +189,43 @@ namespace SERVICE.Engine.Engines
         public async Task<bool> NewsIfExists(string title) =>
             await _unitOfWork.GetRepository<News>().FindAsync(x => x.Title == title) != null;
 
-        public async Task<bool> createNews(NewsDto model)
+        public async Task<int> createNews(NewsDto model)
         {
-            if (model.GuestId == 0)
+            try
             {
-                model.GuestId = 3;
+                if (model.GuestId == 0)
+                {
+                    model.GuestId = 3;
+                }
+
+                News createNews = await _unitOfWork.GetRepository<News>().AddAsync(new News
+                {
+                    Title = model.Title,
+                    Spot = model.Spot,
+                    IsSlide = model.IsSlide,
+                    IsActive = true,
+                    IsLock = false,
+                    IsCommentActive = model.IsCommentActive,
+                    IsOpenNotifications = model.IsOpenNotifications,
+                    UpdatedTime = DateTime.Now,
+                    CreatedTime = DateTime.Now,
+                    Views = 0,
+                    CategoryId = model.CategoryId,
+                    UserId = model.UserId,
+                    GuestId = model.GuestId,
+                    PublishTypeId = model.PublishTypeId,
+                    NewsContent = model.NewsContent,
+                    Image = model.Image,
+                    Sorted = 0,
+                });
+
+                return createNews.Id;
             }
-
-            News createNews = await _unitOfWork.GetRepository<News>().AddAsync(new News
+            catch (Exception ex)
             {
-                Title = model.Title,
-                Spot = model.Spot,
-                IsSlide = model.IsSlide,
-                IsActive = true,
-                IsLock = false,
-                IsCommentActive = model.IsCommentActive,
-                IsOpenNotifications = model.IsOpenNotifications,
-                UpdatedTime = DateTime.Now,
-                CreatedTime = DateTime.Now,
-                Views = 0,
-                CategoryId = model.CategoryId,
-                UserId = model.UserId,
-                GuestId = model.GuestId,
-                PublishTypeId = model.PublishTypeId,
-                NewsContent = model.NewsContent,
-                Image = model.Image,
-                Sorted = 0,
-            });
-
-            return createNews != null && createNews.Id != 0;
+                throw;
+            }
+            
         }
 
         public NewsDto getNews(int id)
@@ -227,6 +237,7 @@ namespace SERVICE.Engine.Engines
             {
                 return new NewsDto
                 {
+                    Id = getNews.Id,
                     Title = getNews.Title,
                     Spot = getNews.Spot,
                     IsSlide = getNews.IsSlide,
@@ -252,6 +263,209 @@ namespace SERVICE.Engine.Engines
             }
         }
 
+        public async Task<bool> createTag(TagDto model)
+        {
+            Tags newTags = await _unitOfWork.GetRepository<Tags>().AddAsync(new Tags
+            {
+                TagName = model.TagName
+            });
 
+            return newTags != null && newTags.Id != 0;
+        }
+
+        public TagDto getTags(string name)
+        {
+            Tags getTags = _unitOfWork.GetRepository<Tags>().FindAsync(x => x.TagName == name).Result;
+
+            return new TagDto
+            {
+                Id = getTags.Id,
+                TagName = getTags.TagName
+            };
+        }
+
+        public async Task InsertTagToProduct(string tag, int resultId)
+        {
+            try
+            {
+                News getNews = await _unitOfWork.GetRepository<News>().FindAsync(x => x.Id == resultId);
+                string[] listTags = tag.Split(',');
+
+                for (int i = 0; i < listTags.Count(); i++)
+                {
+                    Tags tags = await _unitOfWork.GetRepository<Tags>().AddAsync(new Tags
+                    {
+                        TagName = listTags[i].Trim().ToString()
+                    });
+                }
+
+                foreach (string item in listTags) //Çalışmıyor
+                {
+                    string etiketAdi = item.Trim();
+                    Tags etiketiGetir = await _unitOfWork.GetRepository<Tags>().FindAsync(x => x.TagName == etiketAdi);
+
+                    TagNews tagNews = await _unitOfWork.GetRepository<TagNews>().AddAsync(new TagNews
+                    {
+                        NewsId = getNews.Id,
+                        TagId = etiketiGetir.Id,        
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+           
+        }
+
+        public async Task<int> editNews(NewsDto model)
+        {
+            try
+            {
+                News getNews = await _unitOfWork.GetRepository<News>().FindAsync(x => x.Id == model.Id);
+
+                if (model.GuestId == 0)
+                {
+                    model.GuestId = 3;
+                }
+
+                if (model.Image == null)
+                {
+                    model.Image = getNews.Image;
+                }
+
+                if (model.CreatedTime == null)
+                {
+                    model.CreatedTime = getNews.CreatedTime;
+                }
+
+                News newsGet = await _unitOfWork.GetRepository<News>().UpdateAsync(new News
+                {
+                    Id = model.Id,
+                    Image = model.Image,
+                    Title = model.Title,
+                    Spot = model.Spot,
+                    NewsContent = model.NewsContent,
+                    IsCommentActive = model.IsCommentActive,
+                    IsOpenNotifications = model.IsOpenNotifications,
+                    IsSlide = model.IsSlide,
+                    UpdatedTime = DateTime.Now,
+                    CreatedTime = model.CreatedTime,
+                    users = model.users,
+                    UserId = model.UserId,
+                    CategoryId = model.CategoryId,
+                    categories = model.categories,
+                    guest = model.guest,
+                    GuestId = model.GuestId,
+                    PublishTypeId = model.PublishTypeId,
+                    publishtype = model.publishtype,
+                    PublishedTime = model.PublishedTime,
+                });
+
+                return newsGet.Id;
+
+            }
+            catch (Exception ex)
+            {
+                return 0;
+            }
+        }
+
+        public bool newsDelete(int id)
+        {
+            Task<int> result = _unitOfWork.GetRepository<News>().DeleteAsync(new News { Id = id });
+            return Convert.ToBoolean(result.Result);
+        }
+
+        public async Task<bool> SetYourNewsToUp(int id)
+        {
+            News getNews = _unitOfWork.GetRepository<News>().FindAsync(x => x.Id == id).Result;
+            if (getNews.IsSlide == false)
+            {
+                getNews.IsSlide = true;
+                News model = await _unitOfWork.GetRepository<News>().UpdateAsync(getNews);
+                return getNews != null;
+            }
+            else
+            {
+                getNews.IsSlide = false;
+                News model = await _unitOfWork.GetRepository<News>().UpdateAsync(getNews);
+                return getNews != null;
+            }
+        }
+
+        public async Task<bool> IsOpenNotificationSet(int id)
+        {
+            News getNews = _unitOfWork.GetRepository<News>().FindAsync(x => x.Id == id).Result;
+            if (getNews.IsOpenNotifications == false)
+            {
+                getNews.IsOpenNotifications = true;
+                News model = await _unitOfWork.GetRepository<News>().UpdateAsync(getNews);
+                return getNews != null;
+            }
+            else
+            {
+                getNews.IsOpenNotifications = false;
+                News model = await _unitOfWork.GetRepository<News>().UpdateAsync(getNews);
+                return getNews != null;
+            }
+        }
+
+        public async Task<bool> IsLockNews(int id)
+        {
+            News getNews = _unitOfWork.GetRepository<News>().FindAsync(x => x.Id == id).Result;
+            if (getNews.IsLock == false)
+            {
+                getNews.IsLock = true;
+                News model = await _unitOfWork.GetRepository<News>().UpdateAsync(getNews);
+                return getNews != null;
+            }
+            else
+            {
+                getNews.IsLock = false;
+                News model = await _unitOfWork.GetRepository<News>().UpdateAsync(getNews);
+                return getNews != null;
+            }
+        }
+
+        public async Task<bool> IsActiveEnabled(int id)
+        {
+            News getNews = _unitOfWork.GetRepository<News>().FindAsync(x => x.Id == id).Result;
+            if (getNews.IsActive == false)
+            {
+                getNews.IsActive = true;
+                News model = await _unitOfWork.GetRepository<News>().UpdateAsync(getNews);
+                return getNews != null;
+            }
+            else
+            {
+                getNews.IsActive = false;
+                News model = await _unitOfWork.GetRepository<News>().UpdateAsync(getNews);
+                return getNews != null;
+            }
+        }
+
+        public List<TagNewsListItemDto> tagsList()
+        {
+            IEnumerable<TagNews> newsList = _unitOfWork.GetRepository<TagNews>().Filter(null, x => x.OrderByDescending(y => y.Id), "tag, news", 1, 50);
+
+            if (newsList != null)
+            {
+                return newsList.Select(x => new TagNewsListItemDto
+                {
+
+                    Id = x.Id,
+                    NewsId = x.NewsId,
+                    TagId = x.TagId,
+                    news = x.news,
+                    tag = x.tag,
+
+                }).ToList();
+            }
+            else
+            {
+                return null;
+            }
+        }
     }
 }

@@ -46,7 +46,8 @@ namespace GazeteKapiMVC5Core.Controllers
             {
                 string detay = "Sistemden kaynaklı bir hata meydana geldi: " + ex.ToString();
                 await CreateModeratorLog("Sistem Hatası", "Sayfa Girişi", "Roller", "Rol", detay);
-                return RedirectToAction("Home", "ErrorPage");
+                TempData["HataMesaji"] = ex.ToString();
+                return RedirectToAction("ErrorPage", "Home");
             }
         }
 
@@ -63,7 +64,8 @@ namespace GazeteKapiMVC5Core.Controllers
             {
                 string detay = "Sistemden kaynaklı bir hata meydana geldi: " + ex.ToString();
                 await CreateModeratorLog("Sistem Hatası", "Sayfa Girişi", "RolOlustur", "Rol", detay);
-                return RedirectToAction("Home", "ErrorPage");
+                TempData["HataMesaji"] = ex.ToString();
+                return RedirectToAction("ErrorPage", "Home");
             }
         }
 
@@ -100,7 +102,8 @@ namespace GazeteKapiMVC5Core.Controllers
             {
                 string detay = "Sistemden kaynaklı bir hata meydana geldi: " + ex.ToString();
                 await CreateModeratorLog("Sistem Hatası", "Ekleme", "RolOlustur", "Rol", detay);
-                return RedirectToAction("Home", "ErrorPage");
+                TempData["HataMesaji"] = ex.ToString();
+                return RedirectToAction("ErrorPage", "Home");
             }
 
         }
@@ -118,8 +121,9 @@ namespace GazeteKapiMVC5Core.Controllers
             catch (Exception ex)
             {
                 string detay = "Sistemden kaynaklı bir hata meydana geldi: " + ex.ToString();
-                await CreateModeratorLog("Sistem Hatası", "Sayfa Girişi", "RolDuzenle", "Rol", detay);
-                return RedirectToAction("Home", "ErrorPage");
+                await CreateModeratorLog("Sistem Hatası", "Sayfa Girişi", "RolDuzenle", "Rol", detay); 
+                TempData["HataMesaji"] = ex.ToString();
+                return RedirectToAction("ErrorPage", "Home");
             }
         }
 
@@ -150,7 +154,8 @@ namespace GazeteKapiMVC5Core.Controllers
             {
                 string detay = "Sistemden kaynaklı bir hata meydana geldi: " + ex.ToString();
                 await CreateModeratorLog("Sistem Hatası", "Güncelleme", "RolDuzenle", "Rol", detay);
-                return RedirectToAction("Home", "ErrorPage");
+                TempData["HataMesaji"] = ex.ToString();
+                return RedirectToAction("ErrorPage", "Home");
             }
 
         }
@@ -175,9 +180,10 @@ namespace GazeteKapiMVC5Core.Controllers
             {
                 string detay = "Sistemden kaynaklı bir hata meydana geldi: " + ex.ToString();
                 await CreateModeratorLog("Sistem Hatası", "Silme", "RolSil", "Rol", detay);
-                return RedirectToAction("Home", "ErrorPage");
+                TempData["HataMesaji"] = ex.ToString();
+                return RedirectToAction("ErrorPage", "Home");
             }
-            
+
         }
 
         //[RoleAuthorize("DurumDuzenleRol")]
@@ -201,9 +207,10 @@ namespace GazeteKapiMVC5Core.Controllers
             {
                 string detay = "Sistemden kaynaklı bir hata meydana geldi: " + ex.ToString();
                 await CreateModeratorLog("Sistem Hatası", "Güncelleme", "DurumDuzenle", "Rol", detay);
-                return RedirectToAction("Home", "ErrorPage");
+                TempData["HataMesaji"] = ex.ToString();
+                return RedirectToAction("ErrorPage", "Home");
             }
-           
+
         }
 
         //[RoleAuthorize("RolDetay")]
@@ -221,9 +228,10 @@ namespace GazeteKapiMVC5Core.Controllers
             {
                 string detay = "Sistemden kaynaklı bir hata meydana geldi: " + ex.ToString();
                 await CreateModeratorLog("Sistem Hatası", "Sayfa Girişi", "RolDetay", "Rol", detay);
-                return RedirectToAction("Home", "ErrorPage");
+                TempData["HataMesaji"] = ex.ToString();
+                return RedirectToAction("ErrorPage", "Home");
             }
-          
+
         }
 
         [HttpPost]

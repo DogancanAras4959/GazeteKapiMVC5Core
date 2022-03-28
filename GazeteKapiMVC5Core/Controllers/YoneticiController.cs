@@ -96,7 +96,8 @@ namespace GazeteKapiMVC5Core.Controllers
             {
                 string detay = "Sistemden kaynaklı bir hata meydana geldi: " + ex.ToString();
                 await CreateModeratorLog("Sistem Hatası", "Giriş İşlemi", "GirisYap", "Yonetici", detay);
-                return RedirectToAction("Home", "ErrorPage");
+                TempData["HataMesaji"] = ex.ToString();
+                return RedirectToAction("ErrorPage", "Home");
             }
 
         }
@@ -113,7 +114,8 @@ namespace GazeteKapiMVC5Core.Controllers
             {
                 string detay = "Sistemden kaynaklı bir hata meydana geldi: " + ex.ToString();
                 await CreateModeratorLog("Sistem Hatası", "Sayfa Girişi", "Kullanicilar", "Yonetici", detay);
-                return RedirectToAction("Home", "ErrorPage");
+                TempData["HataMesaji"] = ex.ToString();
+                return RedirectToAction("ErrorPage", "Home");
             }
         }
 
@@ -132,9 +134,10 @@ namespace GazeteKapiMVC5Core.Controllers
             {
                 string detay = "Sistemden kaynaklı bir hata meydana geldi: " + ex.ToString();
                 await CreateModeratorLog("Sistem Hatası", "Sayfa Girişi", "KullaniciOlustur", "Yonetici", detay);
-                return RedirectToAction("Home", "ErrorPage");
+                TempData["HataMesaji"] = ex.ToString();
+                return RedirectToAction("ErrorPage", "Home");
             }
-          
+
         }
 
         [HttpPost]
@@ -196,7 +199,8 @@ namespace GazeteKapiMVC5Core.Controllers
             {
                 string detay = "Sistemden kaynaklı bir hata meydana geldi: " + ex.ToString();
                 await CreateModeratorLog("Sistem Hatası", "Ekleme", "KullaniciOlustur", "Yonetici", detay);
-                return RedirectToAction("Home","ErrorPage");
+                TempData["HataMesaji"] = ex.ToString();
+                return RedirectToAction("ErrorPage", "Home");
             }
 
         }
@@ -217,9 +221,10 @@ namespace GazeteKapiMVC5Core.Controllers
             {
                 string detay = "Sistemden kaynaklı bir hata meydana geldi: " + ex.ToString();
                 await CreateModeratorLog("Sistem Hatası", "Sayfa Girişi", "KullaniciDuzenle", "Yonetici", detay);
-                return RedirectToAction("Home", "ErrorPage");
+                TempData["HataMesaji"] = ex.ToString();
+                return RedirectToAction("ErrorPage", "Home");
             }
-           
+
         }
 
         [HttpPost]
@@ -293,9 +298,10 @@ namespace GazeteKapiMVC5Core.Controllers
             {
                 string detay = "Sistemden kaynaklı bir hata meydana geldi: " + ex.ToString();
                 await CreateModeratorLog("Sistem Hatası", "Güncelleme", "KullaniciDuzenle", "Yonetici", detay);
-                return RedirectToAction("Home", "ErrorPage");
+                TempData["HataMesaji"] = ex.ToString();
+                return RedirectToAction("ErrorPage", "Home");
             }
-   
+
         }
 
         //[RoleAuthorize("KullaniciSil")]
@@ -318,9 +324,10 @@ namespace GazeteKapiMVC5Core.Controllers
             {
                 string detay = "Sistemden kaynaklı bir hata meydana geldi: " + ex.ToString();
                 await CreateModeratorLog("Sistem Hatası", "Silme", "KullaniciSil", "Yonetici", detay);
-                return RedirectToAction("Home", "ErrorPage");
+                TempData["HataMesaji"] = ex.ToString();
+                return RedirectToAction("ErrorPage", "Home");
             }
-           
+
         }
 
         //[RoleAuthorize("DurumDuzenleKullanici")]
@@ -343,9 +350,10 @@ namespace GazeteKapiMVC5Core.Controllers
             {
                 string detay = "Sistemden kaynaklı bir hata meydana geldi: " + ex.ToString();
                 await CreateModeratorLog("Sistem Hatası", "Güncelleme", "DurumDuzenle", "Yonetici", detay);
-                return RedirectToAction("Home", "ErrorPage");
+                TempData["HataMesaji"] = ex.ToString();
+                return RedirectToAction("ErrorPage", "Home");
             }
-           
+
         }
 
         //[RoleAuthorize("HesapDetay")]
@@ -360,7 +368,8 @@ namespace GazeteKapiMVC5Core.Controllers
             {
                 string detay = "Sistemden kaynaklı bir hata meydana geldi: " + ex.ToString();
                 await CreateModeratorLog("Sistem Hatası", "Sayfa Girişi", "HesapDetay", "Yonetici", detay);
-                return RedirectToAction("Home", "ErrorPage");
+                TempData["HataMesaji"] = ex.ToString();
+                return RedirectToAction("ErrorPage", "Home");
             }
         }
 

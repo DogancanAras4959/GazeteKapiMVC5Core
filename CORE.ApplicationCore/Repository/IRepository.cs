@@ -13,17 +13,11 @@ namespace CORE.ApplicationCore.Repository
         IQueryable<TEntity> Query();
         Task<ICollection<TEntity>> GetAllAsync();
         Task<TEntity> FindAsync(Expression<Func<TEntity, bool>> predicate);
-
         Task<TEntity> GetByIdAsync(int id);
-
         Task<ICollection<TEntity>> FindAllAsync(Expression<Func<TEntity, bool>> predicate);
-
         Task<TEntity> AddAsync(TEntity entity);
-
         Task<TEntity> UpdateAsync(TEntity entity);
-
         Task<int> DeleteAsync(TEntity entity);
-
         IEnumerable<TEntity> Filter(
             Expression<Func<TEntity, bool>> filterPredicate = null,
             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderByPredicate = null,

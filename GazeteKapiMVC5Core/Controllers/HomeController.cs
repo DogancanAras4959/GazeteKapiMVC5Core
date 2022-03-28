@@ -35,7 +35,7 @@ namespace GazeteKapiMVC5Core.Controllers
         }
 
         public IActionResult ErrorPage()
-        {
+        {         
             return View();
         }
 

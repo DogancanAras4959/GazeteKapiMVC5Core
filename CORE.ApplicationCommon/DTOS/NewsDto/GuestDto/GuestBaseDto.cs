@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
-namespace CORE.ApplicationCommon.DTOS.NewsDTO.NewsDTO
+namespace CORE.ApplicationCommon.DTOS.NewsDTO.GuestDTO
 {
     public class GuestBaseDto
     {

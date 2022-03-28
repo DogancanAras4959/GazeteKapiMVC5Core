@@ -3,10 +3,14 @@ using CORE.ApplicationCommon.DTOS.CategoryDTO;
 using CORE.ApplicationCommon.DTOS.NewsDTO;
 using CORE.ApplicationCommon.DTOS.NewsDTO.GuestDTO;
 using CORE.ApplicationCommon.DTOS.NewsDTO.PublishTypeDTO;
+using CORE.ApplicationCommon.DTOS.NewsDTO.TagDTO;
+using CORE.ApplicationCommon.DTOS.NewsDTO.TagNewsDTO;
 using GazeteKapiMVC5Core.Models.Category;
 using GazeteKapiMVC5Core.Models.News.GuestModel;
 using GazeteKapiMVC5Core.Models.News.NewsModel;
 using GazeteKapiMVC5Core.Models.News.PublishTypeModel;
+using GazeteKapiMVC5Core.Models.News.TagModel;
+using GazeteKapiMVC5Core.Models.News.TagNewsModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -47,8 +51,21 @@ namespace GazeteKapiMVC5Core.Profiles
                 .ForMember(x => x.publishtype, y => y.MapFrom(t => t.publishtype));
 
             CreateMap<NewsCreateViewModel, NewsDto>();
+            CreateMap<NewsEditViewModel, NewsDto>();
+            CreateMap<NewsDto, NewsEditViewModel>();
 
             CreateMap<PublishTypeListItem, PublishTypeListViewModel>();
+
+            CreateMap<TagBaseViewModel, TagDto>();
+            CreateMap<CreateTagViewModel, TagDto>();
+            CreateMap<TagEditViewModel, TagDto>();
+            CreateMap<TagDto, TagEditViewModel>();
+
+            CreateMap<TagNewsBaseViewModel, TagNewsDto>();
+            CreateMap<TagNewsCreateViewModel, TagNewsBaseDto>();
+            CreateMap<TagNewsEditViewModel, TagNewsDto>();
+            CreateMap<TagNewsDto, TagNewsEditViewModel>();
+
             #endregion
         }
     }

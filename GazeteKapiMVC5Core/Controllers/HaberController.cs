@@ -3,12 +3,16 @@ using CORE.ApplicationCommon.DTOS.CategoryDTO;
 using CORE.ApplicationCommon.DTOS.NewsDTO;
 using CORE.ApplicationCommon.DTOS.NewsDTO.GuestDTO;
 using CORE.ApplicationCommon.DTOS.NewsDTO.PublishTypeDTO;
+using CORE.ApplicationCommon.DTOS.NewsDTO.TagDTO;
+using CORE.ApplicationCommon.DTOS.NewsDTO.TagNewsDTO;
 using GazeteKapiMVC5Core.Core.Extensions;
 using GazeteKapiMVC5Core.Models.Account;
 using GazeteKapiMVC5Core.Models.Category;
 using GazeteKapiMVC5Core.Models.News.GuestModel;
 using GazeteKapiMVC5Core.Models.News.NewsModel;
 using GazeteKapiMVC5Core.Models.News.PublishTypeModel;
+using GazeteKapiMVC5Core.Models.News.TagModel;
+using GazeteKapiMVC5Core.Models.News.TagNewsModel;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -60,7 +64,8 @@ namespace GazeteKapiMVC5Core.Controllers
             {
                 string detay = "Sistemden kaynaklı bir hata meydana geldi: " + ex.ToString();
                 await CreateModeratorLog("Sistem Hatası", "Sayfa Girişi", "Kategoriler", "Haber", detay);
-                return RedirectToAction("Home", "ErrorPage");
+                TempData["HataMesaji"] = ex.ToString();
+                return RedirectToAction("ErrorPage", "Home");
             }
 
         }
@@ -79,7 +84,8 @@ namespace GazeteKapiMVC5Core.Controllers
             {
                 string detay = "Sistemden kaynaklı bir hata meydana geldi: " + ex.ToString();
                 await CreateModeratorLog("Sistem Hatası", "Sayfa Girişi", "KategoriOlustur", "Haber", detay);
-                return RedirectToAction("Home", "ErrorPage");
+                TempData["HataMesaji"] = ex.ToString();
+                return RedirectToAction("ErrorPage", "Home");
             }
 
         }
@@ -120,7 +126,8 @@ namespace GazeteKapiMVC5Core.Controllers
             {
                 string detay = "Sistemden kaynaklı bir hata meydana geldi: " + ex.ToString();
                 await CreateModeratorLog("Sistem Hatası", "Ekleme", "KategoriOlustur", "Haber", detay);
-                return RedirectToAction("Home", "ErrorPage");
+                TempData["HataMesaji"] = ex.ToString();
+                return RedirectToAction("ErrorPage", "Home");
             }
 
         }
@@ -144,7 +151,8 @@ namespace GazeteKapiMVC5Core.Controllers
             {
                 string detay = "Sistemden kaynaklı bir hata meydana geldi: " + ex.ToString();
                 await CreateModeratorLog("Sistem Hatası", "Silme", "KategoriSil", "Haber", detay);
-                return RedirectToAction("Home", "ErrorPage");
+                TempData["HataMesaji"] = ex.ToString();
+                return RedirectToAction("ErrorPage", "Home");
             }
 
         }
@@ -164,7 +172,8 @@ namespace GazeteKapiMVC5Core.Controllers
             {
                 string detay = "Sistemden kaynaklı bir hata meydana geldi: " + ex.ToString();
                 await CreateModeratorLog("Sistem Hatası", "Sayfa Girişi", "KategoriDuzenle", "Haber", detay);
-                return RedirectToAction("Home", "ErrorPage");
+                TempData["HataMesaji"] = ex.ToString();
+                return RedirectToAction("ErrorPage", "Home");
             }
 
         }
@@ -179,7 +188,7 @@ namespace GazeteKapiMVC5Core.Controllers
                 {
                     if (await _categoryService.UpdateCategory(_mapper.Map<CategoryEditViewModel, CategoryDto>(category)))
                     {
-                        await CreateModeratorLog("Sistem Hatası", "Güncelleme", "KategoriDuzenle", "Haber", "Kategori başarıyla düzenlendi!");
+                        await CreateModeratorLog("Başarılı", "Güncelleme", "KategoriDuzenle", "Haber", "Kategori başarıyla düzenlendi!");
                         return RedirectToAction(nameof(Kategoriler));
                     }
                     else
@@ -194,7 +203,8 @@ namespace GazeteKapiMVC5Core.Controllers
             {
                 string detay = "Sistemden kaynaklı bir hata meydana geldi: " + ex.ToString();
                 await CreateModeratorLog("Sistem Hatası", "Güncelleme", "KategoriDuzenle", "Haber", detay);
-                return RedirectToAction("Home", "ErrorPage");
+                TempData["HataMesaji"] = ex.ToString();
+                return RedirectToAction("ErrorPage", "Home");
             }
 
         }
@@ -218,7 +228,8 @@ namespace GazeteKapiMVC5Core.Controllers
             {
                 string detay = "Sistemden kaynaklı bir hata meydana geldi: " + ex.ToString();
                 await CreateModeratorLog("Sistem Hatası", "Güncelleme", "KategoriDurumDuzenle", "Haber", detay);
-                return RedirectToAction("Home", "ErrorPage");
+                TempData["HataMesaji"] = ex.ToString();
+                return RedirectToAction("ErrorPage", "Home");
             }
 
         }
@@ -240,7 +251,8 @@ namespace GazeteKapiMVC5Core.Controllers
             {
                 string detay = "Sistemden kaynaklı bir hata meydana geldi: " + ex.ToString();
                 await CreateModeratorLog("Sistem Hatası", "Sayfa Girişi", "Yazarlar", "Haber", detay);
-                return RedirectToAction("Home", "ErrorPage");
+                TempData["HataMesaji"] = ex.ToString();
+                return RedirectToAction("ErrorPage", "Home");
             }
         }
         public async Task<IActionResult> YazarOlustur()
@@ -254,7 +266,8 @@ namespace GazeteKapiMVC5Core.Controllers
             {
                 string detay = "Sistemden kaynaklı bir hata meydana geldi: " + ex.ToString();
                 await CreateModeratorLog("Sistem Hatası", "Sayfa Girişi", "YazarOlustur", "Haber", detay);
-                return RedirectToAction("Home", "ErrorPage");
+                TempData["HataMesaji"] = ex.ToString();
+                return RedirectToAction("ErrorPage", "Home");
             }
         }
 
@@ -299,8 +312,9 @@ namespace GazeteKapiMVC5Core.Controllers
             catch (Exception ex)
             {
                 string detay = "Sistemden kaynaklı bir hata meydana geldi: " + ex.ToString();
-                await CreateModeratorLog("Sistem Hatası", "Ekleme", "YazarOlustur", "Haber", detay);
-                return RedirectToAction("Home", "ErrorPage");
+                await CreateModeratorLog("Sistem Hatası", "Ekleme", "YazarOlustur", "Haber", detay); 
+                TempData["HataMesaji"] = ex.ToString();
+                return RedirectToAction("ErrorPage", "Home");
             }
         }
 
@@ -323,7 +337,8 @@ namespace GazeteKapiMVC5Core.Controllers
             {
                 string detay = "Sistemden kaynaklı bir hata meydana geldi: " + ex.ToString();
                 await CreateModeratorLog("Sistem Hatası", "Silme", "YazarSil", "Haber", detay);
-                return RedirectToAction("Home", "ErrorPage");
+                TempData["HataMesaji"] = ex.ToString();
+                return RedirectToAction("ErrorPage", "Home");
             }
         }
 
@@ -346,7 +361,8 @@ namespace GazeteKapiMVC5Core.Controllers
             {
                 string detay = "Sistemden kaynaklı bir hata meydana geldi: " + ex.ToString();
                 await CreateModeratorLog("Sistem Hatası", "Silme", "YazarDurumDuzenle", "Haber", detay);
-                return RedirectToAction("Home", "ErrorPage");
+                TempData["HataMesaji"] = ex.ToString();
+                return RedirectToAction("ErrorPage", "Home");
             }
         }
 
@@ -362,7 +378,9 @@ namespace GazeteKapiMVC5Core.Controllers
             {
                 string detay = "Sistemden kaynaklı bir hata meydana geldi: " + ex.ToString();
                 await CreateModeratorLog("Sistem Hatası", "Sayfa Girişi", "YazarDuzenle", "Haber", detay);
-                return RedirectToAction("Home", "ErrorPage");
+                TempData["HataMesaji"] = ex.ToString();
+
+                return RedirectToAction("ErrorPage", "Home");
             }
         }
 
@@ -408,7 +426,8 @@ namespace GazeteKapiMVC5Core.Controllers
             {
                 string detay = "Sistemden kaynaklı bir hata meydana geldi: " + ex.ToString();
                 await CreateModeratorLog("Sistem Hatası", "Güncelleme", "YazarDuzenle", "Haber", detay);
-                return RedirectToAction("Home", "ErrorPage");
+                TempData["HataMesaji"] = ex.ToString();
+                return RedirectToAction("ErrorPage", "Home");
             }
         }
 
@@ -423,8 +442,9 @@ namespace GazeteKapiMVC5Core.Controllers
             catch (Exception ex)
             {
                 string detay = "Sistemden kaynaklı bir hata meydana geldi: " + ex.ToString();
-                await CreateModeratorLog("Sistem Hatası", "Sayfa Girişi", "YazarDetay", "Haber", detay);
-                return RedirectToAction("Home", "ErrorPage");
+                await CreateModeratorLog("Sistem Hatası", "Sayfa Girişi", "YazarDetay", "Haber", detay); 
+                TempData["HataMesaji"] = ex.ToString();
+                return RedirectToAction("ErrorPage", "Home");
             }
         }
         #endregion
@@ -445,7 +465,8 @@ namespace GazeteKapiMVC5Core.Controllers
             {
                 string detay = "Sistemden kaynaklı bir hata meydana geldi: " + ex.ToString();
                 await CreateModeratorLog("Sistem Hatası", "Sayfa Girişi", "Haberler", "Haber", detay);
-                return RedirectToAction("Home", "ErrorPage");
+                TempData["HataMesaji"] = ex.ToString();
+                return RedirectToAction("ErrorPage", "Home");
             }
 
         }
@@ -471,7 +492,8 @@ namespace GazeteKapiMVC5Core.Controllers
             {
                 string detay = "Sistemden kaynaklı bir hata meydana geldi: " + ex.ToString();
                 await CreateModeratorLog("Sistem Hatası", "Sayfa Girişi", "HaberOlustur", "Haber", detay);
-                return RedirectToAction("Home", "ErrorPage");
+                TempData["HataMesaji"] = ex.ToString();
+                return RedirectToAction("ErrorPage", "Home");
             }
         }
 
@@ -500,7 +522,7 @@ namespace GazeteKapiMVC5Core.Controllers
                                 await file.CopyToAsync(stream);
                                 model.Image = uploadfilename;
 
-                                int resultId = _newService.createNews(_mapper.Map<NewsCreateViewModel, NewsDto>(model)).Id;
+                                int resultId = Convert.ToInt32( await _newService.createNews(_mapper.Map<NewsCreateViewModel, NewsDto>(model)));
 
                                 if (resultId > 0)
                                 {
@@ -509,16 +531,16 @@ namespace GazeteKapiMVC5Core.Controllers
                                     {
                                         if (model.Tag[^1] == ',')
                                         {
-                                            await InsertTagToProduct(model.Tag[0..^1], resultId);
+                                            await _newService.InsertTagToProduct(model.Tag[0..^1], resultId);
                                         }
                                         else
                                         {
-                                            await InsertTagToProduct(model.Tag, resultId);
+                                            await _newService.InsertTagToProduct(model.Tag, resultId);
                                         }
                                     }
 
                                     await CreateModeratorLog("Başarılı", "Ekleme", "HaberOlustur", "Haber", "Haber oluşturulması başarıyla gerçekleşti. Haberinizi istediğiniz gibi düzenleyebilirsiniz!");
-                                    return RedirectToAction("HaberDuzenle", "Haber", new { Id = model.Id });
+                                    return RedirectToAction("HaberDuzenle", "Haber", new { Id = resultId });
                                 }
                                 else
                                 {
@@ -553,9 +575,212 @@ namespace GazeteKapiMVC5Core.Controllers
             {
                 string detay = "Sistemden kaynaklı bir hata meydana geldi: " + ex.ToString();
                 await CreateModeratorLog("Sistem Hatası", "Ekleme", "HaberOlustur", "Haber", detay);
-                return RedirectToAction("Home", "ErrorPage");
+                TempData["HataMesaji"] = ex.ToString();
+                return RedirectToAction("ErrorPage", "Home");
             }
         }
+
+        [HttpGet]
+        public async Task<IActionResult> HaberDuzenle(int id)
+        {
+            try
+            {
+                var news = _mapper.Map<NewsDto, NewsEditViewModel>(_newService.getNews(id));
+
+                var publishTypeList = _mapper.Map<List<PublishTypeListItem>, List<PublishTypeListViewModel>>(_newService.publishTypeList());
+                ViewBag.PublishTypes = new SelectList(publishTypeList, "Id", "TypeName", news.PublishTypeId);
+
+                var categoryList = _mapper.Map<List<CategoryListItemDto>, List<CategoryListViewModel>>(_categoryService.GetAllCategory());
+                ViewBag.Categories = new SelectList(categoryList, "Id", "CategoryName", news.CategoryId);
+
+                var guestList = _mapper.Map<List<GuestListItemDto>, List<GuestListViewModel>>(_newService.guestList());
+                ViewBag.Guests = new SelectList(guestList, "Id", "GuestName", news.GuestId);
+
+                return View(news);
+            }
+            catch (Exception ex)
+            {
+                string detay = "Sistemden kaynaklı bir hata meydana geldi: " + ex.ToString();
+                await CreateModeratorLog("Sistem Hatası", "Sayfa Girişi", "HaberDuzenle", "Haber", detay); 
+                TempData["HataMesaji"] = ex.ToString();
+                return RedirectToAction("ErrorPage", "Home");
+            }
+            
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> HaberDuzenle(NewsEditViewModel model, IFormFile file)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    if (model.CategoryId != 0)
+                    {
+                        AccountEditViewModel yoneticiGetir = SessionExtensionMethod.GetObject<AccountEditViewModel>(HttpContext.Session, "user");
+                        model.UserId = yoneticiGetir.Id;
+
+                        if (file != null)
+                        {
+                            string uploadfilename = Path.GetFileNameWithoutExtension(file.FileName);
+                            string extension = Path.GetExtension(file.FileName);
+                            uploadfilename = uploadfilename + DateTime.Now.ToString("yymmssfff") + extension;
+                            var path = Path.Combine(this._webHostEnvironment.WebRootPath, "Files", uploadfilename);
+                            var stream = new FileStream(path, FileMode.Create);
+                            await file.CopyToAsync(stream);
+                            model.Image = uploadfilename;
+
+                            int resultId = Convert.ToInt32(await _newService.editNews(_mapper.Map<NewsEditViewModel, NewsDto>(model)));
+                            await CreateModeratorLog("Başarılı", "Güncelleme", "HaberDuzenle", "Haber", "Haber güncellemesi başarıyla gerçekleşti. Haberinizi istediğiniz gibi düzenleyebilirsiniz!");
+                            return RedirectToAction("HaberDuzenle", "Haber", new { Id = resultId });
+                        }
+                        else
+                        {
+                            int resultId = Convert.ToInt32(await _newService.createNews(_mapper.Map<NewsEditViewModel, NewsDto>(model)));
+                            await CreateModeratorLog("Başarılı", "Güncelleme", "HaberDuzenle", "Haber", "Haber güncellemesi başarıyla gerçekleşti. Haberinizi istediğiniz gibi düzenleyebilirsiniz!");
+                            return RedirectToAction("HaberDuzenle", "Haber", new { Id = resultId });
+                        }
+
+                    }
+
+                    return View(model);
+                }
+                else
+                {
+                    return View(model);
+                }
+            }
+            catch (Exception ex)
+            {
+                string detay = "Sistemden kaynaklı bir hata meydana geldi: " + ex.ToString();
+                await CreateModeratorLog("Sistem Hatası", "Güncelleme", "HaberDuzenle", "Haber", detay);
+                TempData["HataMesaji"] = ex.ToString();
+                return RedirectToAction("ErrorPage", "Home");
+            }
+        }
+
+        public async Task<IActionResult> HaberSil(int id)
+        {
+            try
+            {
+                if (_newService.newsDelete(id))
+                {
+                    await CreateModeratorLog("Başarılı", "Silme", "HaberSil", "Haber", "Haber silme işlemi başarıyla gerçekleşti!");
+                    return RedirectToAction("Haberler", "Haber");
+                }
+                else
+                {
+                    await CreateModeratorLog("Başarısız", "Silme", "HaberSil", "Haber", "Haber silme işlemi başarısız gerçekleşti!");
+                    return RedirectToAction("Haberler", "Haber");
+                }
+            }
+            catch (Exception ex)
+            {
+                string detay = "Sistemden kaynaklı bir hata meydana geldi: " + ex.ToString();
+                await CreateModeratorLog("Sistem Hatası", "Silme", "HaberSil", "Haber", detay);
+                TempData["HataMesaji"] = ex.ToString();
+                return RedirectToAction("ErrorPage", "Home");
+            }
+        }
+
+        public async Task<IActionResult> HaberiKilitle(int id)
+        {
+            try
+            {
+                if (await _newService.IsLockNews(id))
+                {
+                    await CreateModeratorLog("Başarılı", "Güncelleme", "HaberKilitle", "Haber", "Haber başarıyla kilitlendi!");
+                    return RedirectToAction(nameof(Haberler));
+                }
+                return View(nameof(Haberler));
+            }
+            catch (Exception ex)
+            {
+                string detay = "Sistemden kaynaklı bir hata meydana geldi: " + ex.ToString();
+                await CreateModeratorLog("Sistem Hatası", "Güncelleme", "HaberiKilitle", "Haber", detay);
+                TempData["HataMesaji"] = ex.ToString();
+                return RedirectToAction("ErrorPage", "Home");
+            }
+        }
+
+        public async Task<IActionResult> BildirimleriAc(int id)
+        {
+            try
+            {
+                if (await _newService.IsOpenNotificationSet(id))
+                {
+                    await CreateModeratorLog("Başarılı", "Güncelleme", "BildirimleriAc", "Haber", "Haber bildirimleri başarıyla açıldı!");
+                    return RedirectToAction(nameof(Haberler));
+                }
+                return View(nameof(Haberler));
+            }
+            catch (Exception ex)
+            {
+                string detay = "Sistemden kaynaklı bir hata meydana geldi: " + ex.ToString();
+                await CreateModeratorLog("Sistem Hatası", "Güncelleme", "BildirimleriAc", "Haber", detay); 
+                TempData["HataMesaji"] = ex.ToString();
+                return RedirectToAction("ErrorPage", "Home");
+            }
+        }
+
+        public async Task<IActionResult> HaberiManseteTasi(int id)
+        {
+            try
+            {
+                if (await _newService.SetYourNewsToUp(id))
+                {
+                    await CreateModeratorLog("Başarılı", "Güncelleme", "HaberiManseteTasi", "Haber", "Haber başarıyla manşete taşındı!");
+                    return RedirectToAction(nameof(Haberler));
+                }
+                return View(nameof(Haberler));
+            }
+            catch (Exception ex)
+            {
+                string detay = "Sistemden kaynaklı bir hata meydana geldi: " + ex.ToString();
+                await CreateModeratorLog("Sistem Hatası", "Güncelleme", "HaberiManseteTasi", "Haber", detay);
+                TempData["HataMesaji"] = ex.ToString();
+                return RedirectToAction("ErrorPage", "Home");
+            }
+        }
+
+        public async Task<IActionResult> HaberiAktifEt(int id)
+        {
+            try
+            {
+                if (await _newService.IsActiveEnabled(id))
+                {
+                    await CreateModeratorLog("Başarılı", "Güncelleme", "HaberiAktifEt", "Haber", "Haber başarıyla manşete taşındı!");
+                    return RedirectToAction(nameof(Haberler));
+                }
+                return View(nameof(Haberler));
+            }
+            catch (Exception ex)
+            {
+                string detay = "Sistemden kaynaklı bir hata meydana geldi: " + ex.ToString();
+                await CreateModeratorLog("Sistem Hatası", "Güncelleme", "HaberiAktifEt", "Haber", detay);
+                TempData["HataMesaji"] = ex.ToString();
+                return RedirectToAction("ErrorPage", "Home");
+            }
+        }
+
+        public async Task<IActionResult> Etiketler()
+        {
+            try
+            {
+                var etiketler = _mapper.Map<List<TagNewsListItemDto>, List<TagNewsListViewModel>>(_newService.tagsList());
+                await CreateModeratorLog("Başarılı", "Sayfa Girişi", "Etiketler", "Haber", "Haber sayfasına giriş başarılı!");
+                return View(etiketler);
+            }
+            catch (Exception ex)
+            {
+                string detay = "Sistemden kaynaklı bir hata meydana geldi: " + ex.ToString();
+                await CreateModeratorLog("Sistem Hatası", "Sayfa Girişi", "Etiketler", "Haber", detay);
+                TempData["HataMesaji"] = ex.ToString();
+                return RedirectToAction("ErrorPage", "Home");
+            }
+        }
+
         #endregion
 
         #region Extend Methods
@@ -573,40 +798,39 @@ namespace GazeteKapiMVC5Core.Controllers
             return ct;
         }
 
-        public async Task<int> InsertTagToProduct(string etiketler, int id)
-        {
+        //public async Task<int> InsertTagToProduct(string etiketler, int id)
+        //{
 
-            NewsDto getNews = _newService.getNews(id);
-            string[] listTags = etiketler.Split(',');
+        //    NewsDto getNews = _newService.getNews(id);
+        //    string[] listTags = etiketler.Split(',');
 
-            for (int i = 0; i < listTags.Count(); i++)
-            {
-                Etiketler e = new Etiketler
-                {
-                    EtiketAdi = listTags[i].Trim().ToString()
-                };
-                await _unitOfWorkEtiketler.Repository.Add(e);
-                _unitOfWorkEtiketler.Repository.Save();
-            }
+        //    for (int i = 0; i < listTags.Count(); i++)
+        //    {
+        //        TagDto tag = new TagDto
+        //        {
+        //            TagName = listTags[i].Trim().ToString()
+        //        };
+        //        await _newService.createTag(tag);
+        //    }
 
-            foreach (string item in listTags) //Çalışmıyor
-            {
-                string etiketAdi = item.Trim();
-                Etiketler etiketiGetir = await _unitOfWorkEtiketler.Repository.Where(x => x.EtiketAdi == etiketAdi).FirstOrDefaultAsync();
-                EtiketGonderi eg = new EtiketGonderi
-                {
-                    GonderiID = id,
-                    EtiketID = etiketiGetir.ID,
-                    etiketler = etiketiGetir,
-                    urunler = gelenU
-                };
+        //    foreach (string item in listTags) //Çalışmıyor
+        //    {
+        //        string etiketAdi = item.Trim();
+        //        TagDto etiketiGetir = _newService.getTags(etiketAdi);
 
-                await _unitOfWorkEtiketUrunler.Repository.Add(eg);
-                _unitOfWorkEtiketUrunler.Repository.Save();
-            }
+        //        TagNewsDto tagNews = new TagNewsDto
+        //        {
+        //            NewsId = getNews.Id,
+        //            TagId = etiketiGetir.Id,
+        //            news = getNews,
+        //            tag = etiketiGetir
+        //        };
 
-            return 1;
-        }
+        //        await _newService.createNewTags(tagNews);
+        //    }
+
+        //    return 1;
+        //}
 
         #endregion
     }

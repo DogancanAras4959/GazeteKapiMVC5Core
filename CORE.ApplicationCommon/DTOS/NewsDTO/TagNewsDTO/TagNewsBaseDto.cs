@@ -1,4 +1,5 @@
-﻿using GazeteKapiMVC5Core.DataAccessLayer.Models;
+﻿using CORE.ApplicationCommon.DTOS.NewsDTO.TagDTO;
+using GazeteKapiMVC5Core.DataAccessLayer.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -9,7 +10,6 @@ namespace CORE.ApplicationCommon.DTOS.NewsDTO.TagNewsDTO
     {
         public int TagId { get; set; }
         public int NewsId { get; set; }
-
         public Tags tag { get; set; }
         public News news { get; set; }
     }

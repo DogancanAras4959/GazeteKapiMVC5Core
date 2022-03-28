@@ -59,7 +59,7 @@
                                 {
                                     <tr>
                                         <td>@Html.DisplayFor(model => item.Id)</td>
-                                        <td><a data-original-title="Yazara git" title="" asp-action="YazarDetay" asp-controller="Haber" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.Title)</a></td>
+                                        <td><a data-original-title="Habere Git" title="" asp-action="HaberDuzenle" asp-controller="Haber" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.Title)</a></td>
                                         <td>@Html.DisplayFor(model => item.PublishedTime)</td>
                                         <td>@Html.DisplayFor(model => item.categories.CategoryName)</td>
                                         <td>@Html.DisplayFor(model => item.Views)</td>
@@ -67,30 +67,30 @@
                                         <td>
                                             @if (item.IsLock == true)
                                             {
-                                                <a style="padding:3px;" asp-action="Kilitle" asp-route-id="@item.Id"><i class="mdi mdi-lock-open mdi-24px text-success"></i></a>
+                                                <a style="padding:3px;" asp-action="HaberiKilitle" asp-route-id="@item.Id"><i class="mdi mdi-lock-open mdi-24px text-success"></i></a>
                                             }
                                             else
                                             {
-                                                <a style="padding:3px;" asp-action="Kilitle" asp-route-id="@item.Id"><i class="mdi mdi-lock mdi-24px text-danger"></i></a>
+                                                <a style="padding:3px;" asp-action="HaberiKilitle" asp-route-id="@item.Id"><i class="mdi mdi-lock mdi-24px text-danger"></i></a>
                                             }
 
                                             @if (item.IsActive == false)
                                             {
-                                                <a style="padding:3px;" asp-action="YayindaMi" asp-route-id="@item.Id"><i class="mdi mdi-publish mdi-24px"></i></a>
+                                                <a style="padding:3px;" asp-action="HaberiAktifEt" asp-route-id="@item.Id"><i class="mdi mdi-publish mdi-24px"></i></a>
                                             }
                                             else
                                             {
-                                                <a style="padding:3px;" asp-action="YayindaMi" asp-route-id="@item.Id"><i class="mdi mdi-earth-remove text-danger mdi-24px"></i></a>
+                                                <a style="padding:3px;" asp-action="HaberiAktifEt" asp-route-id="@item.Id"><i class="mdi mdi-earth-remove text-danger mdi-24px"></i></a>
 
                                             }
 
                                             @if (item.IsOpenNotifications == true)
                                             {
-                                                <a style="padding:3px;" asp-action="BildirimDuzenle" asp-route-id="@item.Id" class="ml-1"><i class="mdi mdi-bell-alert mdi-24px"></i></a>
+                                                <a style="padding:3px;" asp-action="BildirimleriAc" asp-route-id="@item.Id" class="ml-1"><i class="mdi mdi-wifi mdi-24px"></i></a>
                                             }
                                             else
                                             {
-                                                <a style="padding:3px;" asp-action="BildirimDuzenle" asp-route-id="@item.Id" class="ml-1"><i class="mdi mdi-bell-cancel text-success mdi-24px"></i></a>
+                                                <a style="padding:3px;" asp-action="BildirimleriAc" asp-route-id="@item.Id" class="ml-1"><i class="mdi mdi-wifi-off text-danger mdi-24px"></i></a>
                                             }
                                         </td>
                                     </tr>

@@ -1,4 +1,4 @@
-﻿@model GazeteKapiMVC5Core.Models.News.NewsModel.NewsCreateViewModel
+﻿@model GazeteKapiMVC5Core.Models.News.NewsModel.NewsEditViewModel
 
 @{
     ViewData["Title"] = "HaberOlustur";
@@ -28,7 +28,11 @@
     }
 </style>
 
-<form method="post" asp-action="HaberOlustur" asp-controller="Haber" enctype="multipart/form-data">
+<link href="~/assets/libs/select2/css/select2.min.css" rel="stylesheet" type="text/css">
+<link href="~/assets/libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css" rel="stylesheet">
+
+<form method="post" asp-action="HaberDuzenle" asp-controller="Haber" enctype="multipart/form-data">
+    @Html.HiddenFor(x=> x.Id)
     <div class="row">
         <div class="col-sm-8">
             <div class="card">
@@ -79,8 +83,34 @@
                 <div class="col-sm-12">
                     <div class="card">
                         <div class="card-body">
-                            <img id="img" style="width:100%" src="~/Files/imgdefault.jpg" />
-                            <label for="example-text-input" style="margin-top:10px;" class="col-sm-12 col-form-label text-center">Öne Çıkan Görsel Belirle</label>
+                            <div class="btn-group me-1" style="width:100%">
+                                <button type="submit" style="width:75%" class="btn btn-primary">Haberi Yayınla</button>
+                                <button type="button" style="width:25%" class="btn btn-indigo dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="mdi mdi-chevron-down"></i>
+                                </button>
+                                <div class="dropdown-menu">
+                                    <label style="padding:15px;">Zamana göre yayınla</label>
+                                    <div class="input-group" style="padding-right:10px; padding-left:10px; padding-bottom:5px;" id="datepicker2">
+                                        <input type="text" asp-for="PublishedTime" class="form-control" placeholder="01 Jan, 2020"
+                                               data-date-format="dd M, yyyy" data-date-container='#datepicker2' data-provide="datepicker"
+                                               data-date-autoclose="true">
+
+                                        <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+                                    </div>
+                                    <hr />
+                                    <a style="padding:15px;" asp-controller="Haber" asp-action="HaberSil" asp-route-id="@Model.Id" class="btn btn-link"><span style="color:red;">Haberi Sil</span></a>
+                                </div>
+                            </div><!-- /btn-group -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <img id="img" style="width:100%" src="~/Files/@Model.Image" />
+                            <label for="example-text-input" class="col-sm-12 col-form-label text-center" style="margin-top:10px;">Öne Çıkan Görseli Güncelle</label>
                             <input type="file" class="filestyle" id="upload" data-input="false" name="file" data-buttonname="btn-secondary">
                         </div>
                     </div>
@@ -134,20 +164,14 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-sm-12">
-                    <div class="card">
-                        <div class="card-body">
-                            <button type="submit" style="width:100%" class="btn btn-primary">Haberi Oluştur</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 </form>
+
 <script src="~/ckeditor/ckeditor.js"></script>
 <script src="~/assets/libs/jquery/jquery.min.js"></script>
+<script src="~/assets/libs/select2/js/select2.min.js"></script>
+<script src="~/assets/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
 
 <script>
     $(function () {
