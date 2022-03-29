@@ -42,6 +42,9 @@
                         <nav aria-label="Page navigation example">
                             <ul class="pagination" style="float:right">
                                 <li class="page-item">
+                                    <a asp-action="Etiketler" class="btn btn-link">Başa Dön</a>
+                                </li>
+                                <li class="page-item">
                                     <a asp-action="Etiketler" asp-route-pageNumber="@(Model.PageIndex-1)" class="btn btn-link @prevDisabled">Önceki</a>
                                 </li>
                                 <li class="page-item">

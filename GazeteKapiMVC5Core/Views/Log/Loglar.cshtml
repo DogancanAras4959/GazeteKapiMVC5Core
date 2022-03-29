@@ -1,7 +1,13 @@
-﻿@model IEnumerable<GazeteKapiMVC5Core.Models.Log.LogModel.LogListViewModel>
+﻿@model PaginationList<GazeteKapiMVC5Core.Models.Log.LogModel.LogListViewModel>
+@using GazeteKapiMVC5Core.Core.Extensions; 
 @{
     ViewData["Title"] = "Loglar";
     Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{ 
+    var prevDisabled = !Model.HasPrevious ? "disabled" : "";
+    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
 }
 
 <style>
@@ -26,6 +32,19 @@
                         <p class="card-title-desc">Yöneticilerin gerçekleştirdiği tüm işlemlerle ilgili kayıtları bu sayfada bulabilirsiniz!</p>
                     </div>
                     <div class="col-sm-5">
+                        <nav aria-label="Page navigation example">
+                            <ul class="pagination" style="float:right">
+                                <li class="page-item">
+                                    <a asp-action="Loglar" class="btn btn-link">Başa Dön</a>
+                                </li>
+                                <li class="page-item">
+                                    <a asp-action="Loglar" asp-route-pageNumber="@(Model.PageIndex-1)" class="btn btn-link @prevDisabled">Önceki</a>
+                                </li>
+                                <li class="page-item">
+                                    <a asp-action="Loglar" asp-route-pageNumber="@(Model.PageIndex+1)" class="btn btn-link @nextDisabled">Sonraki</a>
+                                </li>
+                            </ul>
+                        </nav>
                         <div class="btn-toolbar" role="toolbar" style="float:right;">
                             <div class="btn-group me-2 mb-2 mb-sm-0">
                                 <form action="~/Log/LogListeleIslem" method="get">
@@ -38,7 +57,7 @@
 
                                 </form>
                             </div>
-                        </div>                                         
+                        </div>
                     </div>
                 </div>
                 <div class="table-rep-plugin">

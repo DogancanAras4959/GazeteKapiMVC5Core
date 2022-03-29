@@ -2,6 +2,7 @@
 using CORE.ApplicationCommon.DTOS.LogsDTO.LogDTO;
 using CORE.ApplicationCommon.DTOS.LogsDTO.ProcessDTO;
 using CORE.ApplicationCommon.DTOS.LogsDTO.TransactionDTO;
+using GazeteKapiMVC5Core.Core.Extensions;
 using GazeteKapiMVC5Core.Models.Log.LogModel;
 using GazeteKapiMVC5Core.Models.Log.ProcessModel;
 using GazeteKapiMVC5Core.Models.Log.TransactionModel;
@@ -31,8 +32,10 @@ namespace GazeteKapiMVC5Core.Controllers
         #endregion
 
         [HttpGet]
-        public IActionResult Loglar()
+        public IActionResult Loglar(int? pageNumber)
         {
+            int pageSize = 20;
+
             var listLogWithProcess = _mapper.Map<List<ProcessesItemListDto>, List<ProcessesListItemModel>>(_logService.GetAllProcess());
             ViewBag.Islemler = new SelectList(listLogWithProcess, "Id", "ProcessesName");
 
@@ -40,11 +43,13 @@ namespace GazeteKapiMVC5Core.Controllers
             ViewBag.Durumlar = new SelectList(listLogWithTransaction, "Id", "TransactionNames");
 
             var listLog = _mapper.Map<List<LogListItemDto>, List<LogListViewModel>>(_logService.GetAllLogs());
-            return View(listLog);
+            return View(PaginationList<LogListViewModel>.Create(listLog.ToList(), pageNumber ?? 1, pageSize));
         }
 
-        public IActionResult LogListeleIslem(string ProcessesName)
+        public IActionResult LogListeleIslem(string ProcessesName, int? pageNumber)
         {
+            int pageSize = 20;
+            TempData["processId"] = ProcessesName;
             var listLogWithProcess = _mapper.Map<List<ProcessesItemListDto>, List<ProcessesListItemModel>>(_logService.GetAllProcess());
             ViewBag.Islemler = new SelectList(listLogWithProcess, "Id", "ProcessesName");
 
@@ -52,11 +57,14 @@ namespace GazeteKapiMVC5Core.Controllers
             ViewBag.Durumlar = new SelectList(listLogWithTransaction, "Id", "TransactionNames");
 
             var listLogByIslem = _mapper.Map<List<LogListItemDto>, List<LogListViewModel>>(_logService.GetAllLogsByProcess(ProcessesName));
-            return View(listLogByIslem);
+            return View(PaginationList<LogListViewModel>.Create(listLogByIslem.ToList(), pageNumber ?? 1, pageSize));
         }
 
-        public IActionResult LogListeleDurum(string TransactionNames)
+        public IActionResult LogListeleDurum(string TransactionNames, int? pageNumber)
         {
+            int pageSize = 20;
+            TempData["transactionId"] = TransactionNames;
+
             var listLogWithProcess = _mapper.Map<List<ProcessesItemListDto>, List<ProcessesListItemModel>>(_logService.GetAllProcess());
             ViewBag.Islemler = new SelectList(listLogWithProcess, "Id", "ProcessesName");
 
@@ -64,7 +72,7 @@ namespace GazeteKapiMVC5Core.Controllers
             ViewBag.Durumlar = new SelectList(listLogWithTransaction, "Id", "TransactionNames");
 
             var listLogbyDurum = _mapper.Map<List<LogListItemDto>, List<LogListViewModel>>(_logService.GetAllLogsByTransactions(TransactionNames));
-            return View(listLogbyDurum);
+            return View(PaginationList<LogListViewModel>.Create(listLogbyDurum.ToList(), pageNumber ?? 1, pageSize));
         }
 
         [HttpGet]

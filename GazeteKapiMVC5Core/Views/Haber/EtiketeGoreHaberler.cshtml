@@ -1,5 +1,6 @@
 ﻿@using GazeteKapiMVC5Core.Models.News.TagModel;
-@model IEnumerable<GazeteKapiMVC5Core.Models.News.TagNewsModel.TagNewsListViewModel>
+@model PaginationList<GazeteKapiMVC5Core.Models.News.TagNewsModel.TagNewsListViewModel>
+@using GazeteKapiMVC5Core.Core.Extensions;
 
 @{
     ViewData["Title"] = "EtiketeGoreHaberler";
@@ -8,10 +9,32 @@
     TagBaseViewModel tagGet = ViewBag.Tag as TagBaseViewModel;
 }
 
-<h1>@tagGet.TagName için sonuçlar</h1>
+@{
+    var prevDisabled = !Model.HasPrevious ? "disabled" : "";
+    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+}
 
+<div class="row">
+    <div class="col-sm-8">
+        <h1>"@tagGet.TagName" için sonuçlar</h1>
+    </div>
+    <div class="col-sm-4">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination" style="float:right">
+                <li class="page-item">
+                    <a asp-action="EtiketeGoreHaberler" class="btn btn-link">Başa Dön</a>
+                </li>
+                <li class="page-item">
+                    <a asp-action="EtiketeGoreHaberler" asp-route-pageNumber="@(Model.PageIndex-1)" class="btn btn-link @prevDisabled">Önceki</a>
+                </li>
+                <li class="page-item">
+                    <a asp-action="EtiketeGoreHaberler" asp-route-pageNumber="@(Model.PageIndex+1)" class="btn btn-link @nextDisabled">Sonraki</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
 <br />
-
 <div class="row row-cols-md-4 row-cols-1">
     @foreach (var item in Model)
     {
@@ -21,7 +44,7 @@
                 <div class="card-body">
                     <h4 class="card-title">@item.news.Title</h4>
                     <p class="card-text">
-                         @item.news.Spot
+                        @item.news.Spot
                     </p>
                     <a asp-controller="Haber" asp-action="HaberDuzenle" asp-route-id="@item.news.Id" class="btn btn-link">
                         <p class="card-text">

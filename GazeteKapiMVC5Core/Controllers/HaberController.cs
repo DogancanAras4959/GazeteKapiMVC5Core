@@ -24,7 +24,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using X.PagedList;
 
 namespace GazeteKapiMVC5Core.Controllers
 {
@@ -454,13 +453,15 @@ namespace GazeteKapiMVC5Core.Controllers
 
         //[RoleAuthorize("Haberler")]
         [HttpGet]
-        public async Task<IActionResult> Haberler()
+        public async Task<IActionResult> Haberler(int? pageNumber)
         {
             try
             {
+                int pageSize = 20;
+
                 var haberlist = _mapper.Map<List<NewsListItemDto>, List<NewsLıstItemModel>>(_newService.newsList());
                 await CreateModeratorLog("Başarılı", "Sayfa Girişi", "Haberler", "Haber", "Haber sayfasına giriş başarılı!");
-                return View(haberlist);
+                return View(PaginationList<NewsLıstItemModel>.Create(haberlist.ToList(),pageNumber ?? 1, pageSize));
             }
             catch (Exception ex)
             {
@@ -848,15 +849,16 @@ namespace GazeteKapiMVC5Core.Controllers
             }
         }
 
-        public async Task<IActionResult> EtiketeGoreHaberler(int Id)
+        public async Task<IActionResult> EtiketeGoreHaberler(int Id, int? pageNumber)
         {
             try
             {
+                int pageSize = 20;
                 var etiket = _mapper.Map<TagBaseDto, TagEditViewModel>(_newService.tagGet(Id));
                 ViewBag.Tag = etiket;
 
                 var etiketlerHaberler = _mapper.Map<List<TagNewsListItemDto>, List<TagNewsListViewModel>>(_newService.tagsListWithNewsById(Id));
-                return View(etiketlerHaberler);
+                return View(PaginationList<TagNewsListViewModel>.Create(etiketlerHaberler.ToList(), pageNumber ?? 1, pageSize));
             }
             catch (Exception ex)
             {

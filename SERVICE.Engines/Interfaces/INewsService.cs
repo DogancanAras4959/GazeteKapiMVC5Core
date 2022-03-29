@@ -8,7 +8,6 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using X.PagedList;
 
 namespace SERVICE.Engine.Interfaces
 {
@@ -27,6 +26,7 @@ namespace SERVICE.Engine.Interfaces
 
         #region Haber
         List<NewsListItemDto> newsList();
+        List<NewsListItemDto> newsListByUserId(int id);
         List<PublishTypeListItem> publishTypeList();
         Task<bool> NewsIfExists(string title);
         Task<int> createNews(NewsDto model);

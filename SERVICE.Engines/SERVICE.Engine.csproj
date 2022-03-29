@@ -5,10 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="X.PagedList" Version="8.1.0" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\CORE.ApplicationCommon\CORE.ApplicationCommon.csproj" />
     <ProjectReference Include="..\CORE.ApplicationCore\CORE.ApplicationCore.csproj" />
   </ItemGroup>

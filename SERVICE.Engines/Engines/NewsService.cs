@@ -12,7 +12,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using X.PagedList;
 
 namespace SERVICE.Engine.Engines
 {
@@ -115,7 +114,7 @@ namespace SERVICE.Engine.Engines
 
         public List<GuestListItemDto> guestList()
         {
-            IEnumerable<Guest> guestList = _unitOfWork.GetRepository<Guest>().Filter(null, x => x.OrderByDescending(y => y.Id), "users", 1, 30);
+            IEnumerable<Guest> guestList = _unitOfWork.GetRepository<Guest>().Filter(null, x => x.OrderByDescending(y => y.Id), "users", null, null);
 
             return guestList.Select(x => new GuestListItemDto
             {
@@ -134,7 +133,7 @@ namespace SERVICE.Engine.Engines
 
         public List<NewsListItemDto> newsList()
         {
-            IEnumerable<News> newsList = _unitOfWork.GetRepository<News>().Filter(null, x => x.OrderByDescending(y => y.Id), "guest,users,categories,publishtype", 1, 700000);
+            IEnumerable<News> newsList = _unitOfWork.GetRepository<News>().Filter(null, x => x.OrderByDescending(y => y.Id), "guest,users,categories,publishtype", null,null);
 
             if (newsList != null)
             {
@@ -551,6 +550,46 @@ namespace SERVICE.Engine.Engines
                 {
                     Id = x.Id,
                     TagName = x.TagName,
+
+                }).ToList();
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public List<NewsListItemDto> newsListByUserId(int id)
+        {
+            IEnumerable<News> newsList = _unitOfWork.GetRepository<News>().Filter(x => x.UserId == id, x => x.OrderByDescending(y => y.Id), "users,guest,publishtype,categories", 1, 5);
+
+            if (newsList != null)
+            {
+                return newsList.Select(x => new NewsListItemDto
+                {
+                    Id = x.Id,
+                    Title = x.Title,
+                    Spot = x.Spot,
+                    Image = x.Image,
+                    NewsContent = x.NewsContent,
+                    IsSlide = x.IsSlide,
+                    IsOpenNotifications = x.IsOpenNotifications,
+                    IsLock = x.IsLock,
+                    IsActive = x.IsActive,
+                    Views = x.Views,
+                    UpdatedTime = x.UpdatedTime,
+                    CreatedTime = x.CreatedTime,
+                    CategoryId = x.CategoryId,
+                    UserId = x.UserId,
+                    GuestId = x.GuestId,
+                    PublishTypeId = x.PublishTypeId,
+                    PublishedTime = x.PublishedTime,
+                    IsCommentActive = x.IsCommentActive,
+                    Sorted = x.Sorted,
+                    guest = x.guest,
+                    publishtype = x.publishtype,
+                    users = x.users,
+                    categories = x.categories,
 
                 }).ToList();
             }

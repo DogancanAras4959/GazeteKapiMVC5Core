@@ -12,7 +12,6 @@ using SERVICE.Engine.Engines;
 using SERVICE.Engine.Interfaces;
 using SERVICES.Engine.Engines;
 using SERVICES.Engine.Interfaces;
-using X.PagedList;
 
 namespace GazeteKapiMVC5Core.Core.Extensions
 {

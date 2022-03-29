@@ -1,7 +1,13 @@
-﻿@model IEnumerable<GazeteKapiMVC5Core.Models.News.NewsModel.NewsLıstItemModel>
+﻿@model PaginationList<GazeteKapiMVC5Core.Models.News.NewsModel.NewsLıstItemModel>
+@using GazeteKapiMVC5Core.Core.Extensions;
 @{
     ViewData["Title"] = "Kategoriler";
     Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    var prevDisabled = !Model.HasPrevious ? "disabled" : "";
+    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
 }
 
 <style>
@@ -26,7 +32,19 @@
                         <p class="card-title-desc">Haberler ile tüm işlemlerinizi gerçekleştirin</p>
                     </div>
                     <div class="col-sm-8">
-                        <div style="float:right;"><a asp-controller="Haber" asp-action="HaberOlustur" class="btn btn-primary btn-sm">Haber Oluştur <i class="fas fa-plus fa-sm"></i></a></div>
+                        <nav aria-label="Page navigation example">
+                            <ul class="pagination" style="float:right">
+                                <li class="page-item">
+                                    <a asp-action="Haberler" class="btn btn-link">Başa Dön</a>
+                                </li>
+                                <li class="page-item">
+                                    <a asp-action="Haberler" asp-route-pageNumber="@(Model.PageIndex-1)" class="btn btn-link @prevDisabled">Önceki</a>
+                                </li>
+                                <li class="page-item">
+                                    <a asp-action="Haberler" asp-route-pageNumber="@(Model.PageIndex+1)" class="btn btn-link @nextDisabled">Sonraki</a>
+                                </li>
+                            </ul>
+                        </nav>
                     </div>
                 </div>
                 <div class="table-rep-plugin">
@@ -51,9 +69,9 @@
                                     <td>Type Search</td>
                                     <td></td>
                                     <td>Author Search</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
+                                    <td>
+                                        <a asp-controller="Haber" asp-action="HaberOlustur" class="btn btn-primary btn-sm">Haber Oluştur <i class="fas fa-plus fa-sm"></i></a>
+                                    </td>
                                 </tr>
                                 @foreach (var item in Model)
                                 {

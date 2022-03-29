@@ -52,7 +52,7 @@ namespace SERVICE.Engine.Engines
 
         public List<LogListItemDto> GetAllLogs()
         {
-            IEnumerable<Logs> logs = _unitOfWork.GetRepository<Logs>().Filter(null, x => x.OrderByDescending(y => y.Id), "transactions,processes,userslog", 1, 50);
+            IEnumerable<Logs> logs = _unitOfWork.GetRepository<Logs>().Filter(null, x => x.OrderByDescending(y => y.Id), "transactions,processes,userslog", null, null);
             return logs.Select(x => new LogListItemDto 
             {
                 Id = x.Id,
@@ -76,7 +76,7 @@ namespace SERVICE.Engine.Engines
 
             Processes getProcess = _unitOfWork.GetRepository<Processes>().FindAsync(x => x.Id == Convert.ToInt32(ProcessesName)).Result;
 
-            IEnumerable<Logs> logs = _unitOfWork.GetRepository<Logs>().Filter(x=> x.ProcessID == getProcess.Id, x => x.OrderByDescending(y => y.Id), "transactions,processes,userslog", 1, 50);
+            IEnumerable<Logs> logs = _unitOfWork.GetRepository<Logs>().Filter(x=> x.ProcessID == getProcess.Id, x => x.OrderByDescending(y => y.Id), "transactions,processes,userslog", null, null);
             return logs.Select(x => new LogListItemDto
             {
                 Id = x.Id,
@@ -99,7 +99,7 @@ namespace SERVICE.Engine.Engines
         {
             Transactions getProcess = _unitOfWork.GetRepository<Transactions>().FindAsync(x => x.Id == Convert.ToInt32(TransactionNames)).Result;
 
-            IEnumerable<Logs> logs = _unitOfWork.GetRepository<Logs>().Filter(x=> x.TransactionID == getProcess.Id, x => x.OrderByDescending(y => y.Id), "transactions,processes,userslog", 1, 50);
+            IEnumerable<Logs> logs = _unitOfWork.GetRepository<Logs>().Filter(x=> x.TransactionID == getProcess.Id, x => x.OrderByDescending(y => y.Id), "transactions,processes,userslog", null, null);
 
             return logs.Select(x => new LogListItemDto
             {
@@ -120,7 +120,7 @@ namespace SERVICE.Engine.Engines
         }
         public List<ProcessesItemListDto> GetAllProcess()
         {
-            IEnumerable<Processes> process = _unitOfWork.GetRepository<Processes>().Filter(null, x => x.OrderByDescending(y => y.Id),null, 1, 50);
+            IEnumerable<Processes> process = _unitOfWork.GetRepository<Processes>().Filter(null, x => x.OrderByDescending(y => y.Id),null, null, null);
             return process.Select(x => new ProcessesItemListDto
             {
                 Id = x.Id,
@@ -131,7 +131,7 @@ namespace SERVICE.Engine.Engines
 
         public List<TransactionListItemDto> GetAllTransaction()
         {
-            IEnumerable<Transactions> logs = _unitOfWork.GetRepository<Transactions>().Filter(null, x => x.OrderByDescending(y => y.Id), null, 1, 50);
+            IEnumerable<Transactions> logs = _unitOfWork.GetRepository<Transactions>().Filter(null, x => x.OrderByDescending(y => y.Id), null, null, null);
             return logs.Select(x => new TransactionListItemDto
             {
                 Id = x.Id,
@@ -162,6 +162,30 @@ namespace SERVICE.Engine.Engines
                 transaction = getTransactions,
                 userlogs = getUsersLog
             };
+        }
+
+        public List<LogListItemDto> getLogsByUser(string userName)
+        {
+            UsersLog getUser = _unitOfWork.GetRepository<UsersLog>().FindAsync(x => x.UserNameLog == userName).Result;
+
+            IEnumerable<Logs> logs = _unitOfWork.GetRepository<Logs>().Filter(x => x.UserID == getUser.Id, x => x.OrderByDescending(y => y.Id), "transactions,processes,userslog", 1, 5);
+
+            return logs.Select(x => new LogListItemDto
+            {
+                Id = x.Id,
+                Action = x.Action,
+                Controller = x.Controller,
+                Details = x.Details,
+                Date = x.Date,
+                Hour = x.Hour,
+                ProcessId = x.ProcessID,
+                TransactionId = x.TransactionID,
+                UserId = x.UserID,
+                process = x.processes,
+                transaction = x.transactions,
+                userlogs = x.userslog
+
+            }).ToList();
         }
 
         public ProcessDto GetProcessByName(string processName)

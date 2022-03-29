@@ -1,9 +1,13 @@
 ﻿using AutoMapper;
 using CORE.ApplicationCommon.DTOS.AccountDTO;
+using CORE.ApplicationCommon.DTOS.LogsDTO.LogDTO;
+using CORE.ApplicationCommon.DTOS.NewsDTO;
 using CORE.ApplicationCommon.DTOS.RoleDTO;
 using CORE.ApplicationCommon.Helpers.Cyrptography;
 using GazeteKapiMVC5Core.Core.Extensions;
 using GazeteKapiMVC5Core.Models.Account;
+using GazeteKapiMVC5Core.Models.Log.LogModel;
+using GazeteKapiMVC5Core.Models.News.NewsModel;
 using GazeteKapiMVC5Core.Models.Role;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -29,17 +33,20 @@ namespace GazeteKapiMVC5Core.Controllers
         private readonly IMapper _mapper;
         private IWebHostEnvironment _webHostEnvironment;
         private readonly ILogService _logService;
+        private readonly INewsService _newsService;
 
-        public YoneticiController(IUserService userService, IRoleService roleService, IMapper mapper, IWebHostEnvironment hostingEnvironment, ILogService logService)
+        public YoneticiController(IUserService userService, IRoleService roleService, IMapper mapper, IWebHostEnvironment hostingEnvironment, ILogService logService, INewsService newsService)
         {
             _userService = userService ?? throw new ArgumentNullException(nameof(userService));
             _roleService = roleService ?? throw new ArgumentNullException(nameof(roleService));
             _webHostEnvironment = hostingEnvironment ?? throw new ArgumentNullException(nameof(hostingEnvironment));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _logService = logService ?? throw new ArgumentNullException(nameof(logService));
+            _newsService = newsService ?? throw new ArgumentNullException(nameof(newsService));
         }
 
         #endregion
+
         public IActionResult GirisYap(string message)
         {
             if (message == null)
@@ -361,8 +368,16 @@ namespace GazeteKapiMVC5Core.Controllers
         {
             try
             {
+                var user = _mapper.Map<UserDto, AccountEditViewModel>(_userService.GetUserById(id));
+
+                var newsByUserId = _mapper.Map<List<NewsListItemDto>, List<NewsLıstItemModel>>(_newsService.newsListByUserId(id));
+                ViewBag.News = newsByUserId;
+
+                var logs = _mapper.Map<List<LogListItemDto>, List<LogListViewModel>>(_logService.getLogsByUser(user.UserName));
+                ViewBag.Logs = logs;
+
                 await CreateModeratorLog("Başarılı", "Sayfa Girişi", "HesapDetay", "Yonetici", "Kullanıcı hesabına başarılı bir şekilde erişildi!");
-                return View(_mapper.Map<UserDto, AccountEditViewModel>(_userService.GetUserById(id)));
+                return View(user);
             }
             catch (Exception ex)
             {

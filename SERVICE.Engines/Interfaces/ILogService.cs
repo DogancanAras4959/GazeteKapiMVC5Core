@@ -23,5 +23,6 @@ namespace SERVICE.Engine.Interfaces
         List<ProcessesItemListDto> GetAllProcess();
         List<TransactionListItemDto> GetAllTransaction();
         LogDto GetLogDetail(int id);
+        List<LogListItemDto> getLogsByUser(string userName);
     }
 }
