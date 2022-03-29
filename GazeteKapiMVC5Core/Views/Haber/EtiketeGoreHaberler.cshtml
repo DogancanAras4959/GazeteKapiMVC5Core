@@ -1,0 +1,37 @@
+﻿@using GazeteKapiMVC5Core.Models.News.TagModel;
+@model IEnumerable<GazeteKapiMVC5Core.Models.News.TagNewsModel.TagNewsListViewModel>
+
+@{
+    ViewData["Title"] = "EtiketeGoreHaberler";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    TagBaseViewModel tagGet = ViewBag.Tag as TagBaseViewModel;
+}
+
+<h1>@tagGet.TagName için sonuçlar</h1>
+
+<br />
+
+<div class="row row-cols-md-4 row-cols-1">
+    @foreach (var item in Model)
+    {
+        <div class="col">
+            <div class="card">
+                <img class="card-img-top img-fluid" src="~/Files/@item.news.Image" alt="Card image cap">
+                <div class="card-body">
+                    <h4 class="card-title">@item.news.Title</h4>
+                    <p class="card-text">
+                         @item.news.Spot
+                    </p>
+                    <a asp-controller="Haber" asp-action="HaberDuzenle" asp-route-id="@item.news.Id" class="btn btn-link">
+                        <p class="card-text">
+                            <small class="text-muted">Habere Git</small>
+                        </p>
+                    </a>
+                </div>
+            </div>
+        </div>
+    }
+
+</div>
+

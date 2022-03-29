@@ -15,6 +15,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using X.PagedList;
 
 namespace GazeteKapiMVC5Core.Profiles
 {
@@ -62,11 +63,19 @@ namespace GazeteKapiMVC5Core.Profiles
             CreateMap<TagDto, TagEditViewModel>();
 
             CreateMap<TagNewsBaseViewModel, TagNewsDto>();
+            CreateMap<TagNewsDto, TagNewsBaseViewModel>();
             CreateMap<TagNewsCreateViewModel, TagNewsBaseDto>();
             CreateMap<TagNewsEditViewModel, TagNewsDto>();
             CreateMap<TagNewsDto, TagNewsEditViewModel>();
 
+            CreateMap<TagListItemDto, TagListViewModel>();
+
+            CreateMap<TagNewsListItemDto, TagNewsListViewModel>()
+                .ForMember(x => x.news, y => y.MapFrom(t => t.news))
+                .ForMember(x => x.tag, y => y.MapFrom(t => t.tag));
+
             #endregion
+
         }
     }
 }

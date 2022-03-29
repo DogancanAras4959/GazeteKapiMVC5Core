@@ -1,4 +1,5 @@
-﻿using GazeteKapiMVC5Core.Models;
+﻿using GazeteKapiMVC5Core.Core.Extensions;
+using GazeteKapiMVC5Core.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -18,6 +19,7 @@ namespace GazeteKapiMVC5Core.Controllers
             _logger = logger;
         }
 
+        [CheckRoleAuthorize]
         public IActionResult Index()
         {
             return View();

@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using X.PagedList;
 
 namespace SERVICE.Engine.Interfaces
 {
@@ -44,7 +45,11 @@ namespace SERVICE.Engine.Interfaces
         Task<bool> createTag(TagDto model);
         TagDto getTags(string name);
         Task InsertTagToProduct(string v, int resultId);
-        List<TagNewsListItemDto> tagsList();
+        List<TagNewsListItemDto> tagsListWithNews();
+        List<TagNewsListItemDto> tagsListWithNewsById(int etiketId);
+        TagBaseDto tagGet(int etiketId);
+        List<TagNewsListItemDto> tagsListWithNewsByNewsId(int id);
+        List<TagListItemDto> tagList();
 
         #endregion
 

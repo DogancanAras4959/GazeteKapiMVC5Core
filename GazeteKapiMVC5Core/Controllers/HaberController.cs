@@ -24,6 +24,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using X.PagedList;
 
 namespace GazeteKapiMVC5Core.Controllers
 {
@@ -585,7 +586,34 @@ namespace GazeteKapiMVC5Core.Controllers
         {
             try
             {
+
+                #region GetTags
+
+                var tags = _mapper.Map<List<TagNewsListItemDto>, List<TagNewsListViewModel>>(_newService.tagsListWithNewsByNewsId(id));
                 var news = _mapper.Map<NewsDto, NewsEditViewModel>(_newService.getNews(id));
+
+                List<string> list = new List<string>();
+
+                foreach (var item in tags)
+                {
+                    list.Add(item.tag.TagName);
+                }
+
+                string[] tagsList = list.ToArray();
+
+                for (int i = 0; i < tagsList.Count(); i++)
+                {
+                    if (news.Tag != null)
+                    {
+                        news.Tag = news.Tag + "," + tagsList[i];
+                    }
+                    else
+                    {
+                        news.Tag = tagsList[i];
+                    }
+                }
+
+                #endregion
 
                 var publishTypeList = _mapper.Map<List<PublishTypeListItem>, List<PublishTypeListViewModel>>(_newService.publishTypeList());
                 ViewBag.PublishTypes = new SelectList(publishTypeList, "Id", "TypeName", news.PublishTypeId);
@@ -632,14 +660,48 @@ namespace GazeteKapiMVC5Core.Controllers
                             model.Image = uploadfilename;
 
                             int resultId = Convert.ToInt32(await _newService.editNews(_mapper.Map<NewsEditViewModel, NewsDto>(model)));
-                            await CreateModeratorLog("Başarılı", "Güncelleme", "HaberDuzenle", "Haber", "Haber güncellemesi başarıyla gerçekleşti. Haberinizi istediğiniz gibi düzenleyebilirsiniz!");
-                            return RedirectToAction("HaberDuzenle", "Haber", new { Id = resultId });
+
+                            if (resultId > 0)
+                            {
+
+                                if (!string.IsNullOrEmpty(model.Tag))
+                                {
+                                    if (model.Tag[^1] == ',')
+                                    {
+                                        await _newService.InsertTagToProduct(model.Tag[0..^1], resultId);
+                                    }
+                                    else
+                                    {
+                                        await _newService.InsertTagToProduct(model.Tag, resultId);
+                                    }
+                                }
+
+                                await CreateModeratorLog("Başarılı", "Güncelleme", "HaberDuzenle", "Haber", "Haber güncellemesi başarıyla gerçekleşti. Haberinizi istediğiniz gibi düzenleyebilirsiniz!");
+                                return RedirectToAction("HaberDuzenle", "Haber", new { Id = resultId });
+                            }
                         }
                         else
                         {
-                            int resultId = Convert.ToInt32(await _newService.createNews(_mapper.Map<NewsEditViewModel, NewsDto>(model)));
-                            await CreateModeratorLog("Başarılı", "Güncelleme", "HaberDuzenle", "Haber", "Haber güncellemesi başarıyla gerçekleşti. Haberinizi istediğiniz gibi düzenleyebilirsiniz!");
-                            return RedirectToAction("HaberDuzenle", "Haber", new { Id = resultId });
+                            int resultId = Convert.ToInt32(await _newService.editNews(_mapper.Map<NewsEditViewModel, NewsDto>(model)));
+
+                            if (resultId > 0)
+                            {
+
+                                if (!string.IsNullOrEmpty(model.Tag))
+                                {
+                                    if (model.Tag[^1] == ',')
+                                    {
+                                        await _newService.InsertTagToProduct(model.Tag[0..^1], resultId);
+                                    }
+                                    else
+                                    {
+                                        await _newService.InsertTagToProduct(model.Tag, resultId);
+                                    }
+                                }
+
+                                await CreateModeratorLog("Başarılı", "Güncelleme", "HaberDuzenle", "Haber", "Haber güncellemesi başarıyla gerçekleşti. Haberinizi istediğiniz gibi düzenleyebilirsiniz!");
+                                return RedirectToAction("HaberDuzenle", "Haber", new { Id = resultId });
+                            }
                         }
 
                     }
@@ -764,18 +826,42 @@ namespace GazeteKapiMVC5Core.Controllers
             }
         }
 
-        public async Task<IActionResult> Etiketler()
+        public async Task<IActionResult> Etiketler(int? pageNumber)
         {
             try
             {
-                var etiketler = _mapper.Map<List<TagNewsListItemDto>, List<TagNewsListViewModel>>(_newService.tagsList());
+                var etiketlerHaberler = _mapper.Map<List<TagNewsListItemDto>, List<TagNewsListViewModel>>(_newService.tagsListWithNews());
+                ViewBag.EtiketHaberler = etiketlerHaberler;
+
+                int pageSize = 20;
+                var etiketler = _mapper.Map<List<TagListItemDto>, List<TagListViewModel>>(_newService.tagList());
+
                 await CreateModeratorLog("Başarılı", "Sayfa Girişi", "Etiketler", "Haber", "Haber sayfasına giriş başarılı!");
-                return View(etiketler);
+                return View(PaginationList<TagListViewModel>.Create(etiketler.ToList(), pageNumber ?? 1, pageSize));
             }
             catch (Exception ex)
             {
                 string detay = "Sistemden kaynaklı bir hata meydana geldi: " + ex.ToString();
                 await CreateModeratorLog("Sistem Hatası", "Sayfa Girişi", "Etiketler", "Haber", detay);
+                TempData["HataMesaji"] = ex.ToString();
+                return RedirectToAction("ErrorPage", "Home");
+            }
+        }
+
+        public async Task<IActionResult> EtiketeGoreHaberler(int Id)
+        {
+            try
+            {
+                var etiket = _mapper.Map<TagBaseDto, TagEditViewModel>(_newService.tagGet(Id));
+                ViewBag.Tag = etiket;
+
+                var etiketlerHaberler = _mapper.Map<List<TagNewsListItemDto>, List<TagNewsListViewModel>>(_newService.tagsListWithNewsById(Id));
+                return View(etiketlerHaberler);
+            }
+            catch (Exception ex)
+            {
+                string detay = "Sistemden kaynaklı bir hata meydana geldi: " + ex.ToString();
+                await CreateModeratorLog("Sistem Hatası", "Sayfa Girişi", "EtiketeGoreHaberler", "Haber", detay);
                 TempData["HataMesaji"] = ex.ToString();
                 return RedirectToAction("ErrorPage", "Home");
             }
@@ -797,40 +883,6 @@ namespace GazeteKapiMVC5Core.Controllers
             await ct.CreateLogs(durum, islem, action, controller, details, yoneticiGetir.UserName);
             return ct;
         }
-
-        //public async Task<int> InsertTagToProduct(string etiketler, int id)
-        //{
-
-        //    NewsDto getNews = _newService.getNews(id);
-        //    string[] listTags = etiketler.Split(',');
-
-        //    for (int i = 0; i < listTags.Count(); i++)
-        //    {
-        //        TagDto tag = new TagDto
-        //        {
-        //            TagName = listTags[i].Trim().ToString()
-        //        };
-        //        await _newService.createTag(tag);
-        //    }
-
-        //    foreach (string item in listTags) //Çalışmıyor
-        //    {
-        //        string etiketAdi = item.Trim();
-        //        TagDto etiketiGetir = _newService.getTags(etiketAdi);
-
-        //        TagNewsDto tagNews = new TagNewsDto
-        //        {
-        //            NewsId = getNews.Id,
-        //            TagId = etiketiGetir.Id,
-        //            news = getNews,
-        //            tag = etiketiGetir
-        //        };
-
-        //        await _newService.createNewTags(tagNews);
-        //    }
-
-        //    return 1;
-        //}
 
         #endregion
     }

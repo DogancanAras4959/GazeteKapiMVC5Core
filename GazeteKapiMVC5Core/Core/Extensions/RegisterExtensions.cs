@@ -12,6 +12,7 @@ using SERVICE.Engine.Engines;
 using SERVICE.Engine.Interfaces;
 using SERVICES.Engine.Engines;
 using SERVICES.Engine.Interfaces;
+using X.PagedList;
 
 namespace GazeteKapiMVC5Core.Core.Extensions
 {
@@ -48,6 +49,7 @@ namespace GazeteKapiMVC5Core.Core.Extensions
             services.AddTransient(typeof(ICategoryService), typeof(CategoryService));
             services.AddTransient(typeof(ILogService), typeof(LogService));
             services.AddTransient(typeof(INewsService), typeof(NewsService));
+            //services.AddTransient(typeof(IPagedList), typeof(PagedList));
             services.AddScoped(typeof(IUnitOfWork<>), typeof(UnitOfWork<>));
         }
     }

@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using X.PagedList;
 
 namespace SERVICE.Engine.Engines
 {
@@ -225,7 +226,7 @@ namespace SERVICE.Engine.Engines
             {
                 throw;
             }
-            
+
         }
 
         public NewsDto getNews(int id)
@@ -293,10 +294,17 @@ namespace SERVICE.Engine.Engines
 
                 for (int i = 0; i < listTags.Count(); i++)
                 {
-                    Tags tags = await _unitOfWork.GetRepository<Tags>().AddAsync(new Tags
+                    if (await _unitOfWork.GetRepository<Tags>().FindAsync(x => x.TagName == listTags[i].Trim().ToString()) != null)
                     {
-                        TagName = listTags[i].Trim().ToString()
-                    });
+                        //var ise oluşturmayacak
+                    }
+                    else
+                    {
+                        Tags tags = await _unitOfWork.GetRepository<Tags>().AddAsync(new Tags
+                        {
+                            TagName = listTags[i].Trim().ToString()
+                        });
+                    }
                 }
 
                 foreach (string item in listTags) //Çalışmıyor
@@ -304,18 +312,25 @@ namespace SERVICE.Engine.Engines
                     string etiketAdi = item.Trim();
                     Tags etiketiGetir = await _unitOfWork.GetRepository<Tags>().FindAsync(x => x.TagName == etiketAdi);
 
-                    TagNews tagNews = await _unitOfWork.GetRepository<TagNews>().AddAsync(new TagNews
+                    if (await _unitOfWork.GetRepository<TagNews>().FindAsync(x => x.NewsId == getNews.Id && x.TagId == etiketiGetir.Id) != null)
                     {
-                        NewsId = getNews.Id,
-                        TagId = etiketiGetir.Id,        
-                    });
+                        //var ise eklemeyecek
+                    }
+                    else
+                    {
+                        TagNews tagNews = await _unitOfWork.GetRepository<TagNews>().AddAsync(new TagNews
+                        {
+                            NewsId = getNews.Id,
+                            TagId = etiketiGetir.Id,
+                        });
+                    }
                 }
             }
             catch (Exception ex)
             {
                 throw;
             }
-           
+
         }
 
         public async Task<int> editNews(NewsDto model)
@@ -445,9 +460,9 @@ namespace SERVICE.Engine.Engines
             }
         }
 
-        public List<TagNewsListItemDto> tagsList()
+        public List<TagNewsListItemDto> tagsListWithNews()
         {
-            IEnumerable<TagNews> newsList = _unitOfWork.GetRepository<TagNews>().Filter(null, x => x.OrderByDescending(y => y.Id), "tag, news", 1, 50);
+            IEnumerable<TagNews> newsList = _unitOfWork.GetRepository<TagNews>().Filter(null, x => x.OrderByDescending(y => y.Id), "tag,news", 1, 50);
 
             if (newsList != null)
             {
@@ -459,6 +474,83 @@ namespace SERVICE.Engine.Engines
                     TagId = x.TagId,
                     news = x.news,
                     tag = x.tag,
+
+                }).ToList();
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public List<TagNewsListItemDto> tagsListWithNewsById(int etiketId)
+        {
+            IEnumerable<TagNews> newsList = _unitOfWork.GetRepository<TagNews>().Filter(x => x.TagId == etiketId, x => x.OrderByDescending(y => y.Id), "tag,news", 1, 50);
+
+            if (newsList != null)
+            {
+                return newsList.Select(x => new TagNewsListItemDto
+                {
+
+                    Id = x.Id,
+                    NewsId = x.NewsId,
+                    TagId = x.TagId,
+                    news = x.news,
+                    tag = x.tag,
+
+                }).ToList();
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public TagBaseDto tagGet(int etiketId)
+        {
+            Tags getTags = _unitOfWork.GetRepository<Tags>().FindAsync(x => x.Id == etiketId).Result;
+
+            return new TagDto
+            {
+                Id = getTags.Id,
+                TagName = getTags.TagName
+            };
+        }
+
+        public List<TagNewsListItemDto> tagsListWithNewsByNewsId(int id)
+        {
+            IEnumerable<TagNews> newsList = _unitOfWork.GetRepository<TagNews>().Filter(x => x.NewsId == id, x => x.OrderByDescending(y => y.Id), "tag,news", 1, 50);
+
+            if (newsList != null)
+            {
+                return newsList.Select(x => new TagNewsListItemDto
+                {
+
+                    Id = x.Id,
+                    NewsId = x.NewsId,
+                    TagId = x.TagId,
+                    news = x.news,
+                    tag = x.tag,
+
+                }).ToList();
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public List<TagListItemDto> tagList()
+        {
+            IEnumerable<Tags> newsList = _unitOfWork.GetRepository<Tags>().Filter(null, x => x.OrderByDescending(y => y.Id), "",null,null);
+
+            if (newsList != null)
+            {
+
+                return newsList.Select(x => new TagListItemDto
+                {
+                    Id = x.Id,
+                    TagName = x.TagName,
 
                 }).ToList();
             }

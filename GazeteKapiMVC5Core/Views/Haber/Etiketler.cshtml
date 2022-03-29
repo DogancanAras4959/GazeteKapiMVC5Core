@@ -1,8 +1,88 @@
-﻿
+﻿@model PaginationList<GazeteKapiMVC5Core.Models.News.TagModel.TagListViewModel>
+@using GazeteKapiMVC5Core.Models.News.TagNewsModel;
+@using GazeteKapiMVC5Core.Models.News.TagModel;
+@using GazeteKapiMVC5Core.Core.Extensions;
 @{
+
+    List<TagNewsListViewModel> tags = ViewBag.EtiketHaberler as List<TagNewsListViewModel>;
+    TagBaseViewModel tag = ViewBag.Tag as TagBaseViewModel;
+
     ViewData["Title"] = "Etiketler";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Etiketler</h1>
 
+@{
+    var prevDisabled = !Model.HasPrevious ? "disabled" : "";
+    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+}
+
+<style>
+    .link-disabled {
+        pointer-events: none;
+        cursor: default;
+    }
+
+    .table th {
+        font-weight: 600;
+        font-family: Roboto,sans-serif;
+    }
+</style>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-8">
+                        <h4 class="card-title">Etiketler</h4>
+                        <p class="card-title-desc">Etiketler ile aramalarınızı yönetin!</p>
+                    </div>
+                    <div class="col-sm-4">
+                        <nav aria-label="Page navigation example">
+                            <ul class="pagination" style="float:right">
+                                <li class="page-item">
+                                    <a asp-action="Etiketler" asp-route-pageNumber="@(Model.PageIndex-1)" class="btn btn-link @prevDisabled">Önceki</a>
+                                </li>
+                                <li class="page-item">
+                                    <a asp-action="Etiketler" asp-route-pageNumber="@(Model.PageIndex+1)" class="btn btn-link @nextDisabled">Sonraki</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+                <div class="table-rep-plugin">
+                    <div class="table-responsive mb-0" data-bs-pattern="priority-columns">
+                        <table id="tech-companies-1" class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Etiket</th>
+                                    <th>Haber Sayısı</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+
+                                    int count = 0;
+
+                                    foreach (var item2 in Model.Where(x => x.Id == item.Id))
+                                    {
+                                        List<TagNewsListViewModel> haberler = tags.Where(x => x.TagId == item2.Id).ToList();
+                                        count = haberler.Count;
+                                    }
+                                    <tr>
+                                        <td>@item.Id</td>
+                                        <td><a asp-action="EtiketeGoreHaberler" asp-controller="Haber" asp-route-id="@item.Id">@item.TagName</a></td>
+                                        <td>@count</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
