@@ -29,47 +29,48 @@
                         <li><a asp-area="" asp-controller="Haber" asp-action="Kategoriler">Kategoriler</a></li>
                         <li><a asp-area="" asp-controller="Haber" asp-action="Haberler">Haberler</a></li>
                         <li><a asp-area="" asp-controller="Haber" asp-action="Etiketler">Etiketler</a></li>
-
                     </ul>
                 </li>
 
-                <li>
+                @*<li>
                     <a href="javascript: void(0);" class="waves-effect">
                         <i class="mdi mdi-pencil-box-multiple"></i>
                         <span> Haber Yerleşimi </span>
                     </a>
+                </li>*@
+                <li>
+                    <a asp-controller="Haber" asp-action="Yazarlar" class="waves-effect">
+                        <i class="mdi mdi-blogger"></i>
+                        <span>Yazar Yönetimi</span>
+                    </a>
                 </li>
-
                 <li>
                     <a href="calendar.html" class="waves-effect">
                         <i class="mdi mdi-server-network"></i>
                         <span>Ajans Haberleri</span>
                     </a>
                 </li>
-
                 <li>
                     <a href="javascript: void(0);" class="waves-effect">
-                        <i class="mdi mdi-buffer"></i>
-                        <span>Fotoğraf Arşivi </span>
-                    </a>
-
+                        <i class="mdi mdi-image-area"></i>
+                        <span> Reklam Yönetimi </span>
+                    </a>    
                 </li>
-
                 @*<li>
                     <a href="javascript: void(0);" class="waves-effect">
-                        <i class="mdi mdi-space-station"></i>
-                        <span>Astroloji Yönetimi </span>
+                        <i class="mdi mdi-image-plus"></i>
+                        <span>Fotoğraf Arşivi </span>
                     </a>
 
                 </li>*@
 
-                <li>
-                    <a asp-controller="Haber" asp-action="Yazarlar" class="waves-effect">
-                        <i class="mdi mdi-blogger"></i>
-                        <span>Yazar Yönetimi</span>
-                    </a>
+                @*<li>
+            <a href="javascript: void(0);" class="waves-effect">
+                <i class="mdi mdi-space-station"></i>
+                <span>Astroloji Yönetimi </span>
+            </a>
 
-                </li>
+        </li>*@
 
                 <li>
                     <a asp-area="" asp-controller="Yonetici" asp-action="CikisYap" class="waves-effect">

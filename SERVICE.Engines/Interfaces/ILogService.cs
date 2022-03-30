@@ -17,9 +17,9 @@ namespace SERVICE.Engine.Interfaces
         Task<bool> CreateUserByLog(UserLogDto model);
         Task<bool> CreateLog(LogDto model);
         List<LogListItemDto> GetAllLogs();
-        List<LogListItemDto> GetAllLogsByProcess(string ProcessesName);
-        List<LogListItemDto> GetAllLogsByTransactions(string TransactionNames);
-
+        List<LogListItemDto> GetAllLogsByProcess(int? ProcessId);
+        List<LogListItemDto> GetAllLogsByTransactions(int? TransactionId);
+        List<LogListItemDto> GetAllLogsBySearchName(string searchLogName);
         List<ProcessesItemListDto> GetAllProcess();
         List<TransactionListItemDto> GetAllTransaction();
         LogDto GetLogDetail(int id);

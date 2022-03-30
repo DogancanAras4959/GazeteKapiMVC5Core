@@ -5,6 +5,22 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<style>
+    .input-group {
+        position: relative;
+        display: -ms-flexbox;
+        -ms-flex-wrap: wrap;
+        -webkit-box-align: stretch;
+        -ms-flex-align: stretch;
+        width: 100%;
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+
+
 <div class="row">
     <div class="col-8" style="display:block; margin:0 auto;">
         <div class="card">
@@ -15,10 +31,20 @@
                         <p class="card-title-desc text-center">Kategorinizi düzenleyin ve haberlerinizi yönetmeye başlayın</p>
                     </div>
                 </div>
-                @using (Html.BeginForm("KategoriDuzenle", "Haber", FormMethod.Post))
+                @using (Html.BeginForm("KategoriDuzenle", "Haber", FormMethod.Post, new { @enctype ="multipart/form-data" }))
                 {
                     @Html.HiddenFor(x => x.Id)
-
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <img id="img" style="width:100%" src="~/Files/@Model.Image" />
+                                    <label for="example-text-input" style="margin-top:10px;" class="col-sm-12 col-form-label text-center">Öne Çıkan Görsel Belirle</label>
+                                    <input type="file" class="filestyle" id="upload" data-input="false" name="file" data-buttonname="btn-secondary">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="mb-3">
                         <label for="example-text-input" class="col-sm-12 col-form-label">Kategori</label>
                         <input asp-for="CategoryName" data-toggle="tooltip" data-placement="bottom" class="form-control" type="text" placeholder="Kategori adınızı Giriniz" id="example-text-input">
@@ -37,6 +63,13 @@
                             <option selected="selected" value="999">Lütfen bir üst kategori seçiniz (Zorunlu Değildir)</option>
                         </select>
                     </div>
+                    <div class="mb-3">
+                        <label for="example-text-input" class="col-sm-12 col-form-label">Pozisyon</label>
+                        <select asp-for="Position" class="form-control">
+                            <option selected="selected" value="0">Pozisyon Yok</option>
+                            <option value="1">Gündemin Haberler Kategorisi</option>
+                        </select>
+                    </div>
 
                     <div class="mb-3">
                         <input type="submit" class="btn btn-primary btn-sm" style="min-width: 215px; font-size: 18px; display: block; margin: 0 auto;" value="KATEGORİ GÜNCELLE" />
@@ -46,3 +79,27 @@
         </div>
     </div>
 </div>
+
+<script src="~/assets/libs/jquery/jquery.min.js"></script>
+
+<script>
+    $(function () {
+        $('#upload').change(function () {
+            var input = this;
+            var url = $(this).val();
+            var ext = url.substring(url.lastIndexOf('.') + 1).toLowerCase();
+            if (input.files && input.files[0] && (ext == "gif" || ext == "png" || ext == "jpeg" || ext == "jpg")) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#img').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+            else {
+                $('#img').attr('src', '~/assets/Files/categorydefault.jpg');
+            }
+        });
+
+    });
+</script>

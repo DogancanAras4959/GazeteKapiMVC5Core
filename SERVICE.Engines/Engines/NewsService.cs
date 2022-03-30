@@ -598,5 +598,131 @@ namespace SERVICE.Engine.Engines
                 return null;
             }
         }
+
+        public List<NewsListItemDto> searchDataInNews(string searhNameNews)
+        {
+            try
+            {
+                IEnumerable<News> getNews = _unitOfWork.GetRepository<News>().Filter(null, x => x.OrderByDescending(y => y.Id), "users,guest,publishtype,categories", null, null);
+
+                if (!String.IsNullOrEmpty(searhNameNews))
+                {
+                    getNews = getNews.Where(x => x.Title!.Contains(searhNameNews));
+                }
+
+                return getNews.Select(x=> new NewsListItemDto 
+                {
+                    Id = x.Id,
+                    Title = x.Title,
+                    Spot = x.Spot,
+                    Image = x.Image,
+                    NewsContent = x.NewsContent,
+                    IsSlide = x.IsSlide,
+                    IsOpenNotifications = x.IsOpenNotifications,
+                    IsLock = x.IsLock,
+                    IsActive = x.IsActive,
+                    Views = x.Views,
+                    UpdatedTime = x.UpdatedTime,
+                    CreatedTime = x.CreatedTime,
+                    CategoryId = x.CategoryId,
+                    UserId = x.UserId,
+                    GuestId = x.GuestId,
+                    PublishTypeId = x.PublishTypeId,
+                    PublishedTime = x.PublishedTime,
+                    IsCommentActive = x.IsCommentActive,
+                    Sorted = x.Sorted,
+                    guest = x.guest,
+                    publishtype = x.publishtype,
+                    users = x.users,
+                    categories = x.categories,
+
+                }).ToList();
+            }
+            catch (Exception ex)
+            {
+
+                return null;
+            }
+        }
+
+        public List<NewsListItemDto> newsListByCategoryId(int? categoryId)
+        {
+            IEnumerable<News> newsList = _unitOfWork.GetRepository<News>().Filter(x => x.CategoryId == categoryId, x => x.OrderByDescending(y => y.Id), "users,guest,publishtype,categories", null, null);
+
+            if (newsList != null)
+            {
+                return newsList.Select(x => new NewsListItemDto
+                {
+                    Id = x.Id,
+                    Title = x.Title,
+                    Spot = x.Spot,
+                    Image = x.Image,
+                    NewsContent = x.NewsContent,
+                    IsSlide = x.IsSlide,
+                    IsOpenNotifications = x.IsOpenNotifications,
+                    IsLock = x.IsLock,
+                    IsActive = x.IsActive,
+                    Views = x.Views,
+                    UpdatedTime = x.UpdatedTime,
+                    CreatedTime = x.CreatedTime,
+                    CategoryId = x.CategoryId,
+                    UserId = x.UserId,
+                    GuestId = x.GuestId,
+                    PublishTypeId = x.PublishTypeId,
+                    PublishedTime = x.PublishedTime,
+                    IsCommentActive = x.IsCommentActive,
+                    Sorted = x.Sorted,
+                    guest = x.guest,
+                    publishtype = x.publishtype,
+                    users = x.users,
+                    categories = x.categories,
+
+                }).ToList();
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public List<NewsListItemDto> newsListByUserIdInAll(int? userId)
+        {
+            IEnumerable<News> newsList = _unitOfWork.GetRepository<News>().Filter(x => x.UserId == userId, x => x.OrderByDescending(y => y.Id), "users,guest,publishtype,categories", null, null);
+
+            if (newsList != null)
+            {
+                return newsList.Select(x => new NewsListItemDto
+                {
+                    Id = x.Id,
+                    Title = x.Title,
+                    Spot = x.Spot,
+                    Image = x.Image,
+                    NewsContent = x.NewsContent,
+                    IsSlide = x.IsSlide,
+                    IsOpenNotifications = x.IsOpenNotifications,
+                    IsLock = x.IsLock,
+                    IsActive = x.IsActive,
+                    Views = x.Views,
+                    UpdatedTime = x.UpdatedTime,
+                    CreatedTime = x.CreatedTime,
+                    CategoryId = x.CategoryId,
+                    UserId = x.UserId,
+                    GuestId = x.GuestId,
+                    PublishTypeId = x.PublishTypeId,
+                    PublishedTime = x.PublishedTime,
+                    IsCommentActive = x.IsCommentActive,
+                    Sorted = x.Sorted,
+                    guest = x.guest,
+                    publishtype = x.publishtype,
+                    users = x.users,
+                    categories = x.categories,
+
+                }).ToList();
+            }
+            else
+            {
+                return null;
+            }
+        }
     }
 }

@@ -22,6 +22,12 @@
     }
 </style>
 
+<link href="~/assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css">
+<link href="~/assets/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css">
+
+<!-- Responsive datatable examples -->
+<link href="~/assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css">
+
 <div class="row">
     <div class="col-12">
         <div class="card">
@@ -49,10 +55,10 @@
                 </div>
                 <div class="table-rep-plugin">
                     <div class="table-responsive mb-0" data-bs-pattern="priority-columns">
-                        <table id="tech-companies-1" class="table table-striped">
+                        <table class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                             <thead>
                                 <tr>
-                                    <th>Haber No</th>
+                                    <th style="text-align:center;">Haber No</th>
                                     <th>Başlık</th>
                                     <th>Yayın Tarihi</th>
                                     <th>Haber Tipi</th>
@@ -63,20 +69,40 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>No Search</td>
-                                    <td>Title Search</td>
-                                    <td></td>
-                                    <td>Type Search</td>
-                                    <td></td>
-                                    <td>Author Search</td>
+                                    <td><a class="btn btn-primary" asp-controller="Haber" asp-action="Haberler" style="top: 7px; margin: auto 0; display: block; position: relative;"><i class="mdi mdi-refresh"></i></a></td>
                                     <td>
-                                        <a asp-controller="Haber" asp-action="HaberOlustur" class="btn btn-primary btn-sm">Haber Oluştur <i class="fas fa-plus fa-sm"></i></a>
+                                        <form asp-controller="Haber" asp-action="Haberler" method="get">
+                                            <div class="btn btn-group-sm" style="width: 100%;">
+                                                <div class="btn-group" style="width: 91%;">
+                                                    <input type="text" class="form-control" name="searchstring">
+                                                </div>
+                                                <div class="btn-group" style="position:relative; left:-38px; width: 7%;">
+                                                    <button type="submit" class="btn btn-primary btn-sm" style="float:right;"><i class="fas fa-search"></i></button>
+                                                </div>
+                                            </div>
+
+                                        </form>
+                                    </td>
+                                    <td></td>
+                                    <td>
+                                        <form asp-controller="Haber" asp-action="Haberler" method="get">
+                                            @Html.DropDownList("CategoryId", (SelectList)ViewBag.Categories, ("Kategori Seçiniz"), new { @class = "has-arrow form-control", @style="position:relative; top:8px;", onchange = "this.form.submit();", name = "CategoryId" })
+                                        </form>
+                                    </td>
+                                    <td></td>
+                                    <td>
+                                        <form asp-controller="Haber" asp-action="Haberler" method="get">
+                                            @Html.DropDownList("UserId", (SelectList)ViewBag.Users, ("Kullanıcı Seçiniz"), new { @class = "has-arrow form-control", @style = "position:relative; top:8px;", onchange = "this.form.submit();", name = "UserId" })
+                                        </form>
+                                    </td>
+                                    <td>
+                                        <a asp-controller="Haber" asp-action="HaberOlustur" style=" position: relative; top: 12px;" class="btn btn-primary btn-sm">Haber Oluştur <i class="fas fa-plus fa-sm"></i></a>
                                     </td>
                                 </tr>
                                 @foreach (var item in Model)
                                 {
                                     <tr>
-                                        <td>@Html.DisplayFor(model => item.Id)</td>
+                                        <td style="text-align:center;">@Html.DisplayFor(model => item.Id)</td>
                                         <td><a data-original-title="Habere Git" title="" asp-action="HaberDuzenle" asp-controller="Haber" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.Title)</a></td>
                                         <td>@Html.DisplayFor(model => item.PublishedTime)</td>
                                         <td>@Html.DisplayFor(model => item.categories.CategoryName)</td>

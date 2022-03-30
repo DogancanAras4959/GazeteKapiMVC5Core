@@ -28,6 +28,9 @@ namespace SERVICE.Engine.Interfaces
         List<NewsListItemDto> newsList();
         List<NewsListItemDto> newsListByUserId(int id);
         List<PublishTypeListItem> publishTypeList();
+        List<NewsListItemDto> searchDataInNews(string searchName);
+        List<NewsListItemDto> newsListByCategoryId(int? categoryId);
+        List<NewsListItemDto> newsListByUserIdInAll(int? userId);
         Task<bool> NewsIfExists(string title);
         Task<int> createNews(NewsDto model);
         Task<int> editNews(NewsDto model);

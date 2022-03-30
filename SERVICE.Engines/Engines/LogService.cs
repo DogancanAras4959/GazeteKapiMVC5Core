@@ -38,7 +38,6 @@ namespace SERVICE.Engine.Engines
 
             return newLogs != null && newLogs.Id != 0;
         }
-
         public async Task<bool> CreateUserByLog(UserLogDto model)
         {
             UsersLog newUsers = await _unitOfWork.GetRepository<UsersLog>().AddAsync(new UsersLog
@@ -49,7 +48,6 @@ namespace SERVICE.Engine.Engines
             return newUsers != null && newUsers.Id != 0;
 
         }
-
         public List<LogListItemDto> GetAllLogs()
         {
             IEnumerable<Logs> logs = _unitOfWork.GetRepository<Logs>().Filter(null, x => x.OrderByDescending(y => y.Id), "transactions,processes,userslog", null, null);
@@ -70,13 +68,11 @@ namespace SERVICE.Engine.Engines
 
             }).ToList();
         }
-
-        public List<LogListItemDto> GetAllLogsByProcess(string ProcessesName)
+        public List<LogListItemDto> GetAllLogsByProcess(int? ProcessId)
         {
 
-            Processes getProcess = _unitOfWork.GetRepository<Processes>().FindAsync(x => x.Id == Convert.ToInt32(ProcessesName)).Result;
+            IEnumerable<Logs> logs = _unitOfWork.GetRepository<Logs>().Filter(x=> x.ProcessID == ProcessId, x => x.OrderByDescending(y => y.Id), "transactions,processes,userslog", null, null);
 
-            IEnumerable<Logs> logs = _unitOfWork.GetRepository<Logs>().Filter(x=> x.ProcessID == getProcess.Id, x => x.OrderByDescending(y => y.Id), "transactions,processes,userslog", null, null);
             return logs.Select(x => new LogListItemDto
             {
                 Id = x.Id,
@@ -94,12 +90,34 @@ namespace SERVICE.Engine.Engines
 
             }).ToList();
         }
-
-        public List<LogListItemDto> GetAllLogsByTransactions(string TransactionNames)
+        public List<LogListItemDto> GetAllLogsBySearchName(string searchLogName)
         {
-            Transactions getProcess = _unitOfWork.GetRepository<Transactions>().FindAsync(x => x.Id == Convert.ToInt32(TransactionNames)).Result;
+            IEnumerable<Logs> logs = _unitOfWork.GetRepository<Logs>().Filter(null, x => x.OrderByDescending(y => y.Id), "transactions,processes,userslog", null, null);
 
-            IEnumerable<Logs> logs = _unitOfWork.GetRepository<Logs>().Filter(x=> x.TransactionID == getProcess.Id, x => x.OrderByDescending(y => y.Id), "transactions,processes,userslog", null, null);
+            if (!String.IsNullOrEmpty(searchLogName))
+            {
+                logs = logs.Where(x => x.Action!.Contains(searchLogName));
+            }
+            return logs.Select(x => new LogListItemDto
+            {
+                Id = x.Id,
+                Action = x.Action,
+                Controller = x.Controller,
+                Details = x.Details,
+                Date = x.Date,
+                Hour = x.Hour,
+                ProcessId = x.ProcessID,
+                TransactionId = x.TransactionID,
+                UserId = x.UserID,
+                process = x.processes,
+                transaction = x.transactions,
+                userlogs = x.userslog
+
+            }).ToList();
+        }
+        public List<LogListItemDto> GetAllLogsByTransactions(int? TransactionId)
+        {
+            IEnumerable<Logs> logs = _unitOfWork.GetRepository<Logs>().Filter(x=> x.TransactionID == TransactionId, x => x.OrderByDescending(y => y.Id), "transactions,processes,userslog", null, null);
 
             return logs.Select(x => new LogListItemDto
             {
@@ -128,7 +146,6 @@ namespace SERVICE.Engine.Engines
 
             }).ToList();
         }
-
         public List<TransactionListItemDto> GetAllTransaction()
         {
             IEnumerable<Transactions> logs = _unitOfWork.GetRepository<Transactions>().Filter(null, x => x.OrderByDescending(y => y.Id), null, null, null);
@@ -139,7 +156,6 @@ namespace SERVICE.Engine.Engines
 
             }).ToList();
         }
-
         public LogDto GetLogDetail(int id)
         {
             Logs getLogs = _unitOfWork.GetRepository<Logs>().FindAsync(x => x.Id == id).Result;
@@ -163,7 +179,6 @@ namespace SERVICE.Engine.Engines
                 userlogs = getUsersLog
             };
         }
-
         public List<LogListItemDto> getLogsByUser(string userName)
         {
             UsersLog getUser = _unitOfWork.GetRepository<UsersLog>().FindAsync(x => x.UserNameLog == userName).Result;
@@ -187,7 +202,6 @@ namespace SERVICE.Engine.Engines
 
             }).ToList();
         }
-
         public ProcessDto GetProcessByName(string processName)
         {
             Processes getProcess = _unitOfWork.GetRepository<Processes>().FindAsync(x => x.ProcessesName == processName).Result;
@@ -198,7 +212,6 @@ namespace SERVICE.Engine.Engines
                 ProcessesName = getProcess.ProcessesName,
             };
         }
-
         public TransactionDto GetTransactionByName(string transactionName)
         {
             Transactions getProcess = _unitOfWork.GetRepository<Transactions>().FindAsync(x => x.TransactionNames == transactionName).Result;
@@ -227,5 +240,6 @@ namespace SERVICE.Engine.Engines
             }
            
         }
+
     }
 }

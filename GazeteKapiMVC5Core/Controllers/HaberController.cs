@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using CORE.ApplicationCommon.DTOS.AccountDTO;
 using CORE.ApplicationCommon.DTOS.CategoryDTO;
 using CORE.ApplicationCommon.DTOS.NewsDTO;
 using CORE.ApplicationCommon.DTOS.NewsDTO.GuestDTO;
@@ -37,14 +38,16 @@ namespace GazeteKapiMVC5Core.Controllers
         private readonly ILogService _logService;
         private readonly INewsService _newService;
         private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly IUserService _userService;
 
-        public HaberController(ICategoryService categoryService, IMapper mapper, ILogService logSerivce, INewsService newsService, IWebHostEnvironment webHostEnvironment)
+        public HaberController(ICategoryService categoryService, IMapper mapper, ILogService logSerivce, INewsService newsService, IWebHostEnvironment webHostEnvironment, IUserService userService)
         {
             _categoryService = categoryService;
             _mapper = mapper;
             _logService = logSerivce;
             _newService = newsService;
             _webHostEnvironment = webHostEnvironment;
+            _userService = userService;
         }
 
         #endregion
@@ -92,7 +95,7 @@ namespace GazeteKapiMVC5Core.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> KategoriOlustur(CategoryCreateViewModel category)
+        public async Task<IActionResult> KategoriOlustur(CategoryCreateViewModel category, IFormFile file)
         {
             try
             {
@@ -103,6 +106,21 @@ namespace GazeteKapiMVC5Core.Controllers
                 {
                     if (!await _categoryService.CategoryIfExists(category.CategoryName))
                     {
+                        if (file != null)
+                        {
+                            string uploadfilename = Path.GetFileNameWithoutExtension(file.FileName);
+                            string extension = Path.GetExtension(file.FileName);
+                            uploadfilename = uploadfilename + DateTime.Now.ToString("yymmssfff") + extension;
+                            var path = Path.Combine(this._webHostEnvironment.WebRootPath, "Files", uploadfilename);
+                            var stream = new FileStream(path, FileMode.Create);
+                            await file.CopyToAsync(stream);
+                            category.Image = uploadfilename;
+                        }
+                        else
+                        {
+                            category.Image = "categorydefault.jpg";
+                        }
+
                         if (await _categoryService.CreateCategory(_mapper.Map<CategoryCreateViewModel, CategoryDto>(category)))
                         {
                             await CreateModeratorLog("Başarılı", "Ekleme", "KategoriOlustur", "Haber", "Kategori eklemesi başarılı oldu!");
@@ -180,12 +198,30 @@ namespace GazeteKapiMVC5Core.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> KategoriDuzenle(CategoryEditViewModel category)
+        public async Task<IActionResult> KategoriDuzenle(CategoryEditViewModel category, IFormFile file)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
+                    AccountEditViewModel yoneticiGetir = SessionExtensionMethod.GetObject<AccountEditViewModel>(HttpContext.Session, "user");
+                    category.UserId = yoneticiGetir.Id;
+
+                    if (file != null)
+                    {
+                        string uploadfilename = Path.GetFileNameWithoutExtension(file.FileName);
+                        string extension = Path.GetExtension(file.FileName);
+                        uploadfilename = uploadfilename + DateTime.Now.ToString("yymmssfff") + extension;
+                        var path = Path.Combine(this._webHostEnvironment.WebRootPath, "Files", uploadfilename);
+                        var stream = new FileStream(path, FileMode.Create);
+                        await file.CopyToAsync(stream);
+                        category.Image = uploadfilename;
+                    }
+                    else
+                    {
+                        category.Image = "categorydefault.jpg";
+                    }
+
                     if (await _categoryService.UpdateCategory(_mapper.Map<CategoryEditViewModel, CategoryDto>(category)))
                     {
                         await CreateModeratorLog("Başarılı", "Güncelleme", "KategoriDuzenle", "Haber", "Kategori başarıyla düzenlendi!");
@@ -453,15 +489,43 @@ namespace GazeteKapiMVC5Core.Controllers
 
         //[RoleAuthorize("Haberler")]
         [HttpGet]
-        public async Task<IActionResult> Haberler(int? pageNumber)
+        public async Task<IActionResult> Haberler(int? pageNumber, string searchstring, int? CategoryId, int? UserId)
         {
             try
             {
                 int pageSize = 20;
+                List<NewsLıstItemModel> haberlist = null;
 
-                var haberlist = _mapper.Map<List<NewsListItemDto>, List<NewsLıstItemModel>>(_newService.newsList());
+                var categories = _mapper.Map<List<CategoryListItemDto>, List<CategoryListViewModel>>(_categoryService.GetAllCategory());
+                ViewBag.Categories = new SelectList(categories.ToList(), "Id", "CategoryName");
+
+                var users = _mapper.Map<List<UserListItemDto>, List<UserListViewModel>>(_userService.GetAllUsers());
+                ViewBag.Users = new SelectList(users.ToList(), "Id", "DisplayName");
+
+                if (searchstring != "" && searchstring != null)
+                {
+                    haberlist = _mapper.Map<List<NewsListItemDto>, List<NewsLıstItemModel>>(_newService.searchDataInNews(searchstring)); 
+                    await CreateModeratorLog("Başarılı", "Sayfa Girişi", "Haberler", "Haber", "Haber sayfasına giriş başarılı!");
+                    return View(PaginationList<NewsLıstItemModel>.Create(haberlist.ToList(), pageNumber ?? 1, pageSize));
+                }
+              
+                if (CategoryId != 0 && CategoryId != null)
+                {
+                    haberlist = _mapper.Map<List<NewsListItemDto>, List<NewsLıstItemModel>>(_newService.newsListByCategoryId(CategoryId));
+                    await CreateModeratorLog("Başarılı", "Sayfa Girişi", "Haberler", "Haber", "Haber sayfasına giriş başarılı!");
+                    return View(PaginationList<NewsLıstItemModel>.Create(haberlist.ToList(), pageNumber ?? 1, pageSize));
+                }
+              
+                if (UserId != 0 && UserId != null)
+                {
+                    haberlist = _mapper.Map<List<NewsListItemDto>, List<NewsLıstItemModel>>(_newService.newsListByUserIdInAll(UserId));
+                    await CreateModeratorLog("Başarılı", "Sayfa Girişi", "Haberler", "Haber", "Haber sayfasına giriş başarılı!");
+                    return View(PaginationList<NewsLıstItemModel>.Create(haberlist.ToList(), pageNumber ?? 1, pageSize));
+                }
+              
+                haberlist = _mapper.Map<List<NewsListItemDto>, List<NewsLıstItemModel>>(_newService.newsList());
                 await CreateModeratorLog("Başarılı", "Sayfa Girişi", "Haberler", "Haber", "Haber sayfasına giriş başarılı!");
-                return View(PaginationList<NewsLıstItemModel>.Create(haberlist.ToList(),pageNumber ?? 1, pageSize));
+                return View(PaginationList<NewsLıstItemModel>.Create(haberlist.ToList(), pageNumber ?? 1, pageSize));
             }
             catch (Exception ex)
             {

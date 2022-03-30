@@ -19,6 +19,8 @@ namespace DOMAIN.DataAccessLayer.Models
         public string Description { get; set; }
         public int? ParentCategoryId { get; set; }
         public bool IsActive { get; set; }
+        public string Image { get; set; }
+        public int Position { get; set; }
         public DateTime CreatedTime { get; set; }
         public DateTime UpdatedTime { get; set; }
         

@@ -47,25 +47,20 @@
                         </nav>
                         <div class="btn-toolbar" role="toolbar" style="float:right;">
                             <div class="btn-group me-2 mb-2 mb-sm-0">
-                                <form action="~/Log/LogListeleIslem" method="get">
-                                    @Html.DropDownList("ProcessesName", (SelectList)ViewBag.Islemler, ("İşlem Seçiniz"), new { @class = "form-control", onchange = "this.form.submit();", name = "ProcessesName" })
-                                </form>
+                               
                             </div>
                             <div class="btn-group me-2 mb-2 mb-sm-0">
-                                <form action="~/Log/LogListeleDurum" method="get">
-                                    @Html.DropDownList("TransactionNames", (SelectList)ViewBag.Durumlar, ("Durum Seçiniz"), new { @class = "form-control", onchange = "this.form.submit();", name = "TransactionNames" })
-
-                                </form>
+                                
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="table-rep-plugin">
                     <div class="table-responsive mb-0" data-bs-pattern="priority-columns">
-                        <table id="tech-companies-1" class="table table-striped">
+                        <table class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                             <thead>
                                 <tr>
-                                    <th>İşlem Yapan</th>
+                                    <th style="text-align:center;">İşlem Yapan</th>
                                     <th>Hareket</th>
                                     <th>Zaman</th>
                                     <th>Durum</th>
@@ -74,13 +69,29 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                <tr>
+                                    <td><a class="btn btn-primary" asp-controller="Log" asp-action="Loglar" style="margin: auto 0; display: block; position: relative;"><i class="mdi mdi-refresh"></i></a></td>
+                                    <td>
+                                        <form asp-action="Loglar" asp-controller="Log" method="get">
+                                            @Html.DropDownList("ProcessID", (SelectList)ViewBag.Islemler, ("İşlem Seçiniz"), new { @class = "form-control", onchange = "this.form.submit();", name = "ProcessID" })
+                                        </form>
+                                    </td>
+                                    <td></td>
+                                    <td>
+                                        <form asp-action="Loglar" asp-controller="Log" method="get">
+                                            @Html.DropDownList("TransactionID", (SelectList)ViewBag.Durumlar, ("Durum Seçiniz"), new { @class = "form-control", onchange = "this.form.submit();", name = "TransactionID" })
+                                        </form>
+                                    </td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
                                 @foreach (var item in Model)
                                 {
                                     <tr>
-                                        <td>@Html.DisplayFor(modelItem => item.userlogs.UserNameLog)</td>
+                                        <td style="text-align:center;">@Html.DisplayFor(modelItem => item.userlogs.UserNameLog)</td>
                                         <td>@Html.DisplayFor(modelItem => item.processes.ProcessesName)</td>
                                         <td>@Html.DisplayFor(modelItem => item.Hour)</td>
-                                        <td>@Html.DisplayFor(modelItem => item.transaction.TransactionNames)</td>                                
+                                        <td>@Html.DisplayFor(modelItem => item.transaction.TransactionNames)</td>
                                         <td>
                                             @Html.DisplayFor(modelItem => item.Action) - @Html.DisplayFor(modelItem => item.Controller)
                                         </td>

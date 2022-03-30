@@ -33,6 +33,7 @@ namespace SERVICES.Engine.Engines
             {
                 model.ParentCategoryId = 0;
             }
+
             Categories newCategory = await _unitOfWork.GetRepository<Categories>().AddAsync(new Categories
             {
                 CategoryName = model.CategoryName,
@@ -41,6 +42,8 @@ namespace SERVICES.Engine.Engines
                 CreatedTime = DateTime.Now,
                 UpdatedTime = DateTime.Now,
                 UserId = model.UserId,
+                Position = model.Position,
+                Image = model.Image,
                 IsActive = true,
             });
 
@@ -106,6 +109,8 @@ namespace SERVICES.Engine.Engines
                 IsActive = getCategory.IsActive,
                 UpdatedTime = getCategory.UpdatedTime,
                 CreatedTime = getCategory.CreatedTime,
+                Image = getCategory.Image,
+                Position = getCategory.Position,
                 UserId = getCategory.UserId,
                 user = getCategory.user
             };
@@ -137,6 +142,12 @@ namespace SERVICES.Engine.Engines
             {
                 categoryGet.ParentCategoryId = 0;
             }
+
+            if (model.Image == null)
+            {
+                model.Image = categoryGet.Image;
+            }
+
             Categories getCategory = await _unitOfWork.GetRepository<Categories>().UpdateAsync(new Categories
             {
                 Id = categoryGet.Id,
@@ -147,6 +158,8 @@ namespace SERVICES.Engine.Engines
                 UpdatedTime = DateTime.Now,
                 CreatedTime = categoryGet.CreatedTime,
                 user = categoryGet.user,
+                Position = model.Position,
+                Image = model.Image,
                 UserId = model.UserId,
             });
 

@@ -32,9 +32,10 @@ namespace GazeteKapiMVC5Core.Controllers
         #endregion
 
         [HttpGet]
-        public IActionResult Loglar(int? pageNumber)
+        public IActionResult Loglar(int? pageNumber, /*string searchLogName,*/ int? processId, int? transactionId)
         {
             int pageSize = 20;
+            List<LogListViewModel> listLog = null;
 
             var listLogWithProcess = _mapper.Map<List<ProcessesItemListDto>, List<ProcessesListItemModel>>(_logService.GetAllProcess());
             ViewBag.Islemler = new SelectList(listLogWithProcess, "Id", "ProcessesName");
@@ -42,39 +43,27 @@ namespace GazeteKapiMVC5Core.Controllers
             var listLogWithTransaction = _mapper.Map<List<TransactionListItemDto>, List<TransactionListItemModel>>(_logService.GetAllTransaction());
             ViewBag.Durumlar = new SelectList(listLogWithTransaction, "Id", "TransactionNames");
 
-            var listLog = _mapper.Map<List<LogListItemDto>, List<LogListViewModel>>(_logService.GetAllLogs());
+            if (processId != null && processId != 0)
+            {
+                listLog = _mapper.Map<List<LogListItemDto>, List<LogListViewModel>>(_logService.GetAllLogsByProcess(processId));
+                return View(PaginationList<LogListViewModel>.Create(listLog.ToList(), pageNumber ?? 1, pageSize));
+            }
+           
+            if (transactionId != null && transactionId != 0)
+            {
+                listLog = _mapper.Map<List<LogListItemDto>, List<LogListViewModel>>(_logService.GetAllLogsByTransactions(transactionId));
+                return View(PaginationList<LogListViewModel>.Create(listLog.ToList(), pageNumber ?? 1, pageSize));
+            }
+
+            //if (searchLogName != null && searchLogName != "")
+            //{
+            //    listLog = _mapper.Map<List<LogListItemDto>, List<LogListViewModel>>(_logService.GetAllLogsBySearchName(searchLogName));
+            //}
+
+            listLog = _mapper.Map<List<LogListItemDto>, List<LogListViewModel>>(_logService.GetAllLogs());
             return View(PaginationList<LogListViewModel>.Create(listLog.ToList(), pageNumber ?? 1, pageSize));
         }
-
-        public IActionResult LogListeleIslem(string ProcessesName, int? pageNumber)
-        {
-            int pageSize = 20;
-            TempData["processId"] = ProcessesName;
-            var listLogWithProcess = _mapper.Map<List<ProcessesItemListDto>, List<ProcessesListItemModel>>(_logService.GetAllProcess());
-            ViewBag.Islemler = new SelectList(listLogWithProcess, "Id", "ProcessesName");
-
-            var listLogWithTransaction = _mapper.Map<List<TransactionListItemDto>, List<TransactionListItemModel>>(_logService.GetAllTransaction());
-            ViewBag.Durumlar = new SelectList(listLogWithTransaction, "Id", "TransactionNames");
-
-            var listLogByIslem = _mapper.Map<List<LogListItemDto>, List<LogListViewModel>>(_logService.GetAllLogsByProcess(ProcessesName));
-            return View(PaginationList<LogListViewModel>.Create(listLogByIslem.ToList(), pageNumber ?? 1, pageSize));
-        }
-
-        public IActionResult LogListeleDurum(string TransactionNames, int? pageNumber)
-        {
-            int pageSize = 20;
-            TempData["transactionId"] = TransactionNames;
-
-            var listLogWithProcess = _mapper.Map<List<ProcessesItemListDto>, List<ProcessesListItemModel>>(_logService.GetAllProcess());
-            ViewBag.Islemler = new SelectList(listLogWithProcess, "Id", "ProcessesName");
-
-            var listLogWithTransaction = _mapper.Map<List<TransactionListItemDto>, List<TransactionListItemModel>>(_logService.GetAllTransaction());
-            ViewBag.Durumlar = new SelectList(listLogWithTransaction, "Id", "TransactionNames");
-
-            var listLogbyDurum = _mapper.Map<List<LogListItemDto>, List<LogListViewModel>>(_logService.GetAllLogsByTransactions(TransactionNames));
-            return View(PaginationList<LogListViewModel>.Create(listLogbyDurum.ToList(), pageNumber ?? 1, pageSize));
-        }
-
+    
         [HttpGet]
         public IActionResult LogDetay(int id)
         {
