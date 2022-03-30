@@ -38,11 +38,11 @@
             <div class="card">
                 <div class="card-body">
                     <div class="mb-3">
-                        <input asp-for="Title" data-toggle="tooltip" data-placement="bottom" class="form-control" type="text" placeholder="Haber için başlık giriniz" id="example-text-input">
+                        <input asp-for="Title" autocomplete="off" data-toggle="tooltip" data-placement="bottom" class="form-control" type="text" placeholder="Haber için başlık giriniz" id="example-text-input">
                         <span asp-validation-for="Title" class="text-danger"></span>
                     </div>
                     <div class="mb-3">
-                        <textarea asp-for="Spot" rows="4" cols="50" data-toggle="tooltip" data-placement="bottom" class="form-control" type="text" placeholder="Haber için spot giriniz" id="example-text-input"></textarea>
+                        <textarea asp-for="Spot" autocomplete="off" rows="4" cols="50" data-toggle="tooltip" data-placement="bottom" class="form-control" type="text" placeholder="Haber için spot giriniz" id="example-text-input"></textarea>
                         <span asp-validation-for="Spot" class="text-danger"></span>
                     </div>
                     <div class="mb-3">
@@ -52,7 +52,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="example-text-input" class="col-sm-12 col-form-label">Etiket (Zorunlu Değildir - SEO için önerilir)</label>
-                        <input asp-for="Tag" data-toggle="tooltip" name="Tag" data-placement="bottom" class="form-control" type="text" placeholder="Haber için etiketler giriniz" id="example-text-input">
+                        <input asp-for="Tag" autocomplete="off" data-toggle="tooltip" name="Tag" data-placement="bottom" class="form-control" type="text" placeholder="Haber için etiketler giriniz" id="example-text-input">
                     </div>
                     <div class="mb-3">
                         <label for="example-text-input" class="col-sm-12 col-form-label">Haber Ayarları</label>

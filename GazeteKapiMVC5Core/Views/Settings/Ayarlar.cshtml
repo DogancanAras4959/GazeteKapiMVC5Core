@@ -1,4 +1,4 @@
-﻿@model GazeteKapiMVC5Core.Models.Settings.SettingsBaseViewModel
+﻿@model GazeteKapiMVC5Core.Models.Settings.SettingsEditViewModel
 @{
     ViewData["Title"] = "Ayarlar";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -10,25 +10,25 @@
             <div class="card-body">
                 @using (Html.BeginForm("AyarlariDuzenle", "Settings", FormMethod.Post, new { @enctype = "multipart/form-data" }))
                 {
-                    @Html.HiddenFor(x=> x.Id)
+                    @Html.HiddenFor(x => x.Id)
 
                     <div class="mb-3">
                         <h4 class="card-title">Site Ayarları</h4>
                         <p class="card-title-desc">Site ayarlarınız ile ilgili tüm düzenlemelerinizi buradan gerçekleştirin</p>
                     </div>
                     <div class="mb-3">
-                        <img id="img" style="max-width:200px;" src="~/Files/imgdefault.jpg" />
+                        <img id="img" style="max-width:200px;" src="~/Files/@Model.Logo" />
                         <label for="example-text-input" style="margin-top:10px;" class="col-sm-12 col-form-label">Logonuzu Seçin <strong>*(.png formatında yükleyiniz)</strong></label>
                         <input type="file" class="filestyle" id="upload" data-input="false" name="file" data-buttonname="btn-secondary">
                     </div>
                     <hr style="width:400px;" />
                     <div class="mb-3">
                         <label for="example-text-input" class="col-sm-12 col-form-label">Site Adı</label>
-                        <input asp-for="SiteName" data-toggle="tooltip" style="max-width:400px;" data-placement="bottom" class="form-control" type="text" id="example-text-input">
+                        <input asp-for="SiteName" autocomplete="off" data-toggle="tooltip" style="max-width:400px;" data-placement="bottom" class="form-control" type="text" id="example-text-input">
                     </div>
                     <div class="mb-3">
                         <label for="example-text-input" class="col-sm-12 col-form-label">Site Sloganı</label>
-                        <input asp-for="SiteSlogan" data-toggle="tooltip" style="max-width:400px;" data-placement="bottom" class="form-control" type="text" id="example-text-input">
+                        <input asp-for="SiteSlogan" autocomplete="off" data-toggle="tooltip" style="max-width:400px;" data-placement="bottom" class="form-control" type="text" id="example-text-input">
                     </div>
                     <div class="mb-3">
                         <input type="checkbox" asp-for="LogIsActive" />
@@ -37,16 +37,13 @@
                             <small class="text-danger">* (Sürekli aktif olması önerilmez. Performans düşüşlüğüne sebep olabilir)</small>
                         </p>
                     </div>
-                    @if (Model.LogIsActive == true)
-                    {
-                        <div class="mb-3" id="logSystemError">
-                            <input type="checkbox" asp-for="LogSystemErrorActive" />
-                            <label class="col-sm-11">Sistem hatalarını yakalamayı aktifleştir</label>
-                            <p>
-                                <small>* (Loglama servisiyle beraber <span class="text-success">AKTİF</span> çalışılması önerilir)</small>
-                            </p>
-                        </div>
-                    }
+                    <div class="mb-3" id="logSystemError">
+                        <input type="checkbox" asp-for="LogSystemErrorActive" />
+                        <label class="col-sm-11">Sistem hatalarını yakalamayı aktifleştir</label>
+                        <p>
+                            <small>* (Loglama servisiyle beraber <span class="text-success">AKTİF</span> çalışılması önerilir)</small>
+                        </p>
+                    </div>
                     <div class="mb-3">
                         <input type="checkbox" asp-for="GetAgencyNewsService" />
                         <label class="col-sm-11">Ajans Servislerinden gelen haber akışını aktifleştir</label>
@@ -62,3 +59,27 @@
         </div>
     </div>
 </div>
+
+<script src="~/assets/libs/jquery/jquery.min.js"></script>
+
+<script>
+    $(function () {
+        $('#upload').change(function () {
+            var input = this;
+            var url = $(this).val();
+            var ext = url.substring(url.lastIndexOf('.') + 1).toLowerCase();
+            if (input.files && input.files[0] && (ext == "gif" || ext == "png" || ext == "jpeg" || ext == "jpg")) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#img').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+            else {
+                $('#img').attr('src', '~/assets/Files/user.png');
+            }
+        });
+
+    });
+</script>

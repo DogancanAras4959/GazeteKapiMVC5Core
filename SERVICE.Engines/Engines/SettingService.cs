@@ -17,9 +17,30 @@ namespace SERVICE.Engine.Engines
         {
             _unitOfWork = unitOfWork;
         }
-        public Task<bool> editSiteSettings(int id)
+        public async Task<bool> editSiteSettings(SettingsDto model)
         {
-            throw new NotImplementedException();
+            Settings settingsGet = await _unitOfWork.GetRepository<Settings>().FindAsync(x => x.Id == model.Id);
+
+            if (model.Logo == null)
+            {
+                model.Logo = settingsGet.Logo;
+            }
+
+            Settings getSettings = await _unitOfWork.GetRepository<Settings>().UpdateAsync(new Settings
+            {
+                Id = model.Id,
+                Logo = model.Logo,
+                SiteName = model.SiteName,
+                SiteSlogan = model.SiteSlogan,
+                LogIsActive = model.LogIsActive,
+                GetAgencyNewsService = model.GetAgencyNewsService,
+                IsActiveSettings = model.IsActiveSettings,
+                LogSystemErrorActive = model.LogSystemErrorActive,
+                UserId = model.UserId,
+                user = model.user,
+            });
+
+            return getSettings != null;
         }
         public SettingsDto getSettings(int id)
         {
@@ -44,6 +65,5 @@ namespace SERVICE.Engine.Engines
                 user = getSetting.user,                
             };
         }
-
     }
 }

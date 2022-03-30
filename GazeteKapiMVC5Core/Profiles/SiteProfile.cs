@@ -12,7 +12,10 @@ namespace GazeteKapiMVC5Core.Profiles
     {
         public SiteProfile()
         {
+            CreateMap<SettingsEditViewModel, SettingsDto>();
+            CreateMap<SettingsDto, SettingsEditViewModel>();
             CreateMap<SettingsDto, SettingsBaseViewModel>();
+
         }
     }
 }

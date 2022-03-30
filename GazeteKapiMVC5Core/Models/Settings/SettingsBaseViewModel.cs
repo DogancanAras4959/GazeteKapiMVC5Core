@@ -8,7 +8,6 @@ namespace GazeteKapiMVC5Core.Models.Settings
 {
     public class SettingsBaseViewModel
     {
-        public int Id { get; set; }
         public string Logo { get; set; }
         public bool LogIsActive { get; set; }
         public bool LogSystemErrorActive { get; set; }

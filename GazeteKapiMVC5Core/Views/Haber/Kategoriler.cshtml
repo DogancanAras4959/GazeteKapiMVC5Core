@@ -53,19 +53,31 @@
                                         @if (item.IsActive == true)
                                         {
                                             <td><span class="text-success"><strong>Aktif</strong></span></td>
-                                            <td>
-                                                <a style="padding:3px;" asp-action="KategoriDurumDuzenle" asp-route-id="@item.Id"><i class="mdi mdi-lock-open mdi-24px text-success"></i></a>
-                                                <a style="padding:3px;" asp-action="KategoriDuzenle" asp-route-id="@item.Id"><i class="mdi mdi-account-edit mdi-24px"></i></a>
-                                                <a style="padding:3px;" asp-action="KategoriSil" asp-route-id="@item.Id" class="text-danger ml-1 link-disabled" onclick="return confirm('Bu kategoriyi silmek istiyor musunuz?')"><i class="mdi mdi-delete-circle mdi-24px"></i></a>
+                                            <td id="tooltip-container" class="button-items">
+                                                <a style="padding:3px;" data-bs-container="#tooltip-container" 
+                                                   data-bs-toggle="tooltip" data-bs-placement="top" 
+                                                   title="Kategori Pasifleştir" asp-action="KategoriDurumDuzenle" asp-route-id="@item.Id"><i class="mdi mdi-lock-open mdi-24px text-danger"></i></a>
+                                                <a style="padding:3px;" data-bs-container="#tooltip-container" 
+                                                   data-bs-toggle="tooltip" data-bs-placement="top" 
+                                                   title="Kategori Düzenle" asp-action="KategoriDuzenle" asp-route-id="@item.Id"><i class="mdi mdi-account-edit mdi-24px"></i></a>
+                                                <a style="padding:3px;" data-bs-container="#tooltip-container" 
+                                                   data-bs-toggle="tooltip" data-bs-placement="top" 
+                                                   title="Kategori Sil" asp-action="KategoriSil" asp-route-id="@item.Id" class="text-danger ml-1" onclick="return confirm('Bu kategoriyi silmek istiyor musunuz?')"><i class="mdi mdi-delete-circle mdi-24px"></i></a>
                                             </td>
                                         }
                                         else
                                         {
                                             <td><span class="text-danger"><strong>Pasif</strong></span></td>
-                                            <td>
-                                                <a style="padding:3px;" asp-action="KategoriDurumDuzenle" asp-route-id="@item.Id"><i class="mdi mdi-lock mdi-24px text-danger"></i></a>
-                                                <a style="padding:3px;" asp-action="KategoriDuzenle" class="link-disabled" asp-route-id="@item.Id"><i class="mdi mdi-account-edit mdi-24px"></i></a>
-                                                <a style="padding:3px;" asp-action="KategoriSil" asp-route-id="@item.Id" class="text-danger ml-1 link-disabled" onclick="return confirm('Bu kategoriyi silmek istiyor musunuz?')"><i class="mdi mdi-delete-circle mdi-24px"></i></a>
+                                            <td id="tooltip-container" class="button-items">
+                                                <a style="padding:3px;" data-bs-container="#tooltip-container" 
+                                                   data-bs-toggle="tooltip" data-bs-placement="top" 
+                                                   title="Kategori Aktifleştir" asp-action="KategoriDurumDuzenle" asp-route-id="@item.Id"><i class="mdi mdi-lock mdi-24px text-success"></i></a>
+                                                <a style="padding:3px;" data-bs-container="#tooltip-container" 
+                                                   data-bs-toggle="tooltip" data-bs-placement="top" 
+                                                   title="Kategori Düzenle" asp-action="KategoriDuzenle" class="link-disabled" asp-route-id="@item.Id"><i class="mdi mdi-account-edit mdi-24px"></i></a>
+                                                <a style="padding:3px;" data-bs-container="#tooltip-container" 
+                                                   data-bs-toggle="tooltip" data-bs-placement="top" 
+                                                   title="Kategori Sil" asp-action="KategoriSil" asp-route-id="@item.Id" class="text-danger ml-1 link-disabled" onclick="return confirm('Bu kategoriyi silmek istiyor musunuz?')"><i class="mdi mdi-delete-circle mdi-24px"></i></a>
                                             </td>
                                         }
 

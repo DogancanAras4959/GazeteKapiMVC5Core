@@ -52,9 +52,11 @@
                                     }
                                     else
                                     {
-                                        <tr>
+                                        <tr id="tooltip-container" class="button-items">
                                             <td><img src="~/Files/@item.GuestImage" class="img img-fluid" width="30" height="30" /></td>
-                                            <td><a data-original-title="Yazara git" title="" asp-action="YazarDetay" asp-controller="Haber" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.GuestName)</a></td>
+                                            <td><a data-bs-container="#tooltip-container" 
+                                                   data-bs-toggle="tooltip" data-bs-placement="top" 
+                                                   title="Yazar Detayına Git" asp-action="YazarDetay" asp-controller="Haber" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.GuestName)</a></td>
                                             <td>@Html.DisplayFor(model => item.CreatedTime)</td>
                                             <td>@Html.DisplayFor(model => item.UpdatedTime)</td>
                                             <td>@Html.DisplayFor(model => item.user.UserName)</td>
@@ -63,18 +65,30 @@
                                             {
                                                 <td><span class="text-success"><strong>Aktif</strong></span></td>
                                                 <td>
-                                                    <a style="padding:3px;" asp-action="YazarDurumDuzenle" asp-route-id="@item.Id"><i class="mdi mdi-lock-open mdi-24px text-success"></i></a>
-                                                    <a style="padding:3px;" asp-action="YazarDuzenle" asp-route-id="@item.Id"><i class="mdi mdi-account-edit mdi-24px"></i></a>
-                                                    <a style="padding:3px;" asp-action="YazarSil" asp-route-id="@item.Id" class="text-danger ml-1" onclick="return confirm('Bu yazarı silmek istiyor musunuz?')"><i class="mdi mdi-delete-circle mdi-24px"></i></a>
+                                                    <a style="padding:3px;" data-bs-container="#tooltip-container" 
+                                                   data-bs-toggle="tooltip" data-bs-placement="top" 
+                                                   title="Yazar Pasifleştir" asp-action="YazarDurumDuzenle" asp-route-id="@item.Id"><i class="mdi mdi-lock-open mdi-24px text-success"></i></a>
+                                                    <a style="padding:3px;" data-bs-container="#tooltip-container" 
+                                                   data-bs-toggle="tooltip" data-bs-placement="top" 
+                                                   title="Yazar Düzenle" asp-action="YazarDuzenle" asp-route-id="@item.Id"><i class="mdi mdi-account-edit mdi-24px"></i></a>
+                                                    <a style="padding:3px;" data-bs-container="#tooltip-container" 
+                                                   data-bs-toggle="tooltip" data-bs-placement="top" 
+                                                   title="Yazar Sil" asp-action="YazarSil" asp-route-id="@item.Id" class="text-danger ml-1" onclick="return confirm('Bu yazarı silmek istiyor musunuz?')"><i class="mdi mdi-delete-circle mdi-24px"></i></a>
                                                 </td>
                                             }
                                             else
                                             {
                                                 <td><span class="text-danger"><strong>Pasif</strong></span></td>
                                                 <td>
-                                                    <a style="padding:3px;" asp-action="YazarDurumDuzenle" asp-route-id="@item.Id"><i class="mdi mdi-lock mdi-24px text-danger"></i></a>
-                                                    <a style="padding:3px;" asp-action="YazarDuzenle" class="link-disabled" asp-route-id="@item.Id"><i class="mdi mdi-account-edit mdi-24px"></i></a>
-                                                    <a style="padding:3px;" asp-action="YazarSil" asp-route-id="@item.Id" class="text-danger ml-1 link-disabled" onclick="return confirm('Bu yazarı silmek istiyor musunuz?')"><i class="mdi mdi-delete-circle mdi-24px"></i></a>
+                                                    <a style="padding:3px;" data-bs-container="#tooltip-container" 
+                                                   data-bs-toggle="tooltip" data-bs-placement="top" 
+                                                   title="Yazar Aktifleştir" asp-action="YazarDurumDuzenle" asp-route-id="@item.Id"><i class="mdi mdi-lock mdi-24px text-danger"></i></a>
+                                                    <a style="padding:3px;" data-bs-container="#tooltip-container" 
+                                                   data-bs-toggle="tooltip" data-bs-placement="top" 
+                                                   title="Yazar Düzenle" asp-action="YazarDuzenle" class="link-disabled" asp-route-id="@item.Id"><i class="mdi mdi-account-edit mdi-24px"></i></a>
+                                                    <a style="padding:3px;" data-bs-container="#tooltip-container" 
+                                                   data-bs-toggle="tooltip" data-bs-placement="top" 
+                                                   title="Yazar Sil" asp-action="YazarSil" asp-route-id="@item.Id" class="text-danger ml-1 link-disabled" onclick="return confirm('Bu yazarı silmek istiyor musunuz?')"><i class="mdi mdi-delete-circle mdi-24px"></i></a>
                                                 </td>
                                             }
 

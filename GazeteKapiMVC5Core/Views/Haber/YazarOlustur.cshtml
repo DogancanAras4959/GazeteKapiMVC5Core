@@ -55,7 +55,7 @@
                         <div class="col-md-6">
 
                             <label for="example-text-input" class="col-sm-12 col-form-label">Yazar Adı</label>
-                            <input asp-for="GuestName" data-toggle="tooltip" data-placement="bottom" class="form-control" type="text" placeholder="Yazar Adını Giriniz" id="example-text-input">
+                            <input asp-for="GuestName" autocomplete="off" data-toggle="tooltip" data-placement="bottom" class="form-control" type="text" placeholder="Yazar Adını Giriniz" id="example-text-input">
                             <span asp-validation-for="GuestName" class="text-danger"></span>
 
                         </div>
@@ -63,7 +63,7 @@
                         <div class="col-md-6">
 
                             <label for="example-text-input" class="col-sm-12 col-form-label">Email Adresi (Zorunlu değildir)</label>
-                            <input asp-for="Email" data-toggle="tooltip" data-placement="bottom" class="form-control" type="text" placeholder="Eamil adresi giriniz (Zorunlu değildir)" id="example-text-input">
+                            <input asp-for="Email" autocomplete="off" data-toggle="tooltip" data-placement="bottom" class="form-control" type="text" placeholder="Eamil adresi giriniz (Zorunlu değildir)" id="example-text-input">
                             <span asp-validation-for="Email" class="text-danger"></span>
 
                         </div>

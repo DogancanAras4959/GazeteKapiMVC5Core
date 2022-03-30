@@ -6,6 +6,7 @@ using CORE.ApplicationCommon.DTOS.NewsDTO.GuestDTO;
 using CORE.ApplicationCommon.DTOS.NewsDTO.PublishTypeDTO;
 using CORE.ApplicationCommon.DTOS.NewsDTO.TagDTO;
 using CORE.ApplicationCommon.DTOS.NewsDTO.TagNewsDTO;
+using CORE.ApplicationCommon.DTOS.SetingsDTO;
 using GazeteKapiMVC5Core.Core.Extensions;
 using GazeteKapiMVC5Core.Models.Account;
 using GazeteKapiMVC5Core.Models.Category;
@@ -14,6 +15,7 @@ using GazeteKapiMVC5Core.Models.News.NewsModel;
 using GazeteKapiMVC5Core.Models.News.PublishTypeModel;
 using GazeteKapiMVC5Core.Models.News.TagModel;
 using GazeteKapiMVC5Core.Models.News.TagNewsModel;
+using GazeteKapiMVC5Core.Models.Settings;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -39,8 +41,8 @@ namespace GazeteKapiMVC5Core.Controllers
         private readonly INewsService _newService;
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly IUserService _userService;
-
-        public HaberController(ICategoryService categoryService, IMapper mapper, ILogService logSerivce, INewsService newsService, IWebHostEnvironment webHostEnvironment, IUserService userService)
+        private readonly ISettingService _settingService;
+        public HaberController(ICategoryService categoryService, IMapper mapper, ILogService logSerivce, INewsService newsService, IWebHostEnvironment webHostEnvironment, IUserService userService, ISettingService settingService)
         {
             _categoryService = categoryService;
             _mapper = mapper;
@@ -48,6 +50,7 @@ namespace GazeteKapiMVC5Core.Controllers
             _newService = newsService;
             _webHostEnvironment = webHostEnvironment;
             _userService = userService;
+            _settingService = settingService;
         }
 
         #endregion
@@ -973,14 +976,41 @@ namespace GazeteKapiMVC5Core.Controllers
         public async Task<CheckLogService> CreateModeratorLog(string durum, string islem, string action, string controller, string details)
         {
             AccountEditViewModel yoneticiGetir = SessionExtensionMethod.GetObject<AccountEditViewModel>(HttpContext.Session, "user");
-            CheckLogService ct = new CheckLogService(_logService, _mapper);
-            if (yoneticiGetir.UserName == "" || yoneticiGetir.UserName == null)
+
+            var setting = _mapper.Map<SettingsDto, SettingsBaseViewModel>(_settingService.getSettings(1));
+
+            if (setting.LogIsActive == true)
             {
-                await ct.CreateLogs(durum, islem, action, controller, details, "Sistem");
-                return ct;
+                if (setting.LogSystemErrorActive == true)
+                {
+                    CheckLogService ct = new CheckLogService(_logService, _mapper);
+                    if (yoneticiGetir.UserName == "" || yoneticiGetir.UserName == null)
+                    {
+                        durum = "Sistem Hatası";
+
+                        await ct.CreateLogs(durum, islem, action, controller, details, "Sistem");
+                        return ct;
+                    }
+                    await ct.CreateLogs(durum, islem, action, controller, details, yoneticiGetir.UserName);
+                    return ct;
+                }
+                else
+                {
+                    CheckLogService ct = new CheckLogService(_logService, _mapper);
+                    if (yoneticiGetir.UserName == "" || yoneticiGetir.UserName == null)
+                    {
+                        await ct.CreateLogs(durum, islem, action, controller, details, "Sistem");
+                        return ct;
+                    }
+                    await ct.CreateLogs(durum, islem, action, controller, details, yoneticiGetir.UserName);
+                    return ct;
+                }
+              
             }
-            await ct.CreateLogs(durum, islem, action, controller, details, yoneticiGetir.UserName);
-            return ct;
+            else
+            {
+                return null;
+            }
         }
 
         #endregion

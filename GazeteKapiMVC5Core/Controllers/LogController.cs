@@ -2,10 +2,13 @@
 using CORE.ApplicationCommon.DTOS.LogsDTO.LogDTO;
 using CORE.ApplicationCommon.DTOS.LogsDTO.ProcessDTO;
 using CORE.ApplicationCommon.DTOS.LogsDTO.TransactionDTO;
+using CORE.ApplicationCommon.DTOS.SetingsDTO;
 using GazeteKapiMVC5Core.Core.Extensions;
+using GazeteKapiMVC5Core.DataAccessLayer.Models;
 using GazeteKapiMVC5Core.Models.Log.LogModel;
 using GazeteKapiMVC5Core.Models.Log.ProcessModel;
 using GazeteKapiMVC5Core.Models.Log.TransactionModel;
+using GazeteKapiMVC5Core.Models.Settings;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using SERVICE.Engine.Interfaces;
@@ -23,8 +26,10 @@ namespace GazeteKapiMVC5Core.Controllers
 
         private readonly ILogService _logService;
         private readonly IMapper _mapper;
-        public LogController(ILogService logService, IMapper mapper)
+        private readonly ISettingService _settingService;
+        public LogController(ILogService logService, IMapper mapper, ISettingService settingService)
         {
+            _settingService = settingService;
             _logService = logService;
             _mapper = mapper;
         }
@@ -53,6 +58,13 @@ namespace GazeteKapiMVC5Core.Controllers
             {
                 listLog = _mapper.Map<List<LogListItemDto>, List<LogListViewModel>>(_logService.GetAllLogsByTransactions(transactionId));
                 return View(PaginationList<LogListViewModel>.Create(listLog.ToList(), pageNumber ?? 1, pageSize));
+            }
+
+            var settingLog = _mapper.Map<SettingsBaseDto, SettingsBaseViewModel>(_settingService.getSettings(1));
+
+            if (settingLog.LogIsActive == false)
+            {
+                TempData["LogMessage"] = "Loglama işlemleri aktif değildir. Aktifleştirmek için >";
             }
 
             //if (searchLogName != null && searchLogName != "")

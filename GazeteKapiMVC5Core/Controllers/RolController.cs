@@ -2,11 +2,13 @@
 using CORE.ApplicationCommon.DTOS.AuthorizeDTO;
 using CORE.ApplicationCommon.DTOS.AuthorizeRoleDto;
 using CORE.ApplicationCommon.DTOS.RoleDTO;
+using CORE.ApplicationCommon.DTOS.SetingsDTO;
 using GazeteKapiMVC5Core.Core.Extensions;
 using GazeteKapiMVC5Core.Models.Account;
 using GazeteKapiMVC5Core.Models.Authorize;
 using GazeteKapiMVC5Core.Models.AuthorizeRole;
 using GazeteKapiMVC5Core.Models.Role;
+using GazeteKapiMVC5Core.Models.Settings;
 using Microsoft.AspNetCore.Mvc;
 using SERVICE.Engine.Interfaces;
 using SERVICES.Engine.Interfaces;
@@ -24,12 +26,14 @@ namespace GazeteKapiMVC5Core.Controllers
         private readonly IRoleService _roleService;
         private readonly IMapper _mapper;
         private readonly ILogService _logService;
+        private readonly ISettingService _settingService;
 
-        public RolController(IRoleService roleService, IMapper mapper, ILogService logService)
+        public RolController(IRoleService roleService, IMapper mapper, ILogService logService, ISettingService settingService)
         {
             _roleService = roleService;
             _mapper = mapper;
             _logService = logService;
+            _settingService = settingService;
         }
 
         #endregion
@@ -286,14 +290,40 @@ namespace GazeteKapiMVC5Core.Controllers
         public async Task<CheckLogService> CreateModeratorLog(string durum, string islem, string action, string controller, string details)
         {
             AccountEditViewModel yoneticiGetir = SessionExtensionMethod.GetObject<AccountEditViewModel>(HttpContext.Session, "user");
-            CheckLogService ct = new CheckLogService(_logService, _mapper);
-            if (yoneticiGetir.UserName == "" || yoneticiGetir.UserName == null)
+            var setting = _mapper.Map<SettingsDto, SettingsBaseViewModel>(_settingService.getSettings(1));
+
+            if (setting.LogIsActive == true)
             {
-                await ct.CreateLogs(durum, islem, action, controller, details, "Sistem");
-                return ct;
+                if (setting.LogSystemErrorActive == true)
+                {
+                    CheckLogService ct = new CheckLogService(_logService, _mapper);
+                    if (yoneticiGetir.UserName == "" || yoneticiGetir.UserName == null)
+                    {
+                        durum = "Sistem Hatası";
+
+                        await ct.CreateLogs(durum, islem, action, controller, details, "Sistem");
+                        return ct;
+                    }
+                    await ct.CreateLogs(durum, islem, action, controller, details, yoneticiGetir.UserName);
+                    return ct;
+                }
+                else
+                {
+                    CheckLogService ct = new CheckLogService(_logService, _mapper);
+                    if (yoneticiGetir.UserName == "" || yoneticiGetir.UserName == null)
+                    {
+                        await ct.CreateLogs(durum, islem, action, controller, details, "Sistem");
+                        return ct;
+                    }
+                    await ct.CreateLogs(durum, islem, action, controller, details, yoneticiGetir.UserName);
+                    return ct;
+                }
+
             }
-            await ct.CreateLogs(durum, islem, action, controller, details, yoneticiGetir.UserName);
-            return ct;
+            else
+            {
+                return null;
+            }
         }
 
         #endregion

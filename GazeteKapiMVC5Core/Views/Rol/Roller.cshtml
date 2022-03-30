@@ -43,7 +43,7 @@
                             <tbody>
                                 @foreach (var item in Model)
                                 {
-                                    <tr>
+                                    <tr id="tooltip-container" class="button-items">
                                         <td><a asp-action="RolDetay" asp-controller="Rol" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.RoleName)</a></td>
                                         <td>@Html.DisplayFor(modelItem => item.CreatedTime)</td>
                                         <td>@Html.DisplayFor(modelItem => item.UpdatedTime)</td>
@@ -58,15 +58,27 @@
                                         <td>
                                             @if (item.IsActive == false)
                                             {
-                                                <a style="padding:3px;" asp-action="DurumDuzenle" asp-route-id="@item.Id"><i class="mdi mdi-lock-open mdi-24px text-success"></i></a>
-                                                <a style="padding:3px;" asp-action="RolDuzenle" class="link-disabled" asp-route-id="@item.Id"><i class="mdi mdi-account-edit mdi-24px"></i></a>
-                                                <a style="padding:3px;" asp-action="RolSil" asp-route-id="@item.Id" class="text-danger ml-1 link-disabled" onclick="return confirm('Bu rolü silmek istiyor musunuz?')"><i class="mdi mdi-delete-circle mdi-24px"></i></a>
+                                                <a style="padding:3px;" data-bs-container="#tooltip-container" 
+                                               data-bs-toggle="tooltip" 
+                                               data-bs-placement="top" title="Rol Aktifleştir" asp-action="DurumDuzenle" asp-route-id="@item.Id"><i class="mdi mdi-lock-open mdi-24px text-success"></i></a>
+                                                <a style="padding:3px;" data-bs-container="#tooltip-container" 
+                                               data-bs-toggle="tooltip" 
+                                               data-bs-placement="top" title="Rol Düzenle" asp-action="RolDuzenle" class="link-disabled" asp-route-id="@item.Id"><i class="mdi mdi-account-edit mdi-24px"></i></a>
+                                                <a style="padding:3px;" data-bs-container="#tooltip-container" 
+                                               data-bs-toggle="tooltip" 
+                                               data-bs-placement="top" title="Rol Sil" asp-action="RolSil" asp-route-id="@item.Id" class="text-danger ml-1 link-disabled" onclick="return confirm('Bu rolü silmek istiyor musunuz?')"><i class="mdi mdi-delete-circle mdi-24px"></i></a>
                                             }
                                             else
                                             {
-                                                <a style="padding:3px;" asp-action="DurumDuzenle" asp-route-id="@item.Id"><i class="mdi mdi-lock mdi-24px text-danger"></i></a>
-                                                <a style="padding:3px;" asp-action="RolDuzenle" asp-route-id="@item.Id"><i class="mdi mdi-account-edit mdi-24px"></i></a>
-                                                <a style="padding:3px;" asp-action="RolSil" asp-route-id="@item.Id" class="text-danger ml-1" onclick="return confirm('Bu rolü silmek istiyor musunuz?')"><i class="mdi mdi-delete-circle mdi-24px"></i></a>
+                                                <a style="padding:3px;" data-bs-container="#tooltip-container" 
+                                               data-bs-toggle="tooltip" 
+                                               data-bs-placement="top" title="Rol Pasifleştir" asp-action="DurumDuzenle" asp-route-id="@item.Id"><i class="mdi mdi-lock mdi-24px text-danger"></i></a>
+                                                <a style="padding:3px;" data-bs-container="#tooltip-container" 
+                                               data-bs-toggle="tooltip" 
+                                               data-bs-placement="top" title="Rol Düzenle" asp-action="RolDuzenle" asp-route-id="@item.Id"><i class="mdi mdi-account-edit mdi-24px"></i></a>
+                                                <a style="padding:3px;" data-bs-container="#tooltip-container" 
+                                               data-bs-toggle="tooltip" 
+                                               data-bs-placement="top" title="Rol Sil" asp-action="RolSil" asp-route-id="@item.Id" class="text-danger ml-1" onclick="return confirm('Bu rolü silmek istiyor musunuz?')"><i class="mdi mdi-delete-circle mdi-24px"></i></a>
                                             }
                                         </td>
 

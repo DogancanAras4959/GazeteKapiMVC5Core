@@ -20,6 +20,10 @@
         font-weight: 600;
         font-family: Roboto,sans-serif;
     }
+    .card-title-desc {
+        color: #6c757d;
+        margin-bottom: 0px;
+    }
 </style>
 
 <div class="row">
@@ -30,6 +34,8 @@
                     <div class="col-sm-7">
                         <h4 class="card-title">Yönetici Hareketleri</h4>
                         <p class="card-title-desc">Yöneticilerin gerçekleştirdiği tüm işlemlerle ilgili kayıtları bu sayfada bulabilirsiniz!</p>
+                        @if (TempData["LogMessage"] != null)
+                        {<p><span class="text-danger">@TempData["LogMessage"]</span><a asp-controller="Settings" asp-action="Ayarlar" class="btn btn-link">Ayarlar</a><span class="text-danger">sekmesine gidin</span></p>}
                     </div>
                     <div class="col-sm-5">
                         <nav aria-label="Page navigation example">
@@ -95,8 +101,10 @@
                                         <td>
                                             @Html.DisplayFor(modelItem => item.Action) - @Html.DisplayFor(modelItem => item.Controller)
                                         </td>
-                                        <td>
-                                            <a asp-action="LogDetay" asp-controller="Log" asp-route-id="@item.Id"><i class="mdi mdi-eye mdi-24px"></i></a>
+                                        <td id="tooltip-container" class="button-items">
+                                            <a style="padding:3px;" data-bs-container="#tooltip-container" 
+                                               data-bs-toggle="tooltip" 
+                                               data-bs-placement="top" title="Log Detayını Gör" asp-action="LogDetay" asp-controller="Log" asp-route-id="@item.Id"><i class="mdi mdi-eye mdi-24px"></i></a>
                                         </td>
                                     </tr>
                                 }

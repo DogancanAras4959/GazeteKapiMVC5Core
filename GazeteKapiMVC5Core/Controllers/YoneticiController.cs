@@ -3,12 +3,14 @@ using CORE.ApplicationCommon.DTOS.AccountDTO;
 using CORE.ApplicationCommon.DTOS.LogsDTO.LogDTO;
 using CORE.ApplicationCommon.DTOS.NewsDTO;
 using CORE.ApplicationCommon.DTOS.RoleDTO;
+using CORE.ApplicationCommon.DTOS.SetingsDTO;
 using CORE.ApplicationCommon.Helpers.Cyrptography;
 using GazeteKapiMVC5Core.Core.Extensions;
 using GazeteKapiMVC5Core.Models.Account;
 using GazeteKapiMVC5Core.Models.Log.LogModel;
 using GazeteKapiMVC5Core.Models.News.NewsModel;
 using GazeteKapiMVC5Core.Models.Role;
+using GazeteKapiMVC5Core.Models.Settings;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -34,8 +36,8 @@ namespace GazeteKapiMVC5Core.Controllers
         private IWebHostEnvironment _webHostEnvironment;
         private readonly ILogService _logService;
         private readonly INewsService _newsService;
-
-        public YoneticiController(IUserService userService, IRoleService roleService, IMapper mapper, IWebHostEnvironment hostingEnvironment, ILogService logService, INewsService newsService)
+        private readonly ISettingService _settingService;
+        public YoneticiController(IUserService userService, IRoleService roleService, IMapper mapper, IWebHostEnvironment hostingEnvironment, ILogService logService, INewsService newsService, ISettingService settingService)
         {
             _userService = userService ?? throw new ArgumentNullException(nameof(userService));
             _roleService = roleService ?? throw new ArgumentNullException(nameof(roleService));
@@ -43,6 +45,7 @@ namespace GazeteKapiMVC5Core.Controllers
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _logService = logService ?? throw new ArgumentNullException(nameof(logService));
             _newsService = newsService ?? throw new ArgumentNullException(nameof(newsService));
+            _settingService = settingService ?? throw new ArgumentException(nameof(settingService));
         }
 
         #endregion
@@ -411,15 +414,41 @@ namespace GazeteKapiMVC5Core.Controllers
 
         public async Task<CheckLogService> CreateModeratorLog(string durum, string islem, string action, string controller, string details)
         {
-            AccountEditViewModel yoneticiGetir = SessionExtensionMethod.GetObject<AccountEditViewModel>(HttpContext.Session, "user"); 
-            CheckLogService ct = new CheckLogService(_logService, _mapper);
-            if (yoneticiGetir.UserName == "" || yoneticiGetir.UserName == null)
+            AccountEditViewModel yoneticiGetir = SessionExtensionMethod.GetObject<AccountEditViewModel>(HttpContext.Session, "user");
+            var setting = _mapper.Map<SettingsDto, SettingsBaseViewModel>(_settingService.getSettings(1));
+
+            if (setting.LogIsActive == true)
             {
-                await ct.CreateLogs(durum, islem, action, controller, details, "Sistem");
-                return ct;
+                if (setting.LogSystemErrorActive == true)
+                {
+                    CheckLogService ct = new CheckLogService(_logService, _mapper);
+                    if (yoneticiGetir.UserName == "" || yoneticiGetir.UserName == null)
+                    {
+                        durum = "Sistem Hatası";
+
+                        await ct.CreateLogs(durum, islem, action, controller, details, "Sistem");
+                        return ct;
+                    }
+                    await ct.CreateLogs(durum, islem, action, controller, details, yoneticiGetir.UserName);
+                    return ct;
+                }
+                else
+                {
+                    CheckLogService ct = new CheckLogService(_logService, _mapper);
+                    if (yoneticiGetir.UserName == "" || yoneticiGetir.UserName == null)
+                    {
+                        await ct.CreateLogs(durum, islem, action, controller, details, "Sistem");
+                        return ct;
+                    }
+                    await ct.CreateLogs(durum, islem, action, controller, details, yoneticiGetir.UserName);
+                    return ct;
+                }
+
             }
-            await ct.CreateLogs(durum, islem, action, controller, details, yoneticiGetir.UserName);
-            return ct;
+            else
+            {
+                return null;
+            }
         }
 
         #endregion

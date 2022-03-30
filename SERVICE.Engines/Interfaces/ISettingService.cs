@@ -9,6 +9,6 @@ namespace SERVICE.Engine.Interfaces
     public interface ISettingService
     {
         SettingsDto getSettings(int id);
-        Task<bool> editSiteSettings(int id);
+        Task<bool> editSiteSettings(SettingsDto model);
     }
 }

@@ -54,7 +54,7 @@
                         <div class="col-md-6">
 
                             <label for="example-text-input" class="col-sm-12 col-form-label">Kullanıcı Adı</label>
-                            <input asp-for="UserName" data-toggle="tooltip" data-placement="bottom" class="form-control" type="text" placeholder="Kullanıcı Adını Giriniz" id="example-text-input">
+                            <input asp-for="UserName" autocomplete="off" data-toggle="tooltip" data-placement="bottom" class="form-control" type="text" placeholder="Kullanıcı Adını Giriniz" id="example-text-input">
                             <span asp-validation-for="UserName" class="text-danger"></span>
 
                         </div>
@@ -62,7 +62,7 @@
                         <div class="col-md-6">
 
                             <label for="example-text-input" class="col-sm-12 col-form-label">Görünen Ad</label>
-                            <input asp-for="DisplayName" data-toggle="tooltip" data-placement="bottom" class="form-control" type="text" placeholder="Görünecek Adını Giriniz" id="example-text-input">
+                            <input asp-for="DisplayName" autocomplete="off" data-toggle="tooltip" data-placement="bottom" class="form-control" type="text" placeholder="Görünecek Adını Giriniz" id="example-text-input">
                             <span asp-validation-for="DisplayName" class="text-danger"></span>
 
                         </div>
@@ -73,14 +73,14 @@
 
                         <div class="col-md-6">
                             <label for="example-text-input" class="col-sm-12 col-form-label">Şifre</label>
-                            <input asp-for="Password" data-toggle="tooltip" data-placement="bottom" class="form-control" type="password" placeholder="Şifrenizi Giriniz" id="example-text-input">
+                            <input asp-for="Password" autocomplete="off" data-toggle="tooltip" data-placement="bottom" class="form-control" type="password" placeholder="Şifrenizi Giriniz" id="example-text-input">
                             <span asp-validation-for="Password" class="text-danger"></span>
                         </div>
 
                         <div class="col-md-6">
 
                             <label for="example-text-input" class="col-sm-12 col-form-label">Şifre Tekrar</label>
-                            <input asp-for="RePassword" data-toggle="tooltip" data-placement="bottom" class="form-control" type="password" placeholder="Şifrenizi Tekrar Giriniz" id="example-text-input">
+                            <input asp-for="RePassword" autocomplete="off" data-toggle="tooltip" data-placement="bottom" class="form-control" type="password" placeholder="Şifrenizi Tekrar Giriniz" id="example-text-input">
                             <span asp-validation-for="RePassword" class="text-danger"></span>
 
                         </div>
@@ -89,7 +89,7 @@
 
                     <div class="mb-3">
                         <label for="example-text-input" class="col-sm-12 col-form-label">Email Adresi</label>
-                        <input asp-for="EmailAdress" data-toggle="tooltip" data-placement="bottom" class="form-control" type="email" placeholder="Email Adresinizi Giriniz" id="example-text-input">
+                        <input asp-for="EmailAdress" autocomplete="off" data-toggle="tooltip" data-placement="bottom" class="form-control" type="email" placeholder="Email Adresinizi Giriniz" id="example-text-input">
                         <span asp-validation-for="EmailAdress" class="text-danger"></span>
                     </div>
                     <div class="mb-3">
