@@ -724,5 +724,29 @@ namespace SERVICE.Engine.Engines
                 return null;
             }
         }
+
+        public bool tagDelete(int id)
+        {
+            Task<int> result = _unitOfWork.GetRepository<Tags>().DeleteAsync(new Tags { Id = id });
+            return Convert.ToBoolean(result.Result);
+        }
+
+        public List<TagListItemDto> tagListWithSearch(string searchName)
+        {
+            IEnumerable<Tags> getTags = _unitOfWork.GetRepository<Tags> ().Filter(null, x => x.OrderByDescending(y => y.Id), "", null, null);
+
+            if (!String.IsNullOrEmpty(searchName))
+            {
+                getTags = getTags.Where(x => x.TagName!.Contains(searchName));
+            }
+
+            return getTags.Select(x => new TagListItemDto
+            {
+                Id = x.Id,
+                TagName = x.TagName,
+
+            }).ToList();
+        }
+
     }
 }

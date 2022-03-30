@@ -25,6 +25,7 @@ namespace GazeteKapiMVC5Core.DataAccessLayer
         public virtual DbSet<PublishType> publishTypes { get; set; }
         public virtual DbSet<Tags> tagNames { get; set; }
         public virtual DbSet<TagNews> tagNews { get; set; }
+        public virtual DbSet<Settings> setting { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new UserMapping());
@@ -36,6 +37,7 @@ namespace GazeteKapiMVC5Core.DataAccessLayer
             modelBuilder.ApplyConfiguration(new PublishTypeMapping());
             modelBuilder.ApplyConfiguration(new TagMapping());
             modelBuilder.ApplyConfiguration(new TagNewsMapping());
+            modelBuilder.ApplyConfiguration(new SettingsMapping());
 
             base.OnModelCreating(modelBuilder);
         }

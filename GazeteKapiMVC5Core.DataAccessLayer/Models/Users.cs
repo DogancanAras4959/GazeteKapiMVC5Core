@@ -16,7 +16,7 @@ namespace DOMAIN.DataAccessLayer.Models
             guestList = new List<Guest>();
             newsList = new List<News>();
             publishTypeList = new List<PublishType>();
-
+            settings = new List<Settings>();
         }
 
         public int Id { get; set; }
@@ -37,6 +37,7 @@ namespace DOMAIN.DataAccessLayer.Models
         public virtual ICollection<Guest> guestList { get; set; }
         public virtual ICollection<News> newsList { get; set; }
         public virtual ICollection<PublishType> publishTypeList { get; set; }
+        public virtual ICollection<Settings> settings { get; set; } 
 
     }
 }

@@ -47,12 +47,14 @@ namespace SERVICE.Engine.Interfaces
 
         Task<bool> createTag(TagDto model);
         TagDto getTags(string name);
+        bool tagDelete(int id);
         Task InsertTagToProduct(string v, int resultId);
         List<TagNewsListItemDto> tagsListWithNews();
         List<TagNewsListItemDto> tagsListWithNewsById(int etiketId);
         TagBaseDto tagGet(int etiketId);
         List<TagNewsListItemDto> tagsListWithNewsByNewsId(int id);
         List<TagListItemDto> tagList();
+        List<TagListItemDto> tagListWithSearch(string searchName);
 
         #endregion
 

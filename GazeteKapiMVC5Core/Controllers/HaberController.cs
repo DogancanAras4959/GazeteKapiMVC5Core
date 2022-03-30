@@ -890,8 +890,9 @@ namespace GazeteKapiMVC5Core.Controllers
                 return RedirectToAction("ErrorPage", "Home");
             }
         }
-
-        public async Task<IActionResult> Etiketler(int? pageNumber)
+        
+        [HttpGet]
+        public async Task<IActionResult> Etiketler(int? pageNumber, string tagNameSearch)
         {
             try
             {
@@ -899,10 +900,18 @@ namespace GazeteKapiMVC5Core.Controllers
                 ViewBag.EtiketHaberler = etiketlerHaberler;
 
                 int pageSize = 20;
-                var etiketler = _mapper.Map<List<TagListItemDto>, List<TagListViewModel>>(_newService.tagList());
+                List<TagListViewModel> tags = null;
 
+                if (tagNameSearch != null && tagNameSearch != "")
+                {
+                    tags = _mapper.Map<List<TagListItemDto>, List<TagListViewModel>>(_newService.tagListWithSearch(tagNameSearch));
+                    await CreateModeratorLog("Başarılı", "Sayfa Girişi", "Etiketler", "Haber", "Haber sayfasına giriş başarılı!");
+                    return View(PaginationList<TagListViewModel>.Create(tags.ToList(), pageNumber ?? 1, pageSize));
+                }
+
+                tags = _mapper.Map<List<TagListItemDto>, List<TagListViewModel>>(_newService.tagList());
                 await CreateModeratorLog("Başarılı", "Sayfa Girişi", "Etiketler", "Haber", "Haber sayfasına giriş başarılı!");
-                return View(PaginationList<TagListViewModel>.Create(etiketler.ToList(), pageNumber ?? 1, pageSize));
+                return View(PaginationList<TagListViewModel>.Create(tags.ToList(), pageNumber ?? 1, pageSize));
             }
             catch (Exception ex)
             {
@@ -928,6 +937,30 @@ namespace GazeteKapiMVC5Core.Controllers
             {
                 string detay = "Sistemden kaynaklı bir hata meydana geldi: " + ex.ToString();
                 await CreateModeratorLog("Sistem Hatası", "Sayfa Girişi", "EtiketeGoreHaberler", "Haber", detay);
+                TempData["HataMesaji"] = ex.ToString();
+                return RedirectToAction("ErrorPage", "Home");
+            }
+        }
+
+        public async Task<IActionResult> EtiketSil(int id)
+        {
+            try
+            {
+                if (_newService.tagDelete(id))
+                {
+                    await CreateModeratorLog("Başarılı", "Silme", "EtiketSil", "Haber", "Etiket silme işlemi başarıyla gerçekleşti!");
+                    return RedirectToAction(nameof(Etiketler));
+                }
+                else
+                {
+                    await CreateModeratorLog("Başarısız", "Silme", "HaberSil", "Haber", "Etiket silme işlemi başarısız gerçekleşti!");
+                    return RedirectToAction(nameof(Etiketler));
+                }
+            }
+            catch (Exception ex)
+            {
+                string detay = "Sistemden kaynaklı bir hata meydana geldi: " + ex.ToString();
+                await CreateModeratorLog("Sistem Hatası", "Silme", "HaberSil", "Haber", detay);
                 TempData["HataMesaji"] = ex.ToString();
                 return RedirectToAction("ErrorPage", "Home");
             }
