@@ -17,6 +17,9 @@ namespace DOMAIN.DataAccessLayer.Models
             newsList = new List<News>();
             publishTypeList = new List<PublishType>();
             settings = new List<Settings>();
+            privacy = new List<Privacy>();
+            aboutus = new List<AboutUs>();
+            termsofuse = new List<TermsOfUse>();
         }
 
         public int Id { get; set; }
@@ -37,7 +40,11 @@ namespace DOMAIN.DataAccessLayer.Models
         public virtual ICollection<Guest> guestList { get; set; }
         public virtual ICollection<News> newsList { get; set; }
         public virtual ICollection<PublishType> publishTypeList { get; set; }
-        public virtual ICollection<Settings> settings { get; set; } 
+        public virtual ICollection<Settings> settings { get; set; }
+        public virtual ICollection<Privacy> privacy { get; set; }
+        public virtual ICollection<AboutUs> aboutus { get; set; }
+        public virtual ICollection<TermsOfUse> termsofuse { get; set; }
+
 
     }
 }

@@ -34,14 +34,14 @@
                         <input type="checkbox" asp-for="LogIsActive" />
                         <label class="col-sm-11">Loglamayı aktifleştir</label>
                         <p>
-                            <small class="text-danger">* (Sürekli aktif olması önerilmez. Performans düşüşlüğüne sebep olabilir)</small>
+                            <small class="text-danger">* (Test modunda kullanılması önerilir. Performans düşüşlüğüne sebep olabilir)</small>
                         </p>
                     </div>
                     <div class="mb-3" id="logSystemError">
                         <input type="checkbox" asp-for="LogSystemErrorActive" />
-                        <label class="col-sm-11">Sistem hatalarını yakalamayı aktifleştir</label>
+                        <label class="col-sm-11">Sadece sistem hatalarını loglamayı aktifleştir</label>
                         <p>
-                            <small>* (Loglama servisiyle beraber <span class="text-success">AKTİF</span> çalışılması önerilir)</small>
+                            <small>* (Hata yakalamak için Loglama servisiyle beraber <span class="text-success">AKTİF</span> çalışılması önerilir)</small>
                         </p>
                     </div>
                     <div class="mb-3">

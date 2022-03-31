@@ -748,5 +748,216 @@ namespace SERVICE.Engine.Engines
             }).ToList();
         }
 
+        public List<NewsListItemDto> searchDataInNewsWithGuest(string searchstring, int guestId)
+        {
+            try
+            {
+                IEnumerable<News> getNews = _unitOfWork.GetRepository<News>().Filter(x=> x.GuestId == guestId, x => x.OrderByDescending(y => y.Id), "users,guest,publishtype,categories", null, null);
+
+                if (!String.IsNullOrEmpty(searchstring))
+                {
+                    getNews = getNews.Where(x => x.Title!.Contains(searchstring));
+                }
+
+                return getNews.Select(x => new NewsListItemDto
+                {
+                    Id = x.Id,
+                    Title = x.Title,
+                    Spot = x.Spot,
+                    Image = x.Image,
+                    NewsContent = x.NewsContent,
+                    IsSlide = x.IsSlide,
+                    IsOpenNotifications = x.IsOpenNotifications,
+                    IsLock = x.IsLock,
+                    IsActive = x.IsActive,
+                    Views = x.Views,
+                    UpdatedTime = x.UpdatedTime,
+                    CreatedTime = x.CreatedTime,
+                    CategoryId = x.CategoryId,
+                    UserId = x.UserId,
+                    GuestId = x.GuestId,
+                    PublishTypeId = x.PublishTypeId,
+                    PublishedTime = x.PublishedTime,
+                    IsCommentActive = x.IsCommentActive,
+                    Sorted = x.Sorted,
+                    guest = x.guest,
+                    publishtype = x.publishtype,
+                    users = x.users,
+                    categories = x.categories,
+
+                }).ToList();
+            }
+            catch (Exception ex)
+            {
+
+                return null;
+            }
+        }
+
+        public List<NewsListItemDto> newsListWithGuest(int guestId)
+        {
+            IEnumerable<News> newsList = _unitOfWork.GetRepository<News>().Filter(x => x.GuestId == guestId, x => x.OrderByDescending(y => y.Id), "users,guest,publishtype,categories", null, null);
+
+            if (newsList != null)
+            {
+                return newsList.Select(x => new NewsListItemDto
+                {
+                    Id = x.Id,
+                    Title = x.Title,
+                    Spot = x.Spot,
+                    Image = x.Image,
+                    NewsContent = x.NewsContent,
+                    IsSlide = x.IsSlide,
+                    IsOpenNotifications = x.IsOpenNotifications,
+                    IsLock = x.IsLock,
+                    IsActive = x.IsActive,
+                    Views = x.Views,
+                    UpdatedTime = x.UpdatedTime,
+                    CreatedTime = x.CreatedTime,
+                    CategoryId = x.CategoryId,
+                    UserId = x.UserId,
+                    GuestId = x.GuestId,
+                    PublishTypeId = x.PublishTypeId,
+                    PublishedTime = x.PublishedTime,
+                    IsCommentActive = x.IsCommentActive,
+                    Sorted = x.Sorted,
+                    guest = x.guest,
+                    publishtype = x.publishtype,
+                    users = x.users,
+                    categories = x.categories,
+
+                }).ToList();
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public List<NewsListItemDto> FilterCategoryInNewsWithGuest(int? categoryId, int ıd)
+        {
+            try
+            {
+                IEnumerable<News> getNews = _unitOfWork.GetRepository<News>().Filter(x => x.GuestId == ıd, x => x.OrderByDescending(y => y.Id), "users,guest,publishtype,categories", null, null);
+
+                getNews = getNews.Where(x => x.CategoryId == categoryId);
+
+                return getNews.Select(x => new NewsListItemDto
+                {
+                    Id = x.Id,
+                    Title = x.Title,
+                    Spot = x.Spot,
+                    Image = x.Image,
+                    NewsContent = x.NewsContent,
+                    IsSlide = x.IsSlide,
+                    IsOpenNotifications = x.IsOpenNotifications,
+                    IsLock = x.IsLock,
+                    IsActive = x.IsActive,
+                    Views = x.Views,
+                    UpdatedTime = x.UpdatedTime,
+                    CreatedTime = x.CreatedTime,
+                    CategoryId = x.CategoryId,
+                    UserId = x.UserId,
+                    GuestId = x.GuestId,
+                    PublishTypeId = x.PublishTypeId,
+                    PublishedTime = x.PublishedTime,
+                    IsCommentActive = x.IsCommentActive,
+                    Sorted = x.Sorted,
+                    guest = x.guest,
+                    publishtype = x.publishtype,
+                    users = x.users,
+                    categories = x.categories,
+
+                }).ToList();
+            }
+            catch (Exception ex)
+            {
+
+                return null;
+            }
+        }
+
+        public List<NewsListItemDto> FilterUserInNewsWithGuest(int? userId, int ıd)
+        {
+            try
+            {
+                IEnumerable<News> getNews = _unitOfWork.GetRepository<News>().Filter(x => x.GuestId == ıd, x => x.OrderByDescending(y => y.Id), "users,guest,publishtype,categories", null, null);
+
+                getNews = getNews.Where(x => x.UserId == userId);
+
+                return getNews.Select(x => new NewsListItemDto
+                {
+                    Id = x.Id,
+                    Title = x.Title,
+                    Spot = x.Spot,
+                    Image = x.Image,
+                    NewsContent = x.NewsContent,
+                    IsSlide = x.IsSlide,
+                    IsOpenNotifications = x.IsOpenNotifications,
+                    IsLock = x.IsLock,
+                    IsActive = x.IsActive,
+                    Views = x.Views,
+                    UpdatedTime = x.UpdatedTime,
+                    CreatedTime = x.CreatedTime,
+                    CategoryId = x.CategoryId,
+                    UserId = x.UserId,
+                    GuestId = x.GuestId,
+                    PublishTypeId = x.PublishTypeId,
+                    PublishedTime = x.PublishedTime,
+                    IsCommentActive = x.IsCommentActive,
+                    Sorted = x.Sorted,
+                    guest = x.guest,
+                    publishtype = x.publishtype,
+                    users = x.users,
+                    categories = x.categories,
+
+                }).ToList();
+            }
+            catch (Exception ex)
+            {
+
+                return null;
+            }
+        }
+
+        public List<NewsListItemDto> newsListWithGuestOneToFive(int id)
+        {
+            IEnumerable<News> newsList = _unitOfWork.GetRepository<News>().Filter(x => x.GuestId == id, x => x.OrderByDescending(y => y.Id), "users,guest,publishtype,categories", 1, 5);
+
+            if (newsList != null)
+            {
+                return newsList.Select(x => new NewsListItemDto
+                {
+                    Id = x.Id,
+                    Title = x.Title,
+                    Spot = x.Spot,
+                    Image = x.Image,
+                    NewsContent = x.NewsContent,
+                    IsSlide = x.IsSlide,
+                    IsOpenNotifications = x.IsOpenNotifications,
+                    IsLock = x.IsLock,
+                    IsActive = x.IsActive,
+                    Views = x.Views,
+                    UpdatedTime = x.UpdatedTime,
+                    CreatedTime = x.CreatedTime,
+                    CategoryId = x.CategoryId,
+                    UserId = x.UserId,
+                    GuestId = x.GuestId,
+                    PublishTypeId = x.PublishTypeId,
+                    PublishedTime = x.PublishedTime,
+                    IsCommentActive = x.IsCommentActive,
+                    Sorted = x.Sorted,
+                    guest = x.guest,
+                    publishtype = x.publishtype,
+                    users = x.users,
+                    categories = x.categories,
+
+                }).ToList();
+            }
+            else
+            {
+                return null;
+            }
+        }
     }
 }

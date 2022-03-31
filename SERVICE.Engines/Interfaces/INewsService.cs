@@ -21,6 +21,10 @@ namespace SERVICE.Engine.Interfaces
         Task<bool> EditIsActive(int id);
         GuestDto getGuest(int id);
         Task<bool> editGuest(GuestDto model);
+        List<NewsListItemDto> newsListWithGuest(int guestId);
+        List<NewsListItemDto> FilterCategoryInNewsWithGuest(int? categoryId, int ıd);
+        List<NewsListItemDto> FilterUserInNewsWithGuest(int? userId, int ıd);
+        List<NewsListItemDto> newsListWithGuestOneToFive(int id);
 
         #endregion
 
@@ -31,6 +35,7 @@ namespace SERVICE.Engine.Interfaces
         List<NewsListItemDto> searchDataInNews(string searchName);
         List<NewsListItemDto> newsListByCategoryId(int? categoryId);
         List<NewsListItemDto> newsListByUserIdInAll(int? userId);
+        List<NewsListItemDto> searchDataInNewsWithGuest(string searchstring, int guestId);
         Task<bool> NewsIfExists(string title);
         Task<int> createNews(NewsDto model);
         Task<int> editNews(NewsDto model);

@@ -26,6 +26,9 @@ namespace GazeteKapiMVC5Core.DataAccessLayer
         public virtual DbSet<Tags> tagNames { get; set; }
         public virtual DbSet<TagNews> tagNews { get; set; }
         public virtual DbSet<Settings> setting { get; set; }
+        public virtual DbSet<Privacy> privacy { get; set; }
+        public virtual DbSet<AboutUs> aboutus { get; set; }
+        public virtual DbSet<TermsOfUse> termsofUse { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new UserMapping());
@@ -38,6 +41,9 @@ namespace GazeteKapiMVC5Core.DataAccessLayer
             modelBuilder.ApplyConfiguration(new TagMapping());
             modelBuilder.ApplyConfiguration(new TagNewsMapping());
             modelBuilder.ApplyConfiguration(new SettingsMapping());
+            modelBuilder.ApplyConfiguration(new PrivacyMapping());
+            modelBuilder.ApplyConfiguration(new AboutUsMapping());
+            modelBuilder.ApplyConfiguration(new TermsOfUseMapping());
 
             base.OnModelCreating(modelBuilder);
         }

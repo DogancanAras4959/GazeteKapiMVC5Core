@@ -423,6 +423,56 @@ namespace GazeteKapiMVC5Core.Controllers
             }
         }
 
+        public async Task<IActionResult> YazarinYazilari(int Id, int? pageNumber, int? categoryId, string searchstring, int? userId)
+        {
+            try
+            {
+                int pageSize = 20;
+                List<NewsLıstItemModel> haberlist = null;
+
+                var guest = _mapper.Map<GuestBaseDto, GuestBaseViewModel>(_newService.getGuest(Id));
+                TempData["Name"] = guest.GuestName;
+
+                var categories = _mapper.Map<List<CategoryListItemDto>, List<CategoryListViewModel>>(_categoryService.GetAllCategory());
+                ViewBag.Categories = new SelectList(categories.ToList(), "Id", "CategoryName");
+
+                var users = _mapper.Map<List<UserListItemDto>, List<UserListViewModel>>(_userService.GetAllUsers());
+                ViewBag.Users = new SelectList(users.ToList(), "Id", "DisplayName");
+
+                if (searchstring != "" && searchstring != null)
+                {
+                    haberlist = _mapper.Map<List<NewsListItemDto>, List<NewsLıstItemModel>>(_newService.searchDataInNewsWithGuest(searchstring, Id));
+                    await CreateModeratorLog("Başarılı", "Sayfa Girişi", "YazarinYazilari", "Haber", "Yazarın Yazılarına giriş başarılı!");
+                    return View(PaginationList<NewsLıstItemModel>.Create(haberlist.ToList(), pageNumber ?? 1, pageSize));
+                }
+
+                if (categoryId != null && categoryId != 0)
+                {
+                    haberlist = _mapper.Map<List<NewsListItemDto>, List<NewsLıstItemModel>>(_newService.FilterCategoryInNewsWithGuest(categoryId, Id));
+                    await CreateModeratorLog("Başarılı", "Sayfa Girişi", "YazarinYazilari", "Haber", "Yazarın Yazılarına giriş başarılı!");
+                    return View(PaginationList<NewsLıstItemModel>.Create(haberlist.ToList(), pageNumber ?? 1, pageSize));
+                }
+
+                if (userId != null && userId != 0)
+                {
+                    haberlist = _mapper.Map<List<NewsListItemDto>, List<NewsLıstItemModel>>(_newService.FilterUserInNewsWithGuest(userId, Id));
+                    await CreateModeratorLog("Başarılı", "Sayfa Girişi", "YazarinYazilari", "Haber", "Yazarın Yazılarına giriş başarılı!");
+                    return View(PaginationList<NewsLıstItemModel>.Create(haberlist.ToList(), pageNumber ?? 1, pageSize));
+                }
+
+                haberlist = _mapper.Map<List<NewsListItemDto>, List<NewsLıstItemModel>>(_newService.newsListWithGuest(Id));
+                await CreateModeratorLog("Başarılı", "Sayfa Girişi", "YazarinYazilari", "Haber", "Yazarın Yazılarına giriş başarılı!");
+                return View(PaginationList<NewsLıstItemModel>.Create(haberlist.ToList(), pageNumber ?? 1, pageSize));
+            }
+            catch (Exception ex)
+            {
+                string detay = "Sistemden kaynaklı bir hata meydana geldi: " + ex.ToString();
+                await CreateModeratorLog("Sistem Hatası", "Sayfa Girişi", "YazarinYazilari", "Haber", detay);
+                TempData["HataMesaji"] = ex.ToString();
+                return RedirectToAction("ErrorPage", "Home");
+            }
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> YazarDuzenle(GuestEditViewModel model, IFormFile file)
@@ -475,6 +525,9 @@ namespace GazeteKapiMVC5Core.Controllers
         {
             try
             {
+                var haberlist = _mapper.Map<List<NewsListItemDto>, List<NewsLıstItemModel>>(_newService.newsListWithGuestOneToFive(id));
+                ViewBag.Yazilar = haberlist;
+
                 await CreateModeratorLog("Başarılı", "Sayfa Girişi", "YazarDetay", "Haber", "Yazar detayına başarılı bir şekilde erişildi!");
                 return View(_mapper.Map<GuestDto, GuestEditViewModel>(_newService.getGuest(id)));
             }
@@ -972,7 +1025,6 @@ namespace GazeteKapiMVC5Core.Controllers
         #endregion
 
         #region Extend Methods
-
         public async Task<CheckLogService> CreateModeratorLog(string durum, string islem, string action, string controller, string details)
         {
             AccountEditViewModel yoneticiGetir = SessionExtensionMethod.GetObject<AccountEditViewModel>(HttpContext.Session, "user");
