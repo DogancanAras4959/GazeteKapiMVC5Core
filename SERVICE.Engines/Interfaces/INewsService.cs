@@ -59,7 +59,9 @@ namespace SERVICE.Engine.Interfaces
         TagBaseDto tagGet(int etiketId);
         List<TagNewsListItemDto> tagsListWithNewsByNewsId(int id);
         List<TagListItemDto> tagList();
+        List<NewsListItemDto> newsListWithLastOneToFive();
         List<TagListItemDto> tagListWithSearch(string searchName);
+        List<NewsListItemDto> PopularNewsInAdminHome();
 
         #endregion
 

@@ -1,8 +1,14 @@
 ﻿using AutoMapper;
+using CORE.ApplicationCommon.DTOS.PrivacyDTO.AboutUsDto;
+using CORE.ApplicationCommon.DTOS.PrivacyDTO.PrivacyDto;
+using CORE.ApplicationCommon.DTOS.PrivacyDTO.TermsOfUsDto;
 using CORE.ApplicationCommon.DTOS.SetingsDTO;
 using GazeteKapiMVC5Core.Core.Extensions;
 using GazeteKapiMVC5Core.Models.Account;
 using GazeteKapiMVC5Core.Models.Settings;
+using GazeteKapiMVC5Core.Models.Site.AboutUsModel;
+using GazeteKapiMVC5Core.Models.Site.PrivacyModel;
+using GazeteKapiMVC5Core.Models.Site.TermsOfUsModel;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -17,6 +23,8 @@ namespace GazeteKapiMVC5Core.Controllers
 {
     public class SettingsController : Controller
     {
+        #region Fields / Constructure
+
         private readonly ISettingService _settingService;
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly IMapper _mapper;
@@ -26,6 +34,9 @@ namespace GazeteKapiMVC5Core.Controllers
             _mapper = mapper;
             _webHostEnvironment = webHostEnvironment;
         }
+
+        #endregion
+
         public IActionResult Ayarlar()
         {
             var getSiteSettings = _mapper.Map<SettingsDto, SettingsEditViewModel>(_settingService.getSettings(1));
@@ -62,6 +73,93 @@ namespace GazeteKapiMVC5Core.Controllers
             catch (Exception ex)
             {
                 return RedirectToAction("Ayarlar", "Settings");
+            }
+        }
+
+        public IActionResult GizlilikPolitikası()
+        {
+            var getPrivacy = _mapper.Map<PrivacyDto, PrivacyEditModel>(_settingService.getPrivacy(1));
+            return View(getPrivacy);
+        }
+
+        public async Task<IActionResult> GizlilikPolitikasiniDuzenle(PrivacyEditModel model)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    AccountEditViewModel yoneticiGetir = SessionExtensionMethod.GetObject<AccountEditViewModel>(HttpContext.Session, "user");
+                    model.UserId = yoneticiGetir.Id;
+ 
+                    if (await _settingService.editPrivacy(_mapper.Map<PrivacyEditModel, PrivacyDto>(model)))
+                    {
+                        return RedirectToAction("GizlilikPolitikası", "Settings");
+                    }
+                }
+
+                return RedirectToAction("GizlilikPolitikası", "Settings");
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("GizlilikPolitikası", "Settings");
+            }
+        }
+
+        public IActionResult Hakkimizda()
+        {
+            var getAboutUs = _mapper.Map<AboutUsDto, AboutUsEditModel>(_settingService.getAboutUs(1));
+            return View(getAboutUs);
+        }
+
+        public async Task<IActionResult> HakkimizdaDuzenle(AboutUsEditModel model)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    AccountEditViewModel yoneticiGetir = SessionExtensionMethod.GetObject<AccountEditViewModel>(HttpContext.Session, "user");
+                    model.UserId = yoneticiGetir.Id;
+   
+                    if (await _settingService.editAboutUs(_mapper.Map<AboutUsEditModel, AboutUsDto>(model)))
+                    {
+                        return RedirectToAction("Hakkimizda", "Settings");
+                    }
+                }
+
+                return RedirectToAction("Hakkimizda", "Settings");
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("Hakkimizda", "Settings");
+            }
+        }
+
+        public IActionResult KullanimKosullari()
+        {
+            var getSiteSettings = _mapper.Map<TermsOfUsDto, TermsOfUsEditModel>(_settingService.getTermsOfUs(1));
+            return View(getSiteSettings);
+        }
+
+        public async Task<IActionResult> KullanimKosullariDuzenle(TermsOfUsEditModel model)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    AccountEditViewModel yoneticiGetir = SessionExtensionMethod.GetObject<AccountEditViewModel>(HttpContext.Session, "user");
+                    model.UserId = yoneticiGetir.Id;
+
+                    if (await _settingService.editTermsOfUs(_mapper.Map<TermsOfUsEditModel, TermsOfUsDto>(model)))
+                    {
+                        return RedirectToAction("KullanimKosullari", "Settings");
+                    }
+                }
+
+                return RedirectToAction("KullanimKosullari", "Settings");
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("KullanimKosullari", "Settings");
             }
         }
 

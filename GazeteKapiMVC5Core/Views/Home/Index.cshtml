@@ -1,8 +1,193 @@
-﻿@{
+﻿@using GazeteKapiMVC5Core.Models.News.NewsModel
+
+@{
     ViewData["Title"] = "Home Page";
+    List<NewsLıstItemModel> listNews = ViewBag.NewsLastFive as List<NewsLıstItemModel>;
+    List<NewsLıstItemModel> popularNews = ViewBag.PopularList as List<NewsLıstItemModel>;
+
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<style>
+    .table th {
+        font-weight: 600;
+        font-family: Roboto,sans-serif;
+    }   
+</style>
+
+<div class="row">
+    <div class="col-md-6 col-xl-3">
+        <div class="card">
+            <div class="card-body">
+                <div class="mini-stat">
+                    <span class="mini-stat-icon bg-purple me-0 float-end"><i class="mdi mdi-newspaper"></i></span>
+                    <div class="mini-stat-info">
+                        <span class="counter text-purple">@ViewBag.NewsCount</span>
+                        Haberler
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> <!--End col -->
+    <div class="col-md-6 col-xl-3">
+        <div class="card">
+            <div class="card-body">
+                <div class="mini-stat">
+                    <span class="mini-stat-icon bg-blue-grey me-0 float-end"><i class="mdi mdi-tag"></i></span>
+                    <div class="mini-stat-info">
+                        <span class="counter text-blue-grey">@ViewBag.TagsCount</span>
+                        Etiketler
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> <!-- End col -->
+    <div class="col-md-6 col-xl-3">
+        <div class="card">
+            <div class="card-body">
+                <div class="mini-stat">
+                    <span class="mini-stat-icon bg-brown me-0 float-end"><i class="mdi mdi-view-list"></i></span>
+                    <div class="mini-stat-info">
+                        <span class="counter text-brown">@ViewBag.CatCount</span>
+                        Kategoriler
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> <!-- End col -->
+    <div class="col-md-6 col-xl-3">
+        <div class="card">
+            <div class="card-body">
+                <div class="mini-stat">
+                    <span class="mini-stat-icon bg-teal me-0 float-end"><i class="mdi mdi-server"></i></span>
+                    <div class="mini-stat-info">
+                        <span class="counter text-teal">3569</span>
+                        Ajans Haberleri
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><!--end col -->
+</div> <!-- end row-->
+
+<div class="row">
+    <div class="col-md-6 col-xl-3">
+        <div class="card">
+            <div class="card-body">
+                <div class="mini-stat">
+                    <span class="mini-stat-icon bg-purple me-0 float-end"><i class="mdi mdi-alert"></i></span>
+                    <div class="mini-stat-info">
+                        <span class="counter text-purple">@ViewBag.ErrorCount</span>
+                        Sistem Hataları
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> <!--End col -->
+    <div class="col-md-6 col-xl-3">
+        <div class="card">
+            <div class="card-body">
+                <div class="mini-stat">
+                    <span class="mini-stat-icon bg-blue-grey me-0 float-end"><i class="mdi mdi-math-log"></i></span>
+                    <div class="mini-stat-info">
+                        <span class="counter text-blue-grey">@ViewBag.LogCount</span>
+                        Tüm Loglar
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> <!-- End col -->
+    <div class="col-md-6 col-xl-3">
+        <div class="card">
+            <div class="card-body">
+                <div class="mini-stat">
+                    <span class="mini-stat-icon bg-brown me-0 float-end"><i class="mdi mdi-face-profile"></i></span>
+                    <div class="mini-stat-info">
+                        <span class="counter text-brown">@ViewBag.UserCount</span>
+                        Kullanıcılar
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> <!-- End col -->
+    <div class="col-md-6 col-xl-3">
+        <div class="card">
+            <div class="card-body">
+                <div class="mini-stat">
+                    <span class="mini-stat-icon bg-teal me-0 float-end"><i class="mdi mdi-blogger"></i></span>
+                    <div class="mini-stat-info">
+                        <span class="counter text-teal">@ViewBag.GuestCount</span>
+                        Yazarlar
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><!--end col -->
+</div> <!-- end row-->
+
+<div class="row">
+    <div class="col-md-9">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <h4 class="card-title">Haberler</h4>
+                        <p class="card-title-desc"></p>
+                    </div>
+                    <div class="col-sm-8">
+                        <div style="float:right;"><a asp-controller="Haber" asp-action="Haberler" class="btn btn-primary btn-sm">Haberlere Git</a></div>
+                    </div>
+                </div>
+                <div class="table-rep-plugin">
+                    <div class="table-responsive mb-0" data-bs-pattern="priority-columns">
+                        <table class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Haber</th>
+                                    <th>Oluşturulma</th>
+                                    <th>Güncellenme</th>
+                                    <th>Durum</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in listNews)
+                                {
+                                    <tr>
+                                        <td>@Html.DisplayFor(modelItem => item.Id)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.Title)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.CreatedTime)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.UpdatedTime)</td>
+                                        @if (item.IsLock == true)
+                                        {
+                                            <td><span class="text-success"><strong>Aktif</strong></span></td>
+                                        }
+                                        else
+                                        {
+                                            <td><span class="text-danger"><strong>Pasif</strong></span></td>
+                                        }
+
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-3">
+        @foreach (var item in popularNews)
+        {
+            <div class="card">
+                <img class="card-img-top img-fluid" src="~/Files/@item.Image" alt="Card image cap">
+                <div class="card-body">
+                    <h4 class="card-title">@item.Title</h4>
+                    <p class="card-text">
+                        @item.Spot
+                    </p>
+                </div>
+            </div>
+        }
+
+    </div>
 </div>
