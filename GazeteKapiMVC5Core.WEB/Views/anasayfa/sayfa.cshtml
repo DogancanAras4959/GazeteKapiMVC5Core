@@ -1,5 +1,5 @@
-﻿@using GazeteKapiMVC5Core.DataAccessLayer.Models;
-@using GazeteKapiMVC5Core.Models.News.NewsModel;
+﻿@using GazeteKapiMVC5Core.Models.News.NewsModel;
+
 @{
     ViewData["Title"] = "sayfa";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -117,7 +117,7 @@
         width: 50px;
         height: 50px;
         left: -22px;
-        top: 25px;
+        top: 7px;
     }
 
     .text-sm {
@@ -238,85 +238,14 @@
         }
 </style>
 
-<!--Bu bölümde kategoriye göre dinamik bir yapı kuracağız.-->
-<section>
-    <div class="container">
-        <div class="row row-banners">
-            <div class="col-sm-3 banner-3">
-                <img style="width:100%" src="~/images/lemonde.jpg" />
-            </div>
-            <div class="col-sm-9 banner-9">
-                <a href="#">
-                    <img style="width:100%;" src="~/images/manser2.jpg" />
-                </a>
-            </div>
-        </div>
-    </div>
-</section>
 <!-- Popular news -->
 <section style="padding:0px;">
-    <!-- Popular news  header-->
+
+    <!-- Popular news header-->
     <div class="popular__news-header">
         <div class="container">
             <div class="row no-gutters">
-                <div class="col-md-8" style="max-width: 66.35667%;">
-                    <div class="slideshow-container">
-                        @foreach (var item in haberlerManset)
-                        {
-                            @if (item.IsSlide == true)
-                            {
-                                <div class="mySlides">
-                                    <div class="card__post__body card__post__transition">
-                                        <img src="/Files/@item.Image" style="width:100%">
-                                        <div class="text">
-                                            <div class="title-word-big">
-                                                <a class="next" onclick="plusSlides(1)"><img src="~/images/placeholder/chevron_next.png" width="20" /></a>
-                                            </div>
-                                            <span class="title-slide">
-                                                @item.Title
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                            }
-                        }
-
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="popular__news-right">
-                        <!-- Post Article -->
-                        @foreach (var item in haberlerManset.OrderByDescending(x => x.Id).ToList())
-                        {
-                            count++;
-
-                            @if (item.IsSlide == false)
-                            {
-                                <div class="card__post">
-                                    <div class="card__post__body card__post__transition">
-                                        <a href="./card-article-detail-v1.html">
-                                            <img src="~/Files/@item.Image" class="img-fluid" alt="">
-                                        </a>
-                                        <div class="text-sm">
-                                            <div class="title-word-big-sm">
-                                                <a class="next-sm" style="color:#515d5e;">@item.categories.CategoryName.Substring(0, 1).ToUpper()</a>
-                                            </div>
-                                            <span class="title-slide-sm">
-                                                @item.Title
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                if (count == 2)
-                                {
-                                    break;
-                                }
-                            }
-                        }
-
-                    </div>
-                </div>
+                @{ await Html.RenderPartialAsync("Slider");}
             </div>
         </div>
     </div>
@@ -326,248 +255,41 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="top__news__slider">
-                        @foreach (var item in haberlerManset.OrderBy(x => x.Id).ToList())
-                        {
-                            count++;
-
-                            if (item.IsSlide == false)
-                            {
-
-                                <div class="item">
-                                    <!-- Post Article -->
-                                    <div class="article__entry">
-                                        <div class="article__image">
-                                            <a href="#">
-                                                <img src="~/Files/@item.Image" alt="" class="img-fluid">
-                                            </a>
-                                        </div>
-                                        <div class="article__content">
-                                            <h5>
-                                                <a href="#">
-                                                    @item.Title
-                                                </a>
-                                            </h5>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                if (count == 4)
-                                {
-                                    break;
-                                }
-                            }
-
-                        }
-
-
-                    </div>
-
+                    @{ await Html.RenderPartialAsync("Carousel");}
                 </div>
             </div>
         </div>
     </div>
     <!-- End Popular news carousel -->
+
 </section>
 <!-- End Popular news
 
 <!-- Popular news category -->
 <section class="pt-0">
+
     <div class="popular__section-news">
         <div class="container">
             <div class="wrapper__list__article">
                 <h4 class="border_section"></h4>
             </div>
             <div class="row">
+
+                <!--Gündem-->
                 <div class="col-md-12 col-lg-8">
-                    <div class="row" style="padding-bottom:5px;">
-                        <div class="col-sm-12">
-                            <div class="rect-content-box-title">
-                                <span class="rect-title">G</span>
-                            </div>
-                            <h4 class="content-box-title">Gündem</h4>
-                        </div>
-                    </div>
-                    <div class="row">
-                        @foreach (var item in haberlerManset.OrderBy(x => x.Id).ToList())
-                        {
-                            count++;
-                            if (item.categories.CategoryName.Contains("Gündem"))
-                            {
-                                if (item.IsSlide == false)
-                                {
-                                    <div class="col-sm-12 col-md-6 mb-4">
-                                        <!-- Post Article -->
-                                        <div class="card__post ">
-                                            <div class="card__post__body">
-                                                <a href="./card-article-detail-v1.html">
-                                                    <img src="~/Files/@item.Image" class="img-fluid" alt="">
-                                                </a>
-                                                <div style="margin-top:15px;">
-                                                    <h6>
-                                                        <a style="color:#515d5e;" href="./card-article-detail-v1.html">
-                                                            @item.Title
-                                                        </a>
-                                                    </h6>
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                    </div>
-
-                                    if (count == 2)
-                                    {
-                                        break;
-                                    }
-                                }
-                            }
-                        }
-
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-12 col-md-6">
-                            <div class="wrapp__list__article-responsive">
-                                <div class="mb-3">
-                                    <!-- Post Article -->
-                                    <div class="card__post card__post-list">
-                                        <div class="image-sm">
-                                            <a href="./card-article-detail-v1.html">
-                                                <img src="~/images/placeholder/500x400.jpg" class="img-fluid" alt="">
-                                            </a>
-                                        </div>
-                                        <div class="card__post__body ">
-                                            <div class="card__post__content">
-                                                <div class="card__post__title">
-                                                    <h6>
-                                                        <a href="./card-article-detail-v1.html">
-                                                            6 Best Tips for Building a Good Shipping Boat
-                                                        </a>
-                                                    </h6>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="mb-3">
-                                    <!-- Post Article -->
-                                    <div class="card__post card__post-list">
-                                        <div class="image-sm">
-                                            <a href="./card-article-detail-v1.html">
-                                                <img src="~/images/placeholder/500x400.jpg" class="img-fluid" alt="">
-                                            </a>
-                                        </div>
-                                        <div class="card__post__body ">
-                                            <div class="card__post__content">
-                                                <div class="card__post__title">
-                                                    <h6>
-                                                        <a href="./card-article-detail-v1.html">
-                                                            6 Best Tips for Building a Good Shipping Boat
-                                                        </a>
-                                                    </h6>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-12 col-md-6 ">
-                            <div class="wrapp__list__article-responsive">
-                                <div class="mb-3">
-                                    <!-- Post Article -->
-                                    <div class="card__post card__post-list">
-                                        <div class="image-sm">
-                                            <a href="./card-article-detail-v1.html">
-                                                <img src="~/images/placeholder/500x400.jpg" class="img-fluid" alt="">
-                                            </a>
-                                        </div>
-                                        <div class="card__post__body ">
-                                            <div class="card__post__content">
-                                                <div class="card__post__title">
-                                                    <h6>
-                                                        <a href="./card-article-detail-v1.html">
-                                                            6 Best Tips for Building a Good Shipping Boat
-                                                        </a>
-                                                    </h6>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="mb-3">
-                                    <!-- Post Article -->
-                                    <div class="card__post card__post-list">
-                                        <div class="image-sm">
-                                            <a href="./card-article-detail-v1.html">
-                                                <img src="~/images/placeholder/500x400.jpg" class="img-fluid" alt="">
-                                            </a>
-                                        </div>
-                                        <div class="card__post__body ">
-                                            <div class="card__post__content">
-                                                <div class="card__post__title">
-                                                    <h6>
-                                                        <a href="./card-article-detail-v1.html">
-                                                            6 Best Tips for Building a Good Shipping Boat
-                                                        </a>
-                                                    </h6>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    @{ await Html.RenderPartialAsync("Gundem");}
                 </div>
+                <!--Gündem-->
+                <!--Yazar-->
                 <div class="col-md-12 col-lg-4">
-
-                    <div class="row" style="padding-bottom:5px;">
-                        <div class="col-sm-12">
-                            <div class="rect-content-box-title">
-                                <span class="rect-title">Y</span>
-                            </div>
-                            <h4 class="content-box-title">Yazarlar</h4>
-                        </div>
-                    </div>
-                    <aside class="wrapper__list__article">
-                        <div class="wrapper__list-number">
-                            <!-- List Article -->
-                            <div class="mb-3">
-                                <!-- Post Article -->
-                                <div class="card__post card__post-list">
-                                    <div class="image-sm">
-                                        <a href="./card-article-detail-v1.html">
-                                            <img src="~/images/placeholder/500x400.jpg" class="img-fluid" alt="">
-                                        </a>
-                                    </div>
-                                    <div class="card__post__body ">
-                                        <div class="card__post__content">
-                                            <div class="card__post__author-info mb-2">
-                                                <ul class="list-inline">
-                                                    <li class="list-inline-item">
-                                                        <span class="text-primary">
-                                                            by david hall
-                                                        </span>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                            <div class="card__post__title">
-                                                <h6>
-                                                    <a href="./card-article-detail-v1.html">
-                                                        6 Best Tips for Building a Good Shipping Boat
-                                                    </a>
-                                                </h6>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </aside>
+                    @{ await Html.RenderPartialAsync("Yazar");}
                 </div>
+                <!--Yazar-->
+
             </div>
         </div>
     </div>
+
     <!-- Post news carousel -->
     <div class="container">
         <div class="wrapper__list__article">
@@ -582,78 +304,36 @@
             </div>
             <div class="col-md-12">
                 <div class="article__entry-carousel">
-                    <div class="item">
-                        <!-- Post Article -->
-                        <div class="article__entry">
-                            <div class="article__image">
-                                <a href="#">
-                                    <img src="~/images/placeholder/500x400.jpg" alt="" class="img-fluid">
-                                </a>
-                            </div>
-                            <div class="article__content">
-                                <h5>
-                                    <a href="#">
-                                        Maecenas accumsan tortor ut velit pharetra mollis.
-                                    </a>
-                                </h5>
+                    @foreach (var item in haberlerManset.Where(x => x.categories.CategoryName == "Dünya").OrderBy(x => x.Id))
+                    {
+                        count++;
 
+                        <div class="item">
+                            <!-- Post Article -->
+                            <div class="article__entry">
+                                <div class="article__image">
+                                    <a href="#">
+                                        <img src="~/Files/@item.Image" alt="" class="img-fluid">
+                                    </a>
+                                </div>
+                                <div class="article__content">
+                                    <h5>
+                                        <a href="#">
+                                            @item.Title
+                                        </a>
+                                    </h5>
+
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="item">
-                        <!-- Post Article -->
-                        <div class="article__entry">
-                            <div class="article__image">
-                                <a href="#">
-                                    <img src="~/images/placeholder/500x400.jpg" alt="" class="img-fluid">
-                                </a>
-                            </div>
-                            <div class="article__content">
-                                <h5>
-                                    <a href="#">
-                                        Maecenas accumsan tortor ut velit pharetra mollis.
-                                    </a>
-                                </h5>
 
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <!-- Post Article -->
-                        <div class="article__entry">
-                            <div class="article__image">
-                                <a href="#">
-                                    <img src="~/images/placeholder/500x400.jpg" alt="" class="img-fluid">
-                                </a>
-                            </div>
-                            <div class="article__content">
-                                <h5>
-                                    <a href="#">
-                                        Maecenas accumsan tortor ut velit pharetra mollis.
-                                    </a>
-                                </h5>
+                        if (count == 4)
+                        {
+                            count = 0;
+                            break;
+                        }
+                    }
 
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <!-- Post Article -->
-                        <div class="article__entry">
-                            <div class="article__image">
-                                <a href="#">
-                                    <img src="~/images/placeholder/500x400.jpg" alt="" class="img-fluid">
-                                </a>
-                            </div>
-                            <div class="article__content">
-                                <h5>
-                                    <a href="#">
-                                        Maecenas accumsan tortor ut velit pharetra mollis.
-                                    </a>
-                                </h5>
-
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -670,59 +350,35 @@
                     <h4 class="content-box-title" style="color:#fff;">Kültür / Sanat</h4>
 
                     <div class="row" style="margin-top:15px;">
-                        <div class="col-sm-12 col-md-4 mb-1">
-                            <!-- Post Article -->
-                            <div class="card__post ">
-                                <div class="card__post__body">
-                                    <a href="./card-article-detail-v1.html">
-                                        <img src="~/images/placeholder/600x400.jpg" class="img-fluid" alt="">
-                                    </a>
-                                    <div style=" margin-top: 0px; background-color: #fff; padding: 15px;">
-                                        <h6>
-                                            <a style="color:#515d5e;" href="./card-article-detail-v1.html">
-                                                Barack Obama and Family Visit borobudur temple enjoy holiday indonesia.
-                                            </a>
-                                        </h6>
-                                    </div>
-                                </div>
 
-                            </div>
-                        </div>
-                        <div class="col-sm-12 col-md-4 mb-1">
-                            <!-- Post Article -->
-                            <div class="card__post ">
-                                <div class="card__post__body">
-                                    <a href="./card-article-detail-v1.html">
-                                        <img src="~/images/placeholder/600x400.jpg" class="img-fluid" alt="">
-                                    </a>
-                                    <div style=" margin-top: 0px; background-color: #fff; padding: 15px;">
-                                        <h6>
-                                            <a style="color:#515d5e;" href="./card-article-detail-v1.html">
-                                                Barack Obama and Family Visit borobudur temple enjoy holiday indonesia.
-                                            </a>
-                                        </h6>
+                        @foreach (var item in haberlerManset.Where(x => x.categories.CategoryName == "Kültür / Sanat").OrderBy(x => x.Id))
+                        {
+                            count++;
+                            <div class="col-sm-12 col-md-4 mb-1">
+                                <!-- Post Article -->
+                                <div class="card__post ">
+                                    <div class="card__post__body">
+                                        <a href="./card-article-detail-v1.html">
+                                            <img src="~/Files/@item.Image" class="img-fluid" alt="">
+                                        </a>
+                                        <div style=" margin-top: 0px; background-color: #fff; padding: 15px;">
+                                            <h6>
+                                                <a style="color:#515d5e;" href="./card-article-detail-v1.html">
+                                                        @item.Title
+                                                </a>
+                                            </h6>
+                                        </div>
                                     </div>
-                                </div>
 
-                            </div>
-                        </div> <div class="col-sm-12 col-md-4 mb-1">
-                            <!-- Post Article -->
-                            <div class="card__post ">
-                                <div class="card__post__body">
-                                    <a href="./card-article-detail-v1.html">
-                                        <img src="~/images/placeholder/600x400.jpg" class="img-fluid" alt="">
-                                    </a>
-                                    <div style=" margin-top: 0px; background-color: #fff; padding: 15px;">
-                                        <h6>
-                                            <a style="color:#515d5e;" href="./card-article-detail-v1.html">
-                                                Barack Obama and Family Visit borobudur temple enjoy holiday indonesia.
-                                            </a>
-                                        </h6>
-                                    </div>
                                 </div>
-
                             </div>
-                        </div>
+                            if (count == 3)
+                            {
+                                count = 0;
+                                break;
+                            }
+                        }
+
                     </div>
 
                 </div>

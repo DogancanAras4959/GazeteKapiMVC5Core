@@ -11,7 +11,6 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\images\social-media\" />
-    <Folder Include="wwwroot\Files\" />
   </ItemGroup>
 
   <ItemGroup>

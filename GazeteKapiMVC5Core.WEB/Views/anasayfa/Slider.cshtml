@@ -1,0 +1,69 @@
+﻿@using GazeteKapiMVC5Core.Models.News.NewsModel;
+
+@{
+    List<NewsLıstItemModel> haberlerManset = ViewBag.HaberlerManset as List<NewsLıstItemModel>;
+    int count = 0;
+
+}
+
+<div class="col-md-8" style="max-width: 66.35667%;">
+    <div class="slideshow-container">
+        @foreach (var item in haberlerManset)
+        {
+            @if (item.IsSlide == true)
+            {
+                <div class="mySlides">
+                    <div class="card__post__body card__post__transition">
+                        <img src="/Files/@item.Image" style="width:100%">
+                        <div class="text">
+                            <div class="title-word-big">
+                                <a class="next" onclick="plusSlides(1)"><img src="~/images/placeholder/chevron_next.png" width="20" /></a>
+                            </div>
+                            <span class="title-slide">
+                                @item.Title
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+
+    </div>
+</div>
+
+<div class="col-md-4">
+    <div class="popular__news-right">
+        <!-- Post Article -->
+        @foreach (var item in haberlerManset.OrderByDescending(x => x.Id).ToList())
+        {
+
+            @if (item.IsSlide == false)
+            {
+                count++;
+
+                <div class="card__post">
+                    <div class="card__post__body card__post__transition">
+                        <a href="./card-article-detail-v1.html">
+                            <img src="~/Files/@item.Image" class="img-fluid" alt="">
+                        </a>
+                        <div class="text-sm">
+                            <div class="title-word-big-sm">
+                                <a class="next-sm" style="color:#515d5e;">@item.categories.CategoryName.Substring(0, 1).ToUpper()</a>
+                            </div>
+                            <span class="title-slide-sm">
+                                @item.Title
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                if (count == 2)
+                {
+                    count = 0;
+                    break;
+                }
+            }
+        }
+
+    </div>
+</div>

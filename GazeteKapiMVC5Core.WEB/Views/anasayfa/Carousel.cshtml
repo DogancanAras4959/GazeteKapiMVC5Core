@@ -1,0 +1,42 @@
+﻿@using GazeteKapiMVC5Core.Models.News.NewsModel;
+
+@{
+    List<NewsLıstItemModel> haberlerManset = ViewBag.HaberlerManset as List<NewsLıstItemModel>;
+    int count = 0;
+}
+
+<div class="top__news__slider">
+
+    @foreach (var item in haberlerManset.OrderBy(x => x.Id).ToList())
+    {
+        if (item.IsSlide == false)
+        {
+            count++;
+
+            <div class="item">
+                <!-- Post Article -->
+                <div class="article__entry">
+                    <div class="article__image">
+                        <a href="#">
+                            <img src="~/Files/@item.Image" alt="" class="img-fluid">
+                        </a>
+                    </div>
+                    <div class="article__content">
+                        <h5>
+                            <a href="#">
+                                @item.Title
+                            </a>
+                        </h5>
+                    </div>
+                </div>
+            </div>
+
+            if (count == 4)
+            {
+                count = 0;
+                break;
+            }
+        }
+    }
+
+</div>

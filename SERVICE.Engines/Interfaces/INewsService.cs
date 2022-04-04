@@ -55,6 +55,7 @@ namespace SERVICE.Engine.Interfaces
         bool tagDelete(int id);
         Task InsertTagToProduct(string v, int resultId);
         List<TagNewsListItemDto> tagsListWithNews();
+        List<TagNewsListItemDto> tagsListWithNewsWeb();
         List<TagNewsListItemDto> tagsListWithNewsById(int etiketId);
         TagBaseDto tagGet(int etiketId);
         List<TagNewsListItemDto> tagsListWithNewsByNewsId(int id);

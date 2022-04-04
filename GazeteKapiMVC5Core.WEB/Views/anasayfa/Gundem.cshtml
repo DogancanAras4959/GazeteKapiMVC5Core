@@ -1,0 +1,135 @@
+﻿@using GazeteKapiMVC5Core.Models.News.NewsModel;
+@using GazeteKapiMVC5Core.Models.News.TagNewsModel;
+@using GazeteKapiMVC5Core.Models.News.TagModel;
+@using GazeteKapiMVC5Core.DataAccessLayer.Models;
+
+@{
+    int count = 0;
+
+    List<NewsLıstItemModel> haberlerManset = ViewBag.HaberlerManset as List<NewsLıstItemModel>;
+    List<TagNewsListViewModel> tagNewList = ViewBag.TagNews as List<TagNewsListViewModel>;
+    List<TagBaseViewModel> tagList = new List<TagBaseViewModel>();
+
+    List<NewsLıstItemModel> titles = new List<NewsLıstItemModel>();
+    List<NewsLıstItemModel> newListData = new List<NewsLıstItemModel>();
+
+}
+
+<div class="row" style="padding-bottom:5px;">
+    <div class="col-sm-12">
+        <div class="rect-content-box-title">
+            <span class="rect-title">G</span>
+        </div>
+        <h4 class="content-box-title">Gündem</h4>
+    </div>
+</div>
+<div class="row">
+
+    @foreach (var item in haberlerManset.OrderBy(x => x.Id).ToList())
+    {
+        if (item.categories.CategoryName.Contains("Gündem"))
+        {
+            if (item.IsSlide == false)
+            {
+                foreach (var tags in tagNewList.Where(x => x.NewsId == item.Id))
+                {
+                    TagBaseViewModel newTags = new TagBaseViewModel();
+                    newTags.Id = tags.Id;
+                    newTags.TagName = tags.tag.TagName;
+                    tagList.Add(newTags);
+                }
+
+                count++;
+                <div class="col-sm-12 col-md-6 mb-4">
+                    <!-- Post Article -->
+                    <div class="card__post ">
+                        <div class="card__post__body">
+                            <a href="./card-article-detail-v1.html">
+                                <img src="~/Files/@item.Image" class="img-fluid" alt="">
+                            </a>
+                            <div style="margin-top:15px;">
+                                <h6>
+                                    <a style="color:#515d5e;" href="./card-article-detail-v1.html">
+                                        @item.Title
+                                    </a>
+                                </h6>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                if (count == 2)
+                {
+                    count = 0;
+                    break;
+                }
+            }
+        }
+    }
+
+</div>
+<div class="row">
+    <div class="col-sm-12 col-md-12">
+        <div class="wrapp__list__article-responsive">
+            <div class="row">
+
+                @foreach (var tags in tagList)
+                {
+                    foreach (var tagNews in tagNewList.Where(x => x.TagId == tags.Id).ToList())
+                    {
+                        NewsLıstItemModel listNews = new NewsLıstItemModel();
+                        listNews.Title = tagNews.news.Title;
+                        listNews.Id = tagNews.news.Id;
+                        listNews.Image = tagNews.news.Image;
+                        listNews.CategoryId = tagNews.news.CategoryId;
+                        titles.Add(listNews);
+                    }
+                }
+
+                @{
+                    newListData.AddRange(titles.GroupBy(o => new { o.Title, o.Image, o.Id, o.CategoryId }).Select(x => x.FirstOrDefault()));
+                    NewsLıstItemModel[] tagsList = newListData.ToArray();
+                }
+
+                @for (int i = 0; i < tagsList.Count(); i++)
+                {
+                    if (tagsList[i].CategoryId == 2)
+                    {
+                        count++;
+
+                        <div class="col-sm-6">
+                            <div class="mb-3">
+                                <!-- Post Article -->
+                                <div class="card__post card__post-list">
+                                    <div class="image-sm">
+                                        <a href="./card-article-detail-v1.html">
+                                            <img src="~/Files/@tagsList[i].Image" class="img-fluid" alt="">
+                                        </a>
+                                    </div>
+                                    <div class="card__post__body ">
+                                        <div class="card__post__content">
+                                            <div class="card__post__title">
+                                                <h6>
+                                                    <a href="./card-article-detail-v1.html">
+                                                        @tagsList[i].Title
+                                                    </a>
+                                                </h6>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        if (count == 4)
+                        {
+                            count++;
+                            break;
+                        }
+                    }
+
+                }
+            </div>
+        </div>
+    </div>
+</div>

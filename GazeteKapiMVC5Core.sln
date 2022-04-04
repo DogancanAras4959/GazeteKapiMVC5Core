@@ -21,7 +21,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SERVICE", "SERVICE", "{1260
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SERVICE.Engine", "SERVICE.Engines\SERVICE.Engine.csproj", "{D6D7C0B2-73D0-42B8-AF4F-11DF583782B2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GazeteKapiMVC5Core.WEB", "GazeteKapiMVC5Core.WEB\GazeteKapiMVC5Core.WEB.csproj", "{59C87154-0F17-4B26-B9D7-03E2F0834C29}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GazeteKapiMVC5Core.WEB", "GazeteKapiMVC5Core.WEB\GazeteKapiMVC5Core.WEB.csproj", "{59C87154-0F17-4B26-B9D7-03E2F0834C29}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
