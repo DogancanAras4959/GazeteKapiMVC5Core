@@ -74,5 +74,6 @@ namespace GazeteKapiMVC5Core.Controllers
 
             ViewBag.PopularList = popularNews;
         }
+
     }
 }

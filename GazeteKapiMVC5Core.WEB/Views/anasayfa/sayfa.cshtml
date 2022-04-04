@@ -1,0 +1,771 @@
+﻿@using GazeteKapiMVC5Core.DataAccessLayer.Models;
+@using GazeteKapiMVC5Core.Models.News.NewsModel;
+@{
+    ViewData["Title"] = "sayfa";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<NewsLıstItemModel> haberlerManset = ViewBag.HaberlerManset as List<NewsLıstItemModel>;
+    int count = 0;
+}
+
+<style>
+    .row-banners {
+        display: flex;
+        flex-wrap: wrap;
+        margin-right: 0px;
+        margin-left: -14px;
+    }
+
+    .banner-3 {
+        padding-left: 15px;
+        padding-right: 24px;
+    }
+
+    .banner-9 {
+        padding-right: 0px;
+        padding-left: 0px;
+    }
+</style>
+
+<style>
+    .mySlides {
+        display: none
+    }
+
+    .slideshow-container {
+        max-width: 1000px;
+        position: relative;
+        margin: auto;
+    }
+    /* Next & previous buttons */
+    .prev,
+    .next {
+        cursor: pointer;
+        position: relative;
+        top: 10%;
+        width: auto;
+        padding: 16px;
+        margin-top: -22px;
+        color: white;
+        font-weight: bold;
+        font-size: 18px;
+        transition: 0.6s ease;
+        border-radius: 0 3px 3px 0;
+        user-select: none;
+    }
+
+    .prev,
+    .next-sm {
+        cursor: pointer;
+        position: relative;
+        top: 24%;
+        width: auto;
+        padding: 8px;
+        margin-top: -22px;
+        color: white;
+        font-weight: 700;
+        font-size: 18px;
+        transition: 0.6s ease;
+        border-radius: 0 3px 3px 0;
+        user-select: none;
+    }
+    /* Position the "next button" to the right */
+    .next {
+        right: 0;
+        border-radius: 3px 0 0 3px;
+    }
+    /* On hover, add a black background color with a little bit see-through */
+
+    /* Caption text */
+    .text {
+        color: #ffffff;
+        font-size: 26px;
+        padding: 16px 36px 16px 19px;
+        line-height: 32px;
+        position: absolute;
+        left: 40px;
+        bottom: 0px;
+        width: 90%;
+        font-weight: 600;
+        font-family: Montserrat;
+        text-align: start;
+        background-color: #515d5e;
+    }
+
+    .title-slide {
+        position: relative;
+        left: 27px;
+    }
+
+    .title-slide-sm {
+        position: relative;
+        left: 10px;
+    }
+    /* Number text (1/3 etc) */
+
+
+    /* Fading animation */
+    .fade {
+        -webkit-animation-name: fade;
+        -webkit-animation-duration: 1.5s;
+        animation-name: fade;
+        animation-duration: 1.5s;
+    }
+
+    .title-word-big {
+        background-color: #f4c625;
+        position: absolute;
+        width: 50px;
+        height: 50px;
+        left: -22px;
+        top: 25px;
+    }
+
+    .text-sm {
+        color: #ffffff;
+        font-size: 16px;
+        padding: 19px 24px 16px 19px;
+        line-height: 20px;
+        position: absolute;
+        left: 28px;
+        bottom: 0px;
+        width: 86%;
+        font-weight: 600;
+        font-family: Montserrat;
+        text-align: start;
+        background-color: #515d5e;
+    }
+
+    .title-word-big-sm {
+        background-color: #f4c625;
+        position: absolute;
+        width: 30px;
+        height: 30px;
+        left: -13px;
+        top: 11px;
+    }
+
+    .article__entry .article__content h5 {
+        font-size: 13px;
+    }
+
+        .article__entry .article__content h5 a {
+            color: #515d5e;
+        }
+
+    .wrapper__list__article .border_section:before {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 50px;
+        height: 3px;
+        background: #515d5e;
+        z-index: 1;
+    }
+
+    .wrapper__list__article .border_section:after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 3px;
+        background: #515d5e;
+    }
+
+    .list-inline-item {
+        display: inline-block;
+        background-color: #f4c625;
+        padding: 7px;
+    }
+
+    .text-primary {
+        color: #000 !important;
+    }
+
+    .card__post-list .card__post__content .card__post__title h6 a {
+        color: #515d5e;
+        text-shadow: none;
+        font-weight: 700 !important;
+        font-size: 14px;
+    }
+
+    .image-sm {
+        display: block;
+        height: 100%;
+        flex: 0 0 22%;
+        width: 20%;
+        max-width: 100%;
+        margin: 0;
+        background-size: cover;
+    }
+
+    .card__post-list .card__post__content {
+        padding: 0 8px 0 17px !important;
+    }
+
+    .rect-content-box-title {
+        background-color: #f4c625;
+        width: 30px;
+        height: 30px;
+        float: left;
+    }
+
+    .content-box-title {
+        position: relative;
+        left: 7px;
+        top: 2px;
+        color: #515d5e;
+    }
+
+    .rect-title {
+        font-weight: 800;
+        position: relative;
+        top: 1px;
+        left: 7px;
+        font-size: 20px;
+        color: #515d5e;
+    }
+
+    .wrapper__list__article {
+        margin-bottom: 15px;
+    }
+
+        .wrapper__list__article .border_section {
+            position: relative;
+            padding-bottom: 16px;
+            margin-bottom: 14px;
+        }
+</style>
+
+<!--Bu bölümde kategoriye göre dinamik bir yapı kuracağız.-->
+<section>
+    <div class="container">
+        <div class="row row-banners">
+            <div class="col-sm-3 banner-3">
+                <img style="width:100%" src="~/images/lemonde.jpg" />
+            </div>
+            <div class="col-sm-9 banner-9">
+                <a href="#">
+                    <img style="width:100%;" src="~/images/manser2.jpg" />
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Popular news -->
+<section style="padding:0px;">
+    <!-- Popular news  header-->
+    <div class="popular__news-header">
+        <div class="container">
+            <div class="row no-gutters">
+                <div class="col-md-8" style="max-width: 66.35667%;">
+                    <div class="slideshow-container">
+                        @foreach (var item in haberlerManset)
+                        {
+                            @if (item.IsSlide == true)
+                            {
+                                <div class="mySlides">
+                                    <div class="card__post__body card__post__transition">
+                                        <img src="/Files/@item.Image" style="width:100%">
+                                        <div class="text">
+                                            <div class="title-word-big">
+                                                <a class="next" onclick="plusSlides(1)"><img src="~/images/placeholder/chevron_next.png" width="20" /></a>
+                                            </div>
+                                            <span class="title-slide">
+                                                @item.Title
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        }
+
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="popular__news-right">
+                        <!-- Post Article -->
+                        @foreach (var item in haberlerManset.OrderByDescending(x => x.Id).ToList())
+                        {
+                            count++;
+
+                            @if (item.IsSlide == false)
+                            {
+                                <div class="card__post">
+                                    <div class="card__post__body card__post__transition">
+                                        <a href="./card-article-detail-v1.html">
+                                            <img src="~/Files/@item.Image" class="img-fluid" alt="">
+                                        </a>
+                                        <div class="text-sm">
+                                            <div class="title-word-big-sm">
+                                                <a class="next-sm" style="color:#515d5e;">@item.categories.CategoryName.Substring(0, 1).ToUpper()</a>
+                                            </div>
+                                            <span class="title-slide-sm">
+                                                @item.Title
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                if (count == 2)
+                                {
+                                    break;
+                                }
+                            }
+                        }
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Popular news header-->
+    <!-- Popular news carousel -->
+    <div class="popular__news-header-carousel">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="top__news__slider">
+                        @foreach (var item in haberlerManset.OrderBy(x => x.Id).ToList())
+                        {
+                            count++;
+
+                            if (item.IsSlide == false)
+                            {
+
+                                <div class="item">
+                                    <!-- Post Article -->
+                                    <div class="article__entry">
+                                        <div class="article__image">
+                                            <a href="#">
+                                                <img src="~/Files/@item.Image" alt="" class="img-fluid">
+                                            </a>
+                                        </div>
+                                        <div class="article__content">
+                                            <h5>
+                                                <a href="#">
+                                                    @item.Title
+                                                </a>
+                                            </h5>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                if (count == 4)
+                                {
+                                    break;
+                                }
+                            }
+
+                        }
+
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Popular news carousel -->
+</section>
+<!-- End Popular news
+
+<!-- Popular news category -->
+<section class="pt-0">
+    <div class="popular__section-news">
+        <div class="container">
+            <div class="wrapper__list__article">
+                <h4 class="border_section"></h4>
+            </div>
+            <div class="row">
+                <div class="col-md-12 col-lg-8">
+                    <div class="row" style="padding-bottom:5px;">
+                        <div class="col-sm-12">
+                            <div class="rect-content-box-title">
+                                <span class="rect-title">G</span>
+                            </div>
+                            <h4 class="content-box-title">Gündem</h4>
+                        </div>
+                    </div>
+                    <div class="row">
+                        @foreach (var item in haberlerManset.OrderBy(x => x.Id).ToList())
+                        {
+                            count++;
+                            if (item.categories.CategoryName.Contains("Gündem"))
+                            {
+                                if (item.IsSlide == false)
+                                {
+                                    <div class="col-sm-12 col-md-6 mb-4">
+                                        <!-- Post Article -->
+                                        <div class="card__post ">
+                                            <div class="card__post__body">
+                                                <a href="./card-article-detail-v1.html">
+                                                    <img src="~/Files/@item.Image" class="img-fluid" alt="">
+                                                </a>
+                                                <div style="margin-top:15px;">
+                                                    <h6>
+                                                        <a style="color:#515d5e;" href="./card-article-detail-v1.html">
+                                                            @item.Title
+                                                        </a>
+                                                    </h6>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    if (count == 2)
+                                    {
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12 col-md-6">
+                            <div class="wrapp__list__article-responsive">
+                                <div class="mb-3">
+                                    <!-- Post Article -->
+                                    <div class="card__post card__post-list">
+                                        <div class="image-sm">
+                                            <a href="./card-article-detail-v1.html">
+                                                <img src="~/images/placeholder/500x400.jpg" class="img-fluid" alt="">
+                                            </a>
+                                        </div>
+                                        <div class="card__post__body ">
+                                            <div class="card__post__content">
+                                                <div class="card__post__title">
+                                                    <h6>
+                                                        <a href="./card-article-detail-v1.html">
+                                                            6 Best Tips for Building a Good Shipping Boat
+                                                        </a>
+                                                    </h6>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <!-- Post Article -->
+                                    <div class="card__post card__post-list">
+                                        <div class="image-sm">
+                                            <a href="./card-article-detail-v1.html">
+                                                <img src="~/images/placeholder/500x400.jpg" class="img-fluid" alt="">
+                                            </a>
+                                        </div>
+                                        <div class="card__post__body ">
+                                            <div class="card__post__content">
+                                                <div class="card__post__title">
+                                                    <h6>
+                                                        <a href="./card-article-detail-v1.html">
+                                                            6 Best Tips for Building a Good Shipping Boat
+                                                        </a>
+                                                    </h6>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-6 ">
+                            <div class="wrapp__list__article-responsive">
+                                <div class="mb-3">
+                                    <!-- Post Article -->
+                                    <div class="card__post card__post-list">
+                                        <div class="image-sm">
+                                            <a href="./card-article-detail-v1.html">
+                                                <img src="~/images/placeholder/500x400.jpg" class="img-fluid" alt="">
+                                            </a>
+                                        </div>
+                                        <div class="card__post__body ">
+                                            <div class="card__post__content">
+                                                <div class="card__post__title">
+                                                    <h6>
+                                                        <a href="./card-article-detail-v1.html">
+                                                            6 Best Tips for Building a Good Shipping Boat
+                                                        </a>
+                                                    </h6>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <!-- Post Article -->
+                                    <div class="card__post card__post-list">
+                                        <div class="image-sm">
+                                            <a href="./card-article-detail-v1.html">
+                                                <img src="~/images/placeholder/500x400.jpg" class="img-fluid" alt="">
+                                            </a>
+                                        </div>
+                                        <div class="card__post__body ">
+                                            <div class="card__post__content">
+                                                <div class="card__post__title">
+                                                    <h6>
+                                                        <a href="./card-article-detail-v1.html">
+                                                            6 Best Tips for Building a Good Shipping Boat
+                                                        </a>
+                                                    </h6>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 col-lg-4">
+
+                    <div class="row" style="padding-bottom:5px;">
+                        <div class="col-sm-12">
+                            <div class="rect-content-box-title">
+                                <span class="rect-title">Y</span>
+                            </div>
+                            <h4 class="content-box-title">Yazarlar</h4>
+                        </div>
+                    </div>
+                    <aside class="wrapper__list__article">
+                        <div class="wrapper__list-number">
+                            <!-- List Article -->
+                            <div class="mb-3">
+                                <!-- Post Article -->
+                                <div class="card__post card__post-list">
+                                    <div class="image-sm">
+                                        <a href="./card-article-detail-v1.html">
+                                            <img src="~/images/placeholder/500x400.jpg" class="img-fluid" alt="">
+                                        </a>
+                                    </div>
+                                    <div class="card__post__body ">
+                                        <div class="card__post__content">
+                                            <div class="card__post__author-info mb-2">
+                                                <ul class="list-inline">
+                                                    <li class="list-inline-item">
+                                                        <span class="text-primary">
+                                                            by david hall
+                                                        </span>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="card__post__title">
+                                                <h6>
+                                                    <a href="./card-article-detail-v1.html">
+                                                        6 Best Tips for Building a Good Shipping Boat
+                                                    </a>
+                                                </h6>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </aside>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Post news carousel -->
+    <div class="container">
+        <div class="wrapper__list__article">
+            <h4 class="border_section"></h4>
+        </div>
+        <div class="row">
+            <div class="col-md-12" style="margin-bottom:5px;">
+                <div class="rect-content-box-title">
+                    <span class="rect-title">D</span>
+                </div>
+                <h4 class="content-box-title">Dünya</h4>
+            </div>
+            <div class="col-md-12">
+                <div class="article__entry-carousel">
+                    <div class="item">
+                        <!-- Post Article -->
+                        <div class="article__entry">
+                            <div class="article__image">
+                                <a href="#">
+                                    <img src="~/images/placeholder/500x400.jpg" alt="" class="img-fluid">
+                                </a>
+                            </div>
+                            <div class="article__content">
+                                <h5>
+                                    <a href="#">
+                                        Maecenas accumsan tortor ut velit pharetra mollis.
+                                    </a>
+                                </h5>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <!-- Post Article -->
+                        <div class="article__entry">
+                            <div class="article__image">
+                                <a href="#">
+                                    <img src="~/images/placeholder/500x400.jpg" alt="" class="img-fluid">
+                                </a>
+                            </div>
+                            <div class="article__content">
+                                <h5>
+                                    <a href="#">
+                                        Maecenas accumsan tortor ut velit pharetra mollis.
+                                    </a>
+                                </h5>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <!-- Post Article -->
+                        <div class="article__entry">
+                            <div class="article__image">
+                                <a href="#">
+                                    <img src="~/images/placeholder/500x400.jpg" alt="" class="img-fluid">
+                                </a>
+                            </div>
+                            <div class="article__content">
+                                <h5>
+                                    <a href="#">
+                                        Maecenas accumsan tortor ut velit pharetra mollis.
+                                    </a>
+                                </h5>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <!-- Post Article -->
+                        <div class="article__entry">
+                            <div class="article__image">
+                                <a href="#">
+                                    <img src="~/images/placeholder/500x400.jpg" alt="" class="img-fluid">
+                                </a>
+                            </div>
+                            <div class="article__content">
+                                <h5>
+                                    <a href="#">
+                                        Maecenas accumsan tortor ut velit pharetra mollis.
+                                    </a>
+                                </h5>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Popular news category -->
+    <!-- Popular news category -->
+    <div class="mt-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12" style="background-color:#515d5e; padding:20px;">
+                    <div class="rect-content-box-title">
+                        <span class="rect-title">K</span>
+                    </div>
+                    <h4 class="content-box-title" style="color:#fff;">Kültür / Sanat</h4>
+
+                    <div class="row" style="margin-top:15px;">
+                        <div class="col-sm-12 col-md-4 mb-1">
+                            <!-- Post Article -->
+                            <div class="card__post ">
+                                <div class="card__post__body">
+                                    <a href="./card-article-detail-v1.html">
+                                        <img src="~/images/placeholder/600x400.jpg" class="img-fluid" alt="">
+                                    </a>
+                                    <div style=" margin-top: 0px; background-color: #fff; padding: 15px;">
+                                        <h6>
+                                            <a style="color:#515d5e;" href="./card-article-detail-v1.html">
+                                                Barack Obama and Family Visit borobudur temple enjoy holiday indonesia.
+                                            </a>
+                                        </h6>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-4 mb-1">
+                            <!-- Post Article -->
+                            <div class="card__post ">
+                                <div class="card__post__body">
+                                    <a href="./card-article-detail-v1.html">
+                                        <img src="~/images/placeholder/600x400.jpg" class="img-fluid" alt="">
+                                    </a>
+                                    <div style=" margin-top: 0px; background-color: #fff; padding: 15px;">
+                                        <h6>
+                                            <a style="color:#515d5e;" href="./card-article-detail-v1.html">
+                                                Barack Obama and Family Visit borobudur temple enjoy holiday indonesia.
+                                            </a>
+                                        </h6>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div> <div class="col-sm-12 col-md-4 mb-1">
+                            <!-- Post Article -->
+                            <div class="card__post ">
+                                <div class="card__post__body">
+                                    <a href="./card-article-detail-v1.html">
+                                        <img src="~/images/placeholder/600x400.jpg" class="img-fluid" alt="">
+                                    </a>
+                                    <div style=" margin-top: 0px; background-color: #fff; padding: 15px;">
+                                        <h6>
+                                            <a style="color:#515d5e;" href="./card-article-detail-v1.html">
+                                                Barack Obama and Family Visit borobudur temple enjoy holiday indonesia.
+                                            </a>
+                                        </h6>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</section>
+<!-- End Popular news category -->
+
+<section>
+    <div class="container" style="background-color:#515d5e;">
+
+    </div>
+</section>
+
+<script>
+    var slideIndex = 1;
+    showSlides(slideIndex);
+    function plusSlides(n) {
+        showSlides(slideIndex += n);
+    }
+    function currentSlide(n) {
+        showSlides(slideIndex = n);
+    }
+    function showSlides(n) {
+        var i;
+        var slides = document.getElementsByClassName("mySlides");
+        var dots = document.getElementsByClassName("dot");
+        if (n > slides.length) {
+            slideIndex = 1
+        }
+        if (n < 1) {
+            slideIndex = slides.length
+        }
+        for (i = 0; i < slides.length; i++) {
+            slides[i].style.display = "none";
+        }
+        for (i = 0; i < dots.length; i++) {
+            dots[i].className = dots[i].className.replace(" active", "");
+        }
+        slides[slideIndex - 1].style.display = "block";
+        dots[slideIndex - 1].className += " active";
+    }
+</script>
