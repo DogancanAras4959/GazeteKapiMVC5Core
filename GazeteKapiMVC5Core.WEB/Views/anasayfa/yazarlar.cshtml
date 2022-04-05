@@ -1,0 +1,63 @@
+﻿@model IEnumerable<GazeteKapiMVC5Core.Models.News.GuestModel.GuestListViewModel>
+
+@{
+    ViewData["Title"] = "yazarlar";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <!-- team member -->
+                <div class="team-member row">
+                    @foreach (var item in Model)
+                    {
+                        if (item.GuestName != "Yazar Yok")
+                        {
+                            <div class="col-md-3">
+                                <figure class="member">
+                                    <img src="~/Files/@item.GuestImage"
+                                         class="img-fluid" alt="Image">
+                                    <figcaption>
+                                        <a asp-action="yazaryazilari" asp-controller="anasayfa" asp-route-id="@item.Id"><h4>@item.GuestName</h4></a>
+                                        <small>Yazar</small>
+                                        <ul class="list-inline">
+                                            <li class="list-inline-item">
+                                                <a href="#">
+                                                    <i class="fa fa-facebook"
+                                                       aria-hidden="true"></i>
+                                                </a>
+                                            </li>
+                                            <li class="list-inline-item">
+                                                <a href="#">
+                                                    <i class="fa fa-twitter"
+                                                       aria-hidden="true"></i>
+                                                </a>
+                                            </li>
+                                            <li class="list-inline-item">
+                                                <a href="#">
+                                                    <i class="fa fa-youtube-play"
+                                                       aria-hidden="true"></i>
+                                                </a>
+                                            </li>
+                                            <li class="list-inline-item">
+                                                <a href="#">
+                                                    <i class="fa fa-linkedin"
+                                                       aria-hidden="true"></i>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </figcaption>
+                                </figure>
+                            </div>
+                        }
+
+                    }
+                </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+

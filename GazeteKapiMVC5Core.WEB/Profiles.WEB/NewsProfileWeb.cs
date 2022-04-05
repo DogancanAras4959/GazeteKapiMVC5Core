@@ -26,11 +26,12 @@ namespace GazeteKapiMVC5Core.WEB.Profiles.WEB
              .ForMember(x => x.publishtype, y => y.MapFrom(t => t.publishtype));
 
             CreateMap<GuestListItemDto, GuestListViewModel>().ForMember(x=> x.user, y => y.MapFrom(t=> t.user));
+            CreateMap<GuestDto, GuestEditViewModel>();
             CreateMap<TagNewsListItemDto, TagNewsListViewModel>().ForMember(x => x.news, y => y.MapFrom(t => t.news)).ForMember(x => x.tag, y => y.MapFrom(t => t.tag));
 
             CreateMap<CategoryBaseDto, CategoryBaseViewModel>();
             CreateMap<CategoryListItemDto, CategoryListViewModel>();
-
+            CreateMap<CategoryDto, CategoryEditViewModel>();
         }
     }
 }

@@ -101,11 +101,11 @@
 
 <body>
 
-    @{await Html.RenderPartialAsync("Header"); }
+    @await Component.InvokeAsync("HeaderWeb")
 
     @RenderBody()
 
-    @{await Html.RenderPartialAsync("Footer"); }
+    @await Component.InvokeAsync("FooterWeb")
 
     <a href="javascript:" id="return-to-top"><i class="fa fa-chevron-up"></i></a>
 

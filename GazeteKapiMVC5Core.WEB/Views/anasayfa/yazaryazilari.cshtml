@@ -1,0 +1,146 @@
+﻿@using GazeteKapiMVC5Core.Core.Extensions;
+@using GazeteKapiMVC5Core.Models.News.GuestModel
+@model PaginationList<GazeteKapiMVC5Core.Models.News.NewsModel.NewsLıstItemModel>
+@using GazeteKapiMVC5Core.Models.Category;
+
+@{
+    ViewData["Title"] = "Yazarlar";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    GuestBaseViewModel guest = ViewBag.Guest as GuestBaseViewModel;
+    List<CategoryListViewModel> categories = ViewBag.Categories as List<CategoryListViewModel>;
+    string name = "";
+}
+
+@{
+    var prevDisabled = !Model.HasPrevious ? "disabled" : "";
+    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+}
+
+<style>
+    .card__post .card__post__body .card__post__content .card__post__category {
+        clear: both;
+        color: #fff;
+        display: inline-block;
+        font-size: 10px;
+        margin-bottom: 5px;
+        padding: 5px 8px;
+        background: #f4c625;
+        line-height: 15px;
+        text-transform: uppercase;
+        font-family: "Montserrat",sans-serif;
+        font-weight: 600;
+    }
+</style>
+
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="team-member row">
+                    <div class="col-md-3">
+                        <figure class="member">
+                            <img src="~/Files/@guest.GuestImage"
+                                 class="img-fluid" alt="Image">
+                            <figcaption>
+                                <h4>@guest.GuestName</h4>
+                                <small>Yazar</small>
+                                <ul class="list-inline">
+                                    <li class="list-inline-item">
+                                        <a href="#">
+                                            <i class="fa fa-facebook"
+                                               aria-hidden="true"></i>
+                                        </a>
+                                    </li>
+                                    <li class="list-inline-item">
+                                        <a href="#">
+                                            <i class="fa fa-twitter"
+                                               aria-hidden="true"></i>
+                                        </a>
+                                    </li>
+                                    <li class="list-inline-item">
+                                        <a href="#">
+                                            <i class="fa fa-youtube-play"
+                                               aria-hidden="true"></i>
+                                        </a>
+                                    </li>
+                                    <li class="list-inline-item">
+                                        <a href="#">
+                                            <i class="fa fa-linkedin"
+                                               aria-hidden="true"></i>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </figcaption>
+                        </figure>
+                    </div>
+                    <div class="col-md-9">
+                        <p>@guest.Biography</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@if (Model != null)
+{
+    <section class="bg-light">
+        <div class="container">
+            <div class="row">
+
+                @foreach (var item in Model)
+                {
+                    <div class="col-lg-4">
+                        <!-- Post Article -->
+                        <div class="article__entry-new">
+                            <div class="article__category">
+                                @item.categories.CategoryName
+                            </div>
+                            <div class="article__image articel__image__transition">
+                                <a href="#">
+                                    <img src="~/Files/@item.Image" alt="" class="img-fluid">
+                                </a>
+                            </div>
+                            <div class="articel__content">
+
+                                <div class="article__post__title">
+                                    <h5>
+                                        <a href="#">
+                                            @item.Title
+                                        </a>
+                                    </h5>
+                                    <ul class="list-inline article__post__author">
+                                        <li class="list-inline-item">
+                                            <span>@item.PublishedTime</span>
+                                        </li>
+                                    </ul>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                }
+                
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="mt-4">
+                        <!-- pagination -->
+                        <!-- Pagination -->
+                        <div class="pagination-area">
+                            <div class="pagination wow fadeIn animated" data-wow-duration="2s" data-wow-delay="0.5s"
+                                 style="visibility: visible; animation-duration: 2s; animation-delay: 0.5s; animation-name: fadeIn;">
+                                <a asp-action="yazaryazilari" class="btn btn-link">Başa Dön</a>
+                                <a asp-action="yazaryazilari" asp-route-pageNumber="@(Model.PageIndex-1)" class="btn btn-link @prevDisabled">Önceki</a>
+                                <a asp-action="yazaryazilari" asp-route-pageNumber="@(Model.PageIndex+1)" class="btn btn-link @nextDisabled">Sonraki</a>
+                            </div>
+                        </div>
+                        <!-- End pagination -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+}

@@ -117,6 +117,31 @@ namespace SERVICES.Engine.Engines
             };
         }
 
+        public CategoryDto GetCategoryByName(string categoryName)
+        {
+            Categories getCategory = _unitOfWork.GetRepository<Categories>().FindAsync(x => x.CategoryName == categoryName).Result;
+
+            if (getCategory == null)
+            {
+                return new CategoryDto();
+            }
+
+            return new CategoryDto
+            {
+                Id = getCategory.Id,
+                CategoryName = getCategory.CategoryName,
+                Description = getCategory.Description,
+                ParentCategoryId = getCategory.ParentCategoryId,
+                IsActive = getCategory.IsActive,
+                UpdatedTime = getCategory.UpdatedTime,
+                CreatedTime = getCategory.CreatedTime,
+                Image = getCategory.Image,
+                Position = getCategory.Position,
+                UserId = getCategory.UserId,
+                user = getCategory.user
+            };
+        }
+
         public List<CategoryListItemDto> GetParentCategoryList()
         {
             IEnumerable<Categories> parentCategories = _unitOfWork.GetRepository<Categories>().Filter(x => x.ParentCategoryId == 0, y => y.OrderBy(t => t.Id), "user", 1, 100);

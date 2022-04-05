@@ -19,7 +19,6 @@ namespace SERVICE.Engine.Engines
     {
 
         private readonly IUnitOfWork<NewsAppContext> _unitOfWork;
-
         public NewsService(IUnitOfWork<NewsAppContext> unitOfWork)
         {
             _unitOfWork = unitOfWork;

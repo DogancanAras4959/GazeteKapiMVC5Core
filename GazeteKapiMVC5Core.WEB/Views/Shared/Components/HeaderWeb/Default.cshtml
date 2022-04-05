@@ -75,15 +75,15 @@
                 <div class="collapse navbar-collapse justify-content-between" id="main_nav99">
                     <ul class="navbar-nav ml-auto ">
 
-                        @foreach (var item in categories.Where(x=> x.Position == 0 && x.IsActive == true))
+                        @foreach (var item in categories.Where(x => x.Position == 0 && x.IsActive == true))
                         {
                             <li class="nav-item">
-                                <a asp-action="kategori" asp-controller="anasayfa" asp-route-id="@item.CategoryName" class="menu-link"> @item.CategoryName.ToUpper() </a> <div class="menu-rect"></div>
+                                <a asp-action="kategori" asp-controller="anasayfa" asp-route-id="@item.Id" class="menu-link"> @item.CategoryName.ToUpper() </a> <div class="menu-rect"></div>
                             </li>
                         }
 
                         <li class="nav-item">
-                            <a href="#" class="menu-link"> YAZARLAR </a> <div class="menu-rect"></div>
+                            <a asp-action="yazarlar" asp-controller="anasayfa" class="menu-link"> YAZARLAR </a> <div class="menu-rect"></div>
                         </li>
 
                         <li class="nav-item">
@@ -248,9 +248,13 @@
                 <img style="width:100%" src="~/images/lemonde.jpg" />
             </div>
             <div class="col-sm-9 banner-9">
-                <a href="#">
-                    <img style="width:100%;" src="~/images/manser2.jpg" />
-                </a>
+                @foreach (var item in categories.Where(x=> x.Position==1))
+                {
+                    <a asp-controller="anasayfa" asp-action="kategori" asp-route-id="@item.Id">
+                        <img style="width:100%;" src="~/images/manser2.jpg" />
+                    </a>
+                }
+
             </div>
         </div>
     </div>

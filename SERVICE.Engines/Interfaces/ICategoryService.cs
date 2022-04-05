@@ -17,5 +17,6 @@ namespace SERVICES.Engine.Interfaces
         Task<bool> EditIsActiveById(int id);
         bool DeleteCategoryById(int id);
         List<CategoryListItemDto> GetParentCategoryList();
+        CategoryDto GetCategoryByName(string categoryName);
     }
 }
