@@ -37,16 +37,20 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
         {
             List<NewsLıstItemModel> haberlist = null;
             haberlist = _mapper.Map<List<NewsListItemDto>, List<NewsLıstItemModel>>(_newService.newsList());
-            ViewBag.HaberlerManset = haberlist;
 
             List<GuestListViewModel> guestList = null;
             guestList = _mapper.Map<List<GuestListItemDto>,List<GuestListViewModel>>(_newService.guestList());
-            ViewBag.GuestList = guestList;
 
             List<TagNewsListViewModel> tagNewList = null;
             tagNewList = _mapper.Map<List<TagNewsListItemDto>, List<TagNewsListViewModel>>(_newService.tagsListWithNewsWeb());
 
+            List<CategoryListViewModel> categoryList = null;
+            categoryList = _mapper.Map<List<CategoryListItemDto>, List<CategoryListViewModel>>(_categoryService.GetAllCategory());
+
             ViewBag.TagNews = tagNewList;
+            ViewBag.HaberlerManset = haberlist;
+            ViewBag.GuestList = guestList;
+            ViewBag.CategoryList = categoryList;
 
             return View();
         }
@@ -106,6 +110,12 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
             return View();
         }
 
+        public IActionResult kategori(int? pageNumber, string categoryName)
+        {
+            TempData["kategori"] = categoryName;
+            return View();
+        }
+
         public IActionResult Header()
         {
             return PartialView("Header");
@@ -136,6 +146,5 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
             return PartialView("Footer");
         }
 
-     
     }
 }

@@ -1,4 +1,18 @@
-﻿
+﻿@using GazeteKapiMVC5Core.Models.Category;
+
+@{
+    List<CategoryListViewModel> categories = ViewBag.CategoryList as List<CategoryListViewModel>;
+}
+<style>
+    .fixed-top {
+        position: inherit;
+        top: 0;
+        right: 0;
+        left: 0;
+        z-index: 1030;
+    }
+</style>
+
 <header class="bg-light">
     <!-- Navbar  Top-->
     <div class="topbar d-none d-sm-block" style="background-color: #f4c625;">
@@ -53,27 +67,20 @@
                     </div>
                 </div>
                 <figure class="mb-0 mx-auto">
-                    <a href="/homepage-v1.html">
+                    <a asp-action="sayfa" asp-controller="anasayfa">
                         <img src="~/images/placeholder/kapi-logo.png" alt="" class="logo logo-img">
                     </a>
                 </figure>
 
                 <div class="collapse navbar-collapse justify-content-between" id="main_nav99">
                     <ul class="navbar-nav ml-auto ">
-                        <li class="nav-item">
-                            <a href="#" class="menu-link"> SON DAKİKA </a> <div class="menu-rect"></div>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="menu-link"> GÜNDEM </a> <div class="menu-rect"></div>
-                        </li>
 
-                        <li class="nav-item">
-                            <a href="#" class="menu-link"> DÜNYA </a> <div class="menu-rect"></div>
-                        </li>
-
-                        <li class="nav-item">
-                            <a href="#" class="menu-link"> EKONOMİ </a> <div class="menu-rect"></div>
-                        </li>
+                        @foreach (var item in categories.Where(x=> x.Position == 0 && x.IsActive == true))
+                        {
+                            <li class="nav-item">
+                                <a asp-action="kategori" asp-controller="anasayfa" asp-route-id="@item.CategoryName" class="menu-link"> @item.CategoryName.ToUpper() </a> <div class="menu-rect"></div>
+                            </li>
+                        }
 
                         <li class="nav-item">
                             <a href="#" class="menu-link"> YAZARLAR </a> <div class="menu-rect"></div>
