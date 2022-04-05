@@ -24,7 +24,6 @@ namespace SERVICE.Engine.Engines
         {
             _unitOfWork = unitOfWork;
         }
-
         public async Task<bool> createGuets(GuestDto model)
         {
             Guest newGuest = await _unitOfWork.GetRepository<Guest>().AddAsync(new Guest
@@ -359,7 +358,7 @@ namespace SERVICE.Engine.Engines
                     GuestId = model.GuestId,
                     PublishTypeId = model.PublishTypeId,
                     publishtype = model.publishtype,
-                    PublishedTime = model.PublishedTime,
+                    PublishedTime = DateTime.Now,
                 });
 
                 return newsGet.Id;
@@ -461,7 +460,6 @@ namespace SERVICE.Engine.Engines
                 return null;
             }
         }
-
         public List<TagNewsListItemDto> tagsListWithNewsWeb()
         {
             IEnumerable<TagNews> newsList = _unitOfWork.GetRepository<TagNews>().Filter(null, x => x.OrderByDescending(y => y.Id), "tag,news", null, null);
@@ -986,7 +984,6 @@ namespace SERVICE.Engine.Engines
                 return null;
             }
         }
-
         public List<NewsListItemDto> PopularNewsInAdminHome()
         {
             IEnumerable<News> newsList = _unitOfWork.GetRepository<News>().Filter(null, x => x.OrderByDescending(y => y.Views), "users,guest,publishtype,categories", 1, 1);
@@ -1025,6 +1022,23 @@ namespace SERVICE.Engine.Engines
             {
                 return null;
             }
+        }
+        public List<TagNewsListItemDto> tagsListWithNewsWebSearch(string search)
+        {
+            IEnumerable<TagNews> getTags = _unitOfWork.GetRepository<TagNews>().Filter(null, x => x.OrderByDescending(y => y.Id), "tag,news", null, null);
+
+            if (!String.IsNullOrEmpty(search))
+            {
+                getTags = getTags.Where(x => x.tag.TagName!.Contains(search));
+            }
+
+            return getTags.Select(x => new TagNewsListItemDto
+            {
+                Id = x.Id,
+                tag = x.tag,
+                news = x.news
+
+            }).ToList();
         }
     }
 }

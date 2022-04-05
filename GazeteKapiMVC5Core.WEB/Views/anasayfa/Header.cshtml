@@ -20,19 +20,19 @@
                         <ul class="topbar-sosmed">
 
                             <li>
-                                <a class="sm-link" href="#"><img style="height:25px;" src="~/images/social-media/SVG/twitter.svg" /></a>
+                                <a class="sm-link" target="_blank" href="https://twitter.com/home?lang=tr"><img style="height:25px;" src="~/images/social-media/SVG/twitter.svg" /></a>
                             </li>
                             <li>
-                                <a class="sm-link" href="#"><img style="height:25px;" src="~/images/social-media/SVG/facebook.svg" /></a>
+                                <a class="sm-link" target="_blank" href="https://www.facebook.com/"><img style="height:25px;" src="~/images/social-media/SVG/facebook.svg" /></a>
                             </li>
                             <li>
-                                <a class="sm-link" href="#"><img style="height:25px;" src="~/images/social-media/SVG/youtube.svg" /></a>
+                                <a class="sm-link" target="_blank" href="https://www.youtube.com/"><img style="height:25px;" src="~/images/social-media/SVG/youtube.svg" /></a>
                             </li>
                             <li>
-                                <a class="sm-link" href="#"><img style="height:25px;" src="~/images/social-media/SVG/instagram.svg" /></a>
+                                <a class="sm-link" target="_blank" href="https://www.instagram.com/"><img style="height:25px;" src="~/images/social-media/SVG/instagram.svg" /></a>
                             </li>
                             <li style="padding:0px;">
-                                <a class="sm-link" href="#"><img style="height:25px;" src="~/images/social-media/SVG/telegram.svg" /></a>
+                                <a class="sm-link" target="_blank" href="https://web.telegram.org/"><img style="height:25px;" src="~/images/social-media/SVG/telegram.svg" /></a>
                             </li>
 
                         </ul>
@@ -88,21 +88,18 @@
                     <div class="top-search navigation-shadow">
                         <div class="container">
                             <div class="input-group ">
-                                <form action="#">
-
+                                <form asp-action="aramasonucu" asp-controller="anasayfa">
                                     <div class="row no-gutters mt-3">
                                         <div class="col">
                                             <input class="form-control border-secondary border-right-0 rounded-0"
-                                                   type="search" value="" placeholder="Arama yapın... " id="example-search-input4">
+                                                   type="search" value="" name="searchnews" placeholder="Arama yapın... " id="example-search-input4">
                                         </div>
                                         <div class="col-auto">
-                                            <a class="btn btn-outline-secondary border-left-0 rounded-0 rounded-right"
-                                               href="/search-result.html">
+                                            <button class="btn btn-outline-secondary border-left-0 rounded-0 rounded-right">
                                                 <i class="fa fa-search"></i>
-                                            </a>
+                                            </button>
                                         </div>
                                     </div>
-
                                 </form>
                             </div>
                         </div>

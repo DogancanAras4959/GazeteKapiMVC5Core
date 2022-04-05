@@ -1,0 +1,155 @@
+﻿@using GazeteKapiMVC5Core.Core.Extensions;
+@model PaginationList<GazeteKapiMVC5Core.Models.News.NewsModel.NewsLıstItemModel>
+@using GazeteKapiMVC5Core.Models.Category;
+@{
+    ViewData["Title"] = "aramasunucu";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<CategoryListViewModel> categories = ViewBag.Categories as List<CategoryListViewModel>;
+    string name = "";
+}
+
+@{
+    var prevDisabled = !Model.HasPrevious ? "disabled" : "";
+    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+}
+
+<style>
+    .text-primary {
+        color: #f4c625 !important;
+    }
+
+    .card__post .card__post__body .card__post__content .card__post__category {
+        clear: both;
+        color: #fff;
+        display: inline-block;
+        font-size: 10px;
+        margin-bottom: 5px;
+        padding: 5px 8px;
+        background: #f4c625;
+        line-height: 15px;
+        text-transform: uppercase;
+        font-family: "Montserrat",sans-serif;
+        font-weight: 600;
+    }
+</style>
+
+@if (Model != null)
+{
+    <section class="bg-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 mx-auto">
+                    <div class="wrap__search-result">
+                        <div class="wrap__search-result-keyword">
+                            <h2>
+                                <span class="text-primary">
+                                    "@TempData["kelime"]"
+                                </span>
+                                kelimesi için @TempData["toplam"] haber bulundu
+                            </h2>
+                        </div>
+                    </div>
+
+                    @foreach (var item in Model)
+                    {
+                        <div class="card__post card__post-list card__post__transition mt-30">
+                            <div class="row ">
+                                <div class="col-md-5">
+                                    <div class="card__post__transition">
+                                        <a href="#">
+                                            <img src="~/Files/@item.Image" class="img-fluid w-100" alt="">
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="col-md-7 my-auto pl-0">
+                                    <div class="card__post__body ">
+                                        <div class="card__post__content  ">
+                                            <div class="card__post__category ">
+
+                                                @foreach (var category in categories)
+                                                {
+
+                                                    if (category.Id == item.CategoryId)
+                                                    {
+                                                        name = category.CategoryName;
+                                                        break;
+                                                    }
+                                                }
+
+                                                @name
+                                            </div>
+                                            <div class="card__post__author-info mb-2">
+                                                <ul class="list-inline">
+                                                    <li class="list-inline-item">
+                                                        <span class="text-dark text-capitalize">
+                                                            @item.PublishedTime
+                                                        </span>
+                                                    </li>
+
+                                                </ul>
+                                            </div>
+                                            <div class="card__post__title">
+                                                <h5>
+                                                    <a href="#">
+                                                        @item.Title
+                                                    </a>
+                                                </h5>
+                                                @if (item.Spot.Length > 120)
+                                                {
+                                                    <p class="d-none d-lg-block d-xl-block mb-0">
+                                                        @item.Spot.Substring(0, 125)<span>...</span>
+                                                    </p>
+                                                }
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    }
+                    <!-- Post Article List -->
+                    <!-- Post Article List -->
+
+                    <div class="mt-4">
+                        <!-- pagination -->
+                        <!-- Pagination -->
+                        <div class="pagination-area">
+                            <div class="pagination wow fadeIn animated" data-wow-duration="2s" data-wow-delay="0.5s"
+                                 style="visibility: visible; animation-duration: 2s; animation-delay: 0.5s; animation-name: fadeIn;">
+                                <a asp-action="aramasonucu" class="btn btn-link">Başa Dön</a>
+                                <a asp-action="aramasonucu" asp-route-pageNumber="@(Model.PageIndex-1)" class="btn btn-link @prevDisabled">Önceki</a>
+                                <a asp-action="aramasonucu" asp-route-pageNumber="@(Model.PageIndex+1)" class="btn btn-link @nextDisabled">Sonraki</a>
+                            </div>
+                        </div>
+                        <!-- End pagination -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+}
+else
+{
+    <section class="bg-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 mx-auto">
+                    <div class="wrap__search-result">
+                        <div class="wrap__search-result-keyword">
+                            <h2>
+                                <span class="text-primary">
+                                    @TempData["kelime"]
+                                </span>
+                                için haber bulunamadı!
+                            </h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+}
+

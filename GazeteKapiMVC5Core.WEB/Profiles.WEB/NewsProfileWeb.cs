@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
+using CORE.ApplicationCommon.DTOS.CategoryDTO;
 using CORE.ApplicationCommon.DTOS.NewsDTO;
 using CORE.ApplicationCommon.DTOS.NewsDTO.GuestDTO;
 using CORE.ApplicationCommon.DTOS.NewsDTO.TagNewsDTO;
+using GazeteKapiMVC5Core.Models.Category;
 using GazeteKapiMVC5Core.Models.News.GuestModel;
 using GazeteKapiMVC5Core.Models.News.NewsModel;
 using GazeteKapiMVC5Core.Models.News.TagModel;
@@ -25,6 +27,10 @@ namespace GazeteKapiMVC5Core.WEB.Profiles.WEB
 
             CreateMap<GuestListItemDto, GuestListViewModel>().ForMember(x=> x.user, y => y.MapFrom(t=> t.user));
             CreateMap<TagNewsListItemDto, TagNewsListViewModel>().ForMember(x => x.news, y => y.MapFrom(t => t.news)).ForMember(x => x.tag, y => y.MapFrom(t => t.tag));
+
+            CreateMap<CategoryBaseDto, CategoryBaseViewModel>();
+            CreateMap<CategoryListItemDto, CategoryListViewModel>();
+
         }
     }
 }

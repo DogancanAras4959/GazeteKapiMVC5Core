@@ -57,6 +57,7 @@ namespace SERVICE.Engine.Interfaces
         List<TagNewsListItemDto> tagsListWithNews();
         List<TagNewsListItemDto> tagsListWithNewsWeb();
         List<TagNewsListItemDto> tagsListWithNewsById(int etiketId);
+        List<TagNewsListItemDto> tagsListWithNewsWebSearch(string search);
         TagBaseDto tagGet(int etiketId);
         List<TagNewsListItemDto> tagsListWithNewsByNewsId(int id);
         List<TagListItemDto> tagList();
