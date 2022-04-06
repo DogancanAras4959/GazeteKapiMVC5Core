@@ -1,7 +1,8 @@
 ﻿@using GazeteKapiMVC5Core.Models.Category;
-
+@using GazeteKapiMVC5Core.Models;
 @{
     List<CategoryListViewModel> categories = ViewBag.CategoryList as List<CategoryListViewModel>;
+    List<doviz> dovizlist = ViewBag.dovizler as List<doviz>;
 }
 <style>
     .fixed-top {
@@ -10,6 +11,23 @@
         right: 0;
         left: 0;
         z-index: 1030;
+    }
+
+    .row-banners {
+        display: flex;
+        flex-wrap: wrap;
+        margin-right: 0px;
+        margin-left: -14px;
+    }
+
+    .banner-3 {
+        padding-left: 15px;
+        padding-right: 24px;
+    }
+
+    .banner-9 {
+        padding-right: 0px;
+        padding-left: 0px;
     }
 </style>
 
@@ -66,32 +84,58 @@
                         <span class="navbar-toggler-icon"></span>
                     </div>
                 </div>
+
                 <figure class="mb-0 mx-auto">
                     <a asp-action="sayfa" asp-controller="anasayfa">
                         <img src="~/images/placeholder/kapi-logo.png" alt="" class="logo logo-img">
                     </a>
                 </figure>
 
-                <div class="collapse navbar-collapse justify-content-between" id="main_nav99">
-                    <ul class="navbar-nav ml-auto ">
+                <div class="justify-content-between" id="main_nav99">
+                    <div class="row" style="margin-bottom: 15px;">
+                        <div class="col-sm-12" style="padding-right: 10px;">
+                            <ul class="navbar-nav ml-auto" style="float:right;">
+                                @foreach (var d in dovizlist)
+                                {
 
-                        @foreach (var item in categories.Where(x => x.Position == 0 && x.IsActive == true))
-                        {
-                            <li class="nav-item">
-                                <a asp-action="kategori" asp-controller="anasayfa" asp-route-id="@item.Id" class="menu-link"> @item.CategoryName.ToUpper() </a> <div class="menu-rect"></div>
-                            </li>
-                        }
+                                    if (d.CurrencyCode != "XDR")
+                                    {
+                                        if (d.CurrencyCode.Contains("USD") || d.CurrencyCode.Contains("EUR") || d.CurrencyCode.Contains("GBP") || d.CurrencyCode.Contains("RUB"))
+                                        {
+                                            //string img = "http://www.tcmb.gov.tr/kurlar/kurlar_tr_dosyalar/images/" + d.CurrencyCode + ".gif";
 
-                        <li class="nav-item">
-                            <a asp-action="yazarlar" asp-controller="anasayfa" class="menu-link"> YAZARLAR </a> <div class="menu-rect"></div>
-                        </li>
+                                            <li class="nav-item" style="font-size: 16px; color: #54626b">
+                                                <span style="font-weight:800;"><img src="~/Files/chevron-down.svg" width="15" height="15" /> @d.CurrencyCode</span> @d.ForexBuying
+                                            </li>
+                                        }
+                                    }
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <ul class="navbar-nav ml-auto">
 
-                        <li class="nav-item">
-                            <a href="/contact.html" class="menu-link"> DİĞER </a> <div class="menu-rect"></div>
-                        </li>
-                    </ul>
+                                @foreach (var item in categories.Where(x => x.Position == 0 && x.IsActive == true))
+                                {
+                                    <li class="nav-item">
+                                        <a asp-action="kategori" asp-controller="anasayfa" asp-route-id="@item.Id" class="menu-link"> @item.CategoryName.ToUpper() </a> <div class="menu-rect"></div>
+                                    </li>
+                                }
 
-                    <!-- Search content bar.// -->
+                                <li class="nav-item">
+                                    <a asp-action="yazarlar" asp-controller="anasayfa" class="menu-link"> YAZARLAR </a> <div class="menu-rect"></div>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a href="/contact.html" class="menu-link"> DİĞER </a> <div class="menu-rect"></div>
+                                </li>
+                            </ul>
+                        </div>
+                     
+                    </div>
+
                     <div class="top-search navigation-shadow">
                         <div class="container">
                             <div class="input-group ">
@@ -111,8 +155,9 @@
                             </div>
                         </div>
                     </div>
-                    <!-- Search content bar.// -->
                 </div> <!-- navbar-collapse.// -->
+
+
             </div>
         </nav>
     </div>
@@ -248,7 +293,7 @@
                 <img style="width:100%" src="~/images/lemonde.jpg" />
             </div>
             <div class="col-sm-9 banner-9">
-                @foreach (var item in categories.Where(x=> x.Position==1))
+                @foreach (var item in categories.Where(x => x.Position == 1))
                 {
                     <a asp-controller="anasayfa" asp-action="kategori" asp-route-id="@item.Id">
                         <img style="width:100%;" src="~/images/manser2.jpg" />

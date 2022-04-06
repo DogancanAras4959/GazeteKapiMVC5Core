@@ -9,6 +9,9 @@
     List<TagNewsListViewModel> tagList = ViewBag.TagNews as List<TagNewsListViewModel>;
     List<CategoryListViewModel> categories = ViewBag.CategotyList as List<CategoryListViewModel>;
     List<NewsLıstItemModel> newListRelational = ViewBag.Relational as List<NewsLıstItemModel>;
+    List<NewsLıstItemModel> newsListPopularite = ViewBag.Popularite as List<NewsLıstItemModel>;
+    List<NewsLıstItemModel> newsListPopulariteByCategory = ViewBag.PopulariteByCategory as List<NewsLıstItemModel>;
+
     string name = "";
     int count = 0;
 }
@@ -33,7 +36,7 @@
         left: 0;
         width: 50px;
         height: 5px;
-        background: #c00;
+        background: #f4c625;
         z-index: 1;
     }
 
@@ -52,6 +55,20 @@
         color: #54626b;
         font-weight: 700;
         text-transform: uppercase;
+    }
+
+    .btn-popularite-single-news {
+        border: 2px solid #bbbbbb;
+        padding: 10px 15px;
+        color: #bbbbbb;
+    }
+
+    .btn-popularite-single-news:hover {
+        border: 2px solid #f4c625;
+        padding: 10px 15px;
+        color: #fff;
+        background-color: #f4c625;
+        text-decoration:none;
     }
 
     .list-inline-item > a:hover {
@@ -78,6 +95,20 @@
         font-size: 11px;
         letter-spacing: 1px;
         font-family: "Montserrat",sans-serif;
+    }
+
+    .article__entry .article__content .article__category {
+        clear: both;
+        color: #54626b;
+        display: inline-block;
+        font-size: 10px;
+        margin-bottom: 5px;
+        padding: 5px 8px;
+        background: #f4c625;
+        line-height: 15px;
+        text-transform: uppercase;
+        font-family: "Montserrat",sans-serif;
+        font-weight: 600;
     }
 </style>
 
@@ -213,158 +244,59 @@
 
                 <aside class="wrapper__list__article">
                     <!-- Form Subscribe -->
-                    <div class="input-group ">
-                        <input type="text" class="form-control" placeholder="Arama yapın...">
-                        <div class="input-group-append">
-                            <button class="btn btn-primary" type="button"><i class="fa fa-search"></i></button>
+                    <form asp-action="aramasonucu" asp-controller="anasayfa">
+                        <div class="input-group">
+
+                            <input type="search" class="form-control" name="searchnews" placeholder="Arama yapın...">
+                            <div class="input-group-append">
+                                <button class="btn btn-primary"><i class="fa fa-search"></i></button>
+                            </div>
+
                         </div>
-                    </div>
+                    </form>
                 </aside>
 
                 <aside class="wrapper__list__article">
                     <div class="wrapper__list__article-small">
                         <!-- Post Article -->
-                        <div class="mb-3">
-                            <!-- Post Article -->
-                            <div class="card__post card__post-list">
-                                <div class="image-sm">
-                                    <a href="./card-article-detail-v1.html">
-                                        <img src="images/placeholder/500x400.jpg" class="img-fluid" alt="">
-                                    </a>
-                                </div>
-
-
-                                <div class="card__post__body ">
-                                    <div class="card__post__content">
-
-                                        <div class="card__post__author-info mb-2">
-                                            <ul class="list-inline">
-                                                <li class="list-inline-item">
-                                                    <span class="text-primary">
-                                                        by david hall
-                                                    </span>
-                                                </li>
-                                                <li class="list-inline-item">
-                                                    <span class="text-dark text-capitalize">
-                                                        descember 09, 2016
-                                                    </span>
-                                                </li>
-
-                                            </ul>
-                                        </div>
-                                        <div class="card__post__title">
-                                            <h6>
-                                                <a href="./card-article-detail-v1.html">
-                                                    6 Best Tips for Building a Good Shipping Boat
-                                                </a>
-                                            </h6>
-                                            <!-- <p class="d-none d-lg-block d-xl-block">
-                                                Maecenas accumsan tortor ut velit pharetra mollis. Proin eu nisl et arcu iaculis placerat
-                                                sollicitudin ut est. In fringilla dui dui.
-                                            </p> -->
-
-                                        </div>
-
+                        @foreach (var item in newsListPopularite)
+                        {
+                            <div class="mb-3">
+                                <!-- Post Article -->
+                                <div class="card__post card__post-list">
+                                    <div class="image-sm">
+                                        <a asp-controller="anasayfa" asp-action="haber" asp-route-id="@item.Id">
+                                            <img src="~/Files/@item.Image" class="img-fluid" alt="">
+                                        </a>
                                     </div>
 
 
-                                </div>
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <!-- Post Article -->
-                            <div class="card__post card__post-list">
-                                <div class="image-sm">
-                                    <a href="./card-article-detail-v1.html">
-                                        <img src="images/placeholder/500x400.jpg" class="img-fluid" alt="">
-                                    </a>
-                                </div>
+                                    <div class="card__post__body ">
+                                        <div class="card__post__content">
 
+                                            <div class="card__post__author-info mb-2">
+                                                <ul class="list-inline">
 
-                                <div class="card__post__body ">
-                                    <div class="card__post__content">
+                                                    <li class="list-inline-item">
+                                                        <span class="text-dark text-capitalize">
+                                                            @item.PublishedTime
+                                                        </span>
+                                                    </li>
 
-                                        <div class="card__post__author-info mb-2">
-                                            <ul class="list-inline">
-                                                <li class="list-inline-item">
-                                                    <span class="text-primary">
-                                                        by david hall
-                                                    </span>
-                                                </li>
-                                                <li class="list-inline-item">
-                                                    <span class="text-dark text-capitalize">
-                                                        descember 09, 2016
-                                                    </span>
-                                                </li>
-
-                                            </ul>
+                                                </ul>
+                                            </div>
+                                            <div class="card__post__title">
+                                                <h6>
+                                                    <a asp-controller="anasayfa" asp-action="haber" asp-route-id="@item.Id">
+                                                        @item.Title
+                                                    </a>
+                                                </h6>
+                                            </div>
                                         </div>
-                                        <div class="card__post__title">
-                                            <h6>
-                                                <a href="./card-article-detail-v1.html">
-                                                    6 Best Tips for Building a Good Shipping Boat
-                                                </a>
-                                            </h6>
-                                            <!-- <p class="d-none d-lg-block d-xl-block">
-                                                Maecenas accumsan tortor ut velit pharetra mollis. Proin eu nisl et arcu iaculis placerat
-                                                sollicitudin ut est. In fringilla dui dui.
-                                            </p> -->
-
-                                        </div>
-
                                     </div>
-
-
                                 </div>
                             </div>
-                        </div>
-                        <div class="mb-3">
-                            <!-- Post Article -->
-                            <div class="card__post card__post-list">
-                                <div class="image-sm">
-                                    <a href="./card-article-detail-v1.html">
-                                        <img src="images/placeholder/500x400.jpg" class="img-fluid" alt="">
-                                    </a>
-                                </div>
-
-
-                                <div class="card__post__body ">
-                                    <div class="card__post__content">
-
-                                        <div class="card__post__author-info mb-2">
-                                            <ul class="list-inline">
-                                                <li class="list-inline-item">
-                                                    <span class="text-primary">
-                                                        by david hall
-                                                    </span>
-                                                </li>
-                                                <li class="list-inline-item">
-                                                    <span class="text-dark text-capitalize">
-                                                        descember 09, 2016
-                                                    </span>
-                                                </li>
-
-                                            </ul>
-                                        </div>
-                                        <div class="card__post__title">
-                                            <h6>
-                                                <a href="./card-article-detail-v1.html">
-                                                    6 Best Tips for Building a Good Shipping Boat
-                                                </a>
-                                            </h6>
-                                            <!-- <p class="d-none d-lg-block d-xl-block">
-                                                Maecenas accumsan tortor ut velit pharetra mollis. Proin eu nisl et arcu iaculis placerat
-                                                sollicitudin ut est. In fringilla dui dui.
-                                            </p> -->
-
-                                        </div>
-
-                                    </div>
-
-
-                                </div>
-                            </div>
-                        </div>
+                        }
                     </div>
                 </aside>
 
@@ -372,48 +304,64 @@
                     <h4 class="border_section"></h4>
                     <a href="#">
                         <figure>
-                            <img src="~/images/placeholder/600x600.jpg" alt="" class="img-fluid">
+                            <img src="~/Files/reklam.jpg" alt="" class="img-fluid">
                         </figure>
                     </a>
                 </aside>
 
                 <aside class="wrapper_list_article">
                     <div class="wrapper_list_article-small">
-                        <div class="article__entry">
-                            <div class="article__image">
-                                <a href="#">
-                                    <img src="images/placeholder/500x400.jpg" alt="" class="img-fluid">
-                                </a>
-                            </div>
-                            <div class="article__content">
-                                <div class="article__category">
-                                    travel
-                                </div>
-                                <ul class="list-inline">
-                                    <li class="list-inline-item">
-                                        <span class="text-primary">
-                                            by david hall
-                                        </span>
-                                    </li>
-                                    <li class="list-inline-item">
-                                        <span class="text-dark text-capitalize">
-                                            descember 09, 2016
-                                        </span>
-                                    </li>
-
-                                </ul>
-                                <h5>
-                                    <a href="#">
-                                        Proin eu nisl et arcu iaculis placerat sollicitudin ut est
+                        @foreach (var item in newsListPopulariteByCategory)
+                        {
+                            <div class="article__entry">
+                                <div class="article__image">
+                                    <a asp-controller="anasayfa" asp-action="haber" asp-route-id="@item.Id">
+                                        <img src="~/Files/@item.Image" alt="" class="img-fluid">
                                     </a>
-                                </h5>
-                                <p>
-                                    Maecenas accumsan tortor ut velit pharetra mollis. Proin eu nisl et arcu iaculis placerat sollicitudin ut
-                                    est. In fringilla dui dui.
-                                </p>
-                                <a href="#" class="btn btn-outline-primary mb-4 text-capitalize"> read more</a>
+                                </div>
+                                <div class="article__content">
+                                    @foreach (var category in categories)
+                                    {
+
+                                        if (category.Id == Model.CategoryId)
+                                        {
+                                            name = category.CategoryName;
+                                            break;
+                                        }
+                                    }
+
+                                    <ul class="list-inline">
+                                        <li class="list-inline-item">
+                                            <div class="article__category">
+                                                @name
+                                            </div>
+                                        </li>
+                                        <li class="list-inline-item" style="float:right;">
+                                            <span class="text-dark text-capitalize">
+                                                @item.PublishedTime
+                                            </span>
+                                        </li>
+
+                                    </ul>
+                                    <h5 class="mt-3">
+                                        <a asp-controller="anasayfa" asp-action="haber" asp-route-id="@item.Id">
+                                            @item.Title
+                                        </a>
+                                    </h5>
+                                    @if (item.Spot.Length > 120)
+                                    {
+                                        <p>
+                                            @item.Spot.Substring(0, 125)<span>...</span>
+                                        </p>
+                                    }
+
+                                    <a asp-controller="anasayfa" asp-action="haber" asp-route-id="@item.Id" class="btn-popularite-single-news mt-2">
+                                        Daha Fazla
+                                    </a>
+                                </div>
                             </div>
-                        </div>
+                        }
+
                     </div>
                 </aside>
 

@@ -15,6 +15,21 @@
 
 }
 
+<style>
+    .card__post-list .card__post__content .card__post__title h6 a {
+        color: #515d5e;
+        text-shadow: none;
+        font-weight: 700 !important;
+        font-size: 14px;
+    }
+
+    .card__post-list .card__post__content .card__post__title h6 a:hover {
+        color: #3c4445;
+        text-decoration:none;
+    }
+
+</style>
+
 <div class="row" style="padding-bottom:5px;">
     <div class="col-sm-12">
         <div class="rect-content-box-title">
@@ -49,7 +64,7 @@
                             </a>
                             <div style="margin-top:15px;">
                                 <h6>
-                                    <a asp-controller="anasayfa" asp-action="haber" asp-route-id="@item.Id">
+                                    <a id="btn-article" style="color:#515d5e;" asp-controller="anasayfa" asp-action="haber" asp-route-id="@item.Id">
                                         @item.Title
                                     </a>
                                 </h6>

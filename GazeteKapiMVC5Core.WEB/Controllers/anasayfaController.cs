@@ -201,6 +201,14 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
             newsListRelational =  _mapper.Map<List<NewsListItemDto>, List<NewsLıstItemModel>>(_newService.newsListByCategoryId(newsGet.CategoryId));
             ViewBag.Relational = newsListRelational;
 
+            List<NewsLıstItemModel> newsListPopularite = null;
+            newsListPopularite = _mapper.Map<List<NewsListItemDto>, List<NewsLıstItemModel>>(_newService.PopularNewsInWeb());
+            ViewBag.Popularite = newsListPopularite;
+
+            List<NewsLıstItemModel> newListPopulariteByCategory = null;
+            newListPopulariteByCategory = _mapper.Map<List<NewsListItemDto>, List<NewsLıstItemModel>>(_newService.PopularNewsInWebInCategory(newsGet.CategoryId));
+            ViewBag.PopulariteByCategory = newListPopulariteByCategory;
+
             List<CategoryListViewModel> categoryNewList = null;
             categoryNewList = _mapper.Map<List<CategoryListItemDto>, List<CategoryListViewModel>>(_categoryService.GetAllCategory());
             ViewBag.CategotyList = categoryNewList;

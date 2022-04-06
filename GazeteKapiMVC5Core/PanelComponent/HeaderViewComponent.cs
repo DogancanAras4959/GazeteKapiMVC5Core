@@ -1,10 +1,12 @@
 ﻿using GazeteKapiMVC5Core.Core.Extensions;
+using GazeteKapiMVC5Core.Models;
 using GazeteKapiMVC5Core.Models.Account;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Xml;
 
 namespace GazeteKapiMVC5Core.PanelComponent
 {
@@ -20,6 +22,6 @@ namespace GazeteKapiMVC5Core.PanelComponent
         {
             AccountEditViewModel yoneticiGetir = SessionExtensionMethod.GetObject<AccountEditViewModel>(HttpContext.Session, "user");
             ViewBag.Yonetici = yoneticiGetir;
-        }
+        }    
     }
 }

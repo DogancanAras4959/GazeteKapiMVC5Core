@@ -1023,6 +1023,86 @@ namespace SERVICE.Engine.Engines
                 return null;
             }
         }
+
+        public List<NewsListItemDto> PopularNewsInWeb()
+        {
+            IEnumerable<News> newsList = _unitOfWork.GetRepository<News>().Filter(null, x => x.OrderByDescending(y => y.Views), "users,guest,publishtype,categories", 1, 3);
+
+            if (newsList != null)
+            {
+                return newsList.Select(x => new NewsListItemDto
+                {
+                    Id = x.Id,
+                    Title = x.Title,
+                    Spot = x.Spot,
+                    Image = x.Image,
+                    NewsContent = x.NewsContent,
+                    IsSlide = x.IsSlide,
+                    IsOpenNotifications = x.IsOpenNotifications,
+                    IsLock = x.IsLock,
+                    IsActive = x.IsActive,
+                    Views = x.Views,
+                    UpdatedTime = x.UpdatedTime,
+                    CreatedTime = x.CreatedTime,
+                    CategoryId = x.CategoryId,
+                    UserId = x.UserId,
+                    GuestId = x.GuestId,
+                    PublishTypeId = x.PublishTypeId,
+                    PublishedTime = x.PublishedTime,
+                    IsCommentActive = x.IsCommentActive,
+                    Sorted = x.Sorted,
+                    guest = x.guest,
+                    publishtype = x.publishtype,
+                    users = x.users,
+                    categories = x.categories,
+
+                }).ToList();
+            }
+            else
+            {
+                return null;
+            }
+        }
+        public List<NewsListItemDto> PopularNewsInWebInCategory(int categoryId)
+        {
+            IEnumerable<News> newsList = _unitOfWork.GetRepository<News>().Filter(x=> x.CategoryId == categoryId, x => x.OrderByDescending(y => y.Views), "users,guest,publishtype,categories", 1, 1);
+
+            if (newsList != null)
+            {
+                return newsList.Select(x => new NewsListItemDto
+                {
+                    Id = x.Id,
+                    Title = x.Title,
+                    Spot = x.Spot,
+                    Image = x.Image,
+                    NewsContent = x.NewsContent,
+                    IsSlide = x.IsSlide,
+                    IsOpenNotifications = x.IsOpenNotifications,
+                    IsLock = x.IsLock,
+                    IsActive = x.IsActive,
+                    Views = x.Views,
+                    UpdatedTime = x.UpdatedTime,
+                    CreatedTime = x.CreatedTime,
+                    CategoryId = x.CategoryId,
+                    UserId = x.UserId,
+                    GuestId = x.GuestId,
+                    PublishTypeId = x.PublishTypeId,
+                    PublishedTime = x.PublishedTime,
+                    IsCommentActive = x.IsCommentActive,
+                    Sorted = x.Sorted,
+                    guest = x.guest,
+                    publishtype = x.publishtype,
+                    users = x.users,
+                    categories = x.categories,
+
+                }).ToList();
+            }
+            else
+            {
+                return null;
+            }
+        }
+
         public List<TagNewsListItemDto> tagsListWithNewsWebSearch(string search)
         {
             IEnumerable<TagNews> getTags = _unitOfWork.GetRepository<TagNews>().Filter(null, x => x.OrderByDescending(y => y.Id), "tag,news", null, null);

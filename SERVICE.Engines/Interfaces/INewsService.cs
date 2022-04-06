@@ -65,7 +65,8 @@ namespace SERVICE.Engine.Interfaces
         List<NewsListItemDto> newsListWithLastOneToFive();
         List<TagListItemDto> tagListWithSearch(string searchName);
         List<NewsListItemDto> PopularNewsInAdminHome();
-
+        List<NewsListItemDto> PopularNewsInWeb();
+        List<NewsListItemDto> PopularNewsInWebInCategory(int categoryId);
         #endregion
 
     }
