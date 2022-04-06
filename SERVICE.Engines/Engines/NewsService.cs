@@ -235,6 +235,7 @@ namespace SERVICE.Engine.Engines
                     IsOpenNotifications = getNews.IsOpenNotifications,
                     UpdatedTime = getNews.UpdatedTime,
                     CreatedTime = getNews.CreatedTime,
+                    PublishedTime = getNews.PublishedTime,
                     Views = getNews.Views,
                     CategoryId = getNews.CategoryId,
                     UserId = getNews.UserId,
@@ -1038,6 +1039,28 @@ namespace SERVICE.Engine.Engines
                 news = x.news
 
             }).ToList();
+        }
+        public List<TagNewsListItemDto> tagsListWithNewsByTagId(int? id)
+        {
+            IEnumerable<TagNews> newsList = _unitOfWork.GetRepository<TagNews>().Filter(x => x.TagId == id, x => x.OrderByDescending(y => y.Id), "tag,news", null, null);
+
+            if (newsList != null)
+            {
+                return newsList.Select(x => new TagNewsListItemDto
+                {
+
+                    Id = x.Id,
+                    NewsId = x.NewsId,
+                    TagId = x.TagId,
+                    news = x.news,
+                    tag = x.tag,
+
+                }).ToList();
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }

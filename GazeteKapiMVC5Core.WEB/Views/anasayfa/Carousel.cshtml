@@ -17,13 +17,13 @@
                 <!-- Post Article -->
                 <div class="article__entry">
                     <div class="article__image">
-                        <a href="#">
+                        <a asp-controller="anasayfa" asp-action="haber" asp-route-id="@item.Id">
                             <img src="~/Files/@item.Image" alt="" class="img-fluid">
                         </a>
                     </div>
                     <div class="article__content">
                         <h5>
-                            <a href="#">
+                            <a asp-controller="anasayfa" asp-action="haber" asp-route-id="@item.Id">
                                 @item.Title
                             </a>
                         </h5>

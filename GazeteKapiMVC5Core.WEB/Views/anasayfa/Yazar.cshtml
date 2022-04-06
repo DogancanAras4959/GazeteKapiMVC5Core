@@ -26,7 +26,7 @@
                     <!-- Post Article -->
                     <div class="card__post card__post-list">
                         <div class="image-sm">
-                            <a href="./card-article-detail-v1.html">
+                            <a asp-action="yazaryazilari" asp-controller="anasayfa" asp-route-id="@item.Id">
                                 <img src="~/Files/@item.GuestImage" class="img-fluid" alt="">
                             </a>
                         </div>
@@ -36,7 +36,7 @@
                                     <ul class="list-inline">
                                         <li class="list-inline-item">
                                             <span class="text-primary">
-                                                <a asp-action="yazaryazilari" asp-controller="anasayfa" asp-route-id="@item.Id"> @item.GuestName</a>
+                                                <a asp-action="yazaryazilari" asp-controller="anasayfa" asp-route-id="@item.Id">@item.GuestName</a>
                                             </span>
                                         </li>
                                     </ul>
@@ -48,7 +48,7 @@
 
                                     <div class="card__post__title">
                                         <h6>
-                                            <a href="./card-article-detail-v1.html">
+                                            <a asp-controller="anasayfa" asp-action="haber" asp-route-id="@item2.Id">
                                                 @item2.Title
                                             </a>
                                         </h6>

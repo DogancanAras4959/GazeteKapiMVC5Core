@@ -50,8 +50,7 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
         
             return View();
         }
-
-        public IActionResult aramasonucu(int? pageNumber, string searchnews) 
+        public IActionResult aramasonucu(int? pageNumber, string searchnews, int? TagId) 
         {
             int pageSize = 20;
             List<NewsLıstItemModel> haberlist = null;
@@ -103,9 +102,41 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
 
                 return View(PaginationList<NewsLıstItemModel>.Create(tagsList.ToList(), pageNumber ?? 1, pageSize));
             }
+
+            if (TagId != null && TagId > 0)
+            {
+                tagNewList = _mapper.Map<List<TagNewsListItemDto>, List<TagNewsListViewModel>>(_newService.tagsListWithNewsByTagId(TagId));
+                string nameTag = "";
+                foreach (var item in tagNewList)
+                {
+                    nameTag = item.tag.TagName;
+
+                    NewsLıstItemModel model = new NewsLıstItemModel();
+                    model.Id = item.news.Id;
+                    model.Image = item.news.Image;
+                    model.Title = item.news.Title;
+                    model.Spot = item.news.Spot;
+                    model.PublishedTime = item.news.PublishedTime;
+                    model.CategoryId = item.news.CategoryId;
+                    modelNew.Add(model);
+                }
+
+                TempData["kelime"] = nameTag;
+
+                int count = modelNew.Count;
+
+                TempData["toplam"] = count;
+
+                categoryList = _mapper.Map<List<CategoryListItemDto>, List<CategoryListViewModel>>(_categoryService.GetAllCategory());
+
+                ViewBag.Categories = categoryList;
+
+                NewsLıstItemModel[] tagsList = modelNew.GroupBy(o => new { o.Title }).Select(x => x.FirstOrDefault()).ToArray();
+
+                return View(PaginationList<NewsLıstItemModel>.Create(tagsList.ToList(), pageNumber ?? 1, pageSize));
+            }
             return View();
         }
-
         public IActionResult kategori(int? pageNumber, int Id)
         {
 
@@ -118,32 +149,26 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
 
             return View(PaginationList<NewsLıstItemModel>.Create(newList.ToList(), pageNumber ?? 1, pageSize));
         }
-
         public IActionResult Slider()
         {
             return PartialView("Slider");
         }
-
         public IActionResult Carousel()
         {
             return PartialView("Carousel");
         }
-
         public IActionResult Gundem()
         {
             return PartialView("Gundem");
         }
-
         public IActionResult Yazar()
         {
             return PartialView("Yazar");
         }
-
         public IActionResult Footer()
         {
             return PartialView("Footer");
         }
-
         public IActionResult yazaryazilari(int id, int? pageNumber)
         {
             int pageSize = 20;
@@ -157,12 +182,31 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
             List<NewsLıstItemModel> newList = _mapper.Map<List<NewsListItemDto>, List<NewsLıstItemModel>>(_newService.newsListWithGuest(guest.Id));
             return View(PaginationList<NewsLıstItemModel>.Create(newList.ToList(), pageNumber ?? 1, pageSize));
         }
-
         public IActionResult yazarlar()
         {
             List<GuestListViewModel> guestList = null;
             guestList = _mapper.Map<List<GuestListItemDto>, List<GuestListViewModel>>(_newService.guestList());
             return View(guestList);
         }
+
+        public IActionResult haber(int Id)
+        {
+            var newsGet =  _mapper.Map<NewsDto, NewsEditViewModel>(_newService.getNews(Id));
+          
+            List<TagNewsListViewModel> tagNewsList = null;
+            tagNewsList =  _mapper.Map<List<TagNewsListItemDto>, List<TagNewsListViewModel>>(_newService.tagsListWithNewsByNewsId(Id));
+            ViewBag.TagNews = tagNewsList;
+
+            List<NewsLıstItemModel> newsListRelational = null;
+            newsListRelational =  _mapper.Map<List<NewsListItemDto>, List<NewsLıstItemModel>>(_newService.newsListByCategoryId(newsGet.CategoryId));
+            ViewBag.Relational = newsListRelational;
+
+            List<CategoryListViewModel> categoryNewList = null;
+            categoryNewList = _mapper.Map<List<CategoryListItemDto>, List<CategoryListViewModel>>(_categoryService.GetAllCategory());
+            ViewBag.CategotyList = categoryNewList;
+   
+            return View(newsGet);
+        }
+
     }
 }

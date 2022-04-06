@@ -56,7 +56,7 @@
                             <div class="row ">
                                 <div class="col-md-5">
                                     <div class="card__post__transition">
-                                        <a href="#">
+                                            <a asp-controller="anasayfa" asp-action="haber" asp-route-id="@item.Id">
                                             <img src="~/Files/@item.Image" class="img-fluid w-100" alt="">
                                         </a>
                                     </div>
@@ -77,8 +77,9 @@
                                                 }
 
                                                 @name
+
                                             </div>
-                                            <div class="card__post__author-info mb-2">
+                                            <div class="card__post__author-info mb-2 mt-1">
                                                 <ul class="list-inline">
                                                     <li class="list-inline-item">
                                                         <span class="text-dark text-capitalize">
@@ -90,14 +91,14 @@
                                             </div>
                                             <div class="card__post__title">
                                                 <h5>
-                                                    <a href="#">
+                                                   <a asp-controller="anasayfa" asp-action="haber" asp-route-id="@item.Id">
                                                         @item.Title
                                                     </a>
                                                 </h5>
                                                 @if (item.Spot.Length > 120)
                                                 {
                                                     <p class="d-none d-lg-block d-xl-block mb-0">
-                                                        @item.Spot.Substring(0, 125)<span>...</span>
+                                                        @item.Spot.Substring(0, 125)<span>...</span>  <a asp-controller="anasayfa" asp-action="haber" asp-route-id="@item.Id">devamını okumak için</a>
                                                     </p>
                                                 }
 

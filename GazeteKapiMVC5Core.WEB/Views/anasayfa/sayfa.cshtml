@@ -312,13 +312,13 @@
                             <!-- Post Article -->
                             <div class="article__entry">
                                 <div class="article__image">
-                                    <a href="#">
+                                    <a asp-controller="anasayfa" asp-action="haber" asp-route-id="@item.Id">
                                         <img src="~/Files/@item.Image" alt="" class="img-fluid">
                                     </a>
                                 </div>
                                 <div class="article__content">
                                     <h5>
-                                        <a href="#">
+                                        <a asp-controller="anasayfa" asp-action="haber" asp-route-id="@item.Id">
                                             @item.Title
                                         </a>
                                     </h5>
@@ -358,13 +358,13 @@
                                 <!-- Post Article -->
                                 <div class="card__post ">
                                     <div class="card__post__body">
-                                        <a href="./card-article-detail-v1.html">
+                                        <a asp-controller="anasayfa" asp-action="haber" asp-route-id="@item.Id">
                                             <img src="~/Files/@item.Image" class="img-fluid" alt="">
                                         </a>
                                         <div style=" margin-top: 0px; background-color: #fff; padding: 15px;">
                                             <h6>
-                                                <a style="color:#515d5e;" href="./card-article-detail-v1.html">
-                                                        @item.Title
+                                                <a style="color:#515d5e;" asp-controller="anasayfa" asp-action="haber" asp-route-id="@item.Id">
+                                                    @item.Title
                                                 </a>
                                             </h6>
                                         </div>

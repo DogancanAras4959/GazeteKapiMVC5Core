@@ -32,6 +32,7 @@ namespace GazeteKapiMVC5Core.WEB.Profiles.WEB
             CreateMap<CategoryBaseDto, CategoryBaseViewModel>();
             CreateMap<CategoryListItemDto, CategoryListViewModel>();
             CreateMap<CategoryDto, CategoryEditViewModel>();
+            CreateMap<NewsDto, NewsEditViewModel>();
         }
     }
 }
