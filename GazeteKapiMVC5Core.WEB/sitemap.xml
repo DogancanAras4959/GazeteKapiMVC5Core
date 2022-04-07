@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<siteMap xmlns="http://schemas.microsoft.com/AspNet/SiteMap-File-1.0">
+  <siteMapNode url="" title="" description="">
+    <siteMapNode url="https://www.gazetekapi.com/anasayfa/sayfa" title="" description="" />
+    <siteMapNode url="https://www.gazetekapi.com/anasayfa/kategori" title="" description=""/>
+    <siteMapNode url="https://www.gazetekapi.com/anasayfa/haber" title="" description="" />
+    <siteMapNode url="https://www.gazetekapi.com/anasayfa/yazarlar" title="" description="" />
+    <siteMapNode url="https://www.gazetekapi.com/anasayfa/yazaryazilari" title="" description="" />
+    <siteMapNode url="https://www.gazetekapi.com/anasayfa/aramasonucu" title="" description="" />
+    <siteMapNode url="https://www.gazetekapi.com/anasayfa/cerezpolitikalari" title="" description="" />
+    <siteMapNode url="https://www.gazetekapi.com/anasayfa/kullanimhaklari" title="" description="" />
+    <siteMapNode url="https://www.gazetekapi.com/anasayfa/arsiv" title="" description="" />
+    <siteMapNode url="https://www.gazetekapi.com/anasayfa/yayinilkeleri" title="" description="" />
+    <siteMapNode url="https://www.gazetekapi.com/anasayfa/kunye" title="" description="" />
+    <siteMapNode url="https://www.gazetekapi.com/anasayfa/galeri" title="" description="" />
+    <siteMapNode url="https://www.gazetekapi.com/anasayfa/video" title="" description="" />
+    <siteMapNode url="https://www.gazetekapi.com/anasayfa/kitap" title="" description="" />
+    <siteMapNode url="https://www.gazetekapi.com/anasayfa/dergi" title="" description="" />
+    <siteMapNode url="https://www.gazetekapi.com/anasayfa/podcast" title="" description="" />
+  </siteMapNode>
+</siteMap>

@@ -36,7 +36,13 @@ namespace GazeteKapiMVC5Core.WEB.Components
         {
             XmlDocument xml = new XmlDocument(); // yeni bir XML dökümü oluşturuyoruz.
             xml.Load("http://www.tcmb.gov.tr/kurlar/today.xml"); // bağlantı kuruyoruz.
-            var Tarih_Date_Nodes = xml.SelectSingleNode("//Tarih_Date"); // Count değerini olmak için ana boğumu seçiyoruz.
+            var Tarih_Date_Nodes = xml.SelectSingleNode("//Tarih_Date"); // Count değerini almak için ana boğumu seçiyoruz.
+
+            if (Tarih_Date_Nodes == null)
+            {
+                ViewData["dovizler"] = "Kur bilgisine şu anda ulaşılamıyor!";
+            }
+            
             var CurrencyNodes = Tarih_Date_Nodes.SelectNodes("//Currency"); // ana boğum altındaki kur boğumunu seçiyoruz.
             int CurrencyLength = CurrencyNodes.Count; // toplam kur boğumu sayısını elde ediyor ve for döngüsünde kullanıyoruz.
 
@@ -59,6 +65,7 @@ namespace GazeteKapiMVC5Core.WEB.Components
                     BanknoteSelling = cn.ChildNodes[6].InnerXml,
                     CrossRateOther = cn.ChildNodes[8].InnerXml,
                     CrossRateUSD = cn.ChildNodes[7].InnerXml,
+                    
                 });
             }
 

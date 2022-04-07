@@ -10,13 +10,19 @@ using GazeteKapiMVC5Core.Models.News.GuestModel;
 using GazeteKapiMVC5Core.Models.News.NewsModel;
 using GazeteKapiMVC5Core.Models.News.TagModel;
 using GazeteKapiMVC5Core.Models.News.TagNewsModel;
+using GazeteKapiMVC5Core.SiteMap;
+using GazeteKapiMVC5Core.WEB.Models.ConfigSiteMap;
+using GazeteKapiMVC5Core.WEB.Models.ConfigUrl;
 using Microsoft.AspNetCore.Mvc;
 using SERVICE.Engine.Interfaces;
 using SERVICES.Engine.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.ServiceModel.Syndication;
 using System.Threading.Tasks;
+using System.Xml;
 
 namespace GazeteKapiMVC5Core.WEB.Controllers
 {
@@ -26,17 +32,18 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
         private readonly IMapper _mapper;
         private readonly INewsService _newService;
         private readonly ICategoryService _categoryService;
-        public anasayfaController(INewsService newService, ICategoryService categoryService, IMapper mapper)
+        private readonly ISitemapProvider _siteMapProvider;
+        public anasayfaController(INewsService newService, ICategoryService categoryService, IMapper mapper, ISitemapProvider siteMapProvider)
         {
             _newService = newService;
             _categoryService = categoryService;
             _mapper = mapper;
+            _siteMapProvider = siteMapProvider;
         }
 
         public IActionResult sayfa()
         {
-            List<NewsLıstItemModel> haberlist = null;
-            haberlist = _mapper.Map<List<NewsListItemDto>, List<NewsLıstItemModel>>(_newService.newsList());
+            var haberlist = _mapper.Map<List<NewsListItemDto>, List<NewsLıstItemModel>>(_newService.newsList());
 
             List<GuestListViewModel> guestList = null;
             guestList = _mapper.Map<List<GuestListItemDto>,List<GuestListViewModel>>(_newService.guestList());
@@ -47,8 +54,9 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
             ViewBag.TagNews = tagNewList;
             ViewBag.HaberlerManset = haberlist;
             ViewBag.GuestList = guestList;
-        
+
             return View();
+
         }
         public IActionResult aramasonucu(int? pageNumber, string searchnews, int? TagId) 
         {
@@ -189,10 +197,13 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
             return View(guestList);
         }
 
-        public IActionResult haber(int Id)
+        [HttpGet("haber/{Id}/{Title}", Name = "haber")]
+        public IActionResult haber(int Id, string Title)
         {
             var newsGet =  _mapper.Map<NewsDto, NewsEditViewModel>(_newService.getNews(Id));
-          
+
+            string friendlyTitle = Title;
+
             List<TagNewsListViewModel> tagNewsList = null;
             tagNewsList =  _mapper.Map<List<TagNewsListItemDto>, List<TagNewsListViewModel>>(_newService.tagsListWithNewsByNewsId(Id));
             ViewBag.TagNews = tagNewsList;
@@ -212,9 +223,73 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
             List<CategoryListViewModel> categoryNewList = null;
             categoryNewList = _mapper.Map<List<CategoryListItemDto>, List<CategoryListViewModel>>(_categoryService.GetAllCategory());
             ViewBag.CategotyList = categoryNewList;
-   
+
+            if (!string.Equals(friendlyTitle, Title, StringComparison.Ordinal))
+            {
+                // If the title is null, empty or does not match the friendly title, return a 301 Permanent
+                // Redirect to the correct friendly URL.
+                return this.RedirectToRoutePermanent("haber", new { id = Id, title = friendlyTitle });
+            }
+
             return View(newsGet);
         }
 
+        [HttpGet]
+        public IActionResult RSS()
+        {
+            List<NewsLıstItemModel> haberlist = null;
+            haberlist = _mapper.Map<List<NewsListItemDto>, List<NewsLıstItemModel>>(_newService.newsList());
+
+            var feed = new SyndicationFeed("Title", "Description", new Uri("https://www.gazetekapi.com"), "RSSUrl", DateTime.Now);
+            feed.Copyright = new TextSyndicationContent($"{DateTime.Now.Year} Gazete Kapı");
+
+            var items = new List<SyndicationItem>();
+
+            foreach (var item in haberlist)
+            {
+                items.Add(new SyndicationItem(item.Title, item.Spot, new Uri("https://www.gazetekapi.com/anasayfa/haber/"+item.Id+"/"+item.GenerateSlug()), item.Id.ToString(), DateTime.Now));
+            }         
+
+            feed.Items = items;
+            var setting = new XmlWriterSettings
+            {
+                Encoding = System.Text.Encoding.UTF8,
+                NewLineHandling = NewLineHandling.Entitize,
+                NewLineOnAttributes = true,
+                Indent = true,
+            };
+
+            using(var stream = new MemoryStream())
+            {
+                using(var xmlWriter = XmlWriter.Create(stream, setting))
+                {
+                    var rssFormator = new Rss20FeedFormatter(feed, false);
+                    rssFormator.WriteTo(xmlWriter);
+                    xmlWriter.Flush();
+                }
+                return File(stream.ToArray(), "application/rss+xml;charset=utf-8");
+            }
+        }
+      
+        //public IActionResult newssitemap()
+        //{
+        //    var haberlist = _mapper.Map<List<NewsListItemDto>, List<NewsLıstItemModel>>(_newService.newsList()).AsQueryable();
+
+        //    var productSitemapIndexConfiguration = new ProductSitemapIndexConfiguration(haberlist, null, Url);
+
+        //    return _siteMapProvider.CreateSitemapIndex(new SitemapIndexModel(new List<SitemapIndexNode> {
+            
+        //        new SitemapIndexNode(Url.Action("sayfa")),
+        //        new SitemapIndexNode(Url.Action("haber")),
+        //        new SitemapIndexNode(Url.Action("kategori")),
+        //        new SitemapIndexNode(Url.Action("yazarlar")),
+        //        new SitemapIndexNode(Url.Action("aramasonucu")),
+        //        new SitemapIndexNode(Url.Action("yazaryazilari")),
+        //    }
+        //    ));
+
+        //    //return new DynamicSitemapIndexProvider().CreateSitemapIndex(new SitemapProvider(new BaseUrlProvider()), productSitemapIndexConfiguration);
+
+        //}
     }
 }

@@ -2,6 +2,7 @@
 using CORE.ApplicationCore.UnitOfWork;
 using GazeteKapiMVC5Core.DataAccessLayer;
 using GazeteKapiMVC5Core.DataAccessLayerLOG;
+using GazeteKapiMVC5Core.SiteMap;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
@@ -46,6 +47,7 @@ namespace GazeteKapiMVC5Core.WEB.CoreInjection
         internal static void AddInjections(this IServiceCollection services)
         {
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddSingleton<ISitemapProvider, SitemapProvider>();
             services.AddTransient(typeof(IBackEndExceptionHandler), typeof(BackEndExceptionHandler));
             services.AddTransient(typeof(IUserService), typeof(UserService));
             services.AddTransient(typeof(IRoleService), typeof(RoleService));

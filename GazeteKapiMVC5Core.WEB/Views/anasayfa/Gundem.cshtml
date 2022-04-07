@@ -59,12 +59,12 @@
                     <!-- Post Article -->
                     <div class="card__post ">
                         <div class="card__post__body">
-                            <a asp-controller="anasayfa" asp-action="haber" asp-route-id="@item.Id">
+                            <a href="haber">
                                 <img src="~/Files/@item.Image" class="img-fluid" alt="">
                             </a>
                             <div style="margin-top:15px;">
                                 <h6>
-                                    <a id="btn-article" style="color:#515d5e;" asp-controller="anasayfa" asp-action="haber" asp-route-id="@item.Id">
+                                    <a id="btn-article" style="color:#515d5e;" href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
                                         @item.Title
                                     </a>
                                 </h6>
@@ -118,7 +118,7 @@
                                 <!-- Post Article -->
                                 <div class="card__post card__post-list">
                                     <div class="image-sm">
-                                        <a asp-controller="anasayfa" asp-action="haber" asp-route-id="@tagsList[i].Id">
+                                        <a href="@Url.Action("haber","anasayfa", new { Id = tagsList[i].Id, Title = tagsList[i].GenerateSlug() })">
                                             <img src="~/Files/@tagsList[i].Image" class="img-fluid" alt="">
                                         </a>
                                     </div>
@@ -126,7 +126,7 @@
                                         <div class="card__post__content">
                                             <div class="card__post__title">
                                                 <h6>
-                                                    <a asp-controller="anasayfa" asp-action="haber" asp-route-id="@tagsList[i].Id">
+                                                    <a href="@Url.Action("haber","anasayfa", new { Id = tagsList[i].Id, Title = tagsList[i].GenerateSlug() })">
                                                         @tagsList[i].Title
                                                     </a>
                                                 </h6>

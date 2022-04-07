@@ -7,6 +7,7 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="11.0.1" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.5" />
+    <PackageReference Include="System.ServiceModel.Syndication" Version="6.0.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -18,6 +19,7 @@
     <ProjectReference Include="..\CORE.ApplicationCore\CORE.ApplicationCore.csproj" />
     <ProjectReference Include="..\GazeteKapiMVC5Core.DataAccessLayerLOG\GazeteKapiMVC5Core.DataAccessLayerLOG.csproj" />
     <ProjectReference Include="..\GazeteKapiMVC5Core.DataAccessLayer\GazeteKapiMVC5Core.DataAccessLayer.csproj" />
+    <ProjectReference Include="..\GazeteKapiMVC5Core.SITEMAP\GazeteKapiMVC5Core.SiteMap.csproj" />
     <ProjectReference Include="..\GazeteKapiMVC5Core\GazeteKapiMVC5Core.csproj" />
     <ProjectReference Include="..\SERVICE.Engines\SERVICE.Engine.csproj" />
   </ItemGroup>

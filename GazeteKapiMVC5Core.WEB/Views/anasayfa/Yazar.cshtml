@@ -48,7 +48,7 @@
 
                                     <div class="card__post__title">
                                         <h6>
-                                            <a asp-controller="anasayfa" asp-action="haber" asp-route-id="@item2.Id">
+                                            <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item2.Title })">
                                                 @item2.Title
                                             </a>
                                         </h6>

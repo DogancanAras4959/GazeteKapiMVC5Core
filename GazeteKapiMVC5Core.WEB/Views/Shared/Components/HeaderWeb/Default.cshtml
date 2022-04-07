@@ -3,6 +3,7 @@
 @{
     List<CategoryListViewModel> categories = ViewBag.CategoryList as List<CategoryListViewModel>;
     List<doviz> dovizlist = ViewBag.dovizler as List<doviz>;
+    decimal count = 0;
 }
 <style>
     .fixed-top {
@@ -63,10 +64,12 @@
                             <li>
                                 <a class="sm-link" target="_blank" href="https://www.instagram.com/"><img style="height:25px;" src="~/images/social-media/SVG/instagram.svg" /></a>
                             </li>
-                            <li style="padding:0px;">
+                            <li>
                                 <a class="sm-link" target="_blank" href="https://web.telegram.org/"><img style="height:25px;" src="~/images/social-media/SVG/telegram.svg" /></a>
                             </li>
-
+                            <li style="padding:0px; margin-left:4px;">
+                                <a class="sm-link" target="_blank" href="@Url.Action("Rss","anasayfa")"><img style="height:25px;" src="~/Files/rss.svg" /></a>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -85,7 +88,7 @@
                     </div>
                 </div>
 
-                <figure class="mb-0 mx-auto">
+                <figure class="mb-0">
                     <a asp-action="sayfa" asp-controller="anasayfa">
                         <img src="~/images/placeholder/kapi-logo.png" alt="" class="logo logo-img">
                     </a>
@@ -95,18 +98,30 @@
                     <div class="row" style="margin-bottom: 15px;">
                         <div class="col-sm-12" style="padding-right: 10px;">
                             <ul class="navbar-nav ml-auto" style="float:right;">
-                                @foreach (var d in dovizlist)
+
+                                @if (ViewData["dovizler"] == null)
                                 {
-
-                                    if (d.CurrencyCode != "XDR")
+                                    <li class="nav-item" style="font-size: 16px; color: #54626b">
+                                        <span>@ViewData["dovizler"]</span>
+                                    </li>
+                                }
+                                else
+                                {
+                                    @foreach (var d in dovizlist)
                                     {
-                                        if (d.CurrencyCode.Contains("USD") || d.CurrencyCode.Contains("EUR") || d.CurrencyCode.Contains("GBP") || d.CurrencyCode.Contains("RUB"))
-                                        {
-                                            //string img = "http://www.tcmb.gov.tr/kurlar/kurlar_tr_dosyalar/images/" + d.CurrencyCode + ".gif";
 
-                                            <li class="nav-item" style="font-size: 16px; color: #54626b">
-                                                <span style="font-weight:800;"><img src="~/Files/chevron-down.svg" width="15" height="15" /> @d.CurrencyCode</span> @d.ForexBuying
-                                            </li>
+                                        if (d.CurrencyCode != "XDR")
+                                        {
+                                            if (d.CurrencyCode.Contains("USD") || d.CurrencyCode.Contains("EUR") || d.CurrencyCode.Contains("GBP") || d.CurrencyCode.Contains("RUB"))
+                                            {
+                                                //string img = "http://www.tcmb.gov.tr/kurlar/kurlar_tr_dosyalar/images/" + d.CurrencyCode + ".gif";
+                                                count = Convert.ToDecimal(d.ForexBuying);
+
+                                                <li class="nav-item" style="font-size: 16px; color: #54626b">
+                                                    <span style="font-weight:800;"><img src="~/Files/chevron-up.svg" width="15" height="15" /> @d.CurrencyCode</span> @d.ForexBuying
+                                                </li>
+
+                                            }
                                         }
                                     }
                                 }
@@ -133,7 +148,7 @@
                                 </li>
                             </ul>
                         </div>
-                     
+
                     </div>
 
                     <div class="top-search navigation-shadow">

@@ -98,7 +98,7 @@
                                 @item.categories.CategoryName
                             </div>
                             <div class="article__image articel__image__transition">
-                                <a asp-controller="anasayfa" asp-action="haber" asp-route-id="@item.Id">
+                                <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
                                     <img src="~/Files/@item.Image" alt="" class="img-fluid">
                                 </a>
                             </div>
@@ -106,7 +106,7 @@
 
                                 <div class="article__post__title">
                                     <h5>
-                                        <a asp-controller="anasayfa" asp-action="haber" asp-route-id="@item.Id">
+                                        <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
                                             @item.Title
                                         </a>
                                     </h5>

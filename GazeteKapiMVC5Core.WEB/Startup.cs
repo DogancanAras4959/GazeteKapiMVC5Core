@@ -52,7 +52,7 @@ namespace GazeteKapiMVC5Core.WEB
             IMapper mapper = mappingConfig.CreateMapper();
             services.AddSingleton(mapper);
             services.AddSession(x => x.IdleTimeout = TimeSpan.FromHours(1));
-       
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -68,6 +68,7 @@ namespace GazeteKapiMVC5Core.WEB
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSession();
@@ -77,6 +78,11 @@ namespace GazeteKapiMVC5Core.WEB
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapControllerRoute(
+                name: "news",
+                pattern: "/news/{Id}/{Title}", new { controller = "anasayfa", action = "haber" }
+            );
+
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=anasayfa}/{action=sayfa}/{id?}");

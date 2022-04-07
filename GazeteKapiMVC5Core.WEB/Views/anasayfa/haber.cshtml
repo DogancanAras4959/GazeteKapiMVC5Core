@@ -205,7 +205,7 @@
                                     <!-- Post Article -->
                                     <div class="article__entry">
                                         <div class="article__image">
-                                            <a asp-controller="anasayfa" asp-action="haber" asp-route-id="@item.Id">
+                                            <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
                                                 <img src="~/Files/@item.Image" alt="" class="img-fluid">
                                             </a>
                                         </div>
@@ -219,7 +219,7 @@
 
                                             </ul>
                                             <h5>
-                                                <a asp-controller="anasayfa" asp-action="haber" asp-route-id="@item.Id">
+                                                <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
                                                     @item.Title
                                                 </a>
                                             </h5>
@@ -265,7 +265,7 @@
                                 <!-- Post Article -->
                                 <div class="card__post card__post-list">
                                     <div class="image-sm">
-                                        <a asp-controller="anasayfa" asp-action="haber" asp-route-id="@item.Id">
+                                        <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
                                             <img src="~/Files/@item.Image" class="img-fluid" alt="">
                                         </a>
                                     </div>
@@ -287,7 +287,7 @@
                                             </div>
                                             <div class="card__post__title">
                                                 <h6>
-                                                    <a asp-controller="anasayfa" asp-action="haber" asp-route-id="@item.Id">
+                                                    <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
                                                         @item.Title
                                                     </a>
                                                 </h6>
@@ -315,7 +315,7 @@
                         {
                             <div class="article__entry">
                                 <div class="article__image">
-                                    <a asp-controller="anasayfa" asp-action="haber" asp-route-id="@item.Id">
+                                    <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
                                         <img src="~/Files/@item.Image" alt="" class="img-fluid">
                                     </a>
                                 </div>
@@ -344,7 +344,7 @@
 
                                     </ul>
                                     <h5 class="mt-3">
-                                        <a asp-controller="anasayfa" asp-action="haber" asp-route-id="@item.Id">
+                                        <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
                                             @item.Title
                                         </a>
                                     </h5>
@@ -355,7 +355,7 @@
                                         </p>
                                     }
 
-                                    <a asp-controller="anasayfa" asp-action="haber" asp-route-id="@item.Id" class="btn-popularite-single-news mt-2">
+                                    <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })" class="btn-popularite-single-news mt-2">
                                         Daha Fazla
                                     </a>
                                 </div>
