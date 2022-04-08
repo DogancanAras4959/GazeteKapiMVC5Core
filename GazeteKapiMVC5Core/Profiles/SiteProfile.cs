@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
+using CORE.ApplicationCommon.DTOS.CurrencyDTO;
 using CORE.ApplicationCommon.DTOS.PrivacyDTO.AboutUsDto;
 using CORE.ApplicationCommon.DTOS.PrivacyDTO.PrivacyDto;
 using CORE.ApplicationCommon.DTOS.PrivacyDTO.TermsOfUsDto;
 using CORE.ApplicationCommon.DTOS.SetingsDTO;
+using GazeteKapiMVC5Core.Models.CurrencyModel;
 using GazeteKapiMVC5Core.Models.Settings;
 using GazeteKapiMVC5Core.Models.Site.AboutUsModel;
 using GazeteKapiMVC5Core.Models.Site.PrivacyModel;
@@ -33,6 +35,10 @@ namespace GazeteKapiMVC5Core.Profiles
             CreateMap<TermsOfUsEditModel, TermsOfUsDto>();
             CreateMap<TermsOfUsDto, TermsOfUsEditModel>();
             CreateMap<TermsOfUsDto, PrivacyBaseModel>();
+
+            CreateMap<CurrencyCreateViewModel, CurrencyDto>();
+            CreateMap<CurrencyListItemDto, CurrencyListViewModel>();
+
         }
     }
 }

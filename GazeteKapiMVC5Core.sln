@@ -23,7 +23,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SERVICE.Engine", "SERVICE.E
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GazeteKapiMVC5Core.WEB", "GazeteKapiMVC5Core.WEB\GazeteKapiMVC5Core.WEB.csproj", "{59C87154-0F17-4B26-B9D7-03E2F0834C29}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GazeteKapiMVC5Core.SiteMap", "GazeteKapiMVC5Core.SITEMAP\GazeteKapiMVC5Core.SiteMap.csproj", "{0F64F76B-FC03-4A76-8598-00E590632BB1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GazeteKapiMVC5Core.SiteMap", "GazeteKapiMVC5Core.SITEMAP\GazeteKapiMVC5Core.SiteMap.csproj", "{0F64F76B-FC03-4A76-8598-00E590632BB1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

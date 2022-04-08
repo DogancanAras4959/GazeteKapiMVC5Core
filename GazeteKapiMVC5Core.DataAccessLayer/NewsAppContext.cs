@@ -29,13 +29,15 @@ namespace GazeteKapiMVC5Core.DataAccessLayer
         public virtual DbSet<Privacy> privacy { get; set; }
         public virtual DbSet<AboutUs> aboutus { get; set; }
         public virtual DbSet<TermsOfUse> termsofUse { get; set; }
+        public virtual DbSet<Currency> currency { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new UserMapping());
             modelBuilder.ApplyConfiguration(new RolesMapping());
             modelBuilder.ApplyConfiguration(new AuthorizesMapping());
             modelBuilder.ApplyConfiguration(new RoleAuthorizeMapping());
-            modelBuilder.ApplyConfiguration(new CategoriesMapping()); modelBuilder.ApplyConfiguration(new NewsMapping());
+            modelBuilder.ApplyConfiguration(new CategoriesMapping());
+            modelBuilder.ApplyConfiguration(new NewsMapping());
             modelBuilder.ApplyConfiguration(new GuestMapping());
             modelBuilder.ApplyConfiguration(new PublishTypeMapping());
             modelBuilder.ApplyConfiguration(new TagMapping());
@@ -44,6 +46,7 @@ namespace GazeteKapiMVC5Core.DataAccessLayer
             modelBuilder.ApplyConfiguration(new PrivacyMapping());
             modelBuilder.ApplyConfiguration(new AboutUsMapping());
             modelBuilder.ApplyConfiguration(new TermsOfUseMapping());
+            modelBuilder.ApplyConfiguration(new CurrencyMapping());
 
             base.OnModelCreating(modelBuilder);
         }

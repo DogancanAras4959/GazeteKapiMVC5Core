@@ -12,15 +12,24 @@ using GazeteKapiMVC5Core.Models.News.TagModel;
 using GazeteKapiMVC5Core.Models.News.TagNewsModel;
 using GazeteKapiMVC5Core.SiteMap;
 using GazeteKapiMVC5Core.WEB.Models.ConfigSiteMap;
+using GazeteKapiMVC5Core.WEB.Models.ConfigTTS;
 using GazeteKapiMVC5Core.WEB.Models.ConfigUrl;
 using Microsoft.AspNetCore.Mvc;
 using SERVICE.Engine.Interfaces;
 using SERVICES.Engine.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.ServiceModel.Syndication;
+using System.Speech.AudioFormat;
+using System.Speech.Recognition;
+using System.Speech.Synthesis;
+using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml;
 
@@ -33,12 +42,16 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
         private readonly INewsService _newService;
         private readonly ICategoryService _categoryService;
         private readonly ISitemapProvider _siteMapProvider;
+        private SpeechSynthesizer ss;
+        private string plainTextGlobal = "";
+
         public anasayfaController(INewsService newService, ICategoryService categoryService, IMapper mapper, ISitemapProvider siteMapProvider)
         {
             _newService = newService;
             _categoryService = categoryService;
             _mapper = mapper;
             _siteMapProvider = siteMapProvider;
+            ss = new SpeechSynthesizer();
         }
 
         public IActionResult sayfa()
@@ -46,11 +59,11 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
             var haberlist = _mapper.Map<List<NewsListItemDto>, List<NewsLıstItemModel>>(_newService.newsList());
 
             List<GuestListViewModel> guestList = null;
-            guestList = _mapper.Map<List<GuestListItemDto>,List<GuestListViewModel>>(_newService.guestList());
+            guestList = _mapper.Map<List<GuestListItemDto>, List<GuestListViewModel>>(_newService.guestList());
 
             List<TagNewsListViewModel> tagNewList = null;
             tagNewList = _mapper.Map<List<TagNewsListItemDto>, List<TagNewsListViewModel>>(_newService.tagsListWithNewsWeb());
-         
+
             ViewBag.TagNews = tagNewList;
             ViewBag.HaberlerManset = haberlist;
             ViewBag.GuestList = guestList;
@@ -58,7 +71,7 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
             return View();
 
         }
-        public IActionResult aramasonucu(int? pageNumber, string searchnews, int? TagId) 
+        public IActionResult aramasonucu(int? pageNumber, string searchnews, int? TagId)
         {
             int pageSize = 20;
             List<NewsLıstItemModel> haberlist = null;
@@ -98,7 +111,7 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
                 }
 
                 TempData["kelime"] = searchnews;
-                
+
                 int count = modelNew.Count;
                 TempData["toplam"] = count;
 
@@ -106,7 +119,7 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
 
                 ViewBag.Categories = categoryList;
 
-                NewsLıstItemModel[] tagsList = modelNew.GroupBy(o => new { o.Title }).Select(x=> x.FirstOrDefault()).ToArray();
+                NewsLıstItemModel[] tagsList = modelNew.GroupBy(o => new { o.Title }).Select(x => x.FirstOrDefault()).ToArray();
 
                 return View(PaginationList<NewsLıstItemModel>.Create(tagsList.ToList(), pageNumber ?? 1, pageSize));
             }
@@ -148,7 +161,7 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
         public IActionResult kategori(int? pageNumber, int Id)
         {
 
-            var category =  _mapper.Map<CategoryDto, CategoryEditViewModel>(_categoryService.GetCategoryById(Id));
+            var category = _mapper.Map<CategoryDto, CategoryEditViewModel>(_categoryService.GetCategoryById(Id));
 
             TempData["kategori"] = category.CategoryName;
             int pageSize = 18;
@@ -180,7 +193,7 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
         public IActionResult yazaryazilari(int id, int? pageNumber)
         {
             int pageSize = 20;
-            var guest = _mapper.Map<GuestDto,GuestEditViewModel>(_newService.getGuest(id));
+            var guest = _mapper.Map<GuestDto, GuestEditViewModel>(_newService.getGuest(id));
             ViewBag.Guest = guest;
 
             List<CategoryListViewModel> categoryList = null;
@@ -200,16 +213,17 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
         [HttpGet("haber/{Id}/{Title}", Name = "haber")]
         public IActionResult haber(int Id, string Title)
         {
-            var newsGet =  _mapper.Map<NewsDto, NewsEditViewModel>(_newService.getNews(Id));
+            var newsGet = _mapper.Map<NewsDto, NewsEditViewModel>(_newService.getNews(Id));
+            ViewBag.Content = HtmlToPlainText(newsGet.NewsContent);
 
             string friendlyTitle = Title;
 
             List<TagNewsListViewModel> tagNewsList = null;
-            tagNewsList =  _mapper.Map<List<TagNewsListItemDto>, List<TagNewsListViewModel>>(_newService.tagsListWithNewsByNewsId(Id));
+            tagNewsList = _mapper.Map<List<TagNewsListItemDto>, List<TagNewsListViewModel>>(_newService.tagsListWithNewsByNewsId(Id));
             ViewBag.TagNews = tagNewsList;
 
             List<NewsLıstItemModel> newsListRelational = null;
-            newsListRelational =  _mapper.Map<List<NewsListItemDto>, List<NewsLıstItemModel>>(_newService.newsListByCategoryId(newsGet.CategoryId));
+            newsListRelational = _mapper.Map<List<NewsListItemDto>, List<NewsLıstItemModel>>(_newService.newsListByCategoryId(newsGet.CategoryId));
             ViewBag.Relational = newsListRelational;
 
             List<NewsLıstItemModel> newsListPopularite = null;
@@ -247,8 +261,8 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
 
             foreach (var item in haberlist)
             {
-                items.Add(new SyndicationItem(item.Title, item.Spot, new Uri("https://www.gazetekapi.com/anasayfa/haber/"+item.Id+"/"+item.GenerateSlug()), item.Id.ToString(), DateTime.Now));
-            }         
+                items.Add(new SyndicationItem(item.Title, item.Spot, new Uri("https://www.gazetekapi.com/anasayfa/haber/" + item.Id + "/" + item.GenerateSlug()), item.Id.ToString(), DateTime.Now));
+            }
 
             feed.Items = items;
             var setting = new XmlWriterSettings
@@ -259,9 +273,9 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
                 Indent = true,
             };
 
-            using(var stream = new MemoryStream())
+            using (var stream = new MemoryStream())
             {
-                using(var xmlWriter = XmlWriter.Create(stream, setting))
+                using (var xmlWriter = XmlWriter.Create(stream, setting))
                 {
                     var rssFormator = new Rss20FeedFormatter(feed, false);
                     rssFormator.WriteTo(xmlWriter);
@@ -270,7 +284,7 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
                 return File(stream.ToArray(), "application/rss+xml;charset=utf-8");
             }
         }
-      
+
         //public IActionResult newssitemap()
         //{
         //    var haberlist = _mapper.Map<List<NewsListItemDto>, List<NewsLıstItemModel>>(_newService.newsList()).AsQueryable();
@@ -278,7 +292,7 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
         //    var productSitemapIndexConfiguration = new ProductSitemapIndexConfiguration(haberlist, null, Url);
 
         //    return _siteMapProvider.CreateSitemapIndex(new SitemapIndexModel(new List<SitemapIndexNode> {
-            
+
         //        new SitemapIndexNode(Url.Action("sayfa")),
         //        new SitemapIndexNode(Url.Action("haber")),
         //        new SitemapIndexNode(Url.Action("kategori")),
@@ -290,6 +304,35 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
 
         //    //return new DynamicSitemapIndexProvider().CreateSitemapIndex(new SitemapProvider(new BaseUrlProvider()), productSitemapIndexConfiguration);
 
-        //}
+        //}7
+
+        #region Text to Speech
+
+        private static string HtmlToPlainText(string html)
+        {
+            const string tagWhiteSpace = @"(>|$)(\W|\n|\r)+<";//matches one or more (white space or line breaks) between '>' and '<'
+            const string stripFormatting = @"<[^>]*(>|$)";//match any character between '<' and '>', even when end tag is missing
+            const string lineBreak = @"<(br|BR)\s{0,1}\/{0,1}>";//matches: <br>,<br/>,<br />,<BR>,<BR/>,<BR />
+            var lineBreakRegex = new Regex(lineBreak, RegexOptions.Multiline);
+            var stripFormattingRegex = new Regex(stripFormatting, RegexOptions.Multiline);
+            var tagWhiteSpaceRegex = new Regex(tagWhiteSpace, RegexOptions.Multiline);
+
+            var text = html;
+            //Decode html specific characters
+            text = System.Net.WebUtility.HtmlDecode(text);
+            //Remove tag whitespace/line breaks
+            text = tagWhiteSpaceRegex.Replace(text, "><");
+            //Replace <br /> with line breaks
+            text = lineBreakRegex.Replace(text, Environment.NewLine);
+            //Strip formatting
+            text = stripFormattingRegex.Replace(text, string.Empty);
+
+            return text;
+        }
+
+        #endregion
+
     }
+
+
 }

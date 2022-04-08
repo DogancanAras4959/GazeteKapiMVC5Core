@@ -28,7 +28,7 @@ namespace GazeteKapiMVC5Core.WEB.Components
             List<CategoryListViewModel> categoryList = null;
             categoryList = _mapper.Map<List<CategoryListItemDto>, List<CategoryListViewModel>>(_categoryService.GetAllCategory());
             ViewBag.CategoryList = categoryList;
-            GetCurrencyService();
+            //GetCurrencyService();
             return View();
         }
 
@@ -37,7 +37,7 @@ namespace GazeteKapiMVC5Core.WEB.Components
             XmlDocument xml = new XmlDocument(); // yeni bir XML dökümü oluşturuyoruz.
             xml.Load("http://www.tcmb.gov.tr/kurlar/today.xml"); // bağlantı kuruyoruz.
             var Tarih_Date_Nodes = xml.SelectSingleNode("//Tarih_Date"); // Count değerini almak için ana boğumu seçiyoruz.
-
+                
             if (Tarih_Date_Nodes == null)
             {
                 ViewData["dovizler"] = "Kur bilgisine şu anda ulaşılamıyor!";
