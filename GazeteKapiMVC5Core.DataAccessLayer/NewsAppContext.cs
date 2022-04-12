@@ -30,6 +30,8 @@ namespace GazeteKapiMVC5Core.DataAccessLayer
         public virtual DbSet<AboutUs> aboutus { get; set; }
         public virtual DbSet<TermsOfUse> termsofUse { get; set; }
         public virtual DbSet<Currency> currency { get; set; }
+        public virtual DbSet<MenuItems> items { get; set; }
+        public virtual DbSet<MenuTypes> types { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new UserMapping());

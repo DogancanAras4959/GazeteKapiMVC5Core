@@ -20,6 +20,13 @@
 
 <link href="~/css/loading.css" rel="stylesheet" />
 <style>
+    .img-cat {
+        position: relative;
+        top: 45px;
+        left: 14px;
+        z-index: 1;
+    }
+
     .btn-primary {
         color: #fff;
         background-color: #54626b;
@@ -78,6 +85,11 @@
         text-decoration: none;
     }
 
+    .btn-sound:hover{
+        cursor:pointer;
+        color:#f4c625;
+    }
+
     .blog-tags .list-inline .list-inline-item .fa-tags {
         margin-right: 10px;
         text-align: center;
@@ -113,6 +125,10 @@
         font-family: "Montserrat",sans-serif;
         font-weight: 600;
     }
+    ol, ul, dl {
+        margin-top: 0;
+        margin-bottom: 0;
+    } 
 </style>
 
 <section class="bg-white pb-60" id="newSection">
@@ -134,43 +150,38 @@
                     <div class="wrap_article-detail-info">
                         <ul class="list-inline">
                             <li class="list-inline-item">
-
-                                @foreach (var category in categories)
-                                {
-
-                                    if (category.Id == Model.CategoryId)
-                                    {
-                                        name = category.CategoryName;
-                                        break;
-                                    }
-                                }
-
-                                <a asp-action="kategori" asp-controller="anasayfa" asp-route-id="@Model.CategoryId">
-                                    <span class="text-rect">@name</span>
-                                </a>
-                            </li>
-                            <li class="list-inline-item" style="float:right; margin-right:0; padding-left:15px;">
-                                <a asp-controller="anasayfa" asp-action="stopToNewsDetail"><i class="fa fa-stop"></i></a>
-                            </li>
-                            <li class="list-inline-item" style="float:right; margin-right:0; padding-left:15px;">
-                                <a href="@Url.Action("play","anasayfa", new { Id = Model.Id })"><i class="fa fa-play"></i></a>
-                            </li>
-                            <li class="list-inline-item">
-                                <span class="ml-1">
-                                    <i class="fa fa-eye"></i>
-                                    @Model.Views
-                                </span>
-                            </li>
-                            <li class="list-inline-item" style="float:right;">
                                 <span class="text-dark text-capitalize ml-1">
                                     <i class="fa fa-clock-o"></i>
                                     @Model.PublishedTime
                                 </span>
                             </li>
+                            <li class="list-inline-item" style="float:right;">
+                                <audio id="player" src="~/sound/@Model.Sound" type="audio/ogg">
+                                </audio>
+                                <a class="btn-sound" onclick="document.getElementById('player').playbackRate=2" style="padding:5px; font-weight:900; font-size:20px;">2x</a>
+                                <a class="btn-sound" onclick="document.getElementById('player').playbackRate=1" style="padding:5px; font-weight:700; font-size:20px;">1x</a>
+                                <a class="btn-sound" onclick="document.getElementById('player').play()"><i style="font-size: 20px; padding: 5px;" class="fa fa-play"></i></a>
+                                <a class="btn-sound" onclick="document.getElementById('player').pause()"><i style="font-size: 20px; padding: 5px;" class="fa fa-pause"></i></a>
+                            </li>
                         </ul>
                     </div>
-  
+
                     <div class="wrap__article-detail-image">
+                        <div class="img-cat">
+                            @foreach (var category in categories)
+                            {
+
+                                if (category.Id == Model.CategoryId)
+                                {
+                                    name = category.CategoryName;
+                                    break;
+                                }
+                            }
+
+                            <a asp-action="kategori" asp-controller="anasayfa" asp-route-id="@Model.CategoryId">
+                                <span class="text-rect">@name</span>
+                            </a>
+                        </div>
                         <figure>
                             <img src="~/Files/@Model.Image" alt="" class="img-fluid">
                         </figure>
@@ -254,7 +265,7 @@
                     </div>*@
                 <div id="load-more-message" class="loading">Loading&#8230;</div>
                 <div id="load-more">
-                   @*@{ await Html.RenderPartialAsync("loadData", newListByCategory);}*@
+                    @*@{ await Html.RenderPartialAsync("loadData", newListByCategory);}*@
                 </div>
             </div>
 
@@ -478,6 +489,18 @@
 
         });
 
+    </script>
+
+    <script>
+        $(document).ready(function () {
+
+            $("audio").on("play", function () {
+                $("audio").not(this).each(function (index, audio) {
+                    audio.pause();
+                });
+
+            });
+        });
     </script>
 
 }  

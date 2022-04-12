@@ -12,8 +12,9 @@ namespace GazeteKapiMVC5Core.Core.Models.ConfigTTS
     public static class GoogleTTS
     {
 
-        public static string Speak(string title, string plainText)
+        public static string Speak(string spot, string titleNonHtml, string title, string plainText)
         {
+            plainText = titleNonHtml + " " + spot + "Haber içeriği," + plainText;
             var client = TextToSpeechClient.Create();
             string titleCrop = title.Substring(0, 10).ToLower().Replace("-", "").Trim();
             titleCrop = titleCrop + "sound" + DateTime.Now.ToShortDateString().Replace(".","") + ".mp3";

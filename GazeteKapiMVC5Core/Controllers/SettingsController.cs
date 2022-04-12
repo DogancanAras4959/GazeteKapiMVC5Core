@@ -37,6 +37,8 @@ namespace GazeteKapiMVC5Core.Controllers
 
         #endregion
 
+        #region SettingBasse
+
         public IActionResult Ayarlar()
         {
             var getSiteSettings = _mapper.Map<SettingsDto, SettingsEditViewModel>(_settingService.getSettings(1));
@@ -175,5 +177,22 @@ namespace GazeteKapiMVC5Core.Controllers
             }
         }
 
+        #endregion
+
+        #region Menus Edit / Setting
+
+        [HttpGet]
+        public IActionResult Menus(int? id)
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult PartialMenusList()
+        {
+            return View("PartialMenusList");
+        }
+
+        #endregion
     }
 }

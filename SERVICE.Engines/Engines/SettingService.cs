@@ -1,4 +1,6 @@
 ﻿using CORE.ApplicationCommon.DTOS.CurrencyDTO;
+using CORE.ApplicationCommon.DTOS.MenuDTO.ItemsDto;
+using CORE.ApplicationCommon.DTOS.MenuDTO.TypesDto;
 using CORE.ApplicationCommon.DTOS.PrivacyDTO.AboutUsDto;
 using CORE.ApplicationCommon.DTOS.PrivacyDTO.PrivacyDto;
 using CORE.ApplicationCommon.DTOS.PrivacyDTO.TermsOfUsDto;
@@ -22,6 +24,8 @@ namespace SERVICE.Engine.Engines
         {
             _unitOfWork = unitOfWork;
         }
+
+        #region Setting Base
 
         public async Task<bool> createCurrencyList(CurrencyDto currencyDto)
         {
@@ -305,5 +309,35 @@ namespace SERVICE.Engine.Engines
                 user = getTermsOfUs.user,
             };
         }
+
+        #endregion
+
+        #region Menus Footer / Header
+
+        public Task<bool> createMenuType(TypeDto model)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<ItemListDto> getMenuItemsList()
+        {
+            throw new NotImplementedException();
+        }
+
+        public TypeDto getMenuType(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<TypeListItemDto> getMenuTypeList()
+        {
+            throw new NotImplementedException();
+        }
+        public Task<bool> editMenuType(TypeDto model)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
     }
 }

@@ -20,6 +20,7 @@ namespace DOMAIN.DataAccessLayer.Models
             privacy = new List<Privacy>();
             aboutus = new List<AboutUs>();
             termsofuse = new List<TermsOfUse>();
+            typesList = new List<MenuTypes>();
         }
 
         public int Id { get; set; }
@@ -44,6 +45,7 @@ namespace DOMAIN.DataAccessLayer.Models
         public virtual ICollection<Privacy> privacy { get; set; }
         public virtual ICollection<AboutUs> aboutus { get; set; }
         public virtual ICollection<TermsOfUse> termsofuse { get; set; }
+        public virtual ICollection<MenuTypes> typesList { get; set; }
 
 
     }

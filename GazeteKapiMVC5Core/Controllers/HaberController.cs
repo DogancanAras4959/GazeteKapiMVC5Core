@@ -775,7 +775,7 @@ namespace GazeteKapiMVC5Core.Controllers
                         {
                             string friendlyUrl = GoogleTTS.GenerateSlug(model.Title, model.Id);
                             string content = GoogleTTS.HtmlToPlainTextTTS(model.NewsContent);
-                            string outputSound = GoogleTTS.Speak(friendlyUrl, content);
+                            string outputSound = GoogleTTS.Speak(model.Spot,model.Title,friendlyUrl, content);
 
                             model.Sound = outputSound;
                         }                      

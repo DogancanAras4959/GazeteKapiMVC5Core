@@ -13,9 +13,11 @@ using GazeteKapiMVC5Core.Models.News.TagModel;
 using GazeteKapiMVC5Core.Models.News.TagNewsModel;
 using GazeteKapiMVC5Core.Models.Settings;
 using GazeteKapiMVC5Core.SiteMap;
+using GazeteKapiMVC5Core.WEB.Models;
 using GazeteKapiMVC5Core.WEB.Models.ConfigSiteMap;
 using GazeteKapiMVC5Core.WEB.Models.ConfigUrl;
 using GazeteKapiMVC5Core.WEB.Models.RenderService;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewEngines;
@@ -54,8 +56,12 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
         private readonly ISitemapProvider _siteMapProvider;
         private readonly ISettingService _settingService;
         private readonly IViewRenderService _viewRender;
+
+    
+
         private SpeechSynthesizer ss;
 
+        [Obsolete]
         public anasayfaController(INewsService newService, ICategoryService categoryService, IMapper mapper, ISitemapProvider siteMapProvider, ISettingService settingService, IViewRenderService viewRender)
         {
             _newService = newService;
@@ -63,7 +69,7 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
             _mapper = mapper;
             _siteMapProvider = siteMapProvider;
             _settingService = settingService;
-            _viewRender = viewRender;
+            _viewRender = viewRender;         
             ss = new SpeechSynthesizer();
         }
 
