@@ -35,6 +35,7 @@ namespace SERVICE.Engine.Interfaces
         List<NewsListItemDto> searchDataInNews(string searchName);
         List<NewsListItemDto> newsListByCategoryId(int? categoryId);
         List<NewsListItemDto> newsListByUserIdInAll(int? userId);
+        List<NewsListItemDto> newsListLoadByScroll(int pageIndex, int pageSize);
         List<NewsListItemDto> searchDataInNewsWithGuest(string searchstring, int guestId);
         Task<bool> NewsIfExists(string title);
         Task<int> createNews(NewsDto model);

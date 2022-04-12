@@ -4,17 +4,23 @@ using CORE.ApplicationCommon.DTOS.NewsDTO;
 using CORE.ApplicationCommon.DTOS.NewsDTO.GuestDTO;
 using CORE.ApplicationCommon.DTOS.NewsDTO.TagDTO;
 using CORE.ApplicationCommon.DTOS.NewsDTO.TagNewsDTO;
+using CORE.ApplicationCommon.DTOS.SetingsDTO;
 using GazeteKapiMVC5Core.Core.Extensions;
 using GazeteKapiMVC5Core.Models.Category;
 using GazeteKapiMVC5Core.Models.News.GuestModel;
 using GazeteKapiMVC5Core.Models.News.NewsModel;
 using GazeteKapiMVC5Core.Models.News.TagModel;
 using GazeteKapiMVC5Core.Models.News.TagNewsModel;
+using GazeteKapiMVC5Core.Models.Settings;
 using GazeteKapiMVC5Core.SiteMap;
 using GazeteKapiMVC5Core.WEB.Models.ConfigSiteMap;
-using GazeteKapiMVC5Core.WEB.Models.ConfigTTS;
 using GazeteKapiMVC5Core.WEB.Models.ConfigUrl;
+using GazeteKapiMVC5Core.WEB.Models.RenderService;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Mvc.ViewEngines;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Newtonsoft.Json;
 using SERVICE.Engine.Interfaces;
 using SERVICES.Engine.Interfaces;
 using System;
@@ -24,12 +30,14 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.ServiceModel.Syndication;
 using System.Speech.AudioFormat;
 using System.Speech.Recognition;
 using System.Speech.Synthesis;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Xml;
 
@@ -38,21 +46,28 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
     public class anasayfaController : Controller
     {
 
+        #region Constructre
+
         private readonly IMapper _mapper;
         private readonly INewsService _newService;
         private readonly ICategoryService _categoryService;
         private readonly ISitemapProvider _siteMapProvider;
+        private readonly ISettingService _settingService;
+        private readonly IViewRenderService _viewRender;
         private SpeechSynthesizer ss;
-        private string plainTextGlobal = "";
 
-        public anasayfaController(INewsService newService, ICategoryService categoryService, IMapper mapper, ISitemapProvider siteMapProvider)
+        public anasayfaController(INewsService newService, ICategoryService categoryService, IMapper mapper, ISitemapProvider siteMapProvider, ISettingService settingService, IViewRenderService viewRender)
         {
             _newService = newService;
             _categoryService = categoryService;
             _mapper = mapper;
             _siteMapProvider = siteMapProvider;
+            _settingService = settingService;
+            _viewRender = viewRender;
             ss = new SpeechSynthesizer();
         }
+
+        #endregion
 
         public IActionResult sayfa()
         {
@@ -234,6 +249,10 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
             newListPopulariteByCategory = _mapper.Map<List<NewsListItemDto>, List<NewsLıstItemModel>>(_newService.PopularNewsInWebInCategory(newsGet.CategoryId));
             ViewBag.PopulariteByCategory = newListPopulariteByCategory;
 
+            List<NewsLıstItemModel> listCategoryNewsScroll = null;
+            listCategoryNewsScroll = _mapper.Map<List<NewsListItemDto>, List<NewsLıstItemModel>>(_newService.newsListByCategoryId(newsGet.CategoryId));
+            ViewBag.CategoryNewsByIdScroll = listCategoryNewsScroll;
+
             List<CategoryListViewModel> categoryNewList = null;
             categoryNewList = _mapper.Map<List<CategoryListItemDto>, List<CategoryListViewModel>>(_categoryService.GetAllCategory());
             ViewBag.CategotyList = categoryNewList;
@@ -307,7 +326,6 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
         //}7
 
         #region Text to Speech
-
         private static string HtmlToPlainText(string html)
         {
             const string tagWhiteSpace = @"(>|$)(\W|\n|\r)+<";//matches one or more (white space or line breaks) between '>' and '<'
@@ -332,7 +350,35 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
 
         #endregion
 
+        #region Load More With Scroll Page
+
+        public IActionResult loadData(List<NewsLıstItemModel> model)
+        {        
+            return PartialView(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> InfiniteScrollAsync(int start, int rowperpage)
+        {
+            Thread.Sleep(1000);
+            int pageSize = 5;
+
+            var listNews = _mapper.Map<List<NewsListItemDto>, List<NewsLıstItemModel>>(_newService.newsListLoadByScroll(start, rowperpage));
+            var renderedView = await _viewRender.RenderPartialViewToString(this, "loadData", listNews);
+
+            JsonModel json = new JsonModel();
+            json.NoMoreData = listNews.Count < pageSize;
+            json.HtmlString = renderedView;
+            return Json(json);
+        }
+
+        public class JsonModel
+        {
+            public string HtmlString { get; set; }
+            public bool NoMoreData { get; set; }
+        }
+
+        #endregion
+
     }
-
-
 }

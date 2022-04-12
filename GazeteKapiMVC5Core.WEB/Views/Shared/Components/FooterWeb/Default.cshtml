@@ -1,4 +1,6 @@
-﻿<style>
+﻿@model GazeteKapiMVC5Core.Models.Settings.SettingsBaseViewModel
+
+<style>
     .bg__footer-dark {
         background-color: #515d5e;
     }
@@ -40,7 +42,7 @@
                             <div class="widget__footer">
                                 <ul class="list-unstyled option-content is-hidden">
                                     <li>
-                                        <a href="#"><img src="~/Files/logo-footer.png"></a>
+                                        <a href="#"><img src="~/Files/@Model.FooterLogo"></a>
                                     </li>
                                     <li>
                                         <hr style="background-color:#f3c625;" />
@@ -52,9 +54,10 @@
                                         <hr style="background-color:#f3c625;" />
                                     </li>
                                     <li>
-                                        <h6 style="color:#fff;">© TÜM HAKLARI SAKLIDIR / 2022</h6>
-                                        <p style="color:#f3c625; font-size:10px;">GAZETE KAPI'DA YAYIMLANAN YAZI, HABER VE FOTOĞRAFLARIN HER TÜRLÜ TELİF HAKKI ................ GAZETECİLİK VE YAYINCILIK SANAYİ VE TİCARET A.Ş.'YE AİTTİR. İZİN ALINMADAN, KAYNAK GÖSTERİLMEDEN VE LİNK VERİLMEDEN İKTİBAS EDİLEMEZ.</p>
-
+                                        @*<h6 style="color:#fff;">© TÜM HAKLARI SAKLIDIR / 2022</h6>
+        <p style="color:#f3c625; font-size:10px;">GAZETE KAPI'DA YAYIMLANAN YAZI, HABER VE FOTOĞRAFLARIN HER TÜRLÜ TELİF HAKKI ................ GAZETECİLİK VE YAYINCILIK SANAYİ VE TİCARET A.Ş.'YE AİTTİR. İZİN ALINMADAN, KAYNAK GÖSTERİLMEDEN VE LİNK VERİLMEDEN İKTİBAS EDİLEMEZ.</p>*@
+                                        <h6 style="color:#fff;">@Model.CopyrightTextTitle</h6>
+                                        <p style="color:#f3c625; font-size:10px;">@Model.CopyrightText</p>
                                     </li>
 
                                 </ul>

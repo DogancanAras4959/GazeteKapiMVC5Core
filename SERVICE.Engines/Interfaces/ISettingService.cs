@@ -1,4 +1,5 @@
-﻿using CORE.ApplicationCommon.DTOS.PrivacyDTO.AboutUsDto;
+﻿using CORE.ApplicationCommon.DTOS.CurrencyDTO;
+using CORE.ApplicationCommon.DTOS.PrivacyDTO.AboutUsDto;
 using CORE.ApplicationCommon.DTOS.PrivacyDTO.PrivacyDto;
 using CORE.ApplicationCommon.DTOS.PrivacyDTO.TermsOfUsDto;
 using CORE.ApplicationCommon.DTOS.SetingsDTO;
@@ -22,5 +23,9 @@ namespace SERVICE.Engine.Interfaces
 
         TermsOfUsDto getTermsOfUs(int id);
         Task<bool> editTermsOfUs(TermsOfUsDto model);
+        Task<bool> createCurrencyList(CurrencyDto currencyDto);
+        List<CurrencyListItemDto> currencyLisToDatabase();
+        CurrencyDto getCurrency(string code);
+        Task<bool> editCurrencyList(CurrencyDto currencyDto);
     }
 }

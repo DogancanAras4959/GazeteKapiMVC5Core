@@ -26,6 +26,7 @@ namespace CORE.ApplicationCommon.DTOS.NewsDTO
         public int UserId { get; set; }
         public int GuestId { get; set; }
         public int PublishTypeId { get; set; }
+        public string Sound { get; set; }
 
         public Categories categories { get; set; }
         public Users users { get; set; }

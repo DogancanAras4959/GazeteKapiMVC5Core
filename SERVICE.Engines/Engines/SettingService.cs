@@ -1,4 +1,5 @@
-﻿using CORE.ApplicationCommon.DTOS.PrivacyDTO.AboutUsDto;
+﻿using CORE.ApplicationCommon.DTOS.CurrencyDTO;
+using CORE.ApplicationCommon.DTOS.PrivacyDTO.AboutUsDto;
 using CORE.ApplicationCommon.DTOS.PrivacyDTO.PrivacyDto;
 using CORE.ApplicationCommon.DTOS.PrivacyDTO.TermsOfUsDto;
 using CORE.ApplicationCommon.DTOS.SetingsDTO;
@@ -8,6 +9,7 @@ using GazeteKapiMVC5Core.DataAccessLayer.Models;
 using SERVICE.Engine.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -19,6 +21,60 @@ namespace SERVICE.Engine.Engines
         public SettingService(IUnitOfWork<NewsAppContext> unitOfWork)
         {
             _unitOfWork = unitOfWork;
+        }
+
+        public async Task<bool> createCurrencyList(CurrencyDto currencyDto)
+        {
+            Currency newCurrency = await _unitOfWork.GetRepository<Currency>().AddAsync(new Currency
+            {
+                code = currencyDto.code,
+                crossorder = currencyDto.crossorder,
+                CrossRateOther = currencyDto.CrossRateOther,
+                CrossRateUSD = currencyDto.CrossRateUSD,
+                BanknoteSelling = currencyDto.BanknoteSelling,
+                BanknoteBuying = currencyDto.BanknoteBuying,
+                ForexBuying = currencyDto.ForexBuying,
+                ForexSelling = currencyDto.ForexSelling,
+                name = currencyDto.name,
+                isRateOrDown = "",
+                unit = currencyDto.unit,
+                currencyCode = currencyDto.currencyCode,
+                currencyName = currencyDto.currencyName,
+                
+            });
+
+            return newCurrency != null && newCurrency.Id != 0;
+        }
+
+        public List<CurrencyListItemDto> currencyLisToDatabase()
+        {
+            IEnumerable<Currency> newsList = _unitOfWork.GetRepository<Currency>().Filter(null, x => x.OrderBy(y => y.Id), "", null, null);
+
+            if (newsList != null)
+            {
+                return newsList.Select(x => new CurrencyListItemDto
+                {
+                    Id = x.Id,
+                    currencyCode = x.currencyCode,
+                    name = x.name,
+                    crossorder = x.crossorder,
+                    CrossRateOther = x.CrossRateOther,
+                    BanknoteBuying = x.BanknoteBuying,
+                    BanknoteSelling = x.BanknoteSelling,
+                    code = x.code,
+                    currencyName = x.currencyName,
+                    CrossRateUSD = x.CrossRateUSD,
+                    ForexBuying = x.ForexBuying,
+                    ForexSelling = x.ForexSelling,
+                    unit = x.unit,
+                    isRateOrDown = x.isRateOrDown,
+                    
+                }).ToList();
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public async Task<bool> editAboutUs(AboutUsDto model)
@@ -37,6 +93,32 @@ namespace SERVICE.Engine.Engines
             });
 
             return getAboutUs != null;
+        }
+
+        public async Task<bool> editCurrencyList(CurrencyDto currencyDto)
+        {
+            Currency currencyGet = await _unitOfWork.GetRepository<Currency>().FindAsync(x => x.Id == currencyDto.Id);
+
+            Currency getCurrency = await _unitOfWork.GetRepository<Currency>().UpdateAsync(new Currency
+            {
+                Id = currencyGet.Id,
+                code = currencyGet.code,
+                CrossRateUSD = currencyGet.CrossRateUSD,
+                crossorder = currencyGet.crossorder,
+                currencyCode = currencyGet.currencyCode,
+                currencyName = currencyGet.currencyName,
+                CrossRateOther = currencyGet.CrossRateOther,
+                BanknoteBuying = currencyGet.BanknoteBuying,
+                BanknoteSelling = currencyGet.BanknoteSelling,
+                ForexBuying = currencyDto.ForexBuying,
+                isRateOrDown = currencyDto.isRateOrDown,
+                ForexSelling = currencyGet.ForexSelling,
+                name = currencyGet.name,
+                unit = currencyGet.unit,
+
+            });
+
+            return getCurrency != null;
         }
 
         public async Task<bool> editPrivacy(PrivacyDto model)
@@ -73,9 +155,13 @@ namespace SERVICE.Engine.Engines
                 SiteName = model.SiteName,
                 SiteSlogan = model.SiteSlogan,
                 LogIsActive = model.LogIsActive,
+                IsCurrencyService = model.IsCurrencyService,
                 GetAgencyNewsService = model.GetAgencyNewsService,
                 IsActiveSettings = model.IsActiveSettings,
                 LogSystemErrorActive = model.LogSystemErrorActive,
+                FooterLogo = model.FooterLogo,
+                CopyrightText = model.CopyrightText,
+                CopyrightTextTitle = model.CopyrightTextTitle,
                 UserId = model.UserId,
                 user = model.user,
             });
@@ -122,6 +208,34 @@ namespace SERVICE.Engine.Engines
             };
         }
 
+        public CurrencyDto getCurrency(string code)
+        {
+            Currency getCurrency = _unitOfWork.GetRepository<Currency>().FindAsync(x => x.code == code).Result;
+
+            if (getCurrency == null)
+            {
+                return new CurrencyDto();
+            }
+
+            return new CurrencyDto
+            {
+               Id = getCurrency.Id,
+               code = getCurrency.code,
+               BanknoteBuying = getCurrency.BanknoteBuying,
+               BanknoteSelling = getCurrency.BanknoteSelling,
+               crossorder = getCurrency.crossorder,
+               CrossRateOther = getCurrency.CrossRateOther,
+               currencyCode = getCurrency.currencyCode,
+               CrossRateUSD = getCurrency.CrossRateUSD,
+               currencyName = getCurrency.currencyName,
+               ForexBuying = getCurrency.ForexBuying,
+               ForexSelling = getCurrency.ForexSelling,
+               isRateOrDown = getCurrency.isRateOrDown,
+               name = getCurrency.name,
+               unit = getCurrency.unit,
+            };
+        }
+
         public PrivacyDto getPrivacy(int id)
         {
             Privacy getPrivacy = _unitOfWork.GetRepository<Privacy>().FindAsync(x => x.Id == id).Result;
@@ -158,10 +272,14 @@ namespace SERVICE.Engine.Engines
                 LogIsActive = getSetting.LogIsActive,
                 Logo = getSetting.Logo,
                 SiteName = getSetting.SiteName,
+                IsCurrencyService = getSetting.IsCurrencyService,
                 SiteSlogan = getSetting.SiteSlogan,
                 IsActiveSettings = getSetting.IsActiveSettings,
                 GetAgencyNewsService = getSetting.GetAgencyNewsService,
                 LogSystemErrorActive = getSetting.LogSystemErrorActive,
+                FooterLogo = getSetting.FooterLogo,
+                CopyrightText = getSetting.CopyrightText,
+                CopyrightTextTitle = getSetting.CopyrightTextTitle,
                 UserId = getSetting.UserId,
                 user = getSetting.user,
             };

@@ -21,6 +21,11 @@
                         <label for="example-text-input" style="margin-top:10px;" class="col-sm-12 col-form-label">Logonuzu Seçin <strong>*(.png formatında yükleyiniz)</strong></label>
                         <input type="file" class="filestyle" id="upload" data-input="false" name="file" data-buttonname="btn-secondary">
                     </div>
+                    <div class="mb-3">
+                        <img id="imgFooter" style="max-width:200px;" src="~/Files/@Model.FooterLogo" />
+                        <label for="example-text-input" style="margin-top:10px;" class="col-sm-12 col-form-label">Footer Logonuzu Seçin <strong>*(.png formatında yükleyiniz)</strong></label>
+                        <input type="file" class="filestyle" id="uploadFooter" data-input="false" name="fileFooter" data-buttonname="btn-secondary">
+                    </div>
                     <hr style="width:400px;" />
                     <div class="mb-3">
                         <label for="example-text-input" class="col-sm-12 col-form-label">Site Adı</label>
@@ -29,6 +34,14 @@
                     <div class="mb-3">
                         <label for="example-text-input" class="col-sm-12 col-form-label">Site Sloganı</label>
                         <input asp-for="SiteSlogan" autocomplete="off" data-toggle="tooltip" style="max-width:400px;" data-placement="bottom" class="form-control" type="text" id="example-text-input">
+                    </div>
+                    <div class="mb-3">
+                        <label for="example-text-input" class="col-sm-12 col-form-label">Copyright Başlık</label>
+                        <input asp-for="CopyrightTextTitle" autocomplete="off" data-toggle="tooltip" style="max-width:400px;" data-placement="bottom" class="form-control" type="text" id="example-text-input">
+                    </div>
+                    <div class="mb-3">
+                        <label for="example-text-input" class="col-sm-12 col-form-label">Copyright</label>
+                        <input asp-for="CopyrightText" autocomplete="off" data-toggle="tooltip" style="max-width:400px;" data-placement="bottom" class="form-control" type="text" id="example-text-input">
                     </div>
                     <div class="mb-3">
                         <input type="checkbox" asp-for="LogIsActive" />
@@ -50,6 +63,10 @@
                         <p>
                             <small>(Ajanslardan gelen haber akışlarını takip etmek için bu seçeneği aktif hale getirin)</small>
                         </p>
+                    </div>
+                    <div class="mb-3" id="currencyService">
+                        <input type="checkbox" asp-for="IsCurrencyService" />
+                        <label class="col-sm-11">Döviz kurlarını getir ve dinamik hale getir</label>
                     </div>
                     <div class="mb-3">
                         <button class="btn btn-sm btn-primary" type="submit">Ayarları Güncelle</button>
@@ -78,6 +95,23 @@
             }
             else {
                 $('#img').attr('src', '~/assets/Files/user.png');
+            }
+        });
+
+        $('#uploadFooter').change(function () {
+            var input = this;
+            var url = $(this).val();
+            var ext = url.substring(url.lastIndexOf('.') + 1).toLowerCase();
+            if (input.files && input.files[0] && (ext == "gif" || ext == "png" || ext == "jpeg" || ext == "jpg")) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#imgFooter').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+            else {
+                $('#imgFooter').attr('src', '~/assets/Files/user.png');
             }
         });
 

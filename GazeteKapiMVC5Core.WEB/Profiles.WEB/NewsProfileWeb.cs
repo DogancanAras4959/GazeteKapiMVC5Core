@@ -1,13 +1,17 @@
 ﻿using AutoMapper;
 using CORE.ApplicationCommon.DTOS.CategoryDTO;
+using CORE.ApplicationCommon.DTOS.CurrencyDTO;
 using CORE.ApplicationCommon.DTOS.NewsDTO;
 using CORE.ApplicationCommon.DTOS.NewsDTO.GuestDTO;
 using CORE.ApplicationCommon.DTOS.NewsDTO.TagNewsDTO;
+using CORE.ApplicationCommon.DTOS.SetingsDTO;
 using GazeteKapiMVC5Core.Models.Category;
+using GazeteKapiMVC5Core.Models.CurrencyModel;
 using GazeteKapiMVC5Core.Models.News.GuestModel;
 using GazeteKapiMVC5Core.Models.News.NewsModel;
 using GazeteKapiMVC5Core.Models.News.TagModel;
 using GazeteKapiMVC5Core.Models.News.TagNewsModel;
+using GazeteKapiMVC5Core.Models.Settings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,6 +37,17 @@ namespace GazeteKapiMVC5Core.WEB.Profiles.WEB
             CreateMap<CategoryListItemDto, CategoryListViewModel>();
             CreateMap<CategoryDto, CategoryEditViewModel>();
             CreateMap<NewsDto, NewsEditViewModel>();
+            CreateMap<NewsEditViewModel, NewsDto>();
+
+            CreateMap<CurrencyCreateViewModel, CurrencyDto>();
+            CreateMap<CurrencyListItemDto, CurrencyListViewModel>();
+            CreateMap<CurrencyEditViewModel, CurrencyDto>();
+            CreateMap<CurrencyDto, CurrencyEditViewModel>();
+            CreateMap<CurrencyBaseDto, CurrencyEditViewModel>();
+
+            CreateMap<SettingsEditViewModel, SettingsDto>();
+            CreateMap<SettingsDto, SettingsEditViewModel>();
+            CreateMap<SettingsDto, SettingsBaseViewModel>();
         }
     }
 }

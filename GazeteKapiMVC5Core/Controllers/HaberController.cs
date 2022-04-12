@@ -8,6 +8,7 @@ using CORE.ApplicationCommon.DTOS.NewsDTO.TagDTO;
 using CORE.ApplicationCommon.DTOS.NewsDTO.TagNewsDTO;
 using CORE.ApplicationCommon.DTOS.SetingsDTO;
 using GazeteKapiMVC5Core.Core.Extensions;
+using GazeteKapiMVC5Core.Core.Models.ConfigTTS;
 using GazeteKapiMVC5Core.Models.Account;
 using GazeteKapiMVC5Core.Models.Category;
 using GazeteKapiMVC5Core.Models.News.GuestModel;
@@ -769,6 +770,15 @@ namespace GazeteKapiMVC5Core.Controllers
                     {
                         AccountEditViewModel yoneticiGetir = SessionExtensionMethod.GetObject<AccountEditViewModel>(HttpContext.Session, "user");
                         model.UserId = yoneticiGetir.Id;
+
+                        if (model.Sound == null)
+                        {
+                            string friendlyUrl = GoogleTTS.GenerateSlug(model.Title, model.Id);
+                            string content = GoogleTTS.HtmlToPlainTextTTS(model.NewsContent);
+                            string outputSound = GoogleTTS.Speak(friendlyUrl, content);
+
+                            model.Sound = outputSound;
+                        }                      
 
                         if (file != null)
                         {

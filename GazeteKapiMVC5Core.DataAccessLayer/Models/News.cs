@@ -29,6 +29,7 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Models
         public bool IsCommentActive { get; set; }
         public bool IsSlide { get; set; }
         public int Views { get; set; }
+        public string Sound { get; set; }
 
 
         [ForeignKey("categories")]
@@ -42,7 +43,6 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Models
 
         [ForeignKey("publishtype")]
         public int PublishTypeId { get; set; }
-
 
         public virtual Guest guest { get; set; }
         public virtual Users users { get; set; }

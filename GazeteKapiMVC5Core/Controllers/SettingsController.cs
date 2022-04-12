@@ -43,7 +43,7 @@ namespace GazeteKapiMVC5Core.Controllers
             return View(getSiteSettings);
         }
 
-        public async Task<IActionResult> AyarlariDuzenle(SettingsEditViewModel model, IFormFile file)
+        public async Task<IActionResult> AyarlariDuzenle(SettingsEditViewModel model, IFormFile file, IFormFile fileFooter)
         {
             try
             {
@@ -62,6 +62,18 @@ namespace GazeteKapiMVC5Core.Controllers
                         await file.CopyToAsync(stream);
                         model.Logo = uploadfilename;
                     }
+
+                    if (fileFooter != null)
+                    {
+                        string uploadfilename = Path.GetFileNameWithoutExtension(fileFooter.FileName);
+                        string extension = Path.GetExtension(fileFooter.FileName);
+                        uploadfilename = uploadfilename + DateTime.Now.ToString("yymmssfff") + extension;
+                        var path = Path.Combine(this._webHostEnvironment.WebRootPath, "Files", uploadfilename);
+                        var stream = new FileStream(path, FileMode.Create);
+                        await fileFooter.CopyToAsync(stream);
+                        model.FooterLogo = uploadfilename;
+                    }
+
                     if (await _settingService.editSiteSettings(_mapper.Map<SettingsEditViewModel, SettingsDto>(model)))
                     {
                         return RedirectToAction("Ayarlar", "Settings");

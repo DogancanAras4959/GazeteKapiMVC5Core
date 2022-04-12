@@ -20,5 +20,6 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Models
         public string BanknoteSelling { get; set; }
         public string CrossRateOther { get; set; }
         public string CrossRateUSD { get; set; }
+        public string isRateOrDown { get; set; }
     }
 }

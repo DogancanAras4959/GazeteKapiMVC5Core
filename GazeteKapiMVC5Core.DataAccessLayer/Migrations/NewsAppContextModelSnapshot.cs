@@ -214,6 +214,69 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Migrations
                     b.ToTable("aboutus");
                 });
 
+            modelBuilder.Entity("GazeteKapiMVC5Core.DataAccessLayer.Models.Currency", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("BanknoteBuying")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("BanknoteSelling")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("CrossRateOther")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("CrossRateUSD")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("ForexBuying")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("ForexSelling")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("code")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("crossorder")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("currencyCode")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("currencyName")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("isRateOrDown")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("name")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("unit")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("currency");
+                });
+
             modelBuilder.Entity("GazeteKapiMVC5Core.DataAccessLayer.Models.Guest", b =>
                 {
                     b.Property<int>("Id")
@@ -306,6 +369,9 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Migrations
 
                     b.Property<int>("Sorted")
                         .HasColumnType("int");
+
+                    b.Property<string>("Sound")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Spot")
                         .IsRequired()
@@ -400,10 +466,24 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
+                    b.Property<string>("CopyrightText")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CopyrightTextTitle")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("FooterLogo")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
                     b.Property<bool>("GetAgencyNewsService")
                         .HasColumnType("bit");
 
                     b.Property<bool>("IsActiveSettings")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsCurrencyService")
                         .HasColumnType("bit");
 
                     b.Property<bool>("LogIsActive")

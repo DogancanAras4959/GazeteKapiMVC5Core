@@ -21,10 +21,13 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Models
         public string SiteSlogan { get; set; }
         public string SiteName { get; set; }
         public bool IsActiveSettings { get; set; }
+        public bool IsCurrencyService { get; set; }
+        public string FooterLogo { get; set; }
+        public string CopyrightText { get; set; }
+        public string CopyrightTextTitle { get; set; }
 
         [ForeignKey("user")]
         public int UserId { get; set; }
-
         public Users user { get; set; }
     }
 }

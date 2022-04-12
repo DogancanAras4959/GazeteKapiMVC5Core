@@ -36,9 +36,7 @@ namespace GazeteKapiMVC5Core.Profiles
             CreateMap<TermsOfUsDto, TermsOfUsEditModel>();
             CreateMap<TermsOfUsDto, PrivacyBaseModel>();
 
-            CreateMap<CurrencyCreateViewModel, CurrencyDto>();
-            CreateMap<CurrencyListItemDto, CurrencyListViewModel>();
-
+       
         }
     }
 }

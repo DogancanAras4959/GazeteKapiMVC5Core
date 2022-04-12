@@ -15,6 +15,9 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Mapping
             builder.Property(x => x.Logo).HasMaxLength(100);
             builder.Property(x => x.SiteName).HasMaxLength(100);
             builder.Property(x => x.SiteSlogan).HasMaxLength(100);
+            builder.Property(x => x.CopyrightText);
+            builder.Property(x => x.CopyrightTextTitle).HasMaxLength(100);
+            builder.Property(x => x.FooterLogo).HasMaxLength(100);
             builder.HasOne(x => x.user).WithMany(x => x.settings).HasForeignKey(x => x.UserId);
         }
     }

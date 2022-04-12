@@ -76,6 +76,8 @@ namespace GazeteKapiMVC5Core.WEB
             app.UseAuthentication();
             app.UseAuthorization();
 
+
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

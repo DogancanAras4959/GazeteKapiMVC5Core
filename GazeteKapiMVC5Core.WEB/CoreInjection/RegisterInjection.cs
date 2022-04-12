@@ -3,6 +3,7 @@ using CORE.ApplicationCore.UnitOfWork;
 using GazeteKapiMVC5Core.DataAccessLayer;
 using GazeteKapiMVC5Core.DataAccessLayerLOG;
 using GazeteKapiMVC5Core.SiteMap;
+using GazeteKapiMVC5Core.WEB.Models.RenderService;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
@@ -56,8 +57,11 @@ namespace GazeteKapiMVC5Core.WEB.CoreInjection
             services.AddTransient(typeof(INewsService), typeof(NewsService));
             services.AddTransient(typeof(ISettingService), typeof(SettingService));
             services.AddTransient(typeof(ICountService), typeof(CountService));
+
             //services.AddTransient(typeof(IPagedList), typeof(PagedList));
             services.AddScoped(typeof(IUnitOfWork<>), typeof(UnitOfWork<>));
+            services.AddScoped<IViewRenderService, ViewRenderService>();
+
         }
     }
 }

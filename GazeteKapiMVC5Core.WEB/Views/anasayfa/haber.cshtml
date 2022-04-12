@@ -11,14 +11,14 @@
     List<NewsLıstItemModel> newListRelational = ViewBag.Relational as List<NewsLıstItemModel>;
     List<NewsLıstItemModel> newsListPopularite = ViewBag.Popularite as List<NewsLıstItemModel>;
     List<NewsLıstItemModel> newsListPopulariteByCategory = ViewBag.PopulariteByCategory as List<NewsLıstItemModel>;
+    List<NewsLıstItemModel> newListByCategory = ViewBag.CategoryNewsByIdScroll as List<NewsLıstItemModel>;
 
     string name = "";
     int count = 0;
     string text = ViewBag.Content;
 }
 
-
-
+<link href="~/css/loading.css" rel="stylesheet" />
 <style>
     .btn-primary {
         color: #fff;
@@ -115,11 +115,11 @@
     }
 </style>
 
-<section class="bg-white pb-60">
+<section class="bg-white pb-60" id="newSection">
     <div class="container">
         <div class="row">
 
-            <div class="col-md-8">
+            <div class="col-md-8" id="newLoadSection">
                 <div class="wrap__article-detail">
                     <div class="wrap__article-detail-title">
                         <h1>
@@ -153,7 +153,7 @@
                                 <a asp-controller="anasayfa" asp-action="stopToNewsDetail"><i class="fa fa-stop"></i></a>
                             </li>
                             <li class="list-inline-item" style="float:right; margin-right:0; padding-left:15px;">
-                                <a @*id="contentnews"*@><i class="fa fa-play"></i></a>
+                                <a href="@Url.Action("play","anasayfa", new { Id = Model.Id })"><i class="fa fa-play"></i></a>
                             </li>
                             <li class="list-inline-item">
                                 <span class="ml-1">
@@ -169,6 +169,7 @@
                             </li>
                         </ul>
                     </div>
+  
                     <div class="wrap__article-detail-image">
                         <figure>
                             <img src="~/Files/@Model.Image" alt="" class="img-fluid">
@@ -195,7 +196,7 @@
                         @foreach (var item in tagList)
                         {
                             <li class="list-inline-item">
-                                <a href="@Url.Action("aramasonucu","anasayfa", new { TagId = item.TagId })" class="tag-link">
+                                <a href="@Url.Action("aramasonucu", "anasayfa", new { TagId = item.TagId })" class="tag-link">
                                     @item.tag.TagName
                                 </a>
                             </li>
@@ -214,7 +215,7 @@
                                     <!-- Post Article -->
                                     <div class="article__entry">
                                         <div class="article__image">
-                                            <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
+                                            <a href="@Url.Action("haber", "anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
                                                 <img src="~/Files/@item.Image" alt="" class="img-fluid">
                                             </a>
                                         </div>
@@ -228,7 +229,7 @@
 
                                             </ul>
                                             <h5>
-                                                <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
+                                                <a href="@Url.Action("haber", "anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
                                                     @item.Title
                                                 </a>
                                             </h5>
@@ -246,6 +247,14 @@
                             }
                         }
                     </div>
+                </div>
+
+                @*<div class="load-more" id="loading">
+                        @{Html.BeginForm("LoadNewsView", "anasayfa");}
+                    </div>*@
+                <div id="load-more-message" class="loading">Loading&#8230;</div>
+                <div id="load-more">
+                   @*@{ await Html.RenderPartialAsync("loadData", newListByCategory);}*@
                 </div>
             </div>
 
@@ -380,14 +389,95 @@
     </div>
 </section>
 
-<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-<script src="http://responsivevoice.org/responsivevoice/responsivevoice.js"></script>
+@*@section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    }*@
 
-<script>
+@section scripts{
+
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="http://responsivevoice.org/responsivevoice/responsivevoice.js"></script>
+
+    <script>
 
     //var content = document.getElementById("contentnews").innerHTML;
         responsiveVoice.OnVoiceReady = function () {
             responsiveVoice.speak("@Html.Raw(ViewBag.Content)", "Turkish Female");
         };
 
-</script>
+    </script>
+
+    <script>
+
+        var noMoreData = false;
+        var inProgress = false;
+
+        checkWindowSize();
+
+        // Check if the page has enough content or not. If not then fetch records
+        function checkWindowSize() {
+            if ($(window).height() >= $(document).height()) {
+                // Fetch records
+                fetchData();
+            }
+        }
+
+        function fetchData() {
+
+            var start = 0;
+            var rowperpage = 3;
+            var allcount = @newListByCategory.Count;
+
+            start = start + rowperpage;
+
+            if (start <= allcount) {
+
+                inProgress = true;
+
+                $("#load-more-message").show();
+                $("#load-more").hide();
+
+                $.ajax({
+                    url: "@Url.Action("InfiniteScroll","anasayfa")",
+                    type: 'post',
+                    data: { start: start, rowperpage: rowperpage },
+                    success: function (response) {
+
+                        noMoreData = response.noMoreData;
+                        $("#load-more").show();
+                        $("#load-more").append(response.HtmlString);
+                        $("#load-more-message").hide();
+
+                        inProgress = false;
+                        $(".post:last").after(response).show().fadeIn("slow");
+                        checkWindowSize();
+
+                    }
+                });
+            }
+        }
+
+        $(document).on('touchmove', onScroll); // for mobile
+
+        function onScroll() {
+
+            if ($(window).scrollTop() > $(document).height() - $(window).height() - 100) {
+
+                fetchData();
+            }
+        }
+
+        $(window).scroll(function () {
+
+            var position = $(window).scrollTop();
+            var bottom = $(document).height() - $(window).height();
+
+            if (position == bottom) {
+                fetchData();
+            }
+
+        });
+
+    </script>
+
+}  

@@ -1,7 +1,12 @@
 ﻿@using GazeteKapiMVC5Core.Models.Category;
+@using GazeteKapiMVC5Core.Models.CurrencyModel;
 @using GazeteKapiMVC5Core.Models;
+@model GazeteKapiMVC5Core.Models.Settings.SettingsBaseViewModel
+
+
 @{
     List<CategoryListViewModel> categories = ViewBag.CategoryList as List<CategoryListViewModel>;
+    List<CurrencyListViewModel> currencies = ViewBag.CurrencyList as List<CurrencyListViewModel>;
     List<doviz> dovizlist = ViewBag.dovizler as List<doviz>;
     decimal count = 0;
 }
@@ -90,7 +95,7 @@
 
                 <figure class="mb-0">
                     <a asp-action="sayfa" asp-controller="anasayfa">
-                        <img src="~/images/placeholder/kapi-logo.png" alt="" class="logo logo-img">
+                        <img src="~/Files/@Model.Logo" alt="" class="logo logo-img">
                     </a>
                 </figure>
 
@@ -99,12 +104,13 @@
                         <div class="col-sm-12" style="padding-right: 10px;">
                             <ul class="navbar-nav ml-auto" style="float:right;">
 
-                                @if (ViewData["dovizler"] == null)
+                                @if (ViewData["dovizler"] == null || dovizlist == null)
                                 {
                                     <li class="nav-item" style="font-size: 16px; color: #54626b">
                                         <span>@ViewData["dovizler"]</span>
                                     </li>
                                 }
+
                                 else
                                 {
                                     @foreach (var d in dovizlist)
@@ -114,13 +120,24 @@
                                         {
                                             if (d.CurrencyCode.Contains("USD") || d.CurrencyCode.Contains("EUR") || d.CurrencyCode.Contains("GBP") || d.CurrencyCode.Contains("RUB"))
                                             {
-                                                //string img = "http://www.tcmb.gov.tr/kurlar/kurlar_tr_dosyalar/images/" + d.CurrencyCode + ".gif";
-                                                count = Convert.ToDecimal(d.ForexBuying);
-
-                                                <li class="nav-item" style="font-size: 16px; color: #54626b">
-                                                    <span style="font-weight:800;"><img src="~/Files/chevron-up.svg" width="15" height="15" /> @d.CurrencyCode</span> @d.ForexBuying
-                                                </li>
-
+                                                foreach (var item in currencies)
+                                                {
+                                                    if (item.code == d.Kod)
+                                                    {
+                                                        if (item.isRateOrDown == "down")
+                                                        {
+                                                            <li class="nav-item" style="font-size: 16px; color: #54626b">
+                                                                <span style="font-weight:800;"><img src="~/Files/chevron-down.svg" width="15" height="15" /> @d.CurrencyCode</span> @d.ForexBuying
+                                                            </li>
+                                                        }
+                                                        else if (item.isRateOrDown == "increase")
+                                                        {
+                                                            <li class="nav-item" style="font-size: 16px; color: #54626b">
+                                                                <span style="font-weight:800;"><img src="~/Files/chevron-up.svg" width="15" height="15" /> @d.CurrencyCode</span> @d.ForexBuying
+                                                            </li>
+                                                        }         
+                                                    }
+                                                }
                                             }
                                         }
                                     }

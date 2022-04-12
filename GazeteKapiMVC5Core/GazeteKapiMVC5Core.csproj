@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="11.0.1" />
+    <PackageReference Include="Google.Cloud.TextToSpeech.V1" Version="2.5.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.0">
       <PrivateAssets>all</PrivateAssets>
@@ -25,6 +26,10 @@
     <ProjectReference Include="..\GazeteKapiMVC5Core.DataAccessLayerLOG\GazeteKapiMVC5Core.DataAccessLayerLOG.csproj" />
     <ProjectReference Include="..\GazeteKapiMVC5Core.DataAccessLayer\GazeteKapiMVC5Core.DataAccessLayer.csproj" />
     <ProjectReference Include="..\SERVICE.Engines\SERVICE.Engine.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\sound\" />
   </ItemGroup>
 
 </Project>

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace CORE.ApplicationCommon.DTOS.CurrencyDTO
 {
-    public class CurrencyListItemDto
+    public class CurrencyListItemDto : CurrencyBaseDto
     {
         public int Id { get; set; }
     }
