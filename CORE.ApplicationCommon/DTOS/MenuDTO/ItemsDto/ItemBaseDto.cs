@@ -8,7 +8,6 @@ namespace CORE.ApplicationCommon.DTOS.MenuDTO.ItemsDto
 {
     public class ItemBaseDto
     {
-        public int Id { get; set; }
         public string ItemName { get; set; }
         public string slug { get; set; }
 

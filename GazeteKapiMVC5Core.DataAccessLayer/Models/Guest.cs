@@ -1,5 +1,5 @@
-﻿using DOMAIN.DataAccessLayer.Models;
-using DOMAIN.DataAccessLayer.Models.Core;
+﻿using DOMAIN.DataAccessLayer.Models.Core;
+using GazeteKapiMVC5Core.DataAccessLayer.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;

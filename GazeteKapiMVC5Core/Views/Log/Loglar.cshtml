@@ -1,11 +1,12 @@
 ﻿@model PaginationList<GazeteKapiMVC5Core.Models.Log.LogModel.LogListViewModel>
-@using GazeteKapiMVC5Core.Core.Extensions; 
+@using CORE.ApplicationCommon.Helpers;
+
 @{
     ViewData["Title"] = "Loglar";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@{ 
+@{
     var prevDisabled = !Model.HasPrevious ? "disabled" : "";
     var nextDisabled = !Model.HasNextPage ? "disabled" : "";
 }
@@ -20,6 +21,7 @@
         font-weight: 600;
         font-family: Roboto,sans-serif;
     }
+
     .card-title-desc {
         color: #6c757d;
         margin-bottom: 0px;
@@ -53,10 +55,10 @@
                         </nav>
                         <div class="btn-toolbar" role="toolbar" style="float:right;">
                             <div class="btn-group me-2 mb-2 mb-sm-0">
-                               
+
                             </div>
                             <div class="btn-group me-2 mb-2 mb-sm-0">
-                                
+
                             </div>
                         </div>
                     </div>
@@ -102,8 +104,8 @@
                                             @Html.DisplayFor(modelItem => item.Action) - @Html.DisplayFor(modelItem => item.Controller)
                                         </td>
                                         <td id="tooltip-container" class="button-items">
-                                            <a style="padding:3px;" data-bs-container="#tooltip-container" 
-                                               data-bs-toggle="tooltip" 
+                                            <a style="padding:3px;" data-bs-container="#tooltip-container"
+                                               data-bs-toggle="tooltip"
                                                data-bs-placement="top" title="Log Detayını Gör" asp-action="LogDetay" asp-controller="Log" asp-route-id="@item.Id"><i class="mdi mdi-eye mdi-24px"></i></a>
                                         </td>
                                     </tr>

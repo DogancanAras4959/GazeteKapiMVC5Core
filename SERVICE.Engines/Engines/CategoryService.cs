@@ -1,7 +1,7 @@
 ﻿using CORE.ApplicationCommon.DTOS.CategoryDTO;
 using CORE.ApplicationCore.UnitOfWork;
 using DOMAIN.DataAccessLayer;
-using DOMAIN.DataAccessLayer.Models;
+using GazeteKapiMVC5Core.DataAccessLayer.Models;
 using GazeteKapiMVC5Core.DataAccessLayer;
 using SERVICES.Engine.Interfaces;
 using System;

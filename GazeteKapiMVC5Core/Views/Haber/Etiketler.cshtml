@@ -1,7 +1,8 @@
 ﻿@model PaginationList<GazeteKapiMVC5Core.Models.News.TagModel.TagListViewModel>
 @using GazeteKapiMVC5Core.Models.News.TagNewsModel;
 @using GazeteKapiMVC5Core.Models.News.TagModel;
-@using GazeteKapiMVC5Core.Core.Extensions;
+@using CORE.ApplicationCommon.Helpers;
+
 @{
 
     List<TagNewsListViewModel> tags = ViewBag.EtiketHaberler as List<TagNewsListViewModel>;
@@ -95,13 +96,17 @@
                                     }
                                     <tr id="tooltip-container" class="button-items">
                                         <td>@item.Id</td>
-                                        <td><a data-bs-container="#tooltip-container" 
-                                                   data-bs-toggle="tooltip" data-bs-placement="top" 
-                                                   title="Haberleri Listele" asp-action="EtiketeGoreHaberler" asp-controller="Haber" asp-route-id="@item.Id">@item.TagName</a></td>
+                                        <td>
+                                            <a data-bs-container="#tooltip-container"
+                                               data-bs-toggle="tooltip" data-bs-placement="top"
+                                               title="Haberleri Listele" asp-action="EtiketeGoreHaberler" asp-controller="Haber" asp-route-id="@item.Id">@item.TagName</a>
+                                        </td>
                                         <td>@count</td>
-                                        <td><a data-bs-container="#tooltip-container" 
-                                                   data-bs-toggle="tooltip" data-bs-placement="top" 
-                                                   title="Etiketi Sil" asp-controller="Haberler" asp-action="EtiketSil" asp-route-id="@item.Id" class="btn btn-danger"><i class="fas fa-trash"></i></a></td>
+                                        <td>
+                                            <a data-bs-container="#tooltip-container"
+                                               data-bs-toggle="tooltip" data-bs-placement="top"
+                                               title="Etiketi Sil" asp-controller="Haberler" asp-action="EtiketSil" asp-route-id="@item.Id" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                                        </td>
                                     </tr>
                                 }
                             </tbody>

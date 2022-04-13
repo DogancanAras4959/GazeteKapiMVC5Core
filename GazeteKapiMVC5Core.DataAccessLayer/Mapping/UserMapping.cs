@@ -1,4 +1,4 @@
-﻿using DOMAIN.DataAccessLayer.Models;
+﻿using GazeteKapiMVC5Core.DataAccessLayer.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;

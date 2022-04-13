@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
-namespace DOMAIN.DataAccessLayer.Models
+namespace GazeteKapiMVC5Core.DataAccessLayer.Models
 {
     public class Categories : IEntity
     {

@@ -2,9 +2,8 @@
 using CORE.ApplicationCommon.Helpers.Cyrptography;
 using CORE.ApplicationCore.BackEndExceptionHandler;
 using CORE.ApplicationCore.UnitOfWork;
-using DOMAIN.DataAccessLayer;
-using DOMAIN.DataAccessLayer.Models;
 using GazeteKapiMVC5Core.DataAccessLayer;
+using GazeteKapiMVC5Core.DataAccessLayer.Models;
 using Microsoft.EntityFrameworkCore;
 using SERVICES.Engine.Interfaces;
 using System;

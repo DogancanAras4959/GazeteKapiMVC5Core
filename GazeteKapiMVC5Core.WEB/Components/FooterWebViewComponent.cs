@@ -1,12 +1,8 @@
 ﻿using AutoMapper;
 using CORE.ApplicationCommon.DTOS.SetingsDTO;
-using GazeteKapiMVC5Core.Models.Settings;
+using GazeteKapiMVC5Core.WEB.ViewModels.Settings;
 using Microsoft.AspNetCore.Mvc;
 using SERVICE.Engine.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace GazeteKapiMVC5Core.WEB.Components
 {
@@ -22,7 +18,7 @@ namespace GazeteKapiMVC5Core.WEB.Components
 
         public IViewComponentResult Invoke()
         {
-            var siteSettingGet = _mapper.Map<SettingsDto, SettingsEditViewModel>(_siteSetting.getSettings(1));
+            var siteSettingGet = _mapper.Map<SettingsDto, SettingsEditViewModelWeb>(_siteSetting.getSettings(1));
             return View(siteSettingGet);
         }
     }

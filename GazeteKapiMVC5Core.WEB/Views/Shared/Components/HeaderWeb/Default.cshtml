@@ -1,14 +1,12 @@
-﻿@using GazeteKapiMVC5Core.Models.Category;
-@using GazeteKapiMVC5Core.Models.CurrencyModel;
-@using GazeteKapiMVC5Core.Models;
-@model GazeteKapiMVC5Core.Models.Settings.SettingsBaseViewModel
+﻿@using GazeteKapiMVC5Core.WEB.ViewModels.Categories;
+@using GazeteKapiMVC5Core.WEB.ViewModels.Currencies;
+@model GazeteKapiMVC5Core.WEB.ViewModels.Settings.SettingsBaseViewModelWeb;
 
 
 @{
-    List<CategoryListViewModel> categories = ViewBag.CategoryList as List<CategoryListViewModel>;
-    List<CurrencyListViewModel> currencies = ViewBag.CurrencyList as List<CurrencyListViewModel>;
+    List<CategoryListViewModelWeb> categories = ViewBag.CategoryList as List<CategoryListViewModelWeb>;
+    List<CurrencyListViewModelWeb> currencies = ViewBag.CurrencyList as List<CurrencyListViewModelWeb>;
     List<doviz> dovizlist = ViewBag.dovizler as List<doviz>;
-    decimal count = 0;
 }
 <style>
     .fixed-top {
@@ -58,22 +56,22 @@
                         <ul class="topbar-sosmed">
 
                             <li>
-                                <a class="sm-link" target="_blank" href="https://twitter.com/home?lang=tr"><img style="height:25px;" src="~/images/social-media/SVG/twitter.svg" /></a>
+                                <a class="sm-link" target="_blank" href="https://twitter.com/home?lang=tr"><img style="height:25px;" src="~/images/social-media/twitter.svg" /></a>
                             </li>
                             <li>
-                                <a class="sm-link" target="_blank" href="https://www.facebook.com/"><img style="height:25px;" src="~/images/social-media/SVG/facebook.svg" /></a>
+                                <a class="sm-link" target="_blank" href="https://www.facebook.com/"><img style="height:25px;" src="~/images/social-media/facebook.svg" /></a>
                             </li>
                             <li>
-                                <a class="sm-link" target="_blank" href="https://www.youtube.com/"><img style="height:25px;" src="~/images/social-media/SVG/youtube.svg" /></a>
+                                <a class="sm-link" target="_blank" href="https://www.youtube.com/"><img style="height:25px;" src="~/images/social-media/youtube.svg" /></a>
                             </li>
                             <li>
-                                <a class="sm-link" target="_blank" href="https://www.instagram.com/"><img style="height:25px;" src="~/images/social-media/SVG/instagram.svg" /></a>
+                                <a class="sm-link" target="_blank" href="https://www.instagram.com/"><img style="height:25px;" src="~/images/social-media/instagram.svg" /></a>
                             </li>
                             <li>
-                                <a class="sm-link" target="_blank" href="https://web.telegram.org/"><img style="height:25px;" src="~/images/social-media/SVG/telegram.svg" /></a>
+                                <a class="sm-link" target="_blank" href="https://web.telegram.org/"><img style="height:25px;" src="~/images/social-media/telegram.svg" /></a>
                             </li>
                             <li style="padding:0px; margin-left:4px;">
-                                <a class="sm-link" target="_blank" href="@Url.Action("Rss","anasayfa")"><img style="height:25px;" src="~/Files/rss.svg" /></a>
+                                <a class="sm-link" target="_blank" href="@Url.Action("Rss","anasayfa")"><img style="height:25px;" src="~/images/social-media/rss.svg" /></a>
                             </li>
                         </ul>
                     </div>

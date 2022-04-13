@@ -1,9 +1,9 @@
-﻿@using GazeteKapiMVC5Core.Models.News.GuestModel;
-@using GazeteKapiMVC5Core.Models.News.NewsModel;
+﻿@using GazeteKapiMVC5Core.WEB.ViewModels.Guests;
+@using GazeteKapiMVC5Core.WEB.ViewModels.News;
 
 @{
-    List<GuestListViewModel> guestList = ViewBag.GuestList as List<GuestListViewModel>;
-    List<NewsLıstItemModel> haberlerManset = ViewBag.HaberlerManset as List<NewsLıstItemModel>;
+    List<GuestListViewModelWeb> guestList = ViewBag.GuestList as List<GuestListViewModelWeb>;
+    List<NewListViewModelWeb> haberlerManset = ViewBag.HaberlerManset as List<NewListViewModelWeb>;
     int count = 0;
 }
 

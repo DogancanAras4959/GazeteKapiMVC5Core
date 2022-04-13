@@ -3,6 +3,7 @@ using CORE.ApplicationCommon.DTOS.LogsDTO.LogDTO;
 using CORE.ApplicationCommon.DTOS.LogsDTO.ProcessDTO;
 using CORE.ApplicationCommon.DTOS.LogsDTO.TransactionDTO;
 using CORE.ApplicationCommon.DTOS.SetingsDTO;
+using CORE.ApplicationCommon.Helpers;
 using GazeteKapiMVC5Core.Core.Extensions;
 using GazeteKapiMVC5Core.DataAccessLayer.Models;
 using GazeteKapiMVC5Core.Models.Log.LogModel;
@@ -40,20 +41,19 @@ namespace GazeteKapiMVC5Core.Controllers
         public IActionResult Loglar(int? pageNumber, /*string searchLogName,*/ int? processId, int? transactionId)
         {
             int pageSize = 20;
-            List<LogListViewModel> listLog = null;
-
             var listLogWithProcess = _mapper.Map<List<ProcessesItemListDto>, List<ProcessesListItemModel>>(_logService.GetAllProcess());
             ViewBag.Islemler = new SelectList(listLogWithProcess, "Id", "ProcessesName");
 
             var listLogWithTransaction = _mapper.Map<List<TransactionListItemDto>, List<TransactionListItemModel>>(_logService.GetAllTransaction());
             ViewBag.Durumlar = new SelectList(listLogWithTransaction, "Id", "TransactionNames");
 
+            List<LogListViewModel> listLog;
             if (processId != null && processId != 0)
             {
                 listLog = _mapper.Map<List<LogListItemDto>, List<LogListViewModel>>(_logService.GetAllLogsByProcess(processId));
                 return View(PaginationList<LogListViewModel>.Create(listLog.ToList(), pageNumber ?? 1, pageSize));
             }
-           
+
             if (transactionId != null && transactionId != 0)
             {
                 listLog = _mapper.Map<List<LogListItemDto>, List<LogListViewModel>>(_logService.GetAllLogsByTransactions(transactionId));

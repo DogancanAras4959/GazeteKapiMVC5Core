@@ -1,4 +1,4 @@
-﻿using DOMAIN.DataAccessLayer.Models;
+﻿using GazeteKapiMVC5Core.DataAccessLayer.Models;
 using DOMAIN.DataAccessLayer.Models.Core;
 using System;
 using System.Collections.Generic;

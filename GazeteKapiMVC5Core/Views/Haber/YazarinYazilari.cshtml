@@ -1,5 +1,6 @@
 ﻿@model PaginationList<GazeteKapiMVC5Core.Models.News.NewsModel.NewsLıstItemModel>
-@using GazeteKapiMVC5Core.Core.Extensions;
+@using CORE.ApplicationCommon.Helpers;
+
 @{
     ViewData["Title"] = "Kategoriler";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -95,7 +96,7 @@
                                 </tr>
                                 @foreach (var item in Model)
                                 {
-                                  
+
                                     <tr class="button-items" id="tooltip-container">
                                         <td style="text-align:center;">@Html.DisplayFor(model => item.Id)</td>
 

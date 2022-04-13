@@ -2,10 +2,10 @@
 using CORE.ApplicationCommon.DTOS.CategoryDTO;
 using CORE.ApplicationCommon.DTOS.CurrencyDTO;
 using CORE.ApplicationCommon.DTOS.SetingsDTO;
-using GazeteKapiMVC5Core.Models.Category;
-using GazeteKapiMVC5Core.Models.CurrencyModel;
-using GazeteKapiMVC5Core.Models.Settings;
 using GazeteKapiMVC5Core.WEB.Models;
+using GazeteKapiMVC5Core.WEB.ViewModels.Categories;
+using GazeteKapiMVC5Core.WEB.ViewModels.Currencies;
+using GazeteKapiMVC5Core.WEB.ViewModels.Settings;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using SERVICE.Engine.Interfaces;
@@ -33,11 +33,10 @@ namespace GazeteKapiMVC5Core.WEB.Components
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            List<CategoryListViewModel> categoryList = null;
-            categoryList = _mapper.Map<List<CategoryListItemDto>, List<CategoryListViewModel>>(_categoryService.GetAllCategory());
+            List<CategoryListViewModelWeb> categoryList = _mapper.Map<List<CategoryListItemDto>, List<CategoryListViewModelWeb>>(_categoryService.GetAllCategory());
             ViewBag.CategoryList = categoryList;
             await GetCurrencyServiceAsync();
-            var siteSetting = _mapper.Map<SettingsDto, SettingsBaseViewModel>(_siteSetting.getSettings(1));
+            var siteSetting = _mapper.Map<SettingsDto, SettingsBaseViewModelWeb>(_siteSetting.getSettings(1));
             return View(siteSetting);
         }
 
@@ -57,13 +56,13 @@ namespace GazeteKapiMVC5Core.WEB.Components
                     ViewData["dovizler"] = "Kur bilgisine şu anda ulaşılamıyor!";
                 }
 
-                var getSiteSettings = _mapper.Map<SettingsDto, SettingsEditViewModel>(_siteSetting.getSettings(1));
+                var getSiteSettings = _mapper.Map<SettingsDto, SettingsEditViewModelWeb>(_siteSetting.getSettings(1));
 
                 var CurrencyNodes = Tarih_Date_Nodes.SelectNodes("//Currency"); // ana boğum altındaki kur boğumunu seçiyoruz.
                 int CurrencyLength = CurrencyNodes.Count; // toplam kur boğumu sayısını elde ediyor ve for döngüsünde kullanıyoruz.
 
                 List<doviz> dovizler = new List<doviz>(); // Aşağıda oluşturduğum public class ile bir List oluşturuyoruz.
-                CurrencyCreateViewModel model = new CurrencyCreateViewModel();
+                CurrencyCreateViewModelWeb model = new CurrencyCreateViewModelWeb();
 
                 if (getSiteSettings.IsCurrencyService == false)
                 {
@@ -83,16 +82,16 @@ namespace GazeteKapiMVC5Core.WEB.Components
                         model.CrossRateOther = cn.ChildNodes[7].InnerXml;
                         model.CrossRateUSD = cn.ChildNodes[8].InnerXml;
 
-                        await _siteSetting.createCurrencyList(_mapper.Map<CurrencyCreateViewModel, CurrencyDto>(model));
+                        await _siteSetting.createCurrencyList(_mapper.Map<CurrencyCreateViewModelWeb, CurrencyDto>(model));
                     }
 
                     getSiteSettings.IsCurrencyService = true;
-                    await _siteSetting.editSiteSettings(_mapper.Map<SettingsEditViewModel, SettingsDto>(getSiteSettings));
+                    await _siteSetting.editSiteSettings(_mapper.Map<SettingsEditViewModelWeb, SettingsDto>(getSiteSettings));
                 }
 
                 else
                 {
-                    var listCurrencyToDatabase = _mapper.Map<List<CurrencyListItemDto>, List<CurrencyListViewModel>>(_siteSetting.currencyLisToDatabase());
+                    var listCurrencyToDatabase = _mapper.Map<List<CurrencyListItemDto>, List<CurrencyListViewModelWeb>>(_siteSetting.currencyLisToDatabase());
 
                     for (int i = 0; i < CurrencyLength; i++) // for u çalıştırıyoruz.
                     {
@@ -121,7 +120,7 @@ namespace GazeteKapiMVC5Core.WEB.Components
                                 string code = item.code;
                                 string serviceBuying = cn.ChildNodes[3].InnerXml;
 
-                                var getCurrency = _mapper.Map<CurrencyDto, CurrencyEditViewModel>(_siteSetting.getCurrency(code));
+                                var getCurrency = _mapper.Map<CurrencyDto, CurrencyEditViewModelWeb>(_siteSetting.getCurrency(code));
 
                                 decimal databaseBuying = Convert.ToDecimal(getCurrency.ForexBuying);
                                 decimal serviceBuyingConvert = Convert.ToDecimal(serviceBuying);
@@ -130,7 +129,7 @@ namespace GazeteKapiMVC5Core.WEB.Components
                                 {
                                     getCurrency.isRateOrDown = "increase";
                                     getCurrency.ForexBuying = cn.Attributes[3].InnerXml;
-                                    await _siteSetting.editCurrencyList(_mapper.Map<CurrencyEditViewModel, CurrencyDto>(getCurrency));
+                                    await _siteSetting.editCurrencyList(_mapper.Map<CurrencyEditViewModelWeb, CurrencyDto>(getCurrency));
                                     break;
 
                                 }
@@ -138,7 +137,7 @@ namespace GazeteKapiMVC5Core.WEB.Components
                                 {
                                     getCurrency.isRateOrDown = "down";
                                     getCurrency.ForexBuying = cn.Attributes[3].InnerXml;
-                                    await _siteSetting.editCurrencyList(_mapper.Map<CurrencyEditViewModel, CurrencyDto>(getCurrency));
+                                    await _siteSetting.editCurrencyList(_mapper.Map<CurrencyEditViewModelWeb, CurrencyDto>(getCurrency));
                                     break;
 
                                 }
@@ -154,7 +153,7 @@ namespace GazeteKapiMVC5Core.WEB.Components
 
                 ViewData["dovizler"] = dovizler; // dovizler List değerini data ya atıyoruz ön tarafta viewbag ile çekeceğiz.
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 ViewData["dovizler"] = "Servisle bağlantı kurulamıyor!";
             }

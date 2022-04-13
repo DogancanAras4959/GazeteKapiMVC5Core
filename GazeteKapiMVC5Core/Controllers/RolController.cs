@@ -243,10 +243,12 @@ namespace GazeteKapiMVC5Core.Controllers
         {
             RoleBaseDto roledto = _roleService.GetRoleById(roleId);
             AuthorizeBaseDto authorizedto = _roleService.GetAuthorizeById(authorizeId);
-            AuthorizeRoleCreateModel dto = new AuthorizeRoleCreateModel();
-            dto.RoleId = roleId;
-            dto.AuthorizeId = authorizeId;
-            dto.isChecked = false;
+            AuthorizeRoleCreateModel dto = new AuthorizeRoleCreateModel
+            {
+                RoleId = roleId,
+                AuthorizeId = authorizeId,
+                isChecked = false
+            };
 
             if (roledto != null)
             {
@@ -259,14 +261,16 @@ namespace GazeteKapiMVC5Core.Controllers
         }
 
         [HttpPost]
-        public async Task RemoveAuthorizeInRole(int authorizeId, int roleId, int id)
+        public async Task RemoveAuthorizeInRole(int authorizeId, int roleId)
         {
             RoleBaseDto roledto = _roleService.GetRoleById(roleId);
             AuthorizeBaseDto authorizedto = _roleService.GetAuthorizeById(authorizeId);
-            AuthorizeRoleEditModel dto = new AuthorizeRoleEditModel();
-            dto.RoleId = roleId;
-            dto.AuthorizeId = authorizeId;
-            dto.isChecked = true;
+            AuthorizeRoleEditModel dto = new AuthorizeRoleEditModel
+            {
+                RoleId = roleId,
+                AuthorizeId = authorizeId,
+                isChecked = true
+            };
 
             if (roledto != null)
             {

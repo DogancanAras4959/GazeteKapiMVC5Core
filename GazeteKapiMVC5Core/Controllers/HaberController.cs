@@ -7,6 +7,7 @@ using CORE.ApplicationCommon.DTOS.NewsDTO.PublishTypeDTO;
 using CORE.ApplicationCommon.DTOS.NewsDTO.TagDTO;
 using CORE.ApplicationCommon.DTOS.NewsDTO.TagNewsDTO;
 using CORE.ApplicationCommon.DTOS.SetingsDTO;
+using CORE.ApplicationCommon.Helpers;
 using GazeteKapiMVC5Core.Core.Extensions;
 using GazeteKapiMVC5Core.Core.Models.ConfigTTS;
 using GazeteKapiMVC5Core.Models.Account;

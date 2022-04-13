@@ -211,7 +211,7 @@ namespace SERVICE.Engine.Engines
 
                 return createNews.Id;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
             }
@@ -313,7 +313,7 @@ namespace SERVICE.Engine.Engines
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
             }
@@ -367,7 +367,7 @@ namespace SERVICE.Engine.Engines
                 return newsGet.Id;
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return 0;
             }
@@ -638,7 +638,7 @@ namespace SERVICE.Engine.Engines
 
                 }).ToList();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
                 return null;
@@ -785,7 +785,7 @@ namespace SERVICE.Engine.Engines
 
                 }).ToList();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
                 return null;
@@ -868,7 +868,7 @@ namespace SERVICE.Engine.Engines
 
                 }).ToList();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
                 return null;
@@ -911,7 +911,7 @@ namespace SERVICE.Engine.Engines
 
                 }).ToList();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
                 return null;

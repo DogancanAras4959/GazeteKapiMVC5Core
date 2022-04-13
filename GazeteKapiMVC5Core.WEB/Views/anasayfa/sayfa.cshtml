@@ -1,9 +1,9 @@
-﻿@using GazeteKapiMVC5Core.Models.News.NewsModel;
+﻿@using GazeteKapiMVC5Core.WEB.ViewModels.News;
 
 @{
     ViewData["Title"] = "sayfa";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    List<NewsLıstItemModel> haberlerManset = ViewBag.HaberlerManset as List<NewsLıstItemModel>;
+    List<NewListViewModelWeb> haberlerManset = ViewBag.HaberlerManset as List<NewListViewModelWeb>;
     int count = 0;
 }
 

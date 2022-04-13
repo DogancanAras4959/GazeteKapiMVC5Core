@@ -1,17 +1,17 @@
-﻿@using GazeteKapiMVC5Core.Models.Category;
-@using GazeteKapiMVC5Core.Models.News.TagNewsModel;
-@using GazeteKapiMVC5Core.Models.News.NewsModel;
+﻿@using GazeteKapiMVC5Core.WEB.ViewModels.News;
+@using GazeteKapiMVC5Core.WEB.ViewModels.TagsNews
+@using GazeteKapiMVC5Core.WEB.ViewModels.Categories
 
 @{
     ViewData["Title"] = "haber";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
-    List<TagNewsListViewModel> tagList = ViewBag.TagNews as List<TagNewsListViewModel>;
-    List<CategoryListViewModel> categories = ViewBag.CategotyList as List<CategoryListViewModel>;
-    List<NewsLıstItemModel> newListRelational = ViewBag.Relational as List<NewsLıstItemModel>;
-    List<NewsLıstItemModel> newsListPopularite = ViewBag.Popularite as List<NewsLıstItemModel>;
-    List<NewsLıstItemModel> newsListPopulariteByCategory = ViewBag.PopulariteByCategory as List<NewsLıstItemModel>;
-    List<NewsLıstItemModel> newListByCategory = ViewBag.CategoryNewsByIdScroll as List<NewsLıstItemModel>;
+    List<TagNewsListViewModelWeb> tagList = ViewBag.TagNews as List<TagNewsListViewModelWeb>;
+    List<CategoryListViewModelWeb> categories = ViewBag.CategotyList as List<CategoryListViewModelWeb>;
+    List<NewListViewModelWeb> newListRelational = ViewBag.Relational as List<NewListViewModelWeb>;
+    List<NewListViewModelWeb> newsListPopularite = ViewBag.Popularite as List<NewListViewModelWeb>;
+    List<NewListViewModelWeb> newsListPopulariteByCategory = ViewBag.PopulariteByCategory as List<NewListViewModelWeb>;
+    List<NewListViewModelWeb> newListByCategory = ViewBag.CategoryNewsByIdScroll as List<NewListViewModelWeb>;
 
     string name = "";
     int count = 0;
@@ -85,9 +85,9 @@
         text-decoration: none;
     }
 
-    .btn-sound:hover{
-        cursor:pointer;
-        color:#f4c625;
+    .btn-sound:hover {
+        cursor: pointer;
+        color: #f4c625;
     }
 
     .blog-tags .list-inline .list-inline-item .fa-tags {
@@ -125,10 +125,11 @@
         font-family: "Montserrat",sans-serif;
         font-weight: 600;
     }
+
     ol, ul, dl {
         margin-top: 0;
         margin-bottom: 0;
-    } 
+    }
 </style>
 
 <section class="bg-white pb-60" id="newSection">

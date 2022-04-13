@@ -84,7 +84,7 @@ namespace GazeteKapiMVC5Core.Controllers
 
                 return RedirectToAction("Ayarlar", "Settings");
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return RedirectToAction("Ayarlar", "Settings");
             }
@@ -113,7 +113,7 @@ namespace GazeteKapiMVC5Core.Controllers
 
                 return RedirectToAction("GizlilikPolitikası", "Settings");
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return RedirectToAction("GizlilikPolitikası", "Settings");
             }
@@ -142,7 +142,7 @@ namespace GazeteKapiMVC5Core.Controllers
 
                 return RedirectToAction("Hakkimizda", "Settings");
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return RedirectToAction("Hakkimizda", "Settings");
             }
@@ -171,7 +171,7 @@ namespace GazeteKapiMVC5Core.Controllers
 
                 return RedirectToAction("KullanimKosullari", "Settings");
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return RedirectToAction("KullanimKosullari", "Settings");
             }
@@ -184,6 +184,11 @@ namespace GazeteKapiMVC5Core.Controllers
         [HttpGet]
         public IActionResult Menus(int? id)
         {
+            if (id is null)
+            {
+                throw new ArgumentNullException(nameof(id));
+            }
+
             return View();
         }
 

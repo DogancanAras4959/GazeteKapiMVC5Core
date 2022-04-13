@@ -7,7 +7,6 @@ namespace GazeteKapiMVC5Core.Models.News.TagModel
 {
     public class TagBaseViewModel
     {
-        public int Id { get; set; }
         public string TagName { get; set; }
     }
 }

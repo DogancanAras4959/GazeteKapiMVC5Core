@@ -2,42 +2,21 @@
 using CORE.ApplicationCommon.DTOS.CategoryDTO;
 using CORE.ApplicationCommon.DTOS.NewsDTO;
 using CORE.ApplicationCommon.DTOS.NewsDTO.GuestDTO;
-using CORE.ApplicationCommon.DTOS.NewsDTO.TagDTO;
 using CORE.ApplicationCommon.DTOS.NewsDTO.TagNewsDTO;
-using CORE.ApplicationCommon.DTOS.SetingsDTO;
-using GazeteKapiMVC5Core.Core.Extensions;
-using GazeteKapiMVC5Core.Models.Category;
-using GazeteKapiMVC5Core.Models.News.GuestModel;
-using GazeteKapiMVC5Core.Models.News.NewsModel;
-using GazeteKapiMVC5Core.Models.News.TagModel;
-using GazeteKapiMVC5Core.Models.News.TagNewsModel;
-using GazeteKapiMVC5Core.Models.Settings;
-using GazeteKapiMVC5Core.SiteMap;
-using GazeteKapiMVC5Core.WEB.Models;
-using GazeteKapiMVC5Core.WEB.Models.ConfigSiteMap;
-using GazeteKapiMVC5Core.WEB.Models.ConfigUrl;
+using CORE.ApplicationCommon.Helpers;
 using GazeteKapiMVC5Core.WEB.Models.RenderService;
-using Microsoft.AspNetCore.Hosting;
+using GazeteKapiMVC5Core.WEB.ViewModels.Categories;
+using GazeteKapiMVC5Core.WEB.ViewModels.Guests;
+using GazeteKapiMVC5Core.WEB.ViewModels.News;
+using GazeteKapiMVC5Core.WEB.ViewModels.TagsNews;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.AspNetCore.Mvc.ViewEngines;
-using Microsoft.AspNetCore.Mvc.ViewFeatures;
-using Newtonsoft.Json;
 using SERVICE.Engine.Interfaces;
 using SERVICES.Engine.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Reflection;
-using System.Runtime.InteropServices;
 using System.ServiceModel.Syndication;
-using System.Speech.AudioFormat;
-using System.Speech.Recognition;
-using System.Speech.Synthesis;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -53,37 +32,28 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
         private readonly IMapper _mapper;
         private readonly INewsService _newService;
         private readonly ICategoryService _categoryService;
-        private readonly ISitemapProvider _siteMapProvider;
         private readonly ISettingService _settingService;
         private readonly IViewRenderService _viewRender;
-
     
 
-        private SpeechSynthesizer ss;
 
         [Obsolete]
-        public anasayfaController(INewsService newService, ICategoryService categoryService, IMapper mapper, ISitemapProvider siteMapProvider, ISettingService settingService, IViewRenderService viewRender)
+        public anasayfaController(INewsService newService, ICategoryService categoryService, IMapper mapper, ISettingService settingService, IViewRenderService viewRender)
         {
             _newService = newService;
             _categoryService = categoryService;
             _mapper = mapper;
-            _siteMapProvider = siteMapProvider;
             _settingService = settingService;
             _viewRender = viewRender;         
-            ss = new SpeechSynthesizer();
         }
 
         #endregion
 
         public IActionResult sayfa()
         {
-            var haberlist = _mapper.Map<List<NewsListItemDto>, List<NewsLıstItemModel>>(_newService.newsList());
-
-            List<GuestListViewModel> guestList = null;
-            guestList = _mapper.Map<List<GuestListItemDto>, List<GuestListViewModel>>(_newService.guestList());
-
-            List<TagNewsListViewModel> tagNewList = null;
-            tagNewList = _mapper.Map<List<TagNewsListItemDto>, List<TagNewsListViewModel>>(_newService.tagsListWithNewsWeb());
+            var haberlist = _mapper.Map<List<NewsListItemDto>, List<NewListViewModelWeb>>(_newService.newsList());
+            List<GuestListViewModelWeb> guestList = _mapper.Map<List<GuestListItemDto>, List<GuestListViewModelWeb>>(_newService.guestList());
+            List<TagNewsListViewModelWeb> tagNewList = _mapper.Map<List<TagNewsListItemDto>, List<TagNewsListViewModelWeb>>(_newService.tagsListWithNewsWeb());
 
             ViewBag.TagNews = tagNewList;
             ViewBag.HaberlerManset = haberlist;
@@ -95,39 +65,43 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
         public IActionResult aramasonucu(int? pageNumber, string searchnews, int? TagId)
         {
             int pageSize = 20;
-            List<NewsLıstItemModel> haberlist = null;
-            List<TagNewsListViewModel> tagNewList = null;
-            List<CategoryListViewModel> categoryList = null;
-            List<NewsLıstItemModel> modelNew = new List<NewsLıstItemModel>();
+            List<NewListViewModelWeb> haberlist = null;
+            List<TagNewsListViewModelWeb> tagNewList = null;
+            List<CategoryListViewModelWeb> categoryList = null;
+            List<NewListViewModelWeb> modelNew = new List<NewListViewModelWeb>();
 
             if (searchnews != null && searchnews != "")
             {
-                haberlist = _mapper.Map<List<NewsListItemDto>, List<NewsLıstItemModel>>(_newService.searchDataInNews(searchnews));
+                haberlist = _mapper.Map<List<NewsListItemDto>, List<NewListViewModelWeb>>(_newService.searchDataInNews(searchnews));
 
-                tagNewList = _mapper.Map<List<TagNewsListItemDto>, List<TagNewsListViewModel>>(_newService.tagsListWithNewsWebSearch(searchnews));
+                tagNewList = _mapper.Map<List<TagNewsListItemDto>, List<TagNewsListViewModelWeb>>(_newService.tagsListWithNewsWebSearch(searchnews));
 
                 foreach (var item in haberlist)
                 {
-                    NewsLıstItemModel model = new NewsLıstItemModel();
-                    model.Id = item.Id;
-                    model.Image = item.Image;
-                    model.Title = item.Title;
-                    model.Spot = item.Spot;
-                    model.PublishedTime = item.PublishedTime;
-                    model.CategoryId = item.CategoryId;
+                    NewListViewModelWeb model = new NewListViewModelWeb
+                    {
+                        Id = item.Id,
+                        Image = item.Image,
+                        Title = item.Title,
+                        Spot = item.Spot,
+                        PublishedTime = item.PublishedTime,
+                        CategoryId = item.CategoryId
+                    };
                     modelNew.Add(model);
                 }
 
                 foreach (var item in tagNewList)
                 {
 
-                    NewsLıstItemModel model = new NewsLıstItemModel();
-                    model.Id = item.news.Id;
-                    model.Image = item.news.Image;
-                    model.Title = item.news.Title;
-                    model.Spot = item.news.Spot;
-                    model.PublishedTime = item.news.PublishedTime;
-                    model.CategoryId = item.news.CategoryId;
+                    NewListViewModelWeb model = new NewListViewModelWeb
+                    {
+                        Id = item.news.Id,
+                        Image = item.news.Image,
+                        Title = item.news.Title,
+                        Spot = item.news.Spot,
+                        PublishedTime = item.news.PublishedTime,
+                        CategoryId = item.news.CategoryId
+                    };
                     modelNew.Add(model);
                 }
 
@@ -136,30 +110,32 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
                 int count = modelNew.Count;
                 TempData["toplam"] = count;
 
-                categoryList = _mapper.Map<List<CategoryListItemDto>, List<CategoryListViewModel>>(_categoryService.GetAllCategory());
+                categoryList = _mapper.Map<List<CategoryListItemDto>, List<CategoryListViewModelWeb>>(_categoryService.GetAllCategory());
 
                 ViewBag.Categories = categoryList;
 
-                NewsLıstItemModel[] tagsList = modelNew.GroupBy(o => new { o.Title }).Select(x => x.FirstOrDefault()).ToArray();
+                NewListViewModelWeb[] tagsList = modelNew.GroupBy(o => new { o.Title }).Select(x => x.FirstOrDefault()).ToArray();
 
-                return View(PaginationList<NewsLıstItemModel>.Create(tagsList.ToList(), pageNumber ?? 1, pageSize));
+                return View(PaginationList<NewListViewModelWeb>.Create(tagsList.ToList(), pageNumber ?? 1, pageSize));
             }
 
             if (TagId != null && TagId > 0)
             {
-                tagNewList = _mapper.Map<List<TagNewsListItemDto>, List<TagNewsListViewModel>>(_newService.tagsListWithNewsByTagId(TagId));
+                tagNewList = _mapper.Map<List<TagNewsListItemDto>, List<TagNewsListViewModelWeb>>(_newService.tagsListWithNewsByTagId(TagId));
                 string nameTag = "";
                 foreach (var item in tagNewList)
                 {
                     nameTag = item.tag.TagName;
 
-                    NewsLıstItemModel model = new NewsLıstItemModel();
-                    model.Id = item.news.Id;
-                    model.Image = item.news.Image;
-                    model.Title = item.news.Title;
-                    model.Spot = item.news.Spot;
-                    model.PublishedTime = item.news.PublishedTime;
-                    model.CategoryId = item.news.CategoryId;
+                    NewListViewModelWeb model = new NewListViewModelWeb
+                    {
+                        Id = item.news.Id,
+                        Image = item.news.Image,
+                        Title = item.news.Title,
+                        Spot = item.news.Spot,
+                        PublishedTime = item.news.PublishedTime,
+                        CategoryId = item.news.CategoryId
+                    };
                     modelNew.Add(model);
                 }
 
@@ -169,27 +145,26 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
 
                 TempData["toplam"] = count;
 
-                categoryList = _mapper.Map<List<CategoryListItemDto>, List<CategoryListViewModel>>(_categoryService.GetAllCategory());
+                categoryList = _mapper.Map<List<CategoryListItemDto>, List<CategoryListViewModelWeb>>(_categoryService.GetAllCategory());
 
                 ViewBag.Categories = categoryList;
 
-                NewsLıstItemModel[] tagsList = modelNew.GroupBy(o => new { o.Title }).Select(x => x.FirstOrDefault()).ToArray();
+                NewListViewModelWeb[] tagsList = modelNew.GroupBy(o => new { o.Title }).Select(x => x.FirstOrDefault()).ToArray();
 
-                return View(PaginationList<NewsLıstItemModel>.Create(tagsList.ToList(), pageNumber ?? 1, pageSize));
+                return View(PaginationList<NewListViewModelWeb>.Create(tagsList.ToList(), pageNumber ?? 1, pageSize));
             }
             return View();
         }
         public IActionResult kategori(int? pageNumber, int Id)
         {
 
-            var category = _mapper.Map<CategoryDto, CategoryEditViewModel>(_categoryService.GetCategoryById(Id));
+            var category = _mapper.Map<CategoryDto, CategoryEditViewModelWeb>(_categoryService.GetCategoryById(Id));
 
             TempData["kategori"] = category.CategoryName;
             int pageSize = 18;
-            List<NewsLıstItemModel> newList = null;
-            newList = _mapper.Map<List<NewsListItemDto>, List<NewsLıstItemModel>>(_newService.newsListByCategoryId(Id));
+            List<NewListViewModelWeb> newList = _mapper.Map<List<NewsListItemDto>, List<NewListViewModelWeb>>(_newService.newsListByCategoryId(Id));
 
-            return View(PaginationList<NewsLıstItemModel>.Create(newList.ToList(), pageNumber ?? 1, pageSize));
+            return View(PaginationList<NewListViewModelWeb>.Create(newList.ToList(), pageNumber ?? 1, pageSize));
         }
         public IActionResult Slider()
         {
@@ -214,53 +189,43 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
         public IActionResult yazaryazilari(int id, int? pageNumber)
         {
             int pageSize = 20;
-            var guest = _mapper.Map<GuestDto, GuestEditViewModel>(_newService.getGuest(id));
+            var guest = _mapper.Map<GuestDto, GuestEditViewModelWeb>(_newService.getGuest(id));
             ViewBag.Guest = guest;
-
-            List<CategoryListViewModel> categoryList = null;
-            categoryList = _mapper.Map<List<CategoryListItemDto>, List<CategoryListViewModel>>(_categoryService.GetAllCategory());
+            List<CategoryListViewModelWeb> categoryList = _mapper.Map<List<CategoryListItemDto>, List<CategoryListViewModelWeb>>(_categoryService.GetAllCategory());
             ViewBag.Categories = categoryList;
 
-            List<NewsLıstItemModel> newList = _mapper.Map<List<NewsListItemDto>, List<NewsLıstItemModel>>(_newService.newsListWithGuest(guest.Id));
-            return View(PaginationList<NewsLıstItemModel>.Create(newList.ToList(), pageNumber ?? 1, pageSize));
+            List<NewListViewModelWeb> newList = _mapper.Map<List<NewsListItemDto>, List<NewListViewModelWeb>>(_newService.newsListWithGuest(guest.Id));
+            return View(PaginationList<NewListViewModelWeb>.Create(newList.ToList(), pageNumber ?? 1, pageSize));
         }
         public IActionResult yazarlar()
         {
-            List<GuestListViewModel> guestList = null;
-            guestList = _mapper.Map<List<GuestListItemDto>, List<GuestListViewModel>>(_newService.guestList());
+            List<GuestListViewModelWeb> guestList = _mapper.Map<List<GuestListItemDto>, List<GuestListViewModelWeb>>(_newService.guestList());
             return View(guestList);
         }
 
         [HttpGet("haber/{Id}/{Title}", Name = "haber")]
         public IActionResult haber(int Id, string Title)
         {
-            var newsGet = _mapper.Map<NewsDto, NewsEditViewModel>(_newService.getNews(Id));
+            var newsGet = _mapper.Map<NewsDto, NewsEditViewModelWeb>(_newService.getNews(Id));
             ViewBag.Content = HtmlToPlainText(newsGet.NewsContent);
 
             string friendlyTitle = Title;
-
-            List<TagNewsListViewModel> tagNewsList = null;
-            tagNewsList = _mapper.Map<List<TagNewsListItemDto>, List<TagNewsListViewModel>>(_newService.tagsListWithNewsByNewsId(Id));
+            List<TagNewsListViewModelWeb> tagNewsList = _mapper.Map<List<TagNewsListItemDto>, List<TagNewsListViewModelWeb>>(_newService.tagsListWithNewsByNewsId(Id));
             ViewBag.TagNews = tagNewsList;
-
-            List<NewsLıstItemModel> newsListRelational = null;
-            newsListRelational = _mapper.Map<List<NewsListItemDto>, List<NewsLıstItemModel>>(_newService.newsListByCategoryId(newsGet.CategoryId));
+           
+            List<NewListViewModelWeb> newsListRelational = _mapper.Map<List<NewsListItemDto>, List<NewListViewModelWeb>>(_newService.newsListByCategoryId(newsGet.CategoryId));
             ViewBag.Relational = newsListRelational;
-
-            List<NewsLıstItemModel> newsListPopularite = null;
-            newsListPopularite = _mapper.Map<List<NewsListItemDto>, List<NewsLıstItemModel>>(_newService.PopularNewsInWeb());
+            
+            List<NewListViewModelWeb> newsListPopularite = _mapper.Map<List<NewsListItemDto>, List<NewListViewModelWeb>>(_newService.PopularNewsInWeb());
             ViewBag.Popularite = newsListPopularite;
-
-            List<NewsLıstItemModel> newListPopulariteByCategory = null;
-            newListPopulariteByCategory = _mapper.Map<List<NewsListItemDto>, List<NewsLıstItemModel>>(_newService.PopularNewsInWebInCategory(newsGet.CategoryId));
+           
+            List<NewListViewModelWeb> newListPopulariteByCategory = _mapper.Map<List<NewsListItemDto>, List<NewListViewModelWeb>>(_newService.PopularNewsInWebInCategory(newsGet.CategoryId));
             ViewBag.PopulariteByCategory = newListPopulariteByCategory;
-
-            List<NewsLıstItemModel> listCategoryNewsScroll = null;
-            listCategoryNewsScroll = _mapper.Map<List<NewsListItemDto>, List<NewsLıstItemModel>>(_newService.newsListByCategoryId(newsGet.CategoryId));
+           
+            List<NewListViewModelWeb> listCategoryNewsScroll = _mapper.Map<List<NewsListItemDto>, List<NewListViewModelWeb>>(_newService.newsListByCategoryId(newsGet.CategoryId));
             ViewBag.CategoryNewsByIdScroll = listCategoryNewsScroll;
-
-            List<CategoryListViewModel> categoryNewList = null;
-            categoryNewList = _mapper.Map<List<CategoryListItemDto>, List<CategoryListViewModel>>(_categoryService.GetAllCategory());
+           
+            List<CategoryListViewModelWeb> categoryNewList = _mapper.Map<List<CategoryListItemDto>, List<CategoryListViewModelWeb>>(_categoryService.GetAllCategory());
             ViewBag.CategotyList = categoryNewList;
 
             if (!string.Equals(friendlyTitle, Title, StringComparison.Ordinal))
@@ -276,11 +241,12 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
         [HttpGet]
         public IActionResult RSS()
         {
-            List<NewsLıstItemModel> haberlist = null;
-            haberlist = _mapper.Map<List<NewsListItemDto>, List<NewsLıstItemModel>>(_newService.newsList());
+            List<NewListViewModelWeb> haberlist = _mapper.Map<List<NewsListItemDto>, List<NewListViewModelWeb>>(_newService.newsList());
 
-            var feed = new SyndicationFeed("Title", "Description", new Uri("https://www.gazetekapi.com"), "RSSUrl", DateTime.Now);
-            feed.Copyright = new TextSyndicationContent($"{DateTime.Now.Year} Gazete Kapı");
+            var feed = new SyndicationFeed("Title", "Description", new Uri("https://www.gazetekapi.com"), "RSSUrl", DateTime.Now)
+            {
+                Copyright = new TextSyndicationContent($"{DateTime.Now.Year} Gazete Kapı")
+            };
 
             var items = new List<SyndicationItem>();
 
@@ -298,16 +264,14 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
                 Indent = true,
             };
 
-            using (var stream = new MemoryStream())
+            using var stream = new MemoryStream();
+            using (var xmlWriter = XmlWriter.Create(stream, setting))
             {
-                using (var xmlWriter = XmlWriter.Create(stream, setting))
-                {
-                    var rssFormator = new Rss20FeedFormatter(feed, false);
-                    rssFormator.WriteTo(xmlWriter);
-                    xmlWriter.Flush();
-                }
-                return File(stream.ToArray(), "application/rss+xml;charset=utf-8");
+                var rssFormator = new Rss20FeedFormatter(feed, false);
+                rssFormator.WriteTo(xmlWriter);
+                xmlWriter.Flush();
             }
+            return File(stream.ToArray(), "application/rss+xml;charset=utf-8");
         }
 
         //public IActionResult newssitemap()
@@ -358,7 +322,7 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
 
         #region Load More With Scroll Page
 
-        public IActionResult loadData(List<NewsLıstItemModel> model)
+        public IActionResult loadData(List<NewListViewModelWeb> model)
         {        
             return PartialView(model);
         }
@@ -369,12 +333,14 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
             Thread.Sleep(1000);
             int pageSize = 5;
 
-            var listNews = _mapper.Map<List<NewsListItemDto>, List<NewsLıstItemModel>>(_newService.newsListLoadByScroll(start, rowperpage));
+            var listNews = _mapper.Map<List<NewsListItemDto>, List<NewListViewModelWeb>>(_newService.newsListLoadByScroll(start, rowperpage));
             var renderedView = await _viewRender.RenderPartialViewToString(this, "loadData", listNews);
 
-            JsonModel json = new JsonModel();
-            json.NoMoreData = listNews.Count < pageSize;
-            json.HtmlString = renderedView;
+            JsonModel json = new JsonModel
+            {
+                NoMoreData = listNews.Count < pageSize,
+                HtmlString = renderedView
+            };
             return Json(json);
         }
 

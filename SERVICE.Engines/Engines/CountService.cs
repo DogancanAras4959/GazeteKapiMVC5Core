@@ -1,8 +1,7 @@
 ﻿using CORE.ApplicationCore.UnitOfWork;
-using DOMAIN.DataAccessLayer.Models;
+using GazeteKapiMVC5Core.DataAccessLayer.Models;
 using DOMAIN.DataAccessLayerLOG.Models;
 using GazeteKapiMVC5Core.DataAccessLayer;
-using GazeteKapiMVC5Core.DataAccessLayer.Models;
 using GazeteKapiMVC5Core.DataAccessLayerLOG;
 using SERVICE.Engine.Interfaces;
 using System;
