@@ -6,13 +6,11 @@ using GazeteKapiMVC5Core.WEB.Models;
 using GazeteKapiMVC5Core.WEB.ViewModels.Categories;
 using GazeteKapiMVC5Core.WEB.ViewModels.Currencies;
 using GazeteKapiMVC5Core.WEB.ViewModels.Settings;
-using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using SERVICE.Engine.Interfaces;
 using SERVICES.Engine.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Xml;
 
