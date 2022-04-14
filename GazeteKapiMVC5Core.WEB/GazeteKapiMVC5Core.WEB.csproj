@@ -5,15 +5,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="wwwroot\sound\**" />
+    <Content Remove="wwwroot\sound\**" />
+    <EmbeddedResource Remove="wwwroot\sound\**" />
+    <None Remove="wwwroot\sound\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="11.0.1" />
     <PackageReference Include="log4net" Version="2.0.14" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.5" />
     <PackageReference Include="System.ServiceModel.Syndication" Version="6.0.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="wwwroot\images\social-media\" />
-    <Folder Include="wwwroot\sound\" />
   </ItemGroup>
 
   <ItemGroup>

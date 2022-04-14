@@ -38,6 +38,9 @@ namespace GazeteKapiMVC5Core.WEB.Profiles.WEB
             CreateMap<CurrencyListItemDto, CurrencyListViewModelWeb>();
             CreateMap<CurrencyListViewModelWeb, CurrencyDto>();
             CreateMap<CurrencyDto, CurrencyListViewModelWeb>();
+            CreateMap<CurrencyDto, CurrencyEditViewModelWeb>();
+            CreateMap<CurrencyEditViewModelWeb, CurrencyDto>();
+
             CreateMap<CurrencyBaseDto, CurrencyListViewModelWeb>();
 
             CreateMap<SettingsEditViewModelWeb, SettingsDto>();

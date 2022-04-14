@@ -9,14 +9,23 @@
         pointer-events: none;
         cursor: default;
     }
+
     .table th {
         font-weight: 600;
         font-family: Roboto,sans-serif;
     }
 </style>
 
+
+
 <div class="row">
     <div class="col-12">
+        @if (TempData["mesaj"] != null)
+        {
+            <div class="alert alert-warning">
+                <p style="margin-bottom:0;">@TempData["mesaj"]</p>
+            </div>
+        }
         <div class="card">
             <div class="card-body">
                 <div class="row">
@@ -47,10 +56,12 @@
                                 @foreach (var item in Model)
                                 {
                                     <tr class="button-items" id="tooltip-container">
-                                        <td><img src="~/Files/@item.ProfileImage" class="img img-fluid" width="30" height="30" /></td>
-                                        <td><a data-bs-container="#tooltip-container" 
-                                               data-bs-toggle="tooltip" 
-                                               data-bs-placement="top" title="Hesaba Git" asp-action="HesapDetay" asp-controller="Yonetici" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.UserName)</a></td>
+                                        <td><img src="https://uploads.gazetekapı.com/images/@item.ProfileImage" class="img img-fluid" width="30" height="30" /></td>
+                                        <td>
+                                            <a data-bs-container="#tooltip-container"
+                                               data-bs-toggle="tooltip"
+                                               data-bs-placement="top" title="Hesaba Git" asp-action="HesapDetay" asp-controller="Yonetici" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.UserName)</a>
+                                        </td>
                                         <td>@Html.DisplayFor(modelItem => item.EmailAdress)</td>
                                         <td>@Html.DisplayFor(modelItem => item.roles.RoleName)</td>
                                         <td>@Html.DisplayFor(modelItem => item.CreatedTime)</td>
@@ -67,27 +78,27 @@
 
                                             @if (item.IsActive == false)
                                             {
-                                                <a style="padding:3px;" data-bs-container="#tooltip-container" 
-                                               data-bs-toggle="tooltip" 
-                                               data-bs-placement="top" title="Hesabı Aktifleştir" asp-action="DurumDuzenle" asp-route-id="@item.Id"><i class="mdi mdi-lock-open mdi-24px text-success"></i></a>
-                                                <a style="padding:3px;" data-bs-container="#tooltip-container" 
-                                               data-bs-toggle="tooltip" 
-                                               data-bs-placement="top" title="Hesabı Düzenle" asp-action="KullaniciDuzenle" class="link-disabled" asp-route-id="@item.Id"><i class="mdi mdi-account-edit mdi-24px"></i></a>
-                                                <a style="padding:3px;" data-bs-container="#tooltip-container" 
-                                               data-bs-toggle="tooltip" 
-                                               data-bs-placement="top" title="Hesabı Sil" asp-action="KullaniciSil" asp-route-id="@item.Id" class="text-danger ml-1 link-disabled" onclick="return confirm('Bu kullanıcıyı silmek istiyor musunuz?')"><i class="mdi mdi-delete-circle mdi-24px"></i></a>
+                                                <a style="padding:3px;" data-bs-container="#tooltip-container"
+                                                   data-bs-toggle="tooltip"
+                                                   data-bs-placement="top" title="Hesabı Aktifleştir" asp-action="DurumDuzenle" asp-route-id="@item.Id"><i class="mdi mdi-lock-open mdi-24px text-success"></i></a>
+                                                <a style="padding:3px;" data-bs-container="#tooltip-container"
+                                                   data-bs-toggle="tooltip"
+                                                   data-bs-placement="top" title="Hesabı Düzenle" asp-action="KullaniciDuzenle" class="link-disabled" asp-route-id="@item.Id"><i class="mdi mdi-account-edit mdi-24px"></i></a>
+                                                <a style="padding:3px;" data-bs-container="#tooltip-container"
+                                                   data-bs-toggle="tooltip"
+                                                   data-bs-placement="top" title="Hesabı Sil" asp-action="KullaniciSil" asp-route-id="@item.Id" class="text-danger ml-1 link-disabled" onclick="return confirm('Bu kullanıcıyı silmek istiyor musunuz?')"><i class="mdi mdi-delete-circle mdi-24px"></i></a>
                                             }
                                             else
                                             {
-                                                <a style="padding:3px;" data-bs-container="#tooltip-container" 
-                                               data-bs-toggle="tooltip" 
-                                               data-bs-placement="top" title="Hesabı Pasifleştir" asp-action="DurumDuzenle" asp-route-id="@item.Id"><i class="mdi mdi-lock mdi-24px text-danger"></i></a>
-                                                <a style="padding:3px;" data-bs-container="#tooltip-container" 
-                                               data-bs-toggle="tooltip" 
-                                               data-bs-placement="top" title="Hesabı Düzenle" asp-action="KullaniciDuzenle" asp-route-id="@item.Id"><i class="mdi mdi-account-edit mdi-24px"></i></a>
-                                                <a style="padding:3px;" data-bs-container="#tooltip-container" 
-                                               data-bs-toggle="tooltip" 
-                                               data-bs-placement="top" title="Hesabı Sil" asp-action="KullaniciSil" asp-route-id="@item.Id" class="text-danger ml-1" onclick="return confirm('Bu kullanıcıyı silmek istiyor musunuz?')"><i class="mdi mdi-delete-circle mdi-24px"></i></a>
+                                                <a style="padding:3px;" data-bs-container="#tooltip-container"
+                                                   data-bs-toggle="tooltip"
+                                                   data-bs-placement="top" title="Hesabı Pasifleştir" asp-action="DurumDuzenle" asp-route-id="@item.Id"><i class="mdi mdi-lock mdi-24px text-danger"></i></a>
+                                                <a style="padding:3px;" data-bs-container="#tooltip-container"
+                                                   data-bs-toggle="tooltip"
+                                                   data-bs-placement="top" title="Hesabı Düzenle" asp-action="KullaniciDuzenle" asp-route-id="@item.Id"><i class="mdi mdi-account-edit mdi-24px"></i></a>
+                                                <a style="padding:3px;" data-bs-container="#tooltip-container"
+                                                   data-bs-toggle="tooltip"
+                                                   data-bs-placement="top" title="Hesabı Sil" asp-action="KullaniciSil" asp-route-id="@item.Id" class="text-danger ml-1" onclick="return confirm('Bu kullanıcıyı silmek istiyor musunuz?')"><i class="mdi mdi-delete-circle mdi-24px"></i></a>
                                             }
 
 

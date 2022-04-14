@@ -28,8 +28,8 @@
     }
 </style>
 
-<link href="~/assets/libs/select2/css/select2.min.css" rel="stylesheet" type="text/css">
-<link href="~/assets/libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css" rel="stylesheet">
+<link href="https://uploads.gazetekapı.com/admin/wwwroot/assets/libs/select2/css/select2.min.css" rel="stylesheet" type="text/css">
+<link href="https://uploads.gazetekapı.com/admin/wwwroot/assets/libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css" rel="stylesheet">
 
 <form method="post" asp-action="HaberDuzenle" asp-controller="Haber" enctype="multipart/form-data">
     @Html.HiddenFor(x=> x.Id)
@@ -108,7 +108,7 @@
                 <div class="col-sm-12">
                     <div class="card">
                         <div class="card-body">
-                            <img id="img" style="width:100%" src="~/Files/@Model.Image" />
+                            <img id="img" style="width:100%" src="https://uploads.gazetekapı.com/images/@Model.Image" />
                             <label for="example-text-input" class="col-sm-12 col-form-label text-center" style="margin-top:10px;">Öne Çıkan Görseli Güncelle</label>
                             <input type="file" class="filestyle" id="upload" data-input="false" name="file" data-buttonname="btn-secondary">
                         </div>
@@ -167,10 +167,10 @@
     </div>
 </form>
 
-<script src="~/ckeditor/ckeditor.js"></script>
-<script src="~/assets/libs/jquery/jquery.min.js"></script>
-<script src="~/assets/libs/select2/js/select2.min.js"></script>
-<script src="~/assets/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+<script src="https://uploads.gazetekapı.com/admin/wwwroot/ckeditor/ckeditor.js"></script>
+<script src="https://uploads.gazetekapı.com/admin/wwwroot/assets/libs/jquery/jquery.min.js"></script>
+<script src="https://uploads.gazetekapı.com/admin/wwwroot/assets/libs/select2/js/select2.min.js"></script>
+<script src="https://uploads.gazetekapı.com/admin/wwwroot/assets/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
 
 <script>
     $(function () {

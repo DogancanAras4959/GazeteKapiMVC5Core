@@ -16,9 +16,9 @@ namespace CORE.ApplicationCommon.Helpers
             switch (_admin)
             {
                 case "Admin":
-                    ftpInfo.Url = "ftp://www.gazetekatpi.com/httpdocs/wwwroot/Files";
-                    ftpInfo.UserName = "username";
-                    ftpInfo.Password = "password";
+                    ftpInfo.Url = "ftp://www.gazetekapı.com/images";
+                    ftpInfo.UserName = "sysuser_8";
+                    ftpInfo.Password = "1g1*j0Ld";
                     break;
 
                 default:

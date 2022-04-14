@@ -319,16 +319,28 @@ namespace GazeteKapiMVC5Core.Controllers
         {
             try
             {
-                if (!_userService.DeleteUserById(id))
+                AccountEditViewModel yoneticiGetir = SessionExtensionMethod.GetObject<AccountEditViewModel>(HttpContext.Session, "user");
+
+                if (yoneticiGetir.Id != id)
                 {
-                    await CreateModeratorLog("Başarısız", "Silme", "KullaniciSil", "Yonetici", "Kullanıcı sistemden kaldırılırken bir hata meydana geldi!");
-                    return RedirectToAction(nameof(Kullanicilar));
+                    if (!_userService.DeleteUserById(id))
+                    {
+                        await CreateModeratorLog("Başarısız", "Silme", "KullaniciSil", "Yonetici", "Kullanıcı sistemden kaldırılırken bir hata meydana geldi!");
+                        return RedirectToAction(nameof(Kullanicilar));
+                    }
+                    else
+                    {
+                        await CreateModeratorLog("Başarılı", "Silme", "KullaniciSil", "Yonetici", "Kullanıcı başarıyla sistemden kaldırıldı");
+                        return RedirectToAction(nameof(Kullanicilar));
+                    }
                 }
                 else
                 {
-                    await CreateModeratorLog("Başarılı", "Silme", "KullaniciSil", "Yonetici", "Kullanıcı başarıyla sistemden kaldırıldı");
+                    TempData["mesaj"] = "Bu kullanıcı oturum açmış durumda kullanıcıyı sistemden kaldıramazsınız";
+                    await CreateModeratorLog("Başarısız", "Silme", "KullaniciSil", "Yonetici", "Kullanıcı oturum açtığından sistemden kaldırılamadı");
                     return RedirectToAction(nameof(Kullanicilar));
                 }
+               
             }
             catch (Exception ex)
             {
@@ -377,7 +389,11 @@ namespace GazeteKapiMVC5Core.Controllers
                 ViewBag.News = newsByUserId;
 
                 var logs = _mapper.Map<List<LogListItemDto>, List<LogListViewModel>>(_logService.getLogsByUser(user.UserName));
-                ViewBag.Logs = logs;
+                if (logs == null)
+                {
+                    ViewBag.Logs = "Kullanıcıdan Log bilgisi alınamıyor";
+                }
+                else { ViewBag.Logs = logs; }
 
                 await CreateModeratorLog("Başarılı", "Sayfa Girişi", "HesapDetay", "Yonetici", "Kullanıcı hesabına başarılı bir şekilde erişildi!");
                 return View(user);

@@ -211,7 +211,7 @@ namespace SERVICE.Engine.Engines
 
                 return createNews.Id;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 throw;
             }

@@ -183,6 +183,11 @@ namespace SERVICE.Engine.Engines
         {
             UsersLog getUser = _unitOfWork.GetRepository<UsersLog>().FindAsync(x => x.UserNameLog == userName).Result;
 
+            if (getUser == null)
+            {
+                return null;
+            }
+
             IEnumerable<Logs> logs = _unitOfWork.GetRepository<Logs>().Filter(x => x.UserID == getUser.Id, x => x.OrderByDescending(y => y.Id), "transactions,processes,userslog", 1, 5);
 
             return logs.Select(x => new LogListItemDto

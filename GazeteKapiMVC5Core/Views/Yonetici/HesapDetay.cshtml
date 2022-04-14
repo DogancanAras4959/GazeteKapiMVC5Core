@@ -28,7 +28,7 @@
                 @if (Model.IsActive == true)
                 {
                     <div class="profile-widget text-center">
-                        <img src="~/Files/@Model.ProfileImage" class="avatar-lg rounded-circle img-thumbnail" alt="img">
+                        <img src="https://uploads.gazetekapı.com/images/@Model.ProfileImage" class="avatar-lg rounded-circle img-thumbnail" alt="img">
                         <h5 class="mt-3">@Model.DisplayName</h5>
                         <p>Admin</p> @*Bu bölüm roller için olacak*@
 
@@ -50,7 +50,7 @@
                 else
                 {
                     <div class="profile-widget text-center">
-                        <img src="~/Files/@Model.ProfileImage" class="avatar-lg rounded-circle img-thumbnail" alt="img">
+                        <img src="https://uploads.gazetekapı.com/images/@Model.ProfileImage" class="avatar-lg rounded-circle img-thumbnail" alt="img">
                         <h5 class="mt-3">@Model.DisplayName</h5>
                         <p>Admin</p> @*Bu bölüm roller için olacak*@
 
@@ -90,6 +90,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                       
                                         @foreach (var item in listNews)
                                         {
                                             <tr>
@@ -145,18 +146,21 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach (var item in listLogs)
+                                        @if (listLogs != null)
                                         {
-                                            <tr>
-                                                <td>@Html.DisplayFor(modelItem => item.Id)</td>
-                                                <td>@Html.DisplayFor(modelItem => item.processes.ProcessesName)</td>
-                                                <td>@Html.DisplayFor(modelItem => item.Time)</td>
-                                                <td>@Html.DisplayFor(modelItem => item.transaction.TransactionNames)</td>
-                                                <td>@Html.DisplayFor(modelItem => item.Action) - @Html.DisplayFor(modelItem => item.Controller)</td>
-                                                <td>
-                                                    <a asp-controller="Log" asp-action="LogDetay" asp-route-id="@item.Id"><i class="fas fa-eye fa-1x"></i></a>
-                                                </td>
-                                            </tr>
+                                            @foreach (var item in listLogs)
+                                            {
+                                                <tr>
+                                                    <td>@Html.DisplayFor(modelItem => item.Id)</td>
+                                                    <td>@Html.DisplayFor(modelItem => item.processes.ProcessesName)</td>
+                                                    <td>@Html.DisplayFor(modelItem => item.Time)</td>
+                                                    <td>@Html.DisplayFor(modelItem => item.transaction.TransactionNames)</td>
+                                                    <td>@Html.DisplayFor(modelItem => item.Action) - @Html.DisplayFor(modelItem => item.Controller)</td>
+                                                    <td>
+                                                        <a asp-controller="Log" asp-action="LogDetay" asp-route-id="@item.Id"><i class="fas fa-eye fa-1x"></i></a>
+                                                    </td>
+                                                </tr>
+                                            }
                                         }
                                     </tbody>
                                 </table>

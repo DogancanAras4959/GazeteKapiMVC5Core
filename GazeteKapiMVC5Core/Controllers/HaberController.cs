@@ -113,13 +113,13 @@ namespace GazeteKapiMVC5Core.Controllers
                     {
                         if (file != null)
                         {
-                            string uploadfilename = Path.GetFileNameWithoutExtension(file.FileName);
-                            string extension = Path.GetExtension(file.FileName);
-                            uploadfilename = uploadfilename + DateTime.Now.ToString("yymmssfff") + extension;
-                            var path = Path.Combine(this._webHostEnvironment.WebRootPath, "Files", uploadfilename);
-                            var stream = new FileStream(path, FileMode.Create);
-                            await file.CopyToAsync(stream);
-                            category.Image = uploadfilename;
+                            //string uploadfilename = Path.GetFileNameWithoutExtension(file.FileName);
+                            //string extension = Path.GetExtension(file.FileName);
+                            //uploadfilename = uploadfilename + DateTime.Now.ToString("yymmssfff") + extension;
+                            //var path = Path.Combine(this._webHostEnvironment.WebRootPath, "Files", uploadfilename);
+                            //var stream = new FileStream(path, FileMode.Create);
+                            //await file.CopyToAsync(stream);
+                            category.Image = SaveImageProcess.ImageInsert(file, "Admin");
                         }
                         else
                         {
@@ -220,7 +220,7 @@ namespace GazeteKapiMVC5Core.Controllers
                         var path = Path.Combine(this._webHostEnvironment.WebRootPath, "Files", uploadfilename);
                         var stream = new FileStream(path, FileMode.Create);
                         await file.CopyToAsync(stream);
-                        category.Image = uploadfilename;
+                        category.Image = SaveImageProcess.ImageInsert(file, "Admin");
                     }
                     else
                     {
@@ -325,13 +325,13 @@ namespace GazeteKapiMVC5Core.Controllers
 
                     if (file != null)
                     {
-                        string uploadfilename = Path.GetFileNameWithoutExtension(file.FileName);
-                        string extension = Path.GetExtension(file.FileName);
-                        uploadfilename = uploadfilename + DateTime.Now.ToString("yymmssfff") + extension;
-                        var path = Path.Combine(this._webHostEnvironment.WebRootPath, "Files", uploadfilename);
-                        var stream = new FileStream(path, FileMode.Create);
-                        await file.CopyToAsync(stream);
-                        model.GuestImage = uploadfilename;
+                        //string uploadfilename = Path.GetFileNameWithoutExtension(file.FileName);
+                        //string extension = Path.GetExtension(file.FileName);
+                        //uploadfilename = uploadfilename + DateTime.Now.ToString("yymmssfff") + extension;
+                        //var path = Path.Combine(this._webHostEnvironment.WebRootPath, "Files", uploadfilename);
+                        //var stream = new FileStream(path, FileMode.Create);
+                        //await file.CopyToAsync(stream);
+                        model.GuestImage = SaveImageProcess.ImageInsert(file, "Admin");
                     }
                     else
                     {
@@ -488,13 +488,13 @@ namespace GazeteKapiMVC5Core.Controllers
 
                     if (file != null)
                     {
-                        string uploadfilename = Path.GetFileNameWithoutExtension(file.FileName);
-                        string extension = Path.GetExtension(file.FileName);
-                        uploadfilename = uploadfilename + DateTime.Now.ToString("yymmssfff") + extension;
-                        var path = Path.Combine(this._webHostEnvironment.WebRootPath, "Files", uploadfilename);
-                        var stream = new FileStream(path, FileMode.Create);
-                        await file.CopyToAsync(stream);
-                        model.GuestImage = uploadfilename;
+                        //string uploadfilename = Path.GetFileNameWithoutExtension(file.FileName);
+                        //string extension = Path.GetExtension(file.FileName);
+                        //uploadfilename = uploadfilename + DateTime.Now.ToString("yymmssfff") + extension;
+                        //var path = Path.Combine(this._webHostEnvironment.WebRootPath, "Files", uploadfilename);
+                        //var stream = new FileStream(path, FileMode.Create);
+                        //await file.CopyToAsync(stream);
+                        model.GuestImage = SaveImageProcess.ImageInsert(file, "Admin");
                     }
                     else
                     {
@@ -636,16 +636,16 @@ namespace GazeteKapiMVC5Core.Controllers
                             if (model.CategoryId != 0)
                             {
                                 AccountEditViewModel yoneticiGetir = SessionExtensionMethod.GetObject<AccountEditViewModel>(HttpContext.Session, "user");
+                                //model.UserId = yoneticiGetir.Id;
+
+                                //string uploadfilename = Path.GetFileNameWithoutExtension(file.FileName);
+                                //string extension = Path.GetExtension(file.FileName);
+                                //uploadfilename = uploadfilename + DateTime.Now.ToString("yymmssfff") + extension;
+                                //var path = Path.Combine(this._webHostEnvironment.WebRootPath, "Files", uploadfilename);
+                                //var stream = new FileStream(path, FileMode.Create);
+                                //await file.CopyToAsync(stream);
+                                model.Image = SaveImageProcess.ImageInsert(file, "Admin");
                                 model.UserId = yoneticiGetir.Id;
-
-                                string uploadfilename = Path.GetFileNameWithoutExtension(file.FileName);
-                                string extension = Path.GetExtension(file.FileName);
-                                uploadfilename = uploadfilename + DateTime.Now.ToString("yymmssfff") + extension;
-                                var path = Path.Combine(this._webHostEnvironment.WebRootPath, "Files", uploadfilename);
-                                var stream = new FileStream(path, FileMode.Create);
-                                await file.CopyToAsync(stream);
-                                model.Image = uploadfilename;
-
                                 int resultId = Convert.ToInt32( await _newService.createNews(_mapper.Map<NewsCreateViewModel, NewsDto>(model)));
 
                                 if (resultId > 0)
@@ -783,13 +783,13 @@ namespace GazeteKapiMVC5Core.Controllers
 
                         if (file != null)
                         {
-                            string uploadfilename = Path.GetFileNameWithoutExtension(file.FileName);
-                            string extension = Path.GetExtension(file.FileName);
-                            uploadfilename = uploadfilename + DateTime.Now.ToString("yymmssfff") + extension;
-                            var path = Path.Combine(this._webHostEnvironment.WebRootPath, "Files", uploadfilename);
-                            var stream = new FileStream(path, FileMode.Create);
-                            await file.CopyToAsync(stream);
-                            model.Image = uploadfilename;
+                            //string uploadfilename = Path.GetFileNameWithoutExtension(file.FileName);
+                            //string extension = Path.GetExtension(file.FileName);
+                            //uploadfilename = uploadfilename + DateTime.Now.ToString("yymmssfff") + extension;
+                            //var path = Path.Combine(this._webHostEnvironment.WebRootPath, "Files", uploadfilename);
+                            //var stream = new FileStream(path, FileMode.Create);
+                            //await file.CopyToAsync(stream);
+                            model.Image = SaveImageProcess.ImageInsert(file, "Admin");
 
                             int resultId = Convert.ToInt32(await _newService.editNews(_mapper.Map<NewsEditViewModel, NewsDto>(model)));
 

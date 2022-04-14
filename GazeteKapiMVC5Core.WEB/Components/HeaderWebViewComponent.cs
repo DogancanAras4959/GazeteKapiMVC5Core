@@ -44,7 +44,7 @@ namespace GazeteKapiMVC5Core.WEB.Components
             {
                 XmlDocument xml = new XmlDocument(); // yeni bir XML dökümü oluşturuyoruz
 
-                xml.Load("http://www.tcmb.gov.tr/kurlar/today.xml");
+                xml.Load("https://www.tcmb.gov.tr/kurlar/today.xml");
 
                 // bağlantı kuruyoruz.
                 var Tarih_Date_Nodes = xml.SelectSingleNode("//Tarih_Date"); // Count değerini almak için ana boğumu seçiyoruz.
@@ -126,7 +126,7 @@ namespace GazeteKapiMVC5Core.WEB.Components
                                 if (serviceBuyingConvert > databaseBuying)
                                 {
                                     getCurrency.isRateOrDown = "increase";
-                                    getCurrency.ForexBuying = cn.Attributes[3].InnerXml;
+                                    getCurrency.ForexBuying = cn.ChildNodes[3].InnerXml;
                                     await _siteSetting.editCurrencyList(_mapper.Map<CurrencyEditViewModelWeb, CurrencyDto>(getCurrency));
                                     break;
 
@@ -134,7 +134,7 @@ namespace GazeteKapiMVC5Core.WEB.Components
                                 else if (serviceBuyingConvert < databaseBuying)
                                 {
                                     getCurrency.isRateOrDown = "down";
-                                    getCurrency.ForexBuying = cn.Attributes[3].InnerXml;
+                                    getCurrency.ForexBuying = cn.ChildNodes[3].InnerXml;
                                     await _siteSetting.editCurrencyList(_mapper.Map<CurrencyEditViewModelWeb, CurrencyDto>(getCurrency));
                                     break;
 
@@ -151,9 +151,9 @@ namespace GazeteKapiMVC5Core.WEB.Components
 
                 ViewData["dovizler"] = dovizler; // dovizler List değerini data ya atıyoruz ön tarafta viewbag ile çekeceğiz.
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                ViewData["dovizler"] = "Servisle bağlantı kurulamıyor!";
+                ViewData["dovizler"] = ex.ToString();
             }
         }
     }
