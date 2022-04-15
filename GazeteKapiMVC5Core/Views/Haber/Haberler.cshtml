@@ -11,17 +11,7 @@
     var nextDisabled = !Model.HasNextPage ? "disabled" : "";
 }
 
-<style>
-    .link-disabled {
-        pointer-events: none;
-        cursor: default;
-    }
-
-    .table th {
-        font-weight: 600;
-        font-family: Roboto,sans-serif;
-    }
-</style>
+<link href="https://uploads.gazetekapı.com/admin/wwwroot/assets/css/pageline.css" rel="stylesheet" />
 
 <div class="row">
     <div class="col-12">
@@ -57,7 +47,6 @@
                                     <th>Başlık</th>
                                     <th>Yayın Tarihi</th>
                                     <th>Haber Tipi</th>
-                                    <th>Gösterim</th>
                                     <th>Oluşturan</th>
                                     <th>İşlem</th>
                                 </tr>
@@ -84,7 +73,6 @@
                                             @Html.DropDownList("CategoryId", (SelectList)ViewBag.Categories, ("Kategori Seçiniz"), new { @class = "has-arrow form-control", @style = "position:relative; top:8px;", onchange = "this.form.submit();", name = "CategoryId" })
                                         </form>
                                     </td>
-                                    <td></td>
                                     <td>
                                         <form asp-controller="Haber" asp-action="Haberler" method="get">
                                             @Html.DropDownList("UserId", (SelectList)ViewBag.Users, ("Kullanıcı Seçiniz"), new { @class = "has-arrow form-control", @style = "position:relative; top:8px;", onchange = "this.form.submit();", name = "UserId" })
@@ -108,7 +96,6 @@
 
                                         <td>@Html.DisplayFor(model => item.PublishedTime)</td>
                                         <td>@Html.DisplayFor(model => item.categories.CategoryName)</td>
-                                        <td>@Html.DisplayFor(model => item.Views)</td>
                                         <td>@Html.DisplayFor(model => item.users.DisplayName)</td>
                                         <td>
                                             @if (item.IsLock == true)

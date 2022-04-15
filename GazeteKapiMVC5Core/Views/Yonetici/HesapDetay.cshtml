@@ -9,17 +9,9 @@
     List<NewsLıstItemModel> listNews = ViewBag.News as List<NewsLıstItemModel>;
     List<LogListViewModel> listLogs = ViewBag.Logs as List<LogListViewModel>;
 
-}<style>
-    .link-disabled {
-        pointer-events: none;
-        cursor: default;
-    }
+}
 
-    .table th {
-        font-weight: 600;
-        font-family: Roboto,sans-serif;
-    }
-</style>
+<link href="https://uploads.gazetekapı.com/admin/wwwroot/assets/css/pageline.css" rel="stylesheet" />
 
 <div class="row">
     <div class="col-md-4">
@@ -44,7 +36,7 @@
                                 Eposta: <strong>@Model.EmailAdress</strong>
                             </p>
                         }
-                        <a asp-action="KullaniciDuzenle" asp-controller="Yonetici" asp-route-id="@Model.Id" class="btn btn-sm btn-purple mt-2">Yöneticiyi Düzenle</a>        
+                        <a asp-action="KullaniciDuzenle" asp-controller="Yonetici" asp-route-id="@Model.Id" class="btn btn-sm btn-purple mt-2">Yöneticiyi Düzenle</a>
                     </div>
                 }
                 else
@@ -84,20 +76,18 @@
                                             <th>#</th>
                                             <th>Haber</th>
                                             <th>Oluşturulma</th>
-                                            <th>Güncellenme</th>
                                             <th>Durum</th>
                                             <th>İşlem</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                       
+
                                         @foreach (var item in listNews)
                                         {
                                             <tr>
                                                 <td>@Html.DisplayFor(modelItem => item.Id)</td>
                                                 <td>@Html.DisplayFor(modelItem => item.Title)</td>
                                                 <td>@Html.DisplayFor(modelItem => item.CreatedTime)</td>
-                                                <td>@Html.DisplayFor(modelItem => item.UpdatedTime)</td>
                                                 @if (item.IsLock == true)
                                                 {
                                                     <td><span class="text-success"><strong>Aktif</strong></span></td>
@@ -107,7 +97,7 @@
                                                     <td><span class="text-danger"><strong>Pasif</strong></span></td>
                                                 }
                                                 <td>
-                                                    <a asp-controller="Haber" asp-action="HaberlerKullaniciyaGore" asp-route-id="@item.Id"><i class="fas fa-edit fa-1x"></i></a>
+                                                    <a asp-controller="Haber" asp-action="HaberDuzenle" asp-route-id="@item.Id"><i class="fas fa-edit fa-1x"></i></a>
                                                 </td>
                                             </tr>
                                         }

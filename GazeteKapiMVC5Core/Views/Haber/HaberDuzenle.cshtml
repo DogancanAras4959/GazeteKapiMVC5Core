@@ -13,26 +13,12 @@
     }
 }
 
-<style>
-    .input-group {
-        position: relative;
-        display: -ms-flexbox;
-        -ms-flex-wrap: wrap;
-        -webkit-box-align: stretch;
-        -ms-flex-align: stretch;
-        width: 100%;
-        display: flex;
-        flex-wrap: nowrap;
-        justify-content: center;
-        align-items: center;
-    }
-</style>
-
+<link href="https://uploads.gazetekapı.com/admin/wwwroot/assets/css/pageline.css" rel="stylesheet" />
 <link href="https://uploads.gazetekapı.com/admin/wwwroot/assets/libs/select2/css/select2.min.css" rel="stylesheet" type="text/css">
 <link href="https://uploads.gazetekapı.com/admin/wwwroot/assets/libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css" rel="stylesheet">
 
 <form method="post" asp-action="HaberDuzenle" asp-controller="Haber" enctype="multipart/form-data">
-    @Html.HiddenFor(x=> x.Id)
+    @Html.HiddenFor(x => x.Id)
     <div class="row">
         <div class="col-sm-8">
             <div class="card">
@@ -187,7 +173,7 @@
                 reader.readAsDataURL(input.files[0]);
             }
             else {
-                $('#img').attr('src', '~/assets/Files/user.png');
+                $('#img').attr('src', 'https://uploads.gazetekapı.com/images/user.png');
             }
         });
 

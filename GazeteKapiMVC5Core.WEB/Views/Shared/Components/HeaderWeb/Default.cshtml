@@ -8,32 +8,8 @@
     List<CurrencyListViewModelWeb> currencies = ViewBag.CurrencyList as List<CurrencyListViewModelWeb>;
     List<doviz> dovizlist = ViewBag.dovizler as List<doviz>;
 }
-<style>
-    .fixed-top {
-        position: inherit;
-        top: 0;
-        right: 0;
-        left: 0;
-        z-index: 1030;
-    }
 
-    .row-banners {
-        display: flex;
-        flex-wrap: wrap;
-        margin-right: 0px;
-        margin-left: -14px;
-    }
-
-    .banner-3 {
-        padding-left: 15px;
-        padding-right: 24px;
-    }
-
-    .banner-9 {
-        padding-right: 0px;
-        padding-left: 0px;
-    }
-</style>
+<link href="http://uploads.gazetekapı.com/front/wwwroot/css/base/pagelineweb.css" rel="stylesheet" />
 
 <header class="bg-light">
     <!-- Navbar  Top-->
@@ -56,22 +32,22 @@
                         <ul class="topbar-sosmed">
 
                             <li>
-                                <a class="sm-link" target="_blank" href="https://twitter.com/home?lang=tr"><img style="height:25px;" src="~/images/social-media/twitter.svg" /></a>
+                                <a class="sm-link" target="_blank" href="https://twitter.com/home?lang=tr"><img style="height:25px;" src="https://uploads.gazetekapı.com/images/social-media/twitter.svg" /></a>
                             </li>
                             <li>
-                                <a class="sm-link" target="_blank" href="https://www.facebook.com/"><img style="height:25px;" src="~/images/social-media/facebook.svg" /></a>
+                                <a class="sm-link" target="_blank" href="https://www.facebook.com/"><img style="height:25px;" src="https://uploads.gazetekapı.com/images/social-media/facebook.svg" /></a>
                             </li>
                             <li>
-                                <a class="sm-link" target="_blank" href="https://www.youtube.com/"><img style="height:25px;" src="~/images/social-media/youtube.svg" /></a>
+                                <a class="sm-link" target="_blank" href="https://www.youtube.com/"><img style="height:25px;" src="https://uploads.gazetekapı.com/images/social-media/youtube.svg" /></a>
                             </li>
                             <li>
-                                <a class="sm-link" target="_blank" href="https://www.instagram.com/"><img style="height:25px;" src="~/images/social-media/instagram.svg" /></a>
+                                <a class="sm-link" target="_blank" href="https://www.instagram.com/"><img style="height:25px;" src="https://uploads.gazetekapı.com/images/social-media/instagram.svg" /></a>
                             </li>
                             <li>
-                                <a class="sm-link" target="_blank" href="https://web.telegram.org/"><img style="height:25px;" src="~/images/social-media/telegram.svg" /></a>
+                                <a class="sm-link" target="_blank" href="https://web.telegram.org/"><img style="height:25px;" src="https://uploads.gazetekapı.com/images/social-media/telegram.svg" /></a>
                             </li>
                             <li style="padding:0px; margin-left:4px;">
-                                <a class="sm-link" target="_blank" href="@Url.Action("Rss","anasayfa")"><img style="height:25px;" src="~/images/social-media/rss.svg" /></a>
+                                <a class="sm-link" target="_blank" href="@Url.Action("Rss","anasayfa")"><img style="height:25px;" src="https://uploads.gazetekapı.com/images/social-media/rss.svg" /></a>
                             </li>
                         </ul>
                     </div>
@@ -93,7 +69,7 @@
 
                 <figure class="mb-0">
                     <a asp-action="sayfa" asp-controller="anasayfa">
-                        <img src="~/Files/@Model.Logo" alt="" class="logo logo-img">
+                        <img src="https://uploads.gazetekapı.com/images/@Model.Logo" alt="" class="logo logo-img">
                     </a>
                 </figure>
 
@@ -125,15 +101,15 @@
                                                         if (item.isRateOrDown == "down")
                                                         {
                                                             <li class="nav-item" style="font-size: 16px; color: #54626b">
-                                                                <span style="font-weight:800;"><img src="~/Files/chevron-down.svg" width="15" height="15" /> @d.CurrencyCode</span> @d.ForexBuying
+                                                                <span style="font-weight:800;"><img src="https://uploads.gazetekapı.com/images/social-media/chevron-down.svg" width="15" height="15" /> @d.CurrencyCode</span> @d.ForexBuying
                                                             </li>
                                                         }
                                                         else if (item.isRateOrDown == "increase")
                                                         {
                                                             <li class="nav-item" style="font-size: 16px; color: #54626b">
-                                                                <span style="font-weight:800;"><img src="~/Files/chevron-up.svg" width="15" height="15" /> @d.CurrencyCode</span> @d.ForexBuying
+                                                                <span style="font-weight:800;"><img src="https://uploads.gazetekapı.com/images/social-media/chevron-up.svg" width="15" height="15" /> @d.CurrencyCode</span> @d.ForexBuying
                                                             </li>
-                                                        }         
+                                                        }
                                                     }
                                                 }
                                             }
@@ -320,13 +296,13 @@
     <div class="container">
         <div class="row row-banners">
             <div class="col-sm-3 banner-3">
-                <img style="width:100%" src="~/images/lemonde.jpg" />
+                <img style="width:100%" src="https://uploads.gazetekapı.com/images/lemonde.jpg" />
             </div>
             <div class="col-sm-9 banner-9">
                 @foreach (var item in categories.Where(x => x.Position == 1))
                 {
                     <a asp-controller="anasayfa" asp-action="kategori" asp-route-id="@item.Id">
-                        <img style="width:100%;" src="~/images/manser2.jpg" />
+                        <img style="width:100%;" src="https://uploads.gazetekapı.com/images/@item.Image" />
                     </a>
                 }
 

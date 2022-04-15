@@ -5,20 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<style>
-    .input-group {
-        position: relative;
-        display: -ms-flexbox;
-        -ms-flex-wrap: wrap;
-        -webkit-box-align: stretch;
-        -ms-flex-align: stretch;
-        width: 100%;
-        display: flex;
-        flex-wrap: nowrap;
-        justify-content: center;
-        align-items: center;
-    }
-</style>
+<link href="https://uploads.gazetekapı.com/admin/wwwroot/assets/css/pageline.css" rel="stylesheet" />
 
 <div class="row">
     <div class="col-8" style="display:block; margin:0 auto;">
@@ -30,7 +17,7 @@
                         <p class="card-title-desc text-center">Kategori oluşturun ve haberlerinizi yönetmeye başlayın</p>
                     </div>
                 </div>
-                @using (Html.BeginForm("KategoriOlustur", "Haber", FormMethod.Post, new { @enctype="multipart/form-data" }))
+                @using (Html.BeginForm("KategoriOlustur", "Haber", FormMethod.Post, new { @enctype = "multipart/form-data" }))
                 {
                     <div class="row">
                         <div class="col-sm-12">

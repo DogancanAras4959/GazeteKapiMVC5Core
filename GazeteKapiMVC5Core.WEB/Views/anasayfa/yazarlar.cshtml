@@ -5,17 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<style>
-    .team-member .member figcaption ul.list-inline li.list-inline-item a {
-        float: left;
-        color: #515d5e;
-        font-size: 13px;
-        height: 30px;
-        width: 30px;
-        background-color: #f4c625;
-        padding: 5px;
-    }
-</style>
+<link href="https://uploads.gazetekapı.com/front/wwwroot/css/base/slider.css" rel="stylesheet" />
 
 <section>
     <div class="container">
@@ -29,7 +19,7 @@
                         {
                             <div class="col-md-3">
                                 <figure class="member">
-                                    <img src="~/Files/@item.GuestImage"
+                                    <img src="https://uploads.gazetekapı.com/images/@item.GuestImage"
                                          class="img-fluid" alt="Image">
                                     <figcaption>
                                         <a asp-action="yazaryazilari" asp-controller="anasayfa" asp-route-id="@item.Id"><h4>@item.GuestName</h4></a>

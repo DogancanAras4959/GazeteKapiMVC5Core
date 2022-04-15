@@ -13,25 +13,7 @@
     var nextDisabled = !Model.HasNextPage ? "disabled" : "";
 }
 
-<style>
-    .text-primary {
-        color: #f4c625 !important;
-    }
-
-    .card__post .card__post__body .card__post__content .card__post__category {
-        clear: both;
-        color: #fff;
-        display: inline-block;
-        font-size: 10px;
-        margin-bottom: 5px;
-        padding: 5px 8px;
-        background: #f4c625;
-        line-height: 15px;
-        text-transform: uppercase;
-        font-family: "Montserrat",sans-serif;
-        font-weight: 600;
-    }
-</style>
+<link href="https://uploads.gazetekapı.com/front/wwwroot/css/base/pagelineweb.css" rel="stylesheet" />
 
 @if (Model != null)
 {
@@ -57,7 +39,7 @@
                                 <div class="col-md-5">
                                     <div class="card__post__transition">
                                         <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
-                                            <img src="~/Files/@item.Image" class="img-fluid w-100" alt="">
+                                            <img src="https://uploads.gazetekapı.com/images/@item.Image" class="img-fluid w-100" alt="">
                                         </a>
                                     </div>
                                 </div>

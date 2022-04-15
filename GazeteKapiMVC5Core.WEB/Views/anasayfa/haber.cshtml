@@ -19,118 +19,7 @@
 }
 
 <link href="https://uploads.gazetekapı.com/front/wwwroot/css/loading.css" rel="stylesheet" />
-<style>
-    .img-cat {
-        position: relative;
-        top: 45px;
-        left: 14px;
-        z-index: 1;
-    }
-
-    .btn-primary {
-        color: #fff;
-        background-color: #54626b;
-        border-color: #54626b;
-    }
-
-        .btn-primary:hover {
-            color: #fff;
-            background-color: #3b4246;
-            border-color: #3b4246;
-        }
-
-    .wrapper__list__article .border_section:before {
-        content: "";
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 50px;
-        height: 5px;
-        background: #f4c625;
-        z-index: 1;
-    }
-
-    .wrap__article-detail-title h3 {
-        font-size: 18px;
-        color: gray;
-        font-weight: 500;
-        line-height: 25px;
-        margin-bottom: 10px;
-    }
-
-    .text-rect {
-        background-color: #f4c625;
-        padding: 9px;
-        font-size: 17px;
-        color: #54626b;
-        font-weight: 700;
-        text-transform: uppercase;
-    }
-
-    .btn-popularite-single-news {
-        border: 2px solid #bbbbbb;
-        padding: 10px 15px;
-        color: #bbbbbb;
-    }
-
-        .btn-popularite-single-news:hover {
-            border: 2px solid #f4c625;
-            padding: 10px 15px;
-            color: #fff;
-            background-color: #f4c625;
-            text-decoration: none;
-        }
-
-    .list-inline-item > a:hover {
-        text-decoration: none;
-    }
-
-    .btn-sound:hover {
-        cursor: pointer;
-        color: #f4c625;
-    }
-
-    .blog-tags .list-inline .list-inline-item .fa-tags {
-        margin-right: 10px;
-        text-align: center;
-        position: relative;
-        color: #f4c625;
-    }
-
-    .blog-tags .list-inline .list-inline-item a:hover {
-        display: block;
-        margin-bottom: 5px;
-        padding: 7px 10px;
-        border: 1px solid #ddd;
-        margin-right: 2px;
-        background-color: #f4c625;
-        color: #54626b;
-        text-decoration: none;
-        text-transform: uppercase;
-        font-size: 11px;
-        letter-spacing: 1px;
-        font-family: "Montserrat",sans-serif;
-    }
-
-    .article__entry .article__content .article__category {
-        clear: both;
-        color: #54626b;
-        display: inline-block;
-        font-size: 10px;
-        margin-bottom: 5px;
-        padding: 5px 8px;
-        background: #f4c625;
-        line-height: 15px;
-        text-transform: uppercase;
-        font-family: "Montserrat",sans-serif;
-        font-weight: 600;
-    }
-
-    ol, ul, dl {
-        margin-top: 0;
-        margin-bottom: 0;
-    }
-</style>
+<link href="https://uploads.gazetekapı.com/front/wwwroot/css/base/pagelinenews.css" rel="stylesheet" />
 
 <section class="bg-white pb-60" id="newSection">
     <div class="container">
@@ -184,7 +73,7 @@
                             </a>
                         </div>
                         <figure>
-                            <img src="~/Files/@Model.Image" alt="" class="img-fluid">
+                            <img src="https://uploads.gazetekapı.com/images/@Model.Image" alt="" class="img-fluid">
                         </figure>
                     </div>
 
@@ -228,7 +117,7 @@
                                     <div class="article__entry">
                                         <div class="article__image">
                                             <a href="@Url.Action("haber", "anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
-                                                <img src="~/Files/@item.Image" alt="" class="img-fluid">
+                                                <img src="https://uploads.gazetekapı.com/images/@item.Image" alt="" class="img-fluid">
                                             </a>
                                         </div>
                                         <div class="article__content">
@@ -296,7 +185,7 @@
                                 <div class="card__post card__post-list">
                                     <div class="image-sm">
                                         <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
-                                            <img src="~/Files/@item.Image" class="img-fluid" alt="">
+                                            <img src="https://uploads.gazetekapı.com/images/@item.Image" class="img-fluid" alt="">
                                         </a>
                                     </div>
 
@@ -346,7 +235,7 @@
                             <div class="article__entry">
                                 <div class="article__image">
                                     <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
-                                        <img src="~/Files/@item.Image" alt="" class="img-fluid">
+                                        <img src="https://uploads.gazetekapı.com/images/@item.Image" alt="" class="img-fluid">
                                     </a>
                                 </div>
                                 <div class="article__content">

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
@@ -12,12 +13,36 @@ namespace GazeteKapiMVC5Core.Core.Models.ConfigTTS
     public static class GoogleTTS
     {
 
-        public static string Speak(string spot, string titleNonHtml, string title, string plainText)
+        public static FTPInformation GetFTPInformation(string _admin)
         {
+            FTPInformation ftpInfo = new FTPInformation();
+            switch (_admin)
+            {
+                case "Admin":
+                    ftpInfo.Url = "ftp://uploads.gazetekapı.com/sounds";
+                    ftpInfo.UserName = "sysuser_8";
+                    ftpInfo.Password = "1g1*j0Ld";
+                    break;
+
+                default:
+                    break;
+            }
+            return ftpInfo;
+        }
+
+        public static string Speak(string spot, string titleNonHtml, string title, string plainText, string _admin)
+        {
+
+            FTPInformation fTPInformation = GetFTPInformation(_admin);
+            var uploadurl = fTPInformation.Url;
+            var username = fTPInformation.UserName;
+            var password = fTPInformation.Password;
+
             plainText = titleNonHtml + " " + spot + "Haber içeriği," + plainText;
             var client = TextToSpeechClient.Create();
             string titleCrop = title.Substring(0, 10).ToLower().Replace("-", "").Trim();
             titleCrop = titleCrop + "sound" + DateTime.Now.ToShortDateString().Replace(".","") + ".mp3";
+
             var input = new SynthesisInput
             {
                 Text = plainText
@@ -31,16 +56,25 @@ namespace GazeteKapiMVC5Core.Core.Models.ConfigTTS
 
             var audioConfig = new AudioConfig
             {
-
                 AudioEncoding = AudioEncoding.Mp3
-
             };
 
             var response = client.SynthesizeSpeech(input, voiceSelection, audioConfig);
 
-            using (var outpot = File.Create(@"wwwroot\sound\"+titleCrop.Trim().ToLower()))
+            using (var outpot = File.Create(@"wwwroot\"+titleCrop.Trim().ToLower()))
             {
                 response.AudioContent.WriteTo(outpot);
+
+                byte[] buffer = new byte[titleCrop.Length];
+                string ftpurl = string.Format("{0}/{1}", uploadurl, titleCrop.Trim().ToLower());
+                var requestObj = WebRequest.Create(ftpurl) as FtpWebRequest;
+                requestObj.Method = WebRequestMethods.Ftp.UploadFile;
+                requestObj.Credentials = new NetworkCredential(username, password);
+
+                Stream requestStream = requestObj.GetRequestStream();
+                requestStream.Write(buffer, 0, buffer.Length);
+                requestStream.Flush();
+                requestStream.Close();
             }
 
             return titleCrop;
@@ -89,5 +123,12 @@ namespace GazeteKapiMVC5Core.Core.Models.ConfigTTS
             return System.Text.Encoding.ASCII.GetString(bytes);
         }
 
+    }
+
+    public class FTPInformation
+    {
+        public string UserName { get; set; }
+        public string Password { get; set; }
+        public string Url { get; set; }
     }
 }   

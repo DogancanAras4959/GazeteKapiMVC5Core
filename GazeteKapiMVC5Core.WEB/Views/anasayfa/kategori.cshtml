@@ -6,26 +6,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<style>
-    .article__entry-new .article__category {
-        position: relative;
-        top: 45px;
-        left: 15px;
-        z-index: 1;
-        clear: both;
-        color: #54626b;
-        font-weight: 600;
-        display: inline-block;
-        font-size: 11px;
-        font-weight:600;
-        padding: 4px 10px;
-        background-color: #f4c625;
-        letter-spacing: 0.5px;
-        line-height: 18px;
-        text-transform: uppercase;
-        font-family: "Montserrat",sans-serif;
-    }
-</style>
+<link href="https://uploads.gazetekapı.com/front/wwwroot/css/base/pagelineweb.css" rel="stylesheet" />
 
 <section class="wrap__section bg-light">
     <div class="container">
@@ -52,7 +33,7 @@
                                     </div>
                                     <div class="article__image articel__image__transition">
                                         <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
-                                            <img src="~/Files/@item.Image" alt="" class="img-fluid">
+                                            <img src="https://uploads.gazetekapı.com/images/@item.Image" alt="" class="img-fluid">
                                         </a>
                                     </div>
                                     <div class="articel__content">

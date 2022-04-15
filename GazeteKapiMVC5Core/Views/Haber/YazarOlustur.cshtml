@@ -5,21 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<style>
-
-    .input-group {
-        position: relative;
-        display: -ms-flexbox;
-        -ms-flex-wrap: wrap;
-        -webkit-box-align: stretch;
-        -ms-flex-align: stretch;
-        width: 100%;
-        display: flex;
-        flex-wrap: nowrap;
-        justify-content: center;
-        align-items: center;
-    }
-</style>
+<link href="https://uploads.gazetekapı.com/admin/wwwroot/assets/css/pageline.css" rel="stylesheet" />
 
 <div class="row">
     <div class="col-8" style="display:block; margin:0 auto;">
@@ -63,7 +49,7 @@
                         <div class="col-md-6">
 
                             <label for="example-text-input" class="col-sm-12 col-form-label">Email Adresi (Zorunlu değildir)</label>
-                            <input asp-for="Email" autocomplete="off" data-toggle="tooltip" data-placement="bottom" class="form-control" type="text" placeholder="Eamil adresi giriniz (Zorunlu değildir)" id="example-text-input">
+                            <input asp-for="Email" autocomplete="off" data-toggle="tooltip" data-placement="bottom" class="form-control" type="email" placeholder="Eamil adresi giriniz (Zorunlu değildir)" id="example-text-input">
                             <span asp-validation-for="Email" class="text-danger"></span>
 
                         </div>

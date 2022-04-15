@@ -12,6 +12,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="wwwroot\assets\fonts\materialdesignicons-webfont.woff2" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="11.0.1" />
     <PackageReference Include="Google.Cloud.TextToSpeech.V1" Version="2.5.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.0" />
