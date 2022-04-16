@@ -39,12 +39,14 @@ namespace GazeteKapiMVC5Core.Controllers
 
         #region SettingBasse
 
+        [CheckRoleAuthorize]
         public IActionResult Ayarlar()
         {
             var getSiteSettings = _mapper.Map<SettingsDto, SettingsEditViewModel>(_settingService.getSettings(1));
             return View(getSiteSettings);
         }
 
+        [CheckRoleAuthorize]
         public async Task<IActionResult> AyarlariDuzenle(SettingsEditViewModel model, IFormFile file, IFormFile fileFooter)
         {
             try
@@ -90,12 +92,15 @@ namespace GazeteKapiMVC5Core.Controllers
             }
         }
 
+
+        [CheckRoleAuthorize]
         public IActionResult GizlilikPolitikası()
         {
             var getPrivacy = _mapper.Map<PrivacyDto, PrivacyEditModel>(_settingService.getPrivacy(1));
             return View(getPrivacy);
         }
 
+        [CheckRoleAuthorize]
         public async Task<IActionResult> GizlilikPolitikasiniDuzenle(PrivacyEditModel model)
         {
             try
@@ -119,12 +124,14 @@ namespace GazeteKapiMVC5Core.Controllers
             }
         }
 
+        [CheckRoleAuthorize]
         public IActionResult Hakkimizda()
         {
             var getAboutUs = _mapper.Map<AboutUsDto, AboutUsEditModel>(_settingService.getAboutUs(1));
             return View(getAboutUs);
         }
 
+        [CheckRoleAuthorize]
         public async Task<IActionResult> HakkimizdaDuzenle(AboutUsEditModel model)
         {
             try
@@ -148,12 +155,14 @@ namespace GazeteKapiMVC5Core.Controllers
             }
         }
 
+        [CheckRoleAuthorize]
         public IActionResult KullanimKosullari()
         {
             var getSiteSettings = _mapper.Map<TermsOfUsDto, TermsOfUsEditModel>(_settingService.getTermsOfUs(1));
             return View(getSiteSettings);
         }
 
+        [CheckRoleAuthorize]
         public async Task<IActionResult> KullanimKosullariDuzenle(TermsOfUsEditModel model)
         {
             try

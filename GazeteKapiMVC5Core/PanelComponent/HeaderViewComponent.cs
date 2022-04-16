@@ -12,15 +12,16 @@ namespace GazeteKapiMVC5Core.PanelComponent
 {
     public class HeaderViewComponent : ViewComponent
     {
+        [CheckRoleAuthorize]
         public IViewComponentResult Invoke()
         {
             KullaniciGetir();
-            return View();
+            return View();      
         }
 
         public void KullaniciGetir()
-        {
-            AccountEditViewModel yoneticiGetir = SessionExtensionMethod.GetObject<AccountEditViewModel>(HttpContext.Session, "user");
+        {           
+            AccountEditViewModel yoneticiGetir = SessionExtensionMethod.GetObject<AccountEditViewModel>(HttpContext.Session, "user");       
             ViewBag.Yonetici = yoneticiGetir;
         }    
     }

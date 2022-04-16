@@ -54,10 +54,13 @@ namespace GazeteKapiMVC5Core.Controllers
         {
             if (message == null)
             {
+                ViewBag.LTD = Request.Cookies["LastLoggedInTime"];
                 return View();
             }
 
+            ViewBag.LTD = Request.Cookies["LastLoggedInTime"];
             ViewBag.Message = message;
+
             return View();
         }
 
@@ -90,8 +93,10 @@ namespace GazeteKapiMVC5Core.Controllers
                     {
                         SessionExtensionMethod.SetObject(HttpContext.Session, "user", getUser);
                         HttpContext.Session.GetString("user");
+                        Response.Cookies.Append("LastLoggedInTime", DateTime.Now.ToString());
 
                         await CreateModeratorLog("Başarılı", "Giriş İşlemi", "GirisYap", "Yonetici", "Başarılı bir giriş işlemi gerçekleştirildi");
+
                         return result ? RedirectToAction("Index", "Home") : RedirectToAction("GirisYap", "Yonetici", new { message = "<p> Kullanıcı adı veya şifre yanlış. Lütfen tekrar deneyin! </p>" });
                     }
                     else
@@ -113,6 +118,7 @@ namespace GazeteKapiMVC5Core.Controllers
         }
 
         //[RoleAuthorize("Kullanicilar")]
+        [CheckRoleAuthorize]
         public async Task<IActionResult> Kullanicilar()
         {
             try
@@ -130,6 +136,7 @@ namespace GazeteKapiMVC5Core.Controllers
         }
 
         [HttpGet]
+        [CheckRoleAuthorize]
         //[RoleAuthorize("KullaniciOlustur")]
         public async Task<IActionResult> KullaniciOlustur()
         {
@@ -137,7 +144,7 @@ namespace GazeteKapiMVC5Core.Controllers
             {
                 var listRoles = _mapper.Map<List<RoleListItemDto>, List<RolesListViewModel>>(_roleService.GetAllRole());
                 ViewBag.Roles = new SelectList(listRoles, "Id", "RoleName");
-                await CreateModeratorLog("Başarılı", "Sayfa Girişi", "KullaniciOlustur", "Yonetici","Kullanıcı ekleme sayfasına giriş başarılı oldu!");
+                await CreateModeratorLog("Başarılı", "Sayfa Girişi", "KullaniciOlustur", "Yonetici", "Kullanıcı ekleme sayfasına giriş başarılı oldu!");
                 return View(new AccountCreateViewModel());
             }
             catch (Exception ex)
@@ -205,7 +212,7 @@ namespace GazeteKapiMVC5Core.Controllers
                 }
                 return View(model);
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 string detay = "Sistemden kaynaklı bir hata meydana geldi: " + ex.ToString();
                 await CreateModeratorLog("Sistem Hatası", "Ekleme", "KullaniciOlustur", "Yonetici", detay);
@@ -216,6 +223,7 @@ namespace GazeteKapiMVC5Core.Controllers
         }
 
         [HttpGet]
+        [CheckRoleAuthorize]
         //[RoleAuthorize("KullaniciDuzenle")]
         public async Task<IActionResult> KullaniciDuzenle(int Id)
         {
@@ -224,7 +232,7 @@ namespace GazeteKapiMVC5Core.Controllers
                 var getUser = _mapper.Map<UserDto, AccountEditViewModel>(_userService.GetUserById(Id));
                 var listRoles = _mapper.Map<List<RoleListItemDto>, List<RolesListViewModel>>(_roleService.GetAllRole());
                 ViewBag.Roles = new SelectList(listRoles, "Id", "RoleName", getUser.RoleId);
-                await CreateModeratorLog("Başarılı","Sayfa Girişi","KullaniciDuzenle","Yonetici","Kullanıcı Düzenleme sayfasına giriş başarılı!");
+                await CreateModeratorLog("Başarılı", "Sayfa Girişi", "KullaniciDuzenle", "Yonetici", "Kullanıcı Düzenleme sayfasına giriş başarılı!");
                 return View(getUser);
             }
             catch (Exception ex)
@@ -271,7 +279,7 @@ namespace GazeteKapiMVC5Core.Controllers
                                 await CreateModeratorLog("Başarılı", "Güncelleme", "KullaniciDuzenle", "Yonetici", "Kullanıcı başarıyla güncellendi!");
                                 return RedirectToAction(nameof(Kullanicilar));
                             }
-                           
+
                             return View(model);
                         }
 
@@ -314,6 +322,7 @@ namespace GazeteKapiMVC5Core.Controllers
 
         }
 
+        [CheckRoleAuthorize]
         //[RoleAuthorize("KullaniciSil")]
         public async Task<IActionResult> KullaniciSil(int id)
         {
@@ -340,7 +349,7 @@ namespace GazeteKapiMVC5Core.Controllers
                     await CreateModeratorLog("Başarısız", "Silme", "KullaniciSil", "Yonetici", "Kullanıcı oturum açtığından sistemden kaldırılamadı");
                     return RedirectToAction(nameof(Kullanicilar));
                 }
-               
+
             }
             catch (Exception ex)
             {
@@ -353,6 +362,7 @@ namespace GazeteKapiMVC5Core.Controllers
         }
 
         //[RoleAuthorize("DurumDuzenleKullanici")]
+        [CheckRoleAuthorize]
         public async Task<IActionResult> DurumDuzenle(int id)
         {
             try
@@ -379,6 +389,7 @@ namespace GazeteKapiMVC5Core.Controllers
         }
 
         //[RoleAuthorize("HesapDetay")]
+        [CheckRoleAuthorize]
         public async Task<IActionResult> HesapDetay(int id)
         {
             try
@@ -409,8 +420,8 @@ namespace GazeteKapiMVC5Core.Controllers
 
         public IActionResult CikisYap()
         {
-            HttpContext.Session.Clear();
             HttpContext.Session.Remove("user");
+            HttpContext.Session.Clear();
             return RedirectToAction("GirisYap", "Yonetici");
         }
 

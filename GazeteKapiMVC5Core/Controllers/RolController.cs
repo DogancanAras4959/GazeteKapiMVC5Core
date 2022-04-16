@@ -39,6 +39,8 @@ namespace GazeteKapiMVC5Core.Controllers
         #endregion
 
         //[RoleAuthorize("Roller")]
+        
+        [CheckRoleAuthorize]
         public async Task<IActionResult> Roller()
         {
             try
@@ -56,6 +58,7 @@ namespace GazeteKapiMVC5Core.Controllers
         }
 
         [HttpGet]
+        [CheckRoleAuthorize]
         //[RoleAuthorize("RolOlustur")]
         public async Task<IActionResult> RolOlustur()
         {
@@ -113,6 +116,7 @@ namespace GazeteKapiMVC5Core.Controllers
         }
 
         [HttpGet]
+        [CheckRoleAuthorize]
         //[RoleAuthorize("RolDuzenle")]
         public async Task<IActionResult> RolDuzenle(int id)
         {
@@ -165,6 +169,8 @@ namespace GazeteKapiMVC5Core.Controllers
         }
 
         //[RoleAuthorize("RolSil")]
+        
+        [CheckRoleAuthorize]
         public async Task<IActionResult> RolSil(int id)
         {
             try
@@ -191,6 +197,7 @@ namespace GazeteKapiMVC5Core.Controllers
         }
 
         //[RoleAuthorize("DurumDuzenleRol")]
+        [CheckRoleAuthorize]
         public async Task<IActionResult> DurumDuzenle(int id)
         {
             try
@@ -218,6 +225,7 @@ namespace GazeteKapiMVC5Core.Controllers
         }
 
         //[RoleAuthorize("RolDetay")]
+        [CheckRoleAuthorize]
         public async Task<IActionResult> RolDetay(int id)
         {
             try

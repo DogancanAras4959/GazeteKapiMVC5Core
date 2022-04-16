@@ -55,7 +55,7 @@ namespace GazeteKapiMVC5Core
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
             {
                 options.Cookie.HttpOnly = true;
-                options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
+                options.ExpireTimeSpan = TimeSpan.FromHours(1);
                 //options.LoginPath = "/Account/Login";
                 options.AccessDeniedPath = "/Yonetici/GirisYap";
                 options.SlidingExpiration = true;

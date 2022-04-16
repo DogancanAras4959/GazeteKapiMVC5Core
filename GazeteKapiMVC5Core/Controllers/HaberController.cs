@@ -60,6 +60,7 @@ namespace GazeteKapiMVC5Core.Controllers
         #region Categories
 
         [HttpGet]
+        [CheckRoleAuthorize]
         public async Task<IActionResult> Kategoriler()
         {
             try
@@ -79,6 +80,7 @@ namespace GazeteKapiMVC5Core.Controllers
         }
 
         [HttpGet]
+        [CheckRoleAuthorize]
         public async Task<IActionResult> KategoriOlustur()
         {
             try
@@ -154,7 +156,8 @@ namespace GazeteKapiMVC5Core.Controllers
             }
 
         }
-
+       
+        [CheckRoleAuthorize]
         public async Task<IActionResult> KategoriSil(int id)
         {
             try
@@ -181,6 +184,8 @@ namespace GazeteKapiMVC5Core.Controllers
         }
 
         [HttpGet]
+        [CheckRoleAuthorize]
+
         public async Task<IActionResult> KategoriDuzenle(int id)
         {
             try
@@ -250,6 +255,7 @@ namespace GazeteKapiMVC5Core.Controllers
 
         }
 
+        [CheckRoleAuthorize]
         public async Task<IActionResult> KategoriDurumDuzenle(int id)
         {
             try
@@ -278,6 +284,8 @@ namespace GazeteKapiMVC5Core.Controllers
         #endregion
 
         #region Yazarlar
+
+        [CheckRoleAuthorize]
         public async Task<IActionResult> Yazarlar()
         {
             try
@@ -296,6 +304,8 @@ namespace GazeteKapiMVC5Core.Controllers
                 return RedirectToAction("ErrorPage", "Home");
             }
         }
+
+        [CheckRoleAuthorize]
         public async Task<IActionResult> YazarOlustur()
         {
             try
@@ -359,6 +369,7 @@ namespace GazeteKapiMVC5Core.Controllers
             }
         }
 
+        [CheckRoleAuthorize]
         public async Task<IActionResult> YazarSil(int Id)
         {
             try
@@ -383,6 +394,7 @@ namespace GazeteKapiMVC5Core.Controllers
             }
         }
 
+        [CheckRoleAuthorize]
         public async Task<IActionResult> YazarDurumDuzenle(int Id)
         {
             try
@@ -407,6 +419,7 @@ namespace GazeteKapiMVC5Core.Controllers
             }
         }
 
+        [CheckRoleAuthorize]
         public async Task<IActionResult> YazarDuzenle(int Id)
         {
             try
@@ -425,6 +438,7 @@ namespace GazeteKapiMVC5Core.Controllers
             }
         }
 
+        [CheckRoleAuthorize]
         public async Task<IActionResult> YazarinYazilari(int Id, int? pageNumber, int? categoryId, string searchstring, int? userId)
         {
             try
@@ -523,6 +537,7 @@ namespace GazeteKapiMVC5Core.Controllers
         }
 
         [HttpGet]
+        [CheckRoleAuthorize]
         public async Task<IActionResult> YazarDetay(int id)
         {
             try
@@ -547,6 +562,7 @@ namespace GazeteKapiMVC5Core.Controllers
 
         //[RoleAuthorize("Haberler")]
         [HttpGet]
+        [CheckRoleAuthorize]
         public async Task<IActionResult> Haberler(int? pageNumber, string searchstring, int? CategoryId, int? UserId)
         {
             try
@@ -596,6 +612,7 @@ namespace GazeteKapiMVC5Core.Controllers
         }
 
         [HttpGet]
+        [CheckRoleAuthorize]
         public async Task<IActionResult> HaberOlustur()
         {
             try
@@ -705,6 +722,7 @@ namespace GazeteKapiMVC5Core.Controllers
         }
 
         [HttpGet]
+        [CheckRoleAuthorize]
         public async Task<IActionResult> HaberDuzenle(int id)
         {
             try
@@ -776,19 +794,14 @@ namespace GazeteKapiMVC5Core.Controllers
                         //{
                         //    string friendlyUrl = GoogleTTS.GenerateSlug(model.Title, model.Id);
                         //    string content = GoogleTTS.HtmlToPlainTextTTS(model.NewsContent);
-                        //    string outputSound = GoogleTTS.Speak(model.Spot, model.Title, friendlyUrl, content,"Admin");
+                        //    string outputSound = GoogleTTS.Speak(model.Spot, model.Title, friendlyUrl, content, "Admin");
 
                         //    model.Sound = outputSound;
                         //}
 
                         if (file != null)
                         {
-                            //string uploadfilename = Path.GetFileNameWithoutExtension(file.FileName);
-                            //string extension = Path.GetExtension(file.FileName);
-                            //uploadfilename = uploadfilename + DateTime.Now.ToString("yymmssfff") + extension;
-                            //var path = Path.Combine(this._webHostEnvironment.WebRootPath, "Files", uploadfilename);
-                            //var stream = new FileStream(path, FileMode.Create);
-                            //await file.CopyToAsync(stream);
+                           
                             model.Image = SaveImageProcess.ImageInsert(file, "Admin");
 
                             int resultId = Convert.ToInt32(await _newService.editNews(_mapper.Map<NewsEditViewModel, NewsDto>(model)));
@@ -854,6 +867,7 @@ namespace GazeteKapiMVC5Core.Controllers
             }
         }
 
+        [CheckRoleAuthorize]
         public async Task<IActionResult> HaberSil(int id)
         {
             try
@@ -878,6 +892,7 @@ namespace GazeteKapiMVC5Core.Controllers
             }
         }
 
+        [CheckRoleAuthorize]
         public async Task<IActionResult> HaberiKilitle(int id)
         {
             try
@@ -898,6 +913,7 @@ namespace GazeteKapiMVC5Core.Controllers
             }
         }
 
+        [CheckRoleAuthorize]
         public async Task<IActionResult> BildirimleriAc(int id)
         {
             try
@@ -918,6 +934,7 @@ namespace GazeteKapiMVC5Core.Controllers
             }
         }
 
+        [CheckRoleAuthorize]
         public async Task<IActionResult> HaberiManseteTasi(int id)
         {
             try
@@ -959,6 +976,7 @@ namespace GazeteKapiMVC5Core.Controllers
         }
         
         [HttpGet]
+        [CheckRoleAuthorize]
         public async Task<IActionResult> Etiketler(int? pageNumber, string tagNameSearch)
         {
             try
@@ -989,6 +1007,7 @@ namespace GazeteKapiMVC5Core.Controllers
             }
         }
 
+        [CheckRoleAuthorize]
         public async Task<IActionResult> EtiketeGoreHaberler(int Id, int? pageNumber)
         {
             try
@@ -1009,6 +1028,7 @@ namespace GazeteKapiMVC5Core.Controllers
             }
         }
 
+        [CheckRoleAuthorize]
         public async Task<IActionResult> EtiketSil(int id)
         {
             try
@@ -1075,7 +1095,7 @@ namespace GazeteKapiMVC5Core.Controllers
                 return null;
             }
         }
-
+      
         #endregion
     }
 }

@@ -6,9 +6,14 @@
 
 }
 
+<style>
+    .slide-width {
+        max-width: 66.35667%;
+    }
+</style>
 <link href="https://uploads.gazetekapı.com/front/wwwroot/css/base/slider.css" rel="stylesheet" />
 
-<div class="col-md-8" style="max-width: 66.35667%;">
+<div class="col-md-8 slide-width">
     <div class="slideshow-container">
         @foreach (var item in haberlerManset)
         {
@@ -17,7 +22,7 @@
                 <div class="mySlides">
                     <div class="card__post__body card__post__transition">
                         <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
-                            <img src="https://uploads.gazetekapı.com/images/@item.Image" style="width:100%">
+                            <img src="https://uploads.gazetekapı.com/images/@item.Image" style="width:100%; height:460px;">
                             </a>
                             <div class="text">
                                 <div class="title-word-big">

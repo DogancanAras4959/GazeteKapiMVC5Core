@@ -1,6 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using ImageMagick;
+using ImageMagick.Formats;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Net;
 using System.Text;
@@ -16,7 +19,7 @@ namespace CORE.ApplicationCommon.Helpers
             switch (_admin)
             {
                 case "Admin":
-                    ftpInfo.Url = "ftp://uploads.gazetekapı.com/images";
+                    ftpInfo.Url = "ftp://uploads.gazetekapı.com//uploads/images";
                     ftpInfo.UserName = "sysuser_8";
                     ftpInfo.Password = "1g1*j0Ld";
                     break;
@@ -31,6 +34,8 @@ namespace CORE.ApplicationCommon.Helpers
         {
             try
             {
+                optimize(_file);
+
                 FTPInformation fTPInformation = GetFTPInformation(_admin);
                 var uploadurl = fTPInformation.Url;
                 var username = fTPInformation.UserName;
@@ -39,6 +44,7 @@ namespace CORE.ApplicationCommon.Helpers
                 string uploadfilename = Path.GetFileNameWithoutExtension(_file.FileName);
                 string extension = Path.GetExtension(_file.FileName);
                 uploadfilename = uploadfilename + DateTime.Now.ToString("yymmssfff") + extension;
+
                 Stream streamObj = _file.OpenReadStream();
                 byte[] buffer = new byte[_file.Length];
                 streamObj.Read(buffer, 0, buffer.Length);
@@ -62,6 +68,35 @@ namespace CORE.ApplicationCommon.Helpers
             } 
         }
 
+        #region Image Optimization
+
+        public static bool optimize(IFormFile file)
+        {
+            try
+            {
+                using (var image = new MagickImage(file.OpenReadStream()))
+                {
+                    image.Settings.SetDefines(new JpegWriteDefines()
+                    {
+                        SamplingFactor = JpegSamplingFactor.Ratio420,
+                    });
+
+                    image.Strip();
+                    image.Quality = 85;
+                    image.Interlace = Interlace.Jpeg;
+                    image.ColorSpace = ColorSpace.sRGB;
+                    image.Write(file.FileName);
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
+        #endregion
     }
 
     public class FTPInformation

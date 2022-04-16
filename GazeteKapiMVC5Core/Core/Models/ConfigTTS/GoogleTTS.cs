@@ -19,7 +19,7 @@ namespace GazeteKapiMVC5Core.Core.Models.ConfigTTS
             switch (_admin)
             {
                 case "Admin":
-                    ftpInfo.Url = "ftp://uploads.gazetekapı.com/sounds";
+                    ftpInfo.Url = "ftp://uploads.gazetekapı.com//uploads/sounds";
                     ftpInfo.UserName = "sysuser_8";
                     ftpInfo.Password = "1g1*j0Ld";
                     break;
@@ -41,7 +41,7 @@ namespace GazeteKapiMVC5Core.Core.Models.ConfigTTS
             plainText = titleNonHtml + " " + spot + "Haber içeriği," + plainText;
             var client = TextToSpeechClient.Create();
             string titleCrop = title.Substring(0, 10).ToLower().Replace("-", "").Trim();
-            titleCrop = titleCrop + "sound" + DateTime.Now.ToShortDateString().Replace(".","") + ".mp3";
+            titleCrop = titleCrop + "sound" + DateTime.Now.ToShortDateString().Replace(".", "") + ".mp3";
 
             var input = new SynthesisInput
             {
@@ -61,21 +61,15 @@ namespace GazeteKapiMVC5Core.Core.Models.ConfigTTS
 
             var response = client.SynthesizeSpeech(input, voiceSelection, audioConfig);
 
-            using (var outpot = File.Create(@"wwwroot\"+titleCrop.Trim().ToLower()))
-            {
-                response.AudioContent.WriteTo(outpot);
-
-                byte[] buffer = new byte[titleCrop.Length];
-                string ftpurl = string.Format("{0}/{1}", uploadurl, titleCrop.Trim().ToLower());
-                var requestObj = WebRequest.Create(ftpurl) as FtpWebRequest;
-                requestObj.Method = WebRequestMethods.Ftp.UploadFile;
-                requestObj.Credentials = new NetworkCredential(username, password);
-
-                Stream requestStream = requestObj.GetRequestStream();
-                requestStream.Write(buffer, 0, buffer.Length);
-                requestStream.Flush();
-                requestStream.Close();
-            }
+            byte[] buffer = new byte[response.AudioContent.Length];
+            string ftpurl = string.Format("{0}/{1}", uploadurl, titleCrop.Trim().ToLower());
+            var requestObj = WebRequest.Create(ftpurl) as FtpWebRequest;
+            requestObj.Method = WebRequestMethods.Ftp.UploadFile;
+            requestObj.Credentials = new NetworkCredential(username, password);
+            Stream requestStream = requestObj.GetRequestStream();
+            requestStream.Write(buffer, 0, buffer.Length);
+            requestStream.Flush();
+            requestStream.Close();
 
             return titleCrop;
         }
@@ -131,4 +125,4 @@ namespace GazeteKapiMVC5Core.Core.Models.ConfigTTS
         public string Password { get; set; }
         public string Url { get; set; }
     }
-}   
+}

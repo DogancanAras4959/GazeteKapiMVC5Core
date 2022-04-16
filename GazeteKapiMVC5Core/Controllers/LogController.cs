@@ -38,6 +38,7 @@ namespace GazeteKapiMVC5Core.Controllers
         #endregion
 
         [HttpGet]
+        [CheckRoleAuthorize]
         public IActionResult Loglar(int? pageNumber, /*string searchLogName,*/ int? processId, int? transactionId)
         {
             int pageSize = 20;
@@ -77,6 +78,7 @@ namespace GazeteKapiMVC5Core.Controllers
         }
     
         [HttpGet]
+        [CheckRoleAuthorize]
         public IActionResult LogDetay(int id)
         {
             var getLogDetail = _mapper.Map<LogDto, LogBaseViewModel>(_logService.GetLogDetail(id));

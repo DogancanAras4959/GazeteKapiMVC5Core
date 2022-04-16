@@ -1,0 +1,102 @@
+﻿@media screen and (min-width: 320px) and (max-width: 575px) {
+    .topbar .topbar-right {
+        text-align: right;
+    }
+
+    .justify-content-between {
+        justify-content: space-between !important;
+        width: 100%;
+    }
+
+    #nav-menu-display {
+        display: none;
+    }
+
+    .navbar-soft .navbar-nav .nav-item {
+        margin-left: 0px;
+        margin-right: 5px;
+        display: table-cell;
+    }
+
+    .navbar-nav {
+        position: relative;
+        display: block;
+        flex-direction: column;
+        padding-left: 0;
+        margin-bottom: 0;
+        list-style: none;
+        left: 13px;
+    }
+
+    .logo-img {
+        height: 100px;
+        padding: 15px 0px;
+    }
+
+    .nav-link-search {
+        position: relative;
+        top: 3px;
+        color: #000;
+    }
+
+    .currency-m {
+        margin-right: -32px;
+        margin-left: -28px;
+        margin-bottom:0px;
+    }
+
+    .banner-3 {
+        padding-left: 15px;
+        padding-right: 0px !important;
+    }
+
+    .banner-9 {
+        padding-right: 0px;
+        padding-left: 5px !important;
+    }
+
+    .slide-width {
+        max-width: 100% !important;
+    }
+
+    .article__entry-carousel .slick-arrow, .article__entry-carousel-three .slick-arrow {
+        opacity: 1;
+        top: -62px;
+        margin-top: 0;
+        padding: 7px;
+        width: 40px;
+        height: 40px;
+        line-height: 30px;
+        text-align: center;
+        border: 1px solid #e3e4e8;
+        font-size: 12px;
+        border-radius: 0;
+        display: none !important;
+    }
+
+    .bg__footer-dark {
+        background-color: #515d5e;
+        padding: 20px;
+    }
+
+    .hidden-section{
+        display:none;
+    }
+    .card__post {
+        position: relative;
+        margin-top: 15px;
+    }
+}
+
+@media screen and (min-width: 320px) and (max-width: 575px) {
+    section {
+        padding: 19px 0;
+    }
+}
+
+@media screen and (min-width: 320px) and (max-width: 575px) {
+    .popular__news-header .card__post {
+        margin-bottom: 20px;
+        margin-top: 20px;
+    }
+}

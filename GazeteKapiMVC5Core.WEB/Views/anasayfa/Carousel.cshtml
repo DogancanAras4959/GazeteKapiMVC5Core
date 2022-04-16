@@ -4,7 +4,6 @@
     List<NewListViewModelWeb> haberlerManset = ViewBag.HaberlerManset as List<NewListViewModelWeb>;
     int count = 0;
 }
-
 <div class="top__news__slider">
 
     @foreach (var item in haberlerManset.OrderBy(x => x.Id).ToList())

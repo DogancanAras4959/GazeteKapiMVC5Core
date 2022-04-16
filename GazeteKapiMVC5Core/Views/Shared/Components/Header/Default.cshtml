@@ -5,62 +5,56 @@
     AccountEditViewModel kullanici = (AccountEditViewModel)ViewBag.Yonetici;
 }
 
-<header id="page-topbar">
-    <div class="navbar-header">
-        <div class="d-flex">
-            <!-- LOGO -->
-            <div class="navbar-brand-box">
-                <a href="@Url.Action("Index","Home")" class="logo logo-dark">
-                    <span class="logo-sm">
-                        <img src="https://uploads.gazetekapı.com/images/logo.png" alt="" height="22">
-                    </span>
-                    <span class="logo-lg">
-                        <img src="https://uploads.gazetekapı.com/images/logo-dark.png" alt="" height="17">
-                    </span>
-                </a>
+    <header id="page-topbar">
+        <div class="navbar-header">
+            <div class="d-flex">
+                <!-- LOGO -->
+                <div class="navbar-brand-box">
+                    <a href="@Url.Action("Index","Home")" class="logo logo-dark">
+                        <span class="logo-sm">
+                            <img src="https://uploads.gazetekapı.com/images/logo.png" alt="" height="22">
+                        </span>
+                        <span class="logo-lg">
+                            <img src="https://uploads.gazetekapı.com/images/logo-dark.png" alt="" height="17">
+                        </span>
+                    </a>
 
-                <a href="@Url.Action("Index","Home")" class="logo logo-light">
-                    <span class="logo-sm">
-                        <img src="https://uploads.gazetekapı.com/images/logo-light.png" alt="" height="22">
-                    </span>
-                    <span class="logo-lg">
-                        <img src="https://uploads.gazetekapı.com/images/logo-light.png" alt="" height="36">
-                    </span>
-                </a>
+                    <a href="@Url.Action("Index","Home")" class="logo logo-light">
+                        <span class="logo-sm">
+                            <img src="https://uploads.gazetekapı.com/images/logo-light.png" alt="" height="22">
+                        </span>
+                        <span class="logo-lg">
+                            <img src="https://uploads.gazetekapı.com/images/logo-light.png" alt="" height="36">
+                        </span>
+                    </a>
+                </div>
+
             </div>
 
-        </div>
-
-        <!-- Search input -->
-        <div class="search-wrap" id="search-wrap">
-            <div class="search-bar">
-                <input class="search-input form-control" placeholder="Search">
-                <a href="#" class="close-search toggle-search" data-target="#search-wrap">
-                    <i class="mdi mdi-close-circle"></i>
-                </a>
-            </div>
-        </div>
-
-        <div class="d-flex">
-
-            <div class="dropdown d-none d-lg-inline-block me-2">
-                <button type="button" class="btn header-item toggle-search noti-icon waves-effect" data-target="#search-wrap">
-                    <i class="mdi mdi-magnify"></i>
-                </button>
+            <!-- Search input -->
+            <div class="search-wrap" id="search-wrap">
+                <div class="search-bar">
+                    <input class="search-input form-control" placeholder="Search">
+                    <a href="#" class="close-search toggle-search" data-target="#search-wrap">
+                        <i class="mdi mdi-close-circle"></i>
+                    </a>
+                </div>
             </div>
 
-            <div class="dropdown d-inline-block">
-                <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <img class="rounded-circle header-profile-user" src="https://uploads.gazetekapı.com/images/@kullanici.ProfileImage" alt="Header Avatar">
-                </button>
-                <div class="dropdown-menu dropdown-menu-end">
-                    <!-- item-->
-                    <a class="dropdown-item" asp-action="HesapDetay" asp-controller="Yonetici" asp-route-id="@kullanici.Id">Profil</a>
-                    <a class="dropdown-item d-block" asp-action="Ayarlar" asp-controller="Settings">Ayarlar</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item text-danger" asp-area="" asp-controller="Yonetici" asp-action="LogOut">Çıkış Yap</a>
+            <div class="d-flex">
+
+                <div class="dropdown d-inline-block">
+                    <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <img class="rounded-circle header-profile-user" src="https://uploads.gazetekapı.com/images/@kullanici.ProfileImage" alt="Header Avatar">
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-end">
+                        <!-- item-->
+                        <a class="dropdown-item" asp-action="HesapDetay" asp-controller="Yonetici" asp-route-id="@kullanici.Id">Profil</a>
+                        <a class="dropdown-item d-block" asp-action="Ayarlar" asp-controller="Settings">Ayarlar</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item text-danger" asp-area="" asp-controller="Yonetici" asp-action="CikisYap">Çıkış Yap</a>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</header>
+    </header>
