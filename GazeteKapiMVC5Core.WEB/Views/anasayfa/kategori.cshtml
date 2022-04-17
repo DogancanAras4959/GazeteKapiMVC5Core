@@ -22,35 +22,26 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row mt-5">
                         @foreach (var item in Model)
                         {
                             <div class="col-lg-4">
                                 <!-- Post Article -->
                                 <div class="article__entry-new">
-                                    <div class="article__category">
+                                    @*<div class="article__category">
                                         @item.categories.CategoryName
-                                    </div>
+                                    </div>*@
                                     <div class="article__image articel__image__transition">
                                         <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
                                             <img src="https://uploads.gazetekapı.com/images/@item.Image" alt="" class="img-fluid">
                                         </a>
                                     </div>
-                                    <div class="articel__content">
-
-                                        <div class="article__post__title">
+                                    <div class="text-cat">
                                             <h5>
                                                 <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
                                                     @item.Title
                                                 </a>
-                                            </h5>
-                                            <ul class="list-inline article__post__author">
-                                                <li class="list-inline-item">
-                                                    <span>@item.PublishedTime</span>
-                                                </li>
-                                            </ul>
-
-                                        </div>
+                                            </h5>  
                                     </div>
 
                                 </div>

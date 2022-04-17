@@ -32,7 +32,6 @@
                         <span asp-validation-for="Spot" class="text-danger"></span>
                     </div>
                     <div class="mb-3">
-                        <label for="example-text-input" class="col-sm-12 col-form-label">İçerik</label>
                         <textarea asp-for="NewsContent" rows="75" cols="150" class="ckeditor"></textarea>
                         <span asp-validation-for="NewsContent" class="text-danger"></span>
                     </div>
@@ -95,6 +94,7 @@
                     <div class="card">
                         <div class="card-body">
                             <img id="img" style="width:100%" src="https://uploads.gazetekapı.com/images/@Model.Image" />
+                            <label style="margin-top:10px;" class="col-sm-12 text-center">*(835x510 dosya boyutu)</label>
                             <label for="example-text-input" class="col-sm-12 col-form-label text-center" style="margin-top:10px;">Öne Çıkan Görseli Güncelle</label>
                             <input type="file" class="filestyle" id="upload" data-input="false" name="file" data-buttonname="btn-secondary">
                         </div>

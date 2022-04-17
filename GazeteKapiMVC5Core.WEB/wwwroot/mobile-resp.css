@@ -1,11 +1,38 @@
 ﻿@media screen and (min-width: 320px) and (max-width: 575px) {
+
+    .img-cat {
+        position: relative;
+        top: 40px !important;
+        left: 10px !important;
+        z-index: 1;
+    }
+    
     .topbar .topbar-right {
         text-align: right;
+    }
+
+    .wrapper__list__article {
+        margin-bottom: 30px;
+        margin-top: 25px !important;
+    }
+
+    .article__entry-new {
+        position: relative;
+        margin-top: 20px !important;
     }
 
     .justify-content-between {
         justify-content: space-between !important;
         width: 100%;
+    }
+
+    .text-rect {
+        background-color: #f4c625;
+        padding: 7px !important;
+        font-size: 14px !important;
+        color: #54626b;
+        font-weight: 700;
+        text-transform: uppercase;
     }
 
     #nav-menu-display {
@@ -85,6 +112,58 @@
     .card__post {
         position: relative;
         margin-top: 15px;
+    }
+
+    .text {
+        color: #ffffff;
+        font-size: 17px !important;
+        padding: 16px 36px 16px 19px;
+        line-height: 25px !important;
+        position: absolute;
+        left: 37px !important;
+        bottom: 0px;
+        width: 80% !important;
+        font-weight: 600;
+        font-family: Montserrat;
+        text-align: start;
+        background-color: #515d5e;
+    }
+
+    .title-word-big {
+        background-color: #f4c625;
+        position: absolute;
+        width: 45px !important;
+        height: 45px !important;
+        left: -22px;
+        top: 15px !important;
+    }
+
+    .prev, .next {
+        cursor: pointer;
+        position: relative;
+        top: 20% !important;
+        width: auto;
+        padding: 14px !important;
+        margin-top: -22px;
+        color: white;
+        font-weight: bold;
+        font-size: 18px;
+        transition: 0.6s ease;
+        border-radius: 0 3px 3px 0;
+        user-select: none;
+    }
+    .img-slide {
+        width: 100%;
+        height: 260px !important;
+    }
+    .title-slide {
+        position: relative;
+        left: 22px !important;
+    }
+    .card__post .card__post__body .card__post__content .card__post__category {
+        position: absolute;
+        top: -35px !important;
+        left: 25px !important;
     }
 }
 

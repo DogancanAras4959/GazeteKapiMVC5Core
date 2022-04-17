@@ -125,7 +125,7 @@ namespace SERVICE.Engine.Engines
         }
         public List<NewsListItemDto> newsList()
         {
-            IEnumerable<News> newsList = _unitOfWork.GetRepository<News>().Filter(null, x => x.OrderByDescending(y => y.Id), "guest,users,categories,publishtype", null,null);
+            IEnumerable<News> newsList = _unitOfWork.GetRepository<News>().Filter(x=> x.IsActive == true, x => x.OrderBy(y => y.Id), "guest,users,categories,publishtype", null,null);
 
             if (newsList != null)
             {

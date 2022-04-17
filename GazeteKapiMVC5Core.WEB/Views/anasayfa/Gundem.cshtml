@@ -7,11 +7,11 @@
     int count = 0;
 
     List<NewListViewModelWeb> haberlerManset = ViewBag.HaberlerManset as List<NewListViewModelWeb>;
-    List<TagNewsListViewModelWeb> tagNewList = ViewBag.TagNews as List<TagNewsListViewModelWeb>;
-    List<TagListViewModelWeb> tagList = new List<TagListViewModelWeb>();
+    //List<TagNewsListViewModelWeb> tagNewList = ViewBag.TagNews as List<TagNewsListViewModelWeb>;
+    //List<TagListViewModelWeb> tagList = new List<TagListViewModelWeb>();
 
-    List<NewListViewModelWeb> titles = new List<NewListViewModelWeb>();
-    List<NewListViewModelWeb> newListData = new List<NewListViewModelWeb>();
+    //List<NewListViewModelWeb> titles = new List<NewListViewModelWeb>();
+    //List<NewListViewModelWeb> newListData = new List<NewListViewModelWeb>();
 
 }
 <link href="https://uploads.gazetekapı.com/front/wwwroot/css/base/pagelinewebcard.css" rel="stylesheet" />
@@ -32,13 +32,13 @@
         {
             if (item.IsSlide == false)
             {
-                foreach (var tags in tagNewList.Where(x => x.NewsId == item.Id))
-                {
-                    TagListViewModelWeb newTags = new TagListViewModelWeb();
-                    newTags.Id = tags.Id;
-                    newTags.TagName = tags.tag.TagName;
-                    tagList.Add(newTags);
-                }
+                //foreach (var tags in tagNewList.Where(x => x.NewsId == item.Id))
+                //{
+                //    TagListViewModelWeb newTags = new TagListViewModelWeb();
+                //    newTags.Id = tags.Id;
+                //    newTags.TagName = tags.tag.TagName;
+                //    tagList.Add(newTags);
+                //}
 
                 count++;
                 <div class="col-sm-12 col-md-6 mb-4">
@@ -75,60 +75,52 @@
         <div class="wrapp__list__article-responsive">
             <div class="row">
 
-                @foreach (var tags in tagList)
-                {
-                    foreach (var tagNews in tagNewList.Where(x => x.TagId == tags.Id).ToList())
+                @*@foreach (var tags in tagList)
                     {
-                        NewListViewModelWeb listNews = new NewListViewModelWeb();
-                        listNews.Title = tagNews.news.Title;
-                        listNews.Id = tagNews.news.Id;
-                        listNews.Image = tagNews.news.Image;
-                        listNews.CategoryId = tagNews.news.CategoryId;
-                        titles.Add(listNews);
+                        foreach (var tagNews in tagNewList.Where(x => x.TagId == tags.Id).ToList())
+                        {
+                            NewListViewModelWeb listNews = new NewListViewModelWeb();
+                            listNews.Title = tagNews.news.Title;
+                            listNews.Id = tagNews.news.Id;
+                            listNews.Image = tagNews.news.Image;
+                            listNews.CategoryId = tagNews.news.CategoryId;
+                            titles.Add(listNews);
+                        }
                     }
-                }
 
-                @{
-                    newListData.AddRange(titles.GroupBy(o => new { o.Title, o.Image, o.Id, o.CategoryId }).Select(x => x.FirstOrDefault()));
-                    NewListViewModelWeb[] tagsList = newListData.ToArray();
-                }
+                    @{
+                        newListData.AddRange(titles.GroupBy(o => new { o.Title, o.Image, o.Id, o.CategoryId }).Select(x => x.FirstOrDefault()));
+                        NewListViewModelWeb[] tagsList = newListData.ToArray();
+                    }*@
 
-                @for (int i = 0; i < tagsList.Count(); i++)
+                @foreach (var item in haberlerManset.Where(x => x.categories.CategoryName == "Ekonomi").Take(4))
                 {
-                    if (tagsList[i].CategoryId == 2)
-                    {
-                        count++;
 
-                        <div class="col-sm-6">
-                            <div class="mb-3">
-                                <!-- Post Article -->
-                                <div class="card__post card__post-list">
-                                    <div class="image-sm">
-                                        <a href="@Url.Action("haber","anasayfa", new { Id = tagsList[i].Id, Title = tagsList[i].GenerateSlug() })">
-                                            <img src="https://uploads.gazetekapı.com/images/@tagsList[i].Image" class="img-fluid" alt="">
-                                        </a>
-                                    </div>
-                                    <div class="card__post__body ">
-                                        <div class="card__post__content">
-                                            <div class="card__post__title">
-                                                <h6>
-                                                    <a href="@Url.Action("haber","anasayfa", new { Id = tagsList[i].Id, Title = tagsList[i].GenerateSlug() })">
-                                                        @tagsList[i].Title
-                                                    </a>
-                                                </h6>
-                                            </div>
+                    <div class="col-sm-6">
+                        <div class="mb-3">
+                            <!-- Post Article -->
+                            <div class="card__post card__post-list">
+                                <div class="image-sm">
+                                    <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
+                                        <img src="https://uploads.gazetekapı.com/images/@item.Image" class="img-fluid" alt="">
+                                    </a>
+                                </div>
+                                <div class="card__post__body ">
+                                    <div class="card__post__content">
+                                        <div class="card__post__title">
+                                            <h6>
+                                                <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
+                                                    @item.Title
+                                                </a>
+                                            </h6>
+                                            @if (item.Spot.Length > 60)
+                                            {<p>@item.Spot.Substring(0, 50) ...</p>}
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        if (count == 4)
-                        {
-                            count++;
-                            break;
-                        }
-                    }
-
+                    </div>
                 }
             </div>
         </div>

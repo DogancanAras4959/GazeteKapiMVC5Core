@@ -152,7 +152,7 @@
                                         <td>@Html.DisplayFor(modelItem => item.Title)</td>
                                         <td>@Html.DisplayFor(modelItem => item.CreatedTime)</td>
                                         <td>@Html.DisplayFor(modelItem => item.UpdatedTime)</td>
-                                        @if (item.IsLock == true)
+                                        @if (item.IsActive == true)
                                         {
                                             <td><span class="text-success"><strong>Aktif</strong></span></td>
                                         }

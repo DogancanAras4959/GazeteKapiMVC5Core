@@ -7,31 +7,6 @@
     int count = 0;
 }
 
-@section metatags{
-
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="Gazete Kapı Lemonde Yayıncılık ile 2022 yılında yayın hayatına başladı" />
-    <meta name="keywords" content="gazetekapı, lemonde, dergi, gazete, " />
-    <meta name="theme-color" content="#030303" />
-    <meta name="language" content="Turkish" />
-    <meta property="og:type" content="website" />
-    <meta property="og:locale" content="tr_TR" />
-    <meta property="og:site_name" content="Gazete Kapı" />
-    <meta property="og:title" content="Gazete Kapı, Haber, Son Dakika, Gündem, Köşe Yazıları, Yazarlar, Dünya Haberleri..." />
-    <meta property="og:description" content="Gazete Kapı Lemonde Yayıncılık ile 2022 yılında yayın hayatına başladı" />
-    <meta property="og:image" content="https://uploads.gazetekapi.com/images/placeholder/kapi-logo.png" />
-    <meta property="og:url" content="https://www.gazetekapi.com/" />
-    <meta name="twitter:card" content="summary_larg_image" />
-    <meta name="twitter:site" content="" />
-    <meta name="twitter:title" content="Gazete Kapı, Haber, Son Dakika, Gündem, Köşe Yazıları, Yazarlar, Dünya Haberleri..." />
-    <meta name="twitter:description" content="Gazete Kapı Lemonde Yayıncılık ile 2022 yılında yayın hayatına başladı" />
-    <meta name="twitter:image" content="https://uploads.gazetekapı.com/images/placeholder/kapi-logo.png" />
-    <link rel="icon" type="image/x-icon" href="https://uploads.gazetekapı.com/front/wwwroot/kapi-logo.ico">
-    <link rel="apple-touch-icon" href="icon.png">
-    <title>Gazete Kapı, Haber, Son Dakika, Gündem, Köşe Yazıları, Yazarlar, Dünya Haberleri...</title>
-}
-
 <link href="https://uploads.gazetekapı.com/front/wwwroot/css/base/base.css" rel="stylesheet" />
 
 <!-- Popular news -->
@@ -113,7 +88,7 @@
                                     </a>
                                 </div>
                                 <div class="article__content">
-                                    <h5>
+                                    <h5 style="font-size:15px;">
                                         <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
                                             @item.Title
                                         </a>
