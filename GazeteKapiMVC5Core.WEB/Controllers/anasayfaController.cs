@@ -34,8 +34,6 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
         private readonly ICategoryService _categoryService;
         private readonly ISettingService _settingService;
         private readonly IViewRenderService _viewRender;
-    
-
 
         [Obsolete]
         public anasayfaController(INewsService newService, ICategoryService categoryService, IMapper mapper, ISettingService settingService, IViewRenderService viewRender)

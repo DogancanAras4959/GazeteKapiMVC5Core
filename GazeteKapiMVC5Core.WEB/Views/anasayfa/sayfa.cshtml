@@ -67,7 +67,7 @@
             <h4 class="border_section"></h4>
         </div>
         <div class="row">
-            <div class="col-md-12" style="margin-bottom:5px;">
+            <div class="col-md-12" style="margin-bottom:5px; margin-top:5px;">
                 <div class="rect-content-box-title">
                     <span class="rect-title">D</span>
                 </div>
@@ -89,9 +89,19 @@
                                 </div>
                                 <div class="article__content">
                                     <h5 style="font-size:15px;">
-                                        <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
-                                            @item.Title
-                                        </a>
+                                        @if (item.Title.Length > 60)
+                                        {
+                                            <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
+                                                @item.Title.Substring(0, 60)
+                                            </a>
+                                        }
+                                        else
+                                        {
+                                            <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
+                                                @item.Title
+                                            </a>
+                                        }
+
                                     </h5>
 
                                 </div>
@@ -134,9 +144,19 @@
                                         </a>
                                         <div style=" margin-top: 0px; background-color: #fff; padding: 15px;">
                                             <h6>
-                                                <a style="color:#515d5e;" href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
-                                                    @item.Title
-                                                </a>
+                                                @if (item.Title.Length > 60)
+                                                {
+                                                    <a style="color:#515d5e;" href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
+                                                        @item.Title.Substring(0,60)
+                                                    </a>
+                                                }
+                                                else
+                                                {
+                                                    <a style="color:#515d5e;" href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
+                                                        @item.Title
+                                                    </a>
+                                                }
+
                                             </h6>
                                         </div>
                                     </div>
@@ -160,12 +180,6 @@
 
 </section>
 <!-- End Popular news category -->
-
-<section>
-    <div class="container" style="background-color:#515d5e;">
-
-    </div>
-</section>
 
 <script>
     var slideIndex = 1;

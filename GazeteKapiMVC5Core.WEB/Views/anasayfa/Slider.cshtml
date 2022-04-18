@@ -9,7 +9,7 @@
 <link href="https://uploads.gazetekapı.com/front/wwwroot/css/base/slider.css" rel="stylesheet" />
 
 <div class="col-md-8 slide-width">
-    <div class="slideshow-container">
+    <div class="slideshow-container" style="margin-top:2px;">
         @foreach (var item in haberlerManset)
         {
             @if (item.IsSlide == true)
@@ -18,16 +18,21 @@
                     <div class="card__post__body card__post__transition">
                         <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
                             <img src="https://uploads.gazetekapı.com/images/@item.Image" class="img-slide">
-                            </a>
-                            <div class="text">
-                                <div class="title-word-big">
-                                    <a class="next" onclick="plusSlides(1)"><img src="https://uploads.gazetekapı.com/images/chevron_next.png" width="20" /></a>
-                                </div>
-                                <span class="title-slide">
-                                    <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">@item.Title</a>
+                        </a>
 
-                                </span>
+                        <div class="text">
+                            <div class="title-word-big">
+                                <a class="next" onclick="plusSlides(1)"><img src="https://uploads.gazetekapı.com/images/chevron_next.png" width="20" /></a>
                             </div>
+                            <span class="title-slide">
+                                @if (item.Title.Length > 80)
+                                {<a href="@Url.Action("haber", "anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">@item.Title.Substring(0, 80)<span>...</span> </a>}
+                            else
+                            {
+                                <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">@item.Title</a>
+                            }
+                            </span>
+                        </div>
                     </div>
                 </div>
             }
@@ -46,7 +51,7 @@
             {
                 count++;
 
-                <div class="card__post">
+                <div class="card__post" style="margin-top:2px;">
                     <div class="card__post__body card__post__transition">
                         <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
                             <img src="https://uploads.gazetekapı.com/images/@item.Image" class="img-fluid" alt="">
@@ -56,8 +61,12 @@
                                 <a class="next-sm" style="color:#515d5e;">@item.categories.CategoryName.Substring(0, 1).ToUpper()</a>
                             </div>
                             <span class="title-slide-sm">
+                                @if (item.Title.Length > 80)
+                                {<a href="@Url.Action("haber", "anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">@item.Title.Substring(0, 80)<span>...</span> </a>}
+                            else
+                            {
                                 <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">@item.Title</a>
-                               
+                            }
                             </span>
                         </div>
                     </div>

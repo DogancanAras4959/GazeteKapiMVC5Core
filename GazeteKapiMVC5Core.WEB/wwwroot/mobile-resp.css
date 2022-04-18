@@ -116,13 +116,13 @@
 
     .text {
         color: #ffffff;
-        font-size: 17px !important;
+        font-size: 16px !important;
         padding: 16px 36px 16px 19px;
-        line-height: 25px !important;
+        line-height: 21px !important;
         position: absolute;
         left: 37px !important;
         bottom: 0px;
-        width: 80% !important;
+        width: 84% !important;
         font-weight: 600;
         font-family: Montserrat;
         text-align: start;
@@ -132,8 +132,8 @@
     .title-word-big {
         background-color: #f4c625;
         position: absolute;
-        width: 45px !important;
-        height: 45px !important;
+        width: 40px !important;
+        height: 40px !important;
         left: -22px;
         top: 15px !important;
     }
@@ -143,7 +143,7 @@
         position: relative;
         top: 20% !important;
         width: auto;
-        padding: 14px !important;
+        padding: 11px !important;
         margin-top: -22px;
         color: white;
         font-weight: bold;
@@ -158,12 +158,46 @@
     }
     .title-slide {
         position: relative;
-        left: 22px !important;
+        left: 11px !important;
     }
     .card__post .card__post__body .card__post__content .card__post__category {
         position: absolute;
         top: -35px !important;
         left: 25px !important;
+    }
+    .card__post .card__post__body .card__post__content .card__post__title p {
+        line-height: 18px !important;
+        font-size: 14px !important;
+        margin-bottom: 0;
+    }
+    .text-capitalize {
+        text-transform: capitalize !important;
+        top: 5px !important;
+        position: relative !important;
+    }
+}
+
+@media screen and (min-width: 320px) and (max-width: 575px) {
+    .article__entry .article__content {
+        float: none;
+        padding: 0;
+        margin-top: 15px;
+    }
+}
+
+@media screen and (min-width: 320px) and (max-width: 575px) {
+    .article__entry .article__content ul.list-inline li.list-inline-item span {
+        font-size: 12px;
+        top: 7px;
+        position: relative;
+    }
+}
+
+@media screen and (min-width: 320px) and (max-width: 575px) {
+    .article__entry .article__content .article__category {
+        position: relative;
+        top: 8px !important;
+        left: 0px !important;
     }
 }
 

@@ -4,6 +4,18 @@
     List<NewListViewModelWeb> haberlerManset = ViewBag.HaberlerManset as List<NewListViewModelWeb>;
     int count = 0;
 }
+<style>
+    .popular__news-header-carousel {
+        margin-top: 20px;
+    }
+    .top__news__slider .slick-slide {
+        margin-left: 20px;
+        width: 263px !important;
+    }
+    .top__news__slider .slick-list {
+        margin-left: -19px !important;
+    }
+</style>
 <div class="top__news__slider">
 
     @foreach (var item in haberlerManset.OrderBy(x => x.Id).ToList())
@@ -22,9 +34,12 @@
                     </div>
                     <div class="article__content">
                         <h5 style="font-size:15px;">
-                            <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
-                                @item.Title
-                            </a>
+                            @if (item.Title.Length > 55)
+                            {<a href="@Url.Action("haber", "anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">@item.Title.Substring(0, 55)<span>...</span> </a>}
+                        else
+                        {
+                            <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">@item.Title</a>
+                        }
                         </h5>
                     </div>
                 </div>

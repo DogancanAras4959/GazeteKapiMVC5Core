@@ -45,7 +45,6 @@ namespace GazeteKapiMVC5Core.WEB
 
             IMapper mapper = mappingConfig.CreateMapper();
             services.AddSingleton(mapper);
-            services.AddSession(x => x.IdleTimeout = TimeSpan.FromHours(1));
 
         }
 
@@ -65,12 +64,8 @@ namespace GazeteKapiMVC5Core.WEB
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            app.UseSession();
             app.UseRouting();
             app.UseAuthentication();
-            app.UseAuthorization();
-
-
 
             app.UseEndpoints(endpoints =>
             {
