@@ -42,14 +42,14 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
             _categoryService = categoryService;
             _mapper = mapper;
             _settingService = settingService;
-            _viewRender = viewRender;         
+            _viewRender = viewRender;
         }
 
         #endregion
 
         public IActionResult sayfa()
         {
-            var haberlist = _mapper.Map<List<NewsListItemDto>, List<NewListViewModelWeb>>(_newService.newsList());
+            var haberlist = _mapper.Map<List<NewsListItemDto>, List<NewListViewModelWeb>>(_newService.newsListWithWeb());
             List<GuestListViewModelWeb> guestList = _mapper.Map<List<GuestListItemDto>, List<GuestListViewModelWeb>>(_newService.guestList());
             List<TagNewsListViewModelWeb> tagNewList = _mapper.Map<List<TagNewsListItemDto>, List<TagNewsListViewModelWeb>>(_newService.tagsListWithNewsWeb());
 
@@ -58,7 +58,6 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
             ViewBag.GuestList = guestList;
 
             return View();
-
         }
         public IActionResult aramasonucu(int? pageNumber, string searchnews, int? TagId)
         {
@@ -210,21 +209,24 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
             string friendlyTitle = Title;
             List<TagNewsListViewModelWeb> tagNewsList = _mapper.Map<List<TagNewsListItemDto>, List<TagNewsListViewModelWeb>>(_newService.tagsListWithNewsByNewsId(Id));
             ViewBag.TagNews = tagNewsList;
-           
+
             List<NewListViewModelWeb> newsListRelational = _mapper.Map<List<NewsListItemDto>, List<NewListViewModelWeb>>(_newService.newsListByCategoryId(newsGet.CategoryId));
             ViewBag.Relational = newsListRelational;
-            
+
             List<NewListViewModelWeb> newsListPopularite = _mapper.Map<List<NewsListItemDto>, List<NewListViewModelWeb>>(_newService.PopularNewsInWeb());
             ViewBag.Popularite = newsListPopularite;
-           
+
             List<NewListViewModelWeb> newListPopulariteByCategory = _mapper.Map<List<NewsListItemDto>, List<NewListViewModelWeb>>(_newService.PopularNewsInWebInCategory(newsGet.CategoryId));
             ViewBag.PopulariteByCategory = newListPopulariteByCategory;
-           
+
             List<NewListViewModelWeb> listCategoryNewsScroll = _mapper.Map<List<NewsListItemDto>, List<NewListViewModelWeb>>(_newService.newsListByCategoryId(newsGet.CategoryId));
             ViewBag.CategoryNewsByIdScroll = listCategoryNewsScroll;
-           
+
             List<CategoryListViewModelWeb> categoryNewList = _mapper.Map<List<CategoryListItemDto>, List<CategoryListViewModelWeb>>(_categoryService.GetAllCategory());
             ViewBag.CategotyList = categoryNewList;
+
+            List<NewListViewModelWeb> newListAll = _mapper.Map<List<NewsListItemDto>, List<NewListViewModelWeb>>(_newService.newsListWithWeb());
+            ViewBag.AllNewsList = newListAll;
 
             if (!string.Equals(friendlyTitle, Title, StringComparison.Ordinal))
             {
@@ -321,7 +323,7 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
         #region Load More With Scroll Page
 
         public IActionResult loadData(List<NewListViewModelWeb> model)
-        {        
+        {
             return PartialView(model);
         }
 

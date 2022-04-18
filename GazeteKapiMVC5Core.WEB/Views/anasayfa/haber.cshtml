@@ -1,7 +1,7 @@
 ﻿@using GazeteKapiMVC5Core.WEB.ViewModels.News;
 @using GazeteKapiMVC5Core.WEB.ViewModels.TagsNews
 @using GazeteKapiMVC5Core.WEB.ViewModels.Categories
-
+@using System.Globalization;
 @{
     ViewData["Title"] = "haber";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -12,11 +12,50 @@
     List<NewListViewModelWeb> newsListPopularite = ViewBag.Popularite as List<NewListViewModelWeb>;
     List<NewListViewModelWeb> newsListPopulariteByCategory = ViewBag.PopulariteByCategory as List<NewListViewModelWeb>;
     List<NewListViewModelWeb> newListByCategory = ViewBag.CategoryNewsByIdScroll as List<NewListViewModelWeb>;
+    List<NewListViewModelWeb> newListAll = ViewBag.AllNewsList as List<NewListViewModelWeb>;
 
     string name = "";
     int count = 0;
     string text = ViewBag.Content;
+
 }
+
+<style>
+    .headphone-cs {
+        padding: 5px;
+        height: 35px;
+        width: 35px;
+        position: relative;
+        bottom: 3px;
+    }
+
+    .article__entry .article__content ul.list-inline li.list-inline-item span {
+        font-size: 14px;
+        font-weight: 700;
+        text-transform: capitalize;
+        font-family: "Montserrat",sans-serif;
+    }
+
+    .card__post .card__post__body .card__post__content .card__post__author-info .list-inline .list-inline-item span {
+        color: #fff;
+        font-weight: 700;
+        font-size: 13px;
+    }
+
+    .card__post .card__post__body {
+        padding-top: 8px;
+        display: flex;
+        align-items: center;
+    }
+    .text-rect-hot-news {
+        background-color: #f4c625;
+        padding: 5px;
+        font-size: 11px !important;
+        color: #54626b !important;
+        font-weight: 700;
+        text-transform: uppercase;
+    }
+</style>
 
 <link href="https://uploads.gazetekapı.com/front/wwwroot/css/loading.css" rel="stylesheet" />
 <link href="https://uploads.gazetekapı.com/front/wwwroot/css/base/pagelinenews.css" rel="stylesheet" />
@@ -42,16 +81,21 @@
                             <li class="list-inline-item">
                                 <span class="text-dark text-capitalize ml-1">
                                     <i class="fa fa-clock-o"></i>
-                                    @Model.PublishedTime
+                                    @Model.PublishedTime.ToString("MM/dd/yyyy HH:mm")
                                 </span>
                             </li>
                             <li class="list-inline-item" style="float:right;">
-                                <audio id="player" src="https://uploads.gazetekapı.com/sounds/@Model.Sound" type="audio/ogg">
-                                </audio>
-                                <a class="btn-sound" onclick="document.getElementById('player').playbackRate=2" style="padding:5px; font-weight:900; font-size:20px;">2x</a>
-                                <a class="btn-sound" onclick="document.getElementById('player').playbackRate=1" style="padding:5px; font-weight:700; font-size:20px;">1x</a>
-                                <a class="btn-sound" onclick="document.getElementById('player').play()"><i style="font-size: 20px; padding: 5px;" class="fa fa-play"></i></a>
-                                <a class="btn-sound" onclick="document.getElementById('player').pause()"><i style="font-size: 20px; padding: 5px;" class="fa fa-pause"></i></a>
+                                @if (Model.Sound != null || Model.Sound == "")
+                                {
+
+                                    <audio id="player" src="https://uploads.gazetekapı.com/sounds/@Model.Sound" type="audio/ogg">
+                                    </audio>
+                                    <img src="https://uploads.gazetekapı.com/images/headphone.svg" class="headphone-cs" />
+                                    <a class="btn-sound" onclick="document.getElementById('player').playbackRate=2" style="padding:5px; font-weight:900; font-size:17px;">2x</a>
+                                    <a class="btn-sound" onclick="document.getElementById('player').playbackRate=1" style="padding:5px; font-weight:700; font-size:17px;">1x</a>
+                                    <a class="btn-sound" onclick="document.getElementById('player').play()"><i style="font-size: 17px; padding: 5px;" class="fa fa-play"></i></a>
+                                    <a class="btn-sound" onclick="document.getElementById('player').pause()"><i style="font-size: 17px; padding: 5px;" class="fa fa-pause"></i></a>
+                                }
                             </li>
                         </ul>
                     </div>
@@ -69,7 +113,7 @@
                             }
 
                             <a asp-action="kategori" asp-controller="anasayfa" asp-route-id="@Model.CategoryId">
-                                <span class="text-rect">@name</span>
+                                <span class="text-rect">@name.Substring(0, 1).ToUpper()</span>
                             </a>
                         </div>
                         <figure>
@@ -79,7 +123,7 @@
 
                     <div class="wrap__article-detail-content">
 
-                        <p class="has-drop-cap-fluid" id="contentnews">
+                        <p class="has-drop-cap-fluid" @*id="contentnews"*@ >
                             @Html.Raw(Model.NewsContent)
                         </p>
 
@@ -123,16 +167,26 @@
                                         <div class="article__content">
                                             <ul class="list-inline">
                                                 <li class="list-inline-item">
+                                                    <i class="fa fa-clock-o"></i>
                                                     <span>
-                                                        @item.PublishedTime
+                                                        @item.PublishedTime.Value.ToString("MM/dd/yyyy HH:mm")
                                                     </span>
                                                 </li>
 
                                             </ul>
-                                            <h5>
-                                                <a href="@Url.Action("haber", "anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
-                                                    @item.Title
-                                                </a>
+                                            <h5 style="margin-top:10px;">
+                                                @if (item.Title.Length > 55)
+                                                {
+                                                    <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
+                                                        @item.Title.Substring(0, 55)<span>...</span>
+                                                    </a>
+                                                }
+                                                else
+                                                {
+                                                    <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
+                                                        @item.Title
+                                                    </a>
+                                                }
                                             </h5>
 
                                         </div>
@@ -176,8 +230,9 @@
                 </aside>
 
                 <aside class="wrapper__list__article">
+                    <h4 class="border_section"> Öne Çıkan Haberler </h4>
                     <div class="wrapper__list__article-small">
-                        <!-- Post Article -->
+
                         @foreach (var item in newsListPopularite)
                         {
                             <div class="mb-3">
@@ -197,8 +252,9 @@
                                                 <ul class="list-inline">
 
                                                     <li class="list-inline-item">
+                                                        <i class="fa fa-clock-o"></i>
                                                         <span class="text-dark text-capitalize">
-                                                            @item.PublishedTime
+                                                            @item.PublishedTime.Value.ToString("MM/dd/yyyy HH:mm")
                                                         </span>
                                                     </li>
 
@@ -206,9 +262,18 @@
                                             </div>
                                             <div class="card__post__title">
                                                 <h6>
-                                                    <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
-                                                        @item.Title
-                                                    </a>
+                                                    @if (item.Title.Length > 50)
+                                                    {
+                                                        <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
+                                                            @item.Title.Substring(0, 50)<span>...</span>
+                                                        </a>
+                                                    }
+                                                    else
+                                                    {
+                                                        <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
+                                                            @item.Title
+                                                        </a>
+                                                    }
                                                 </h6>
                                             </div>
                                         </div>
@@ -216,72 +281,81 @@
                                 </div>
                             </div>
                         }
+
                     </div>
                 </aside>
 
                 <aside class="wrapper__list__article">
-                    <h4 class="border_section"></h4>
-                    <a href="#">
-                        <figure>
-                            <img src="https://uploads.gazetekapı.com/images/reklam.jpg" alt="" class="img-fluid">
-                        </figure>
-                    </a>
-                </aside>
+                    <h4 class="border_section"> </h4>
+                    <div class="wrapper__list__article-small">
 
-                <aside class="wrapper_list_article">
-                    <div class="wrapper_list_article-small">
-                        @foreach (var item in newsListPopulariteByCategory)
-                        {
-                            <div class="article__entry">
-                                <div class="article__image">
-                                    <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
-                                        <img src="https://uploads.gazetekapı.com/images/@item.Image" alt="" class="img-fluid">
-                                    </a>
-                                </div>
-                                <div class="article__content">
-
-                                    @foreach (var category in categories)
-                                    {
-
-                                        if (category.Id == Model.CategoryId)
-                                        {
-                                            name = category.CategoryName;
-                                            break;
-                                        }
-                                    }
-
-                                    <ul class="list-inline">
-                                        <li class="list-inline-item">
-                                            <div class="article__category">
-                                                @name
-                                            </div>
-                                        </li>
-                                        <li class="list-inline-item" style="float:right;">
-                                            <span class="text-dark text-capitalize">
-                                                @item.PublishedTime
-                                            </span>
-                                        </li>
-                                    </ul>
-                                    <h5 class="mt-3">
-                                        <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
-                                            @item.Title
-                                        </a>
-                                    </h5>
-                                    @if (item.Spot.Length > 120)
-                                    {
-                                        <p>
-                                            @item.Spot.Substring(0, 125)<span>...</span>
-                                        </p>
-                                    }
-
-                                    <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })" class="btn-popularite-single-news mt-2">
-                                        Daha Fazla
-                                    </a>
-                                </div>
-                            </div>
-                        }
+                        <a href="#">
+                            <figure>
+                                <img src="https://uploads.gazetekapı.com/images/banner.jpg" alt="" class="img-fluid">
+                            </figure>
+                        </a>
 
                     </div>
+                </aside>
+
+
+                <aside class="wrapper__list__article">
+                    <h4 class="border_section"> Son Dakika </h4>
+
+                    @foreach (var item in newListAll.OrderByDescending(x => x.PublishedTime).Take(10))
+                    {
+                        <div class="mb-3">
+                            <!-- Post Article -->
+                            <div class="card__post card__post-list">
+                                <div class="image-sm">
+                                    <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
+                                        <img src="https://uploads.gazetekapı.com/images/@item.Image" class="img-fluid" alt="">
+                                    </a>
+                                </div>
+
+
+                                <div class="card__post__body ">
+                                    <div class="card__post__content">
+
+                                        <div class="card__post__author-info mb-2">
+                                            <ul class="list-inline">
+                                                <li class="list-inline-item">
+                                                    <a asp-action="kategori" asp-controller="anasayfa" asp-route-id="@Model.CategoryId">
+                                                        <span class="text-rect-hot-news">@item.categories.CategoryName</span>
+                                                    </a>
+                                                </li>
+                                                <li class="list-inline-item">
+                                                    <i class="fa fa-clock-o"></i>
+                                                    <span class="text-dark text-capitalize">
+                                                        @item.PublishedTime.Value.ToString("MM/dd/yyyy HH:mm")
+                                                    </span>
+                                                </li>
+
+                                            </ul>
+                                        </div>
+                                        <div class="card__post__title">
+                                            <h6>
+                                                @if (item.Title.Length > 50)
+                                                {
+                                                    <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
+                                                        @item.Title.Substring(0, 50)<span>...</span>
+                                                    </a>
+                                                }
+                                                else
+                                                {
+                                                    <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
+                                                        @item.Title
+                                                    </a>
+                                                }
+                                            </h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+
                 </aside>
 
             </div>

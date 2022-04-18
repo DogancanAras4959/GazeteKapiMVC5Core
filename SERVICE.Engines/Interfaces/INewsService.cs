@@ -30,6 +30,8 @@ namespace SERVICE.Engine.Interfaces
 
         #region Haber
         List<NewsListItemDto> newsList();
+        List<NewsListItemDto> newsListWithWeb();
+
         List<NewsListItemDto> newsListByUserId(int id);
         List<PublishTypeListItem> publishTypeList();
         List<NewsListItemDto> searchDataInNews(string searchName);

@@ -92,7 +92,7 @@
                                         @if (item.Title.Length > 60)
                                         {
                                             <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
-                                                @item.Title.Substring(0, 60)
+                                                @item.Title.Substring(0, 60)<span>...</span>
                                             </a>
                                         }
                                         else
@@ -147,7 +147,7 @@
                                                 @if (item.Title.Length > 60)
                                                 {
                                                     <a style="color:#515d5e;" href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
-                                                        @item.Title.Substring(0,60)
+                                                        @item.Title.Substring(0,60)<span>...</span>
                                                     </a>
                                                 }
                                                 else

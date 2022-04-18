@@ -157,3 +157,23 @@
 
     });
 </script>
+
+<script>
+    $(function () {
+        var config = {
+            toolbar:
+                [
+                    ['Bold', 'Italic', 'Underline', 'Strike', '-', 'Subscript', 'Superscript'],
+                    ['NumberedList', 'BulletedList', '-', 'Blockquote'],
+                    ['Styles', 'Format'],
+                    ['Undo', 'Redo', '-', 'Find', 'Replace', '-', 'SelectAll'],
+                ],
+
+            contentsCss: ["body {font-size: 18px;}"],
+
+            /*uiColor: ['#ff0000'],*/
+        };
+
+        $('#cke_NewsContent').ckeditor(config);
+    });
+</script>

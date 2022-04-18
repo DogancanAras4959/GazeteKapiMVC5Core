@@ -6,15 +6,25 @@
         left: 10px !important;
         z-index: 1;
     }
-    
-    .topbar .topbar-right {
-        text-align: right;
+
+    .img-subcat {
+        width: 100%;
+        height: 41px !important;
     }
 
     .wrapper__list__article {
         margin-bottom: 30px;
-        margin-top: 25px !important;
+        margin-top: 0px !important;
     }
+
+    .topbar .topbar-right {
+        text-align: right;
+    }
+
+   .img-subcat {
+    width: 100%;
+    height: 41px;
+}
 
     .article__entry-new {
         position: relative;
