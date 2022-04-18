@@ -9,7 +9,7 @@
 <link href="https://uploads.gazetekapı.com/front/wwwroot/css/base/slider.css" rel="stylesheet" />
 
 <div class="col-md-8 slide-width">
-    <div class="slideshow-container" style="margin-top:2px;">
+    <div class="slideshow-container" style="margin-top:3px;">
         @foreach (var item in haberlerManset)
         {
             @if (item.IsSlide == true)
@@ -25,8 +25,8 @@
                                 <a class="next" onclick="plusSlides(1)"><img src="https://uploads.gazetekapı.com/images/chevron_next.png" width="20" /></a>
                             </div>
                             <span class="title-slide">
-                                @if (item.Title.Length > 80)
-                                {<a href="@Url.Action("haber", "anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">@item.Title.Substring(0, 80)<span>...</span> </a>}
+                                @if (item.Title.Length > 70)
+                                {<a href="@Url.Action("haber", "anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">@item.Title.Substring(0, 70)<span>...</span> </a>}
                             else
                             {
                                 <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">@item.Title</a>

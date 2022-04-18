@@ -9,11 +9,11 @@
         margin-top: 20px;
     }
     .top__news__slider .slick-slide {
-        margin-left: 20px;
-        width: 263px !important;
+        margin-left: 16px;
+        width: 237px !important;
     }
     .top__news__slider .slick-list {
-        margin-left: -19px !important;
+        margin-left: -15px !important;
     }
 </style>
 <div class="top__news__slider">
@@ -34,8 +34,8 @@
                     </div>
                     <div class="article__content">
                         <h5 style="font-size:15px;">
-                            @if (item.Title.Length > 55)
-                            {<a href="@Url.Action("haber", "anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">@item.Title.Substring(0, 55)<span>...</span> </a>}
+                            @if (item.Title.Length > 50)
+                            {<a href="@Url.Action("haber", "anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">@item.Title.Substring(0, 50)<span>...</span> </a>}
                         else
                         {
                             <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">@item.Title</a>

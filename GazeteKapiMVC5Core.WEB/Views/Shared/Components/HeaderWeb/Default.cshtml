@@ -13,7 +13,7 @@
 <header class="bg-light">
     <!-- Navbar  Top-->
     <div class="topbar d-sm-block" style="background-color: #f4c625;">
-        <div class="container ">
+        <div class="container boxed">
             <div class="row">
                 <div class="col-sm-5 col-md-5" style="width:25%">
                     <div class="topbar-left">
@@ -62,10 +62,10 @@
     <!-- Navbar menu  -->
     <div class="navigation-wrap navigation-shadow bg-white">
         <nav class="navbar navbar-hover navbar-expand-lg navbar-soft">
-            <div class="container">
+            <div class="container boxed">
                 <figure class="mb-0">
                     <a asp-action="sayfa" asp-controller="anasayfa">
-                        <img src="https://uploads.gazetekapı.com/images/@Model.Logo" alt="" class="logo logo-img">
+                        <img src="https://uploads.gazetekapı.com/images/@Model.Logo" alt="" id="img-shrink" class="logo logo-img">
                     </a>
                 </figure>
                 <div class="offcanvas-header">
@@ -231,8 +231,19 @@
     <!-- End Navbar  -->
 </header>
 
+<div class="banner-cs" id="bnr">
+    <div class="row" style="width:100%; margin:0;">
+        <div class="col-sm-6">
+            <img class="banner-cs-img" style="float:left;" src="https://uploads.gazetekapı.com/images/banner-anasayfa.jpg" />
+        </div>
+        <div class="col-sm-6">
+            <img class="banner-cs-img" style="float:right;" src="https://uploads.gazetekapı.com/images/banner-anasayfa.jpg" />
+        </div>
+    </div>
+</div>
+
 <section style="padding:20px 0 15px 0">
-    <div class="container">
+    <div class="container boxed">
         <div class="row row-banners">
             <div class="col-3 col-sm-3 banner-3">
                 <img style="width:100%" src="https://uploads.gazetekapı.com/images/lemonde.jpg" />

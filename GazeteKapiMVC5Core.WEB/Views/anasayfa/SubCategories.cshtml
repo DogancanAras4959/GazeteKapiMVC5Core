@@ -1,0 +1,22 @@
+﻿@using GazeteKapiMVC5Core.WEB.ViewModels.Categories;
+@{
+    List<CategoryListViewModelWeb> categories = ViewBag.CategoryList as List<CategoryListViewModelWeb>;
+}
+
+<section style="padding:20px 0 15px 0; z-index:25;">
+    <div class="container boxed">
+        <div class="row row-banners">
+            <div class="col-3 col-sm-3 banner-3">
+                <img style="width:100%" src="https://uploads.gazetekapı.com/images/lemonde.jpg" />
+            </div>
+            <div class="col-9 col-sm-9 banner-9">
+                @foreach (var item in categories.Where(x => x.Position == 1))
+                {
+                    <a asp-controller="anasayfa" asp-action="kategori" asp-route-id="@item.Id">
+                        <img class="img-subcat" src="https://uploads.gazetekapı.com/images/@item.Image" />
+                    </a>
+                }
+            </div>
+        </div>
+    </div>
+</section>

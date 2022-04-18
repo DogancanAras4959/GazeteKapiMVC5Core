@@ -14,7 +14,7 @@
 
     <!-- Popular news header-->
     <div class="popular__news-header">
-        <div class="container">
+        <div class="container boxed">
             <div class="row no-gutters">
                 @{ await Html.RenderPartialAsync("Slider");}
             </div>
@@ -23,7 +23,7 @@
     <!-- End Popular news header-->
     <!-- Popular news carousel -->
     <div class="popular__news-header-carousel">
-        <div class="container">
+        <div class="container boxed">
             <div class="row">
                 <div class="col-lg-12">
                     @{ await Html.RenderPartialAsync("Carousel");}
@@ -40,9 +40,9 @@
 <section class="pt-0">
 
     <div class="popular__section-news">
-        <div class="container">
+        <div class="container boxed">
             <div class="wrapper__list__article">
-                <h4 class="border_section"></h4>
+                <h4 class="border_section" style="padding-bottom:14px;"></h4>
             </div>
             <div class="row">
 
@@ -61,8 +61,15 @@
         </div>
     </div>
 
+    <div class="container boxed">
+        <div class="row">
+            <div class="col-sm-12">
+                <img src="https://uploads.gazetekapı.com/images/banner-clock.jpg" />
+            </div>
+        </div>
+    </div>
     <!-- Post news carousel -->
-    <div class="container">
+    <div class="container boxed">
         <div class="wrapper__list__article">
             <h4 class="border_section"></h4>
         </div>
@@ -122,7 +129,7 @@
     <!-- End Popular news category -->
     <!-- Popular news category -->
     <div class="mt-4">
-        <div class="container">
+        <div class="container boxed" style="max-width:1000px;">
             <div class="row">
                 <div class="col-md-12" style="background-color:#515d5e; padding:20px;">
                     <div class="rect-content-box-title">
@@ -144,10 +151,10 @@
                                         </a>
                                         <div style=" margin-top: 0px; background-color: #fff; padding: 15px;">
                                             <h6>
-                                                @if (item.Title.Length > 60)
+                                                @if (item.Title.Length > 55)
                                                 {
                                                     <a style="color:#515d5e;" href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
-                                                        @item.Title.Substring(0,60)<span>...</span>
+                                                        @item.Title.Substring(0,55)<span>...</span>
                                                     </a>
                                                 }
                                                 else
@@ -178,6 +185,16 @@
         </div>
     </div>
 
+    <div class="mt-4">
+        <div class="container boxed">
+            <div class="row">
+                <div class="col-sm-12">
+                    <img src="https://uploads.gazetekapı.com/images/banner-bottom.jpg" />
+                </div>
+            </div>
+        </div>
+       
+    </div>
 </section>
 <!-- End Popular news category -->
 

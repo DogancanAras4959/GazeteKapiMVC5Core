@@ -40,9 +40,23 @@
             min-height: 186px;
         }
 
+        .boxed {
+            max-width: 1030px;
+        }
+
+        #img-shrink.sticky {
+            height: 100px;
+            padding: 15px 0px;
+            -webkit-transition: height 0.2s;
+            -moz-transition: height 0.2s;
+            -ms-transition: height 0.2s;
+            -o-transition: height 0.2s;
+            transition: height 0.2s;
+        }
+
         .img-subcat {
             width: 100%;
-            height: 135px;
+            height: 119px;
         }
 
         .img-slide {
@@ -67,7 +81,7 @@
 
         .slide-width {
             max-width: 66.35667%;
-            margin-right:2px;
+            margin-right: 2px;
         }
 
         .seperate-menu {
@@ -75,10 +89,31 @@
             background-color: #343a40;
             width: 92%;
             margin: 5px 0px;
-        }   
+        }
+
+        .banner-cs {
+            position: fixed;
+            vertical-align: top;
+            display: flex;
+            width: 100%;
+            padding-top: 21px;
+            z-index:0;
+        }
+
+        #bnr.increase {
+            position: fixed;
+            vertical-align: top;
+            display: flex;
+            width: 100%;
+            padding-top: 65px;
+            z-index: 0;
+        }
+
+        .banner-cs-img {
+            height: 435px;
+            border: 1px solid #515d5e;
+        }
     </style>
-
-
 </head>
 
 <body>
@@ -93,6 +128,22 @@
 
     @*<script type="text/javascript" src="./js/index.bundle.js?537a1bbd0e5129401d28"></script>*@
     <script src="https://uploads.gazetekapı.com/front/wwwroot/js/index.bundle.js"></script>
+   
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+
+    <script type="text/javascript">
+        window.onscroll = function () { onScroll() };
+        function onScroll() {
+            if (document.body.scrollTop > 50 || document.documentElement.scrollTop > 50) {
+                document.getElementById("img-shrink").classList.add("sticky");
+                document.getElementById("bnr").classList.add("increase");
+            } else {
+                document.getElementById("img-shrink").classList.remove("sticky");
+                document.getElementById("bnr").classList.remove("increase");
+
+            }
+        }
+    </script>
 
     @RenderSection("scripts", false)
 

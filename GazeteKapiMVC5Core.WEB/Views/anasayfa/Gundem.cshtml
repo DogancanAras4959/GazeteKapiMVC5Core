@@ -112,17 +112,17 @@
                             <div class="card__post card__post-list">
                                 <div class="image-sm">
                                     <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
-                                        <img src="https://uploads.gazetekapı.com/images/@item.Image" class="img-fluid" alt="">
+                                        <img style="height:65px;" src="https://uploads.gazetekapı.com/images/@item.Image" class="img-fluid" alt="">
                                     </a>
                                 </div>
                                 <div class="card__post__body ">
                                     <div class="card__post__content">
                                         <div class="card__post__title">
                                             <h6>
-                                                @if (item.Title.Length > 60)
+                                                @if (item.Title.Length > 50)
                                                 {
                                                     <a href="@Url.Action("haber", "anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
-                                                        @item.Title.Substring(0, 60)<span>...</span>
+                                                        @item.Title.Substring(0, 45)<span>...</span>
                                                     </a>
                                                 }
                                                 else
@@ -132,7 +132,7 @@
                                                 }
                                             </h6>
                                             @if (item.Spot.Length > 60)
-                                            {<p>@item.Spot.Substring(0, 50) ...</p>}
+                                            {<p>@item.Spot.Substring(0, 60) ...</p>}
                                         </div>
                                     </div>
                                 </div>
