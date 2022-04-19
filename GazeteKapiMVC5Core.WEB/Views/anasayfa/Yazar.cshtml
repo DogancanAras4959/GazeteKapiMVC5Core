@@ -48,10 +48,10 @@
 
                                     <div class="card__post__title">
                                         <h6>
-                                            @if (item2.Title.Length > 50)
+                                            @if (item2.Title.Length > 40)
                                             {
                                                 <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item2.Title })">
-                                                    @item2.Title.Substring(0, 50)
+                                                    @item2.Title.Substring(0, 40)
                                                 </a>
                                             }
                                             else

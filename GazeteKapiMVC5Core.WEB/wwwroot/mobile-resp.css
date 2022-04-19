@@ -197,6 +197,14 @@
     #bnr.increase {
         display: none !important;
     }
+
+    .footer-list-row-border {
+        padding: 20px;
+        border-bottom: 1px solid #f4c625;
+        border-top: 1px solid #f4c625;
+        border-left: 1px solid #f4c625;
+        border-right: 1px solid #f4c625 !important;
+    }
 }
 
 

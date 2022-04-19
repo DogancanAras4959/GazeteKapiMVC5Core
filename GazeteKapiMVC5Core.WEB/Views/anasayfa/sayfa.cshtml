@@ -96,10 +96,10 @@
                                 </div>
                                 <div class="article__content">
                                     <h5 style="font-size:15px;">
-                                        @if (item.Title.Length > 60)
+                                        @if (item.Title.Length > 45)
                                         {
                                             <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
-                                                @item.Title.Substring(0, 60)<span>...</span>
+                                                @item.Title.Substring(0, 45)<span>...</span>
                                             </a>
                                         }
                                         else
