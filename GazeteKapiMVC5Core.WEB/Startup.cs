@@ -41,6 +41,7 @@ namespace GazeteKapiMVC5Core.WEB
             var mappingConfig = new MapperConfiguration(mc =>
             {
                 mc.AddProfile(new NewsProfileWeb());
+                mc.AddProfile(new PolicyProfileWeb());
             });
 
             IMapper mapper = mappingConfig.CreateMapper();

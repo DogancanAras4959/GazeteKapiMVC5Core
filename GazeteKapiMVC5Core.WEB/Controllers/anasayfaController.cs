@@ -3,6 +3,8 @@ using CORE.ApplicationCommon.DTOS.CategoryDTO;
 using CORE.ApplicationCommon.DTOS.NewsDTO;
 using CORE.ApplicationCommon.DTOS.NewsDTO.GuestDTO;
 using CORE.ApplicationCommon.DTOS.NewsDTO.TagNewsDTO;
+using CORE.ApplicationCommon.DTOS.PrivacyDTO.PrivacyDto;
+using CORE.ApplicationCommon.DTOS.PrivacyDTO.TermsOfUsDto;
 using CORE.ApplicationCommon.Helpers;
 using GazeteKapiMVC5Core.WEB.Models.RenderService;
 using GazeteKapiMVC5Core.WEB.ViewModels.Categories;
@@ -288,27 +290,32 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
 
         public IActionResult gizlilikpolitikasi()
         {
-            return View();
+            var getPrivacy = _mapper.Map<PrivacyDto, PrivacyBaseDto>(_settingService.getPrivacy(1));
+            return View(getPrivacy);
         }
 
         public IActionResult cerezpolitikasi()
         {
-            return View();
+            var getCookiesPolicy = _mapper.Map<TermsOfUsDto, TermsOfUsBaseDto>(_settingService.getTermsOfUs(1));
+            return View(getCookiesPolicy);
         }
 
         public IActionResult kullanimsartlari()
         {
-            return View();
+            var getTermsOfUs = _mapper.Map<TermsOfUsDto, TermsOfUsBaseDto>(_settingService.getTermsOfUs(1));
+            return View(getTermsOfUs);
         }
 
         public IActionResult kunye()
         {
-            return View();
+            var getBrand = _mapper.Map<TermsOfUsDto, TermsOfUsBaseDto>(_settingService.getTermsOfUs(1));
+            return View(getBrand);
         }
 
         public IActionResult yayinilkeleri()
         {
-            return View();
+            var getStreamPolicy = _mapper.Map<TermsOfUsDto, TermsOfUsBaseDto>(_settingService.getTermsOfUs(1));
+            return View(getStreamPolicy);
         }
 
         public IActionResult arsiv()

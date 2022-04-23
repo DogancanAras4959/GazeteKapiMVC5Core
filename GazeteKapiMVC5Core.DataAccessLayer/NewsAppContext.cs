@@ -32,6 +32,9 @@ namespace GazeteKapiMVC5Core.DataAccessLayer
         public virtual DbSet<Currency> currency { get; set; }
         public virtual DbSet<MenuItems> items { get; set; }
         public virtual DbSet<MenuTypes> types { get; set; }
+        public virtual DbSet<BrandPolicy> brand { get; set; }
+        public virtual DbSet<CookiePolicy> cookie { get; set; }
+        public virtual DbSet<StreamPolicy> stream { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new UserMapping());
@@ -49,7 +52,9 @@ namespace GazeteKapiMVC5Core.DataAccessLayer
             modelBuilder.ApplyConfiguration(new AboutUsMapping());
             modelBuilder.ApplyConfiguration(new TermsOfUseMapping());
             modelBuilder.ApplyConfiguration(new CurrencyMapping());
-
+            modelBuilder.ApplyConfiguration(new BrandMapping());
+            modelBuilder.ApplyConfiguration(new CookieMapping());
+            modelBuilder.ApplyConfiguration(new StreamMapping());
             base.OnModelCreating(modelBuilder);
         }
     }
