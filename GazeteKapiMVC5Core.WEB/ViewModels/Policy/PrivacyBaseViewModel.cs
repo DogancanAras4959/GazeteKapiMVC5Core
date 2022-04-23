@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GazeteKapiMVC5Core.WEB.ViewModels.Policy
 {
-    public class TermsOfUsBaseViewModel
+    public class PrivacyBaseViewModel
     {
         public int Id { get; set; }
         public string Title { get; set; }

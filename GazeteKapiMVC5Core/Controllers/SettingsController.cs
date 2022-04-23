@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using CORE.ApplicationCommon.DTOS.PrivacyDTO.AboutUsDto;
+using CORE.ApplicationCommon.DTOS.PrivacyDTO.PolicyDto;
 using CORE.ApplicationCommon.DTOS.PrivacyDTO.PrivacyDto;
 using CORE.ApplicationCommon.DTOS.PrivacyDTO.TermsOfUsDto;
 using CORE.ApplicationCommon.DTOS.SetingsDTO;
@@ -7,6 +8,7 @@ using GazeteKapiMVC5Core.Core.Extensions;
 using GazeteKapiMVC5Core.Models.Account;
 using GazeteKapiMVC5Core.Models.Settings;
 using GazeteKapiMVC5Core.Models.Site.AboutUsModel;
+using GazeteKapiMVC5Core.Models.Site.PolicyModel;
 using GazeteKapiMVC5Core.Models.Site.PrivacyModel;
 using GazeteKapiMVC5Core.Models.Site.TermsOfUsModel;
 using Microsoft.AspNetCore.Hosting;
@@ -183,6 +185,99 @@ namespace GazeteKapiMVC5Core.Controllers
             catch (Exception)
             {
                 return RedirectToAction("KullanimKosullari", "Settings");
+            }
+        }
+
+        [CheckRoleAuthorize]
+        public IActionResult YayinIlkeleri()
+        {
+            var getSiteSettings = _mapper.Map<StreamPolicyDto, StreamEditModel>(_settingService.getStreamPrivacy(2));
+            return View(getSiteSettings);
+        }
+
+        [CheckRoleAuthorize]
+        public async Task<IActionResult> YayinIlkeleriDuzenle(StreamEditModel model)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    AccountEditViewModel yoneticiGetir = SessionExtensionMethod.GetObject<AccountEditViewModel>(HttpContext.Session, "user");
+                    model.UserId = yoneticiGetir.Id;
+
+                    if (await _settingService.editStreamPrivacy(_mapper.Map<StreamEditModel, StreamPolicyDto>(model)))
+                    {
+                        return RedirectToAction("YayinIlkeleri", "Settings");
+                    }
+                }
+
+                return RedirectToAction("YayinIlkeleri", "Settings");
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("YayinIlkeleri", "Settings");
+            }
+        }
+
+        [CheckRoleAuthorize]
+        public IActionResult Kunye()
+        {
+            var getSiteSettings = _mapper.Map<BrandPolicyDto, BrandEditModel>(_settingService.getBrandPrivacy(1));
+            return View(getSiteSettings);
+        }
+
+        [CheckRoleAuthorize]
+        public async Task<IActionResult> KunyeDuzenle(BrandEditModel model)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    AccountEditViewModel yoneticiGetir = SessionExtensionMethod.GetObject<AccountEditViewModel>(HttpContext.Session, "user");
+                    model.UserId = yoneticiGetir.Id;
+
+                    if (await _settingService.editBrandPrivacy(_mapper.Map<BrandEditModel, BrandPolicyDto>(model)))
+                    {
+                        return RedirectToAction("Kunye", "Settings");
+                    }
+                }
+
+                return RedirectToAction("Kunye", "Settings");
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("Kunye", "Settings");
+            }
+        }
+
+        [CheckRoleAuthorize]
+        public IActionResult CerezPolitikasi()
+        {
+            var getSiteSettings = _mapper.Map<CookiePolicyDto, CookieEditModel>(_settingService.getCookiePrivacy(1));
+            return View(getSiteSettings);
+        }
+
+        [CheckRoleAuthorize]
+        public async Task<IActionResult> CerezPolitikasiDuzenle(CookieEditModel model)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    AccountEditViewModel yoneticiGetir = SessionExtensionMethod.GetObject<AccountEditViewModel>(HttpContext.Session, "user");
+                    model.UserId = yoneticiGetir.Id;
+
+                    if (await _settingService.editCookiePrivacy(_mapper.Map<CookieEditModel, CookiePolicyDto>(model)))
+                    {
+                        return RedirectToAction("CerezPolitikasi", "Settings");
+                    }
+                }
+
+                return RedirectToAction("CerezPolitikasi", "Settings");
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("CerezPolitikasi", "Settings");
             }
         }
 

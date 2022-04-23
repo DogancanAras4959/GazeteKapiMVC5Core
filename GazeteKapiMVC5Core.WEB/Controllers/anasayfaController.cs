@@ -3,6 +3,7 @@ using CORE.ApplicationCommon.DTOS.CategoryDTO;
 using CORE.ApplicationCommon.DTOS.NewsDTO;
 using CORE.ApplicationCommon.DTOS.NewsDTO.GuestDTO;
 using CORE.ApplicationCommon.DTOS.NewsDTO.TagNewsDTO;
+using CORE.ApplicationCommon.DTOS.PrivacyDTO.PolicyDto;
 using CORE.ApplicationCommon.DTOS.PrivacyDTO.PrivacyDto;
 using CORE.ApplicationCommon.DTOS.PrivacyDTO.TermsOfUsDto;
 using CORE.ApplicationCommon.Helpers;
@@ -10,6 +11,7 @@ using GazeteKapiMVC5Core.WEB.Models.RenderService;
 using GazeteKapiMVC5Core.WEB.ViewModels.Categories;
 using GazeteKapiMVC5Core.WEB.ViewModels.Guests;
 using GazeteKapiMVC5Core.WEB.ViewModels.News;
+using GazeteKapiMVC5Core.WEB.ViewModels.Policy;
 using GazeteKapiMVC5Core.WEB.ViewModels.TagsNews;
 using Microsoft.AspNetCore.Mvc;
 using SERVICE.Engine.Interfaces;
@@ -290,31 +292,31 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
 
         public IActionResult gizlilikpolitikasi()
         {
-            var getPrivacy = _mapper.Map<PrivacyDto, PrivacyBaseDto>(_settingService.getPrivacy(1));
+            var getPrivacy = _mapper.Map<PrivacyDto, PrivacyBaseViewModel>(_settingService.getPrivacy(1));
             return View(getPrivacy);
         }
 
         public IActionResult cerezpolitikasi()
         {
-            var getCookiesPolicy = _mapper.Map<TermsOfUsDto, TermsOfUsBaseDto>(_settingService.getTermsOfUs(1));
+            var getCookiesPolicy = _mapper.Map<CookiePolicyDto, CookieBaseViewModel>(_settingService.getCookiePrivacy(1));
             return View(getCookiesPolicy);
         }
 
         public IActionResult kullanimsartlari()
         {
-            var getTermsOfUs = _mapper.Map<TermsOfUsDto, TermsOfUsBaseDto>(_settingService.getTermsOfUs(1));
+            var getTermsOfUs = _mapper.Map<TermsOfUsDto, TermsOfUsBaseViewModel>(_settingService.getTermsOfUs(1));
             return View(getTermsOfUs);
         }
 
         public IActionResult kunye()
         {
-            var getBrand = _mapper.Map<TermsOfUsDto, TermsOfUsBaseDto>(_settingService.getTermsOfUs(1));
+            var getBrand = _mapper.Map<BrandPolicyDto, BrandBaseViewModel>(_settingService.getBrandPrivacy(1));
             return View(getBrand);
         }
 
         public IActionResult yayinilkeleri()
         {
-            var getStreamPolicy = _mapper.Map<TermsOfUsDto, TermsOfUsBaseDto>(_settingService.getTermsOfUs(1));
+            var getStreamPolicy = _mapper.Map<StreamPolicyDto, StreamBaseViewModel>(_settingService.getStreamPrivacy(2));
             return View(getStreamPolicy);
         }
 

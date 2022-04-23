@@ -90,7 +90,7 @@ namespace CORE.ApplicationCommon.Helpers
 
                 return true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return false;
             }

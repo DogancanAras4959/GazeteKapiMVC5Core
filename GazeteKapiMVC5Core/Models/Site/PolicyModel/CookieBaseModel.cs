@@ -4,11 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace GazeteKapiMVC5Core.WEB.ViewModels.Policy
+namespace GazeteKapiMVC5Core.Models.Site.PolicyModel
 {
-    public class TermsOfUsBaseViewModel
+    public class CookieBaseModel
     {
-        public int Id { get; set; }
         public string Title { get; set; }
         public string Content { get; set; }
         public DateTime CreatedTime { get; set; }

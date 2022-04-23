@@ -3,6 +3,7 @@ using CORE.ApplicationCommon.DTOS.CurrencyDTO;
 using CORE.ApplicationCommon.DTOS.MenuDTO.ItemsDto;
 using CORE.ApplicationCommon.DTOS.MenuDTO.TypesDto;
 using CORE.ApplicationCommon.DTOS.PrivacyDTO.AboutUsDto;
+using CORE.ApplicationCommon.DTOS.PrivacyDTO.PolicyDto;
 using CORE.ApplicationCommon.DTOS.PrivacyDTO.PrivacyDto;
 using CORE.ApplicationCommon.DTOS.PrivacyDTO.TermsOfUsDto;
 using CORE.ApplicationCommon.DTOS.SetingsDTO;
@@ -11,6 +12,7 @@ using GazeteKapiMVC5Core.Models.MenuItemTypes.ItemModel;
 using GazeteKapiMVC5Core.Models.MenuItemTypes.TypeModel;
 using GazeteKapiMVC5Core.Models.Settings;
 using GazeteKapiMVC5Core.Models.Site.AboutUsModel;
+using GazeteKapiMVC5Core.Models.Site.PolicyModel;
 using GazeteKapiMVC5Core.Models.Site.PrivacyModel;
 using GazeteKapiMVC5Core.Models.Site.TermsOfUsModel;
 using System;
@@ -39,6 +41,18 @@ namespace GazeteKapiMVC5Core.Profiles
             CreateMap<TermsOfUsEditModel, TermsOfUsDto>();
             CreateMap<TermsOfUsDto, TermsOfUsEditModel>();
             CreateMap<TermsOfUsDto, PrivacyBaseModel>();
+
+            CreateMap<BrandEditModel, BrandPolicyDto>();
+            CreateMap<BrandPolicyDto, BrandEditModel>();
+            CreateMap<BrandPolicyDto, BrandBaseModel>();
+
+            CreateMap<StreamEditModel, StreamPolicyDto>();
+            CreateMap<StreamPolicyDto, StreamEditModel>();
+            CreateMap<StreamPolicyDto, StreamBaseModel>();
+
+            CreateMap<CookieEditModel, CookiePolicyDto>();
+            CreateMap<CookiePolicyDto, CookieEditModel>();
+            CreateMap<CookiePolicyDto, CookieBaseModel>();
 
             CreateMap<TypeEditViewModel, TypeDto>();
             CreateMap<TypeDto, TypeEditViewModel>();

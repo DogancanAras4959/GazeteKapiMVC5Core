@@ -2,6 +2,7 @@
 using CORE.ApplicationCommon.DTOS.MenuDTO.ItemsDto;
 using CORE.ApplicationCommon.DTOS.MenuDTO.TypesDto;
 using CORE.ApplicationCommon.DTOS.PrivacyDTO.AboutUsDto;
+using CORE.ApplicationCommon.DTOS.PrivacyDTO.PolicyDto;
 using CORE.ApplicationCommon.DTOS.PrivacyDTO.PrivacyDto;
 using CORE.ApplicationCommon.DTOS.PrivacyDTO.TermsOfUsDto;
 using CORE.ApplicationCommon.DTOS.SetingsDTO;
@@ -333,9 +334,131 @@ namespace SERVICE.Engine.Engines
         {
             throw new NotImplementedException();
         }
+       
         public Task<bool> editMenuType(TypeDto model)
         {
             throw new NotImplementedException();
+        }
+
+        #endregion
+
+        #region Policy
+
+        public CookiePolicyDto getCookiePrivacy(int id)
+        {
+            CookiePolicy getPrivacy = _unitOfWork.GetRepository<CookiePolicy>().FindAsync(x => x.Id == id).Result;
+
+            if (getPrivacy == null)
+            {
+                return new CookiePolicyDto();
+            }
+
+            return new CookiePolicyDto
+            {
+                Id = getPrivacy.Id,
+                Content = getPrivacy.Content,
+                Title = getPrivacy.Title,
+                CreatedTime = getPrivacy.CreatedTime,
+                UpdatedTime = getPrivacy.UpdatedTime,
+                UserId = getPrivacy.UserId,
+                user = getPrivacy.user,
+            };
+        }
+
+        public async Task<bool> editCookiePrivacy(CookiePolicyDto model)
+        {
+            CookiePolicy privacyGet = await _unitOfWork.GetRepository<CookiePolicy>().FindAsync(x => x.Id == model.Id);
+
+            CookiePolicy getPrivacy = await _unitOfWork.GetRepository<CookiePolicy>().UpdateAsync(new CookiePolicy
+            {
+                Id = model.Id,
+                CreatedTime = privacyGet.CreatedTime,
+                UpdatedTime = model.UpdatedTime,
+                Content = model.Content,
+                Title = model.Title,
+                UserId = model.UserId,
+                user = model.user,
+            });
+
+            return getPrivacy != null;
+        }
+
+        public BrandPolicyDto getBrandPrivacy(int id)
+        {
+            BrandPolicy getPrivacy = _unitOfWork.GetRepository<BrandPolicy>().FindAsync(x => x.Id == id).Result;
+
+            if (getPrivacy == null)
+            {
+                return new BrandPolicyDto();
+            }
+
+            return new BrandPolicyDto
+            {
+                Id = getPrivacy.Id,
+                Content = getPrivacy.Content,
+                Title = getPrivacy.Title,
+                CreatedTime = getPrivacy.CreatedTime,
+                UpdatedTime = getPrivacy.UpdatedTime,
+                UserId = getPrivacy.UserId,
+                user = getPrivacy.user,
+            };
+        }
+
+        public async Task<bool> editBrandPrivacy(BrandPolicyDto model)
+        {
+            BrandPolicy privacyGet = await _unitOfWork.GetRepository<BrandPolicy>().FindAsync(x => x.Id == model.Id);
+
+            BrandPolicy getPrivacy = await _unitOfWork.GetRepository<BrandPolicy>().UpdateAsync(new BrandPolicy
+            {
+                Id = model.Id,
+                CreatedTime = privacyGet.CreatedTime,
+                UpdatedTime = model.UpdatedTime,
+                Content = model.Content,
+                Title = model.Title,
+                UserId = model.UserId,
+                user = model.user,
+            });
+
+            return getPrivacy != null;
+        }
+
+        public StreamPolicyDto getStreamPrivacy(int id)
+        {
+            StreamPolicy getPrivacy = _unitOfWork.GetRepository<StreamPolicy>().FindAsync(x => x.Id == id).Result;
+
+            if (getPrivacy == null)
+            {
+                return new StreamPolicyDto();
+            }
+
+            return new StreamPolicyDto
+            {
+                Id = getPrivacy.Id,
+                Content = getPrivacy.Content,
+                Title = getPrivacy.Title,
+                CreatedTime = getPrivacy.CreatedTime,
+                UpdatedTime = getPrivacy.UpdatedTime,
+                UserId = getPrivacy.UserId,
+                user = getPrivacy.user,
+            };
+        }
+
+        public async Task<bool> editStreamPrivacy(StreamPolicyDto model)
+        {
+            StreamPolicy privacyGet = await _unitOfWork.GetRepository<StreamPolicy>().FindAsync(x => x.Id == model.Id);
+
+            StreamPolicy getPrivacy = await _unitOfWork.GetRepository<StreamPolicy>().UpdateAsync(new StreamPolicy
+            {
+                Id = model.Id,
+                CreatedTime = privacyGet.CreatedTime,
+                UpdatedTime = model.UpdatedTime,
+                Content = model.Content,
+                Title = model.Title,
+                UserId = model.UserId,
+                user = model.user,
+            });
+
+            return getPrivacy != null;
         }
 
         #endregion
