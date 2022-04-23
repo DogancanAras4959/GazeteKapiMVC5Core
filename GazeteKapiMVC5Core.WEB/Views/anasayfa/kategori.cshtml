@@ -8,6 +8,11 @@
     string category = TempData["kategori"].ToString();
 }
 
+@{
+    var prevDisabled = !Model.HasPrevious ? "disabled" : "";
+    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+}
+
 <link href="https://uploads.gazetekapı.com/front/wwwroot/css/base/pagelineweb.css" rel="stylesheet" />
 <link href="https://uploads.gazetekapı.com/front/wwwroot/css/base/base.css" rel="stylesheet" />
 
@@ -34,6 +39,7 @@
         /* border-radius: 0 3px 3px 0; */
         user-select: none;
     }
+
     .wrap__section {
         padding-top: 30px;
         padding-bottom: 60px;
@@ -52,6 +58,7 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="row justify-content-center" style="margin-top:15px;">
                         <div class="col-md-6 col-sm-12 text-center">
                             <h3>
@@ -59,6 +66,7 @@
                             </h3>
                         </div>
                     </div>
+
                     <div class="wrapper__list__article">
                         <h4 class="border_section"></h4>
                     </div>
@@ -66,7 +74,7 @@
                     <div class="row mt-5">
                         @foreach (var item in Model)
                         {
-                            <div class="col-lg-4">
+                            <div class="col-lg-4" style="margin-top:30px;">
                                 <!-- Post Article -->
                                 <div class="article__entry-new">
                                     @*<div class="article__category">
@@ -79,10 +87,10 @@
                                     </div>
                                     <div class="text-cat">
                                         <h5>
-                                            @if (item.Title.Length > 50)
+                                            @if (item.Title.Length > 40)
                                             {
                                                 <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
-                                                    @item.Title.Substring(0, 50)<span>...</span>
+                                                    @item.Title.Substring(0, 40)<span>...</span>
                                                 </a>
                                             }
                                             else
@@ -104,6 +112,20 @@
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="mt-4">
+                    <div class="pagination-area">
+                        <div class="pagination wow fadeIn animated" data-wow-duration="2s" data-wow-delay="0.5s"
+                             style="visibility: visible; animation-duration: 2s; animation-delay: 0.5s; animation-name: fadeIn;">
+                            <a asp-action="kategori" class="btn btn-link">Başa Dön</a>
+                            <a asp-action="kategori" asp-route-pageNumber="@(Model.PageIndex-1)" class="btn btn-link @prevDisabled">Önceki</a>
+                            <a asp-action="kategori" asp-route-pageNumber="@(Model.PageIndex+1)" class="btn btn-link @nextDisabled">Sonraki</a>
+                        </div>
+                    </div>
+                    <!-- End pagination -->
+                </div>
+            </div>
+        </div>
     </div>
 </section>
-

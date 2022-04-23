@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using CORE.ApplicationCommon.DTOS.AccountDTO;
 using CORE.ApplicationCommon.DTOS.AuthorizeDTO;
 using CORE.ApplicationCommon.DTOS.AuthorizeRoleDto;
 using CORE.ApplicationCommon.DTOS.RoleDTO;
@@ -27,13 +28,15 @@ namespace GazeteKapiMVC5Core.Controllers
         private readonly IMapper _mapper;
         private readonly ILogService _logService;
         private readonly ISettingService _settingService;
+        private readonly IUserService _userService;
 
-        public RolController(IRoleService roleService, IMapper mapper, ILogService logService, ISettingService settingService)
+        public RolController(IUserService userService, IRoleService roleService, IMapper mapper, ILogService logService, ISettingService settingService)
         {
             _roleService = roleService;
             _mapper = mapper;
             _logService = logService;
             _settingService = settingService;
+            _userService = userService;
         }
 
         #endregion
@@ -175,14 +178,26 @@ namespace GazeteKapiMVC5Core.Controllers
         {
             try
             {
-                if (!_roleService.DeleteRoleById(id))
+                AccountEditViewModel yoneticiGetir = SessionExtensionMethod.GetObject<AccountEditViewModel>(HttpContext.Session, "user");
+                var user = _mapper.Map<UserDto, AccountEditViewModel>(_userService.GetUserById(yoneticiGetir.Id));
+
+                if (user.RoleId != id)
                 {
-                    await CreateModeratorLog("Başarısız", "Silme", "RolSil", "Rol", "Rol silinirken bir hata meydana geldi");
-                    return RedirectToAction(nameof(Roller));
+                    if (!_roleService.DeleteRoleById(id))
+                    {
+                        await CreateModeratorLog("Başarısız", "Silme", "RolSil", "Rol", "Rol silinirken bir hata meydana geldi");
+                        return RedirectToAction(nameof(Roller));
+                    }
+                    else
+                    {
+                        await CreateModeratorLog("Başarılı", "Silme", "RolSil", "Rol", "Kullanıcı rolü başarıyla sistemden kaldırıldı");
+                        return RedirectToAction(nameof(Roller));
+                    }
                 }
                 else
                 {
-                    await CreateModeratorLog("Başarılı", "Silme", "RolSil", "Rol", "Kullanıcı rolü başarıyla sistemden kaldırıldı");
+                    TempData["mesaj"] = "Bu kullanıcı oturum açmış durumda bu rolü silemezsiniz";
+                    await CreateModeratorLog("Başarısız", "Güncelleme", "RolSil", "Rol", "Kullanıcı oturum açtığından rol silinemedi");
                     return RedirectToAction(nameof(Roller));
                 }
             }
@@ -202,15 +217,27 @@ namespace GazeteKapiMVC5Core.Controllers
         {
             try
             {
-                if (await _roleService.EditIsActive(id))
-                {
-                    await CreateModeratorLog("Başarılı", "Güncelleme", "DurumDuzenle", "Rol", "Kullanıcı rolünün durumu başarıyla değiştirildi!");
+                AccountEditViewModel yoneticiGetir = SessionExtensionMethod.GetObject<AccountEditViewModel>(HttpContext.Session, "user");
+                var user = _mapper.Map<UserDto, AccountEditViewModel>(_userService.GetUserById(yoneticiGetir.Id));
 
-                    return RedirectToAction(nameof(Roller));
+                if (user.RoleId != id)
+                {
+                    if (await _roleService.EditIsActive(id))
+                    {
+                        await CreateModeratorLog("Başarılı", "Güncelleme", "DurumDuzenle", "Rol", "Kullanıcı rolünün durumu başarıyla değiştirildi!");
+
+                        return RedirectToAction(nameof(Roller));
+                    }
+                    else
+                    {
+                        await CreateModeratorLog("Başarısız", "Güncelleme", "DurumDuzenle", "Rol", "Kullanıcı rolü değiştirilirken bir hata meydana geldi!");
+                        return RedirectToAction(nameof(Roller));
+                    }
                 }
                 else
                 {
-                    await CreateModeratorLog("Başarısız", "Güncelleme", "DurumDuzenle", "Rol", "Kullanıcı rolü değiştirilirken bir hata meydana geldi!");
+                    TempData["mesaj"] = "Bu kullanıcı oturum açmış durumda bu rolü pasifleştiremezsiniz";
+                    await CreateModeratorLog("Başarısız", "Güncelleme", "DurumDuzenle", "Rol", "Kullanıcı oturum açtığından pasifleştirilemedi");
                     return RedirectToAction(nameof(Roller));
                 }
             }

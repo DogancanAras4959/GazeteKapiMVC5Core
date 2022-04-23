@@ -81,10 +81,11 @@ namespace GazeteKapiMVC5Core.Controllers
                     string passCrypto = new Cyrpto().TryEncrypt(model.Password);
                     bool result = await _userService.Login(model.UserName, passCrypto);
 
-                    if (result && !string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
+                    if (result == false)
                     {
                         await CreateModeratorLog("Başarısız", "Giriş İşlemi", "GirisYap", "Yonetici", "Kullanıcı adı veya şifre yanlış. Kullanıcının giriş işlemi başarısız oldu!");
-                        return Redirect(returnUrl);
+                        TempData["HataMesaji"] = "Kullanıcı adı veya şifre yanlış. Kullanıcının giriş işlemi başarısız oldu!";
+                        return RedirectToAction("GirisYap", "Yonetici");
                     }
 
                     AccountEditViewModel getUser = _mapper.Map<UserBaseDto, AccountEditViewModel>(_userService.GetUserByName(model.UserName));
@@ -97,15 +98,20 @@ namespace GazeteKapiMVC5Core.Controllers
 
                         await CreateModeratorLog("Başarılı", "Giriş İşlemi", "GirisYap", "Yonetici", "Başarılı bir giriş işlemi gerçekleştirildi");
 
-                        return result ? RedirectToAction("Index", "Home") : RedirectToAction("GirisYap", "Yonetici", new { message = "<p> Kullanıcı adı veya şifre yanlış. Lütfen tekrar deneyin! </p>" });
+                        return result ? RedirectToAction("Index", "Home") : RedirectToAction("GirisYap", "Yonetici");
                     }
                     else
                     {
                         await CreateModeratorLog("Başarısız", "Giriş İşlemi", "GirisYap", "Yonetici", "Kullanıcının giriş işlemi başarısız oldu. Kullanıcı akti değil!");
-                        return RedirectToAction("GirisYap", "Yonetici", new { message = GetModelStateErrorsHtmlString() });
+                        TempData["HataMesaji"] = "Kullanıcı aktif değil";
+                        return RedirectToAction("GirisYap", "Yonetici");
                     }
                 }
-                return RedirectToAction("GirisYap", "Yonetici", new { message = GetModelStateErrorsHtmlString() });
+                else
+                {
+                    TempData["HataMesaji"] = "Lütfen kullanıcı adı ve şifrenizi girin!";
+                    return RedirectToAction("GirisYap", "Yonetici");
+                }
             }
             catch (Exception ex)
             {
@@ -367,14 +373,25 @@ namespace GazeteKapiMVC5Core.Controllers
         {
             try
             {
-                if (await _userService.EditIsActive(id))
+                AccountEditViewModel yoneticiGetir = SessionExtensionMethod.GetObject<AccountEditViewModel>(HttpContext.Session, "user");
+
+                if (yoneticiGetir.Id != id)
                 {
-                    await CreateModeratorLog("Başarılı", "Güncelleme", "DurumDuzenle", "Yonetici", "Kullanıcı başarıyla güncellendi. Kullanıcını durumu düzenlendi!");
-                    return RedirectToAction(nameof(Kullanicilar));
+                    if (await _userService.EditIsActive(id))
+                    {
+                        await CreateModeratorLog("Başarılı", "Güncelleme", "DurumDuzenle", "Yonetici", "Kullanıcı başarıyla güncellendi. Kullanıcını durumu düzenlendi!");
+                        return RedirectToAction(nameof(Kullanicilar));
+                    }
+                    else
+                    {
+                        await CreateModeratorLog("Başarısız", "Güncelleme", "DurumDuzenle", "Yonetici", "Kullanıcının durumu güncellenemedi!");
+                        return RedirectToAction(nameof(Kullanicilar));
+                    }
                 }
                 else
                 {
-                    await CreateModeratorLog("Başarısız", "Güncelleme", "DurumDuzenle", "Yonetici", "Kullanıcının durumu güncellenemedi!");
+                    TempData["mesaj"] = "Bu kullanıcı oturum açmış durumda kullanıcıyı pasifleştiremezsiniz";
+                    await CreateModeratorLog("Başarısız", "Güncelleme", "KullaniciSil", "Yonetici", "Kullanıcı oturum açtığından pasifleştirilemedi");
                     return RedirectToAction(nameof(Kullanicilar));
                 }
             }

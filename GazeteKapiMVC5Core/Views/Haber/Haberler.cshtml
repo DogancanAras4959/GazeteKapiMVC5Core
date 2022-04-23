@@ -84,61 +84,73 @@
                                 </tr>
                                 @foreach (var item in Model)
                                 {
-                                    <tr class="button-items" id="tooltip-container">
-                                        <td style="text-align:center;">@Html.DisplayFor(model => item.Id)</td>
+                            <tr class="button-items" id="tooltip-container">
+                                <td style="text-align:center;">@Html.DisplayFor(model => item.Id)</td>
 
-                                        <td>
-                                            <a data-bs-container="#tooltip-container"
-                                               data-bs-toggle="tooltip"
-                                               data-bs-placement="top" title="Haberi Düzenle"
-                                               asp-action="HaberDuzenle" asp-controller="Haber" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.Title)</a>
-                                        </td>
+                                @if (item.Title.Length > 40)
+                                {
+                                    <td>
+                                        <a data-bs-container="#tooltip-container"
+                                           data-bs-toggle="tooltip"
+                                           data-bs-placement="top" title="Haberi Düzenle"
+                                           asp-action="HaberDuzenle" asp-controller="Haber" asp-route-id="@item.Id">@item.Title.Substring(0, 40)<span>...</span></a>
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td>
+                                        <a data-bs-container="#tooltip-container"
+                                           data-bs-toggle="tooltip"
+                                           data-bs-placement="top" title="Haberi Düzenle"
+                                           asp-action="HaberDuzenle" asp-controller="Haber" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.Title)</a>
+                                    </td>
+                                }
 
-                                        <td>@Html.DisplayFor(model => item.PublishedTime)</td>
-                                        <td>@Html.DisplayFor(model => item.categories.CategoryName)</td>
-                                        <td>@Html.DisplayFor(model => item.users.DisplayName)</td>
-                                        <td>
-                                            @if (item.IsLock == true)
-                                            {
-                                                <a style="padding:3px;" data-bs-container="#tooltip-container"
-                                                   data-bs-toggle="tooltip" data-bs-placement="top"
-                                                   title="Haber Erişimini Aç" asp-action="HaberiKilitle" asp-route-id="@item.Id"><i class="mdi mdi-lock-open mdi-24px text-success"></i></a>
-                                            }
-                                            else
-                                            {
-                                                <a style="padding:3px;" data-bs-container="#tooltip-container"
-                                                   data-bs-toggle="tooltip" data-bs-placement="top"
-                                                   title="Haberi Kilitle" asp-action="HaberiKilitle" asp-route-id="@item.Id"><i class="mdi mdi-lock mdi-24px text-danger"></i></a>
-                                            }
+                                <td>@Html.DisplayFor(model => item.PublishedTime)</td>
+                                <td>@Html.DisplayFor(model => item.categories.CategoryName)</td>
+                                <td>@Html.DisplayFor(model => item.users.DisplayName)</td>
+                                <td>
+                                    @if (item.IsLock == true)
+                                    {
+                                        <a style="padding:3px;" data-bs-container="#tooltip-container"
+                                           data-bs-toggle="tooltip" data-bs-placement="top"
+                                           title="Haber Erişimini Aç" asp-action="HaberiKilitle" asp-route-id="@item.Id"><i class="mdi mdi-lock-open mdi-24px text-success"></i></a>
+                                    }
+                                    else
+                                    {
+                                        <a style="padding:3px;" data-bs-container="#tooltip-container"
+                                           data-bs-toggle="tooltip" data-bs-placement="top"
+                                           title="Haberi Kilitle" asp-action="HaberiKilitle" asp-route-id="@item.Id"><i class="mdi mdi-lock mdi-24px text-danger"></i></a>
+                                    }
 
-                                            @if (item.IsActive == false)
-                                            {
-                                                <a style="padding:3px;" data-bs-container="#tooltip-container"
-                                                   data-bs-toggle="tooltip" data-bs-placement="top"
-                                                   title="Haberi Aktifleştir" asp-action="HaberiAktifEt" asp-route-id="@item.Id"><i class="mdi mdi-publish mdi-24px"></i></a>
-                                            }
-                                            else
-                                            {
-                                                <a style="padding:3px;" data-bs-container="#tooltip-container"
-                                                   data-bs-toggle="tooltip" data-bs-placement="top"
-                                                   title="Haberi Pasifleştir" asp-action="HaberiAktifEt" asp-route-id="@item.Id"><i class="mdi mdi-earth-remove text-danger mdi-24px"></i></a>
+                                    @if (item.IsActive == false)
+                                    {
+                                        <a style="padding:3px;" data-bs-container="#tooltip-container"
+                                           data-bs-toggle="tooltip" data-bs-placement="top"
+                                           title="Haberi Aktifleştir" asp-action="HaberiAktifEt" asp-route-id="@item.Id"><i class="mdi mdi-publish mdi-24px"></i></a>
+                                    }
+                                    else
+                                    {
+                                        <a style="padding:3px;" data-bs-container="#tooltip-container"
+                                           data-bs-toggle="tooltip" data-bs-placement="top"
+                                           title="Haberi Pasifleştir" asp-action="HaberiAktifEt" asp-route-id="@item.Id"><i class="mdi mdi-earth-remove text-danger mdi-24px"></i></a>
 
-                                            }
+                                    }
 
-                                            @if (item.IsOpenNotifications == true)
-                                            {
-                                                <a style="padding:3px;" data-bs-container="#tooltip-container"
-                                                   data-bs-toggle="tooltip" data-bs-placement="top"
-                                                   title="Bildirimleri Kapat" asp-action="BildirimleriAc" asp-route-id="@item.Id" class="ml-1"><i class="mdi mdi-wifi mdi-24px"></i></a>
-                                            }
-                                            else
-                                            {
-                                                <a style="padding:3px;" data-bs-container="#tooltip-container"
-                                                   data-bs-toggle="tooltip" data-bs-placement="top"
-                                                   title="Bildirimleri Aç" asp-action="BildirimleriAc" asp-route-id="@item.Id" class="ml-1"><i class="mdi mdi-wifi-off text-danger mdi-24px"></i></a>
-                                            }
-                                        </td>
-                                    </tr>
+                                    @if (item.IsOpenNotifications == true)
+                                    {
+                                        <a style="padding:3px;" data-bs-container="#tooltip-container"
+                                           data-bs-toggle="tooltip" data-bs-placement="top"
+                                           title="Bildirimleri Kapat" asp-action="BildirimleriAc" asp-route-id="@item.Id" class="ml-1"><i class="mdi mdi-wifi mdi-24px"></i></a>
+                                    }
+                                    else
+                                    {
+                                        <a style="padding:3px;" data-bs-container="#tooltip-container"
+                                           data-bs-toggle="tooltip" data-bs-placement="top"
+                                           title="Bildirimleri Aç" asp-action="BildirimleriAc" asp-route-id="@item.Id" class="ml-1"><i class="mdi mdi-wifi-off text-danger mdi-24px"></i></a>
+                                    }
+                                </td>
+                            </tr>
                                 }
                             </tbody>
                         </table>

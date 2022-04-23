@@ -86,6 +86,7 @@ namespace SERVICES.Engine.Engines
                 IsActive = getUser.IsActive,
                 Password = passwordDeCrypto,
                 EmailAdress = getUser.EmailAdress,
+                RoleId = getUser.RoleId,
                 ProfileImage = getUser.ProfileImage,
                 role = getUser.roles,
             };

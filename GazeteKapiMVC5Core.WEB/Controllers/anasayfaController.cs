@@ -34,6 +34,7 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
         private readonly ICategoryService _categoryService;
         private readonly ISettingService _settingService;
         private readonly IViewRenderService _viewRender;
+        private int BATCH_SIZE = 0;
 
         [Obsolete]
         public anasayfaController(INewsService newService, ICategoryService categoryService, IMapper mapper, ISettingService settingService, IViewRenderService viewRender)
@@ -47,16 +48,17 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
 
         #endregion
 
+        [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
         public IActionResult sayfa()
         {
             var haberlist = _mapper.Map<List<NewsListItemDto>, List<NewListViewModelWeb>>(_newService.newsListWithWeb());
-          
+
             List<GuestListViewModelWeb> guestList = _mapper.Map<List<GuestListItemDto>, List<GuestListViewModelWeb>>(_newService.guestList());
-          
+
             List<TagNewsListViewModelWeb> tagNewList = _mapper.Map<List<TagNewsListItemDto>, List<TagNewsListViewModelWeb>>(_newService.tagsListWithNewsWeb());
-           
+
             List<CategoryListViewModelWeb> categoryList = _mapper.Map<List<CategoryListItemDto>, List<CategoryListViewModelWeb>>(_categoryService.GetAllCategory());
-           
+
             ViewBag.CategoryList = categoryList;
             ViewBag.TagNews = tagNewList;
             ViewBag.HaberlerManset = haberlist;
@@ -172,12 +174,10 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
         {
             return PartialView("Slider");
         }
-
-        public IActionResult SubCategories() 
+        public IActionResult SubCategories()
         {
             return PartialView("SubCategories");
         }
-
         public IActionResult Carousel()
         {
             return PartialView("Carousel");
@@ -212,6 +212,7 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
         }
 
         [HttpGet("haber/{Id}/{Title}", Name = "haber")]
+        [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
         public IActionResult haber(int Id, string Title)
         {
             var newsGet = _mapper.Map<NewsDto, NewsEditViewModelWeb>(_newService.getNews(Id));
@@ -285,6 +286,36 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
             return File(stream.ToArray(), "application/rss+xml;charset=utf-8");
         }
 
+        public IActionResult gizlilikpolitikasi()
+        {
+            return View();
+        }
+
+        public IActionResult cerezpolitikasi()
+        {
+            return View();
+        }
+
+        public IActionResult kullanimsartlari()
+        {
+            return View();
+        }
+
+        public IActionResult kunye()
+        {
+            return View();
+        }
+
+        public IActionResult yayinilkeleri()
+        {
+            return View();
+        }
+
+        public IActionResult arsiv()
+        {
+            return View();
+        }
+
         //public IActionResult newssitemap()
         //{
         //    var haberlist = _mapper.Map<List<NewsListItemDto>, List<NewsLıstItemModel>>(_newService.newsList()).AsQueryable();
@@ -333,33 +364,49 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
 
         #region Load More With Scroll Page
 
-        public IActionResult loadData(List<NewListViewModelWeb> model)
+        [HttpPost]
+        public IActionResult _loadNews(string sortOrder, string searchString, int firstItem = 0)
         {
+            var newListAll = _mapper.Map<List<NewsListItemDto>, List<NewListViewModelWeb>>(_newService.newsListWithWeb());
+            List<NewListViewModelWeb> model = null;
+            CategoryEditViewModelWeb category = null;
+            Random rnd = new Random();
+            bool ok = false;
+            int CategoryNumber = 0;
+
+            while (ok == false)
+            {
+
+                if (ok == true)
+                {
+                    break;
+                }
+                else
+                {
+                    BATCH_SIZE = rnd.Next(1, 5);
+                    CategoryNumber = rnd.Next(14, 20);
+
+                    category = _mapper.Map<CategoryDto, CategoryEditViewModelWeb>(_categoryService.GetCategoryById(CategoryNumber));
+
+                    ViewBag.Category = category.CategoryName;
+
+                    if (category.CategoryName != null && category.Id > 0)
+                    {
+                        model = newListAll.Where(x => x.CategoryId == CategoryNumber).Skip(firstItem).Take(BATCH_SIZE).ToList();
+                        ok = true;
+                        return PartialView(model);
+                    }
+
+                    else
+                    {
+                        ok = false;
+                        continue;
+                    }
+                }
+            }
             return PartialView(model);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> InfiniteScrollAsync(int start, int rowperpage)
-        {
-            Thread.Sleep(1000);
-            int pageSize = 5;
-
-            var listNews = _mapper.Map<List<NewsListItemDto>, List<NewListViewModelWeb>>(_newService.newsListLoadByScroll(start, rowperpage));
-            var renderedView = await _viewRender.RenderPartialViewToString(this, "loadData", listNews);
-
-            JsonModel json = new JsonModel
-            {
-                NoMoreData = listNews.Count < pageSize,
-                HtmlString = renderedView
-            };
-            return Json(json);
-        }
-
-        public class JsonModel
-        {
-            public string HtmlString { get; set; }
-            public bool NoMoreData { get; set; }
-        }
 
         #endregion
 

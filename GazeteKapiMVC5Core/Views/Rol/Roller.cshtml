@@ -8,18 +8,24 @@
 
 <div class="row">
     <div class="col-12">
+        @if (TempData["mesaj"] != null)
+        {
+            <div class="alert alert-warning">
+                <p style="margin-bottom:0;">@TempData["mesaj"]</p>
+            </div>
+        }
         <div class="card">
             <div class="card-body">
                 <div class="row">
-                    <div class="col-sm-4">
+                    <div class="col-sm-6">
                         <h4 class="card-title">Yönetici Rolleri</h4>
                         <p class="card-title-desc">Yönetici rolleri ile ilgili tüm işlemlerinizi gerçekleştirin</p>
                     </div>
-                    <div class="col-sm-8">
-                        <div style="float:right;"><a asp-controller="Role" asp-action="RolOlustur" class="btn btn-primary btn-sm">Rol Oluştur <i class="fas fa-plus fa-sm"></i></a></div>
+                    <div class="col-sm-6">
+                        <div style="float:right;"><a asp-controller="Rol" asp-action="RolOlustur" class="btn btn-primary btn-sm">Rol Oluştur <i class="fas fa-plus fa-sm"></i></a></div>
                     </div>
                 </div>
-                <div class="table-rep-plugin">
+                <div class="table-rep-plugin mt-2">
                     <div class="table-responsive mb-0" data-bs-pattern="priority-columns">
                         <table class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                             <thead>
@@ -35,7 +41,7 @@
                                 @foreach (var item in Model)
                                 {
                                     <tr id="tooltip-container" class="button-items">
-                                        <td><a asp-action="RolDetay" asp-controller="Rol" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.RoleName)</a></td>
+                                        <td>@*<a asp-action="RolDetay" asp-controller="Rol" asp-route-id="@item.Id">*@@Html.DisplayFor(modelItem => item.RoleName)@*</a>*@</td>
                                         <td>@Html.DisplayFor(modelItem => item.CreatedTime)</td>
                                         <td>@Html.DisplayFor(modelItem => item.UpdatedTime)</td>
                                         @if (item.IsActive == true)

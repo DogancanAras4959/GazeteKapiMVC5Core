@@ -1,4 +1,4 @@
-﻿@using CORE.ApplicationCommon.Helpers; 
+﻿@using CORE.ApplicationCommon.Helpers;
 @using GazeteKapiMVC5Core.WEB.ViewModels.Guests;
 @model PaginationList<GazeteKapiMVC5Core.WEB.ViewModels.News.NewListViewModelWeb>
 @using GazeteKapiMVC5Core.WEB.ViewModels.Categories;
@@ -16,6 +16,42 @@
     var nextDisabled = !Model.HasNextPage ? "disabled" : "";
 }
 
+<style>
+    .team-member .member figcaption ul.list-inline li.list-inline-item a {
+        float: left;
+        color: #fff;
+        font-size: 13px;
+        height: 30px;
+        width: 30px;
+        background-color: #f4c625;
+        padding: 5px;
+    }
+
+    section {
+        padding: 6px 0;
+    }
+
+    .card__post .card__post__body img {
+        -o-object-fit: cover;
+        object-fit: cover;
+        width: 100%;
+        max-width: 100%;
+        height: 134px;
+        position: relative;
+    }
+    .wrapper__list__article .border_section:before {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 50px;
+        height: 5px;
+        background: #f4c625;
+        z-index: 1;
+    }
+
+</style>
+
 <link href="https://uploads.gazetekapı.com/front/wwwroot/css/base/pagelineweb.css" rel="stylesheet" />
 
 <section>
@@ -28,7 +64,6 @@
                             <img src="https://uploads.gazetekapı.com/images/@guest.GuestImage"
                                  class="img-fluid" alt="Image">
                             <figcaption>
-                                <h4>@guest.GuestName</h4>
                                 <small>Yazar</small>
                                 <ul class="list-inline">
                                     <li class="list-inline-item">
@@ -49,18 +84,82 @@
                                                aria-hidden="true"></i>
                                         </a>
                                     </li>
-                                    <li class="list-inline-item">
-                                        <a href="#">
-                                            <i class="fa fa-linkedin"
-                                               aria-hidden="true"></i>
-                                        </a>
-                                    </li>
                                 </ul>
                             </figcaption>
                         </figure>
                     </div>
+
                     <div class="col-md-9">
-                        <p>@guest.Biography</p>
+                        @if (Model != null)
+                        {
+                            <div class="row">
+                                <div class="col-md-6 col-sm-12 text-center">
+                                    <h3>
+                                        @guest.GuestName - Yazıları
+                                    </h3>
+                                </div>
+                            </div>
+                            <div class="wrapper__list__article">
+                                <h4 class="border_section"></h4>
+                            </div>
+                            <div class="row">
+
+                                @foreach (var item in Model)
+                                {
+                                    <div class="col-lg-4">
+                                            <div class="card__post ">
+                                                <div class="card__post__body">
+                                                    <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
+                                                        <img src="https://uploads.gazetekapı.com/images/@item.Image" alt="" class="img-fluid">
+                                                    </a>
+                                                    <div style="margin-top:15px;">
+                                                        <h6>
+                                                            @if (item.Title.Length > 40)
+                                                            {
+                                                                <a id="btn-article" style="color:#515d5e;" href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
+                                                                    @item.Title.Substring(0, 40)<span>...</span>
+                                                                </a>
+                                                            }
+                                                            else
+                                                            {
+                                                                <a id="btn-article" style="color:#515d5e;" href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
+                                                                    @item.Title
+                                                                </a>
+                                                            }
+
+                                                        </h6>
+                                                        <ul class="list-inline article__post__author">
+                                                            <li class="list-inline-item">
+                                                                <span style="font-size:14px;">@item.PublishedTime</span>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                    </div>
+                                }
+
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="mt-4">
+                                        <!-- pagination -->
+                                        <!-- Pagination -->
+                                        <div class="pagination-area">
+                                            <div class="pagination wow fadeIn animated" data-wow-duration="2s" data-wow-delay="0.5s"
+                                                 style="visibility: visible; animation-duration: 2s; animation-delay: 0.5s; animation-name: fadeIn;">
+                                                <a asp-action="yazaryazilari" class="btn btn-link">Başa Dön</a>
+                                                <a asp-action="yazaryazilari" asp-route-pageNumber="@(Model.PageIndex-1)" class="btn btn-link @prevDisabled">Önceki</a>
+                                                <a asp-action="yazaryazilari" asp-route-pageNumber="@(Model.PageIndex+1)" class="btn btn-link @nextDisabled">Sonraki</a>
+                                            </div>
+                                        </div>
+                                        <!-- End pagination -->
+                                    </div>
+                                </div>
+                            </div>
+                        }
                     </div>
                 </div>
             </div>
@@ -68,64 +167,4 @@
     </div>
 </section>
 
-@if (Model != null)
-{
-    <section class="bg-light">
-        <div class="container">
-            <div class="row">
 
-                @foreach (var item in Model)
-                {
-                    <div class="col-lg-4">
-                        <!-- Post Article -->
-                        <div class="article__entry-new">
-                            <div class="article__category">
-                                @item.categories.CategoryName
-                            </div>
-                            <div class="article__image articel__image__transition">
-                                <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
-                                    <img src="https://uploads.gazetekapı.com/images/@item.Image" alt="" class="img-fluid">
-                                </a>
-                            </div>
-                            <div class="articel__content">
-
-                                <div class="article__post__title">
-                                    <h5>
-                                        <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
-                                            @item.Title
-                                        </a>
-                                    </h5>
-                                    <ul class="list-inline article__post__author">
-                                        <li class="list-inline-item">
-                                            <span>@item.PublishedTime</span>
-                                        </li>
-                                    </ul>
-
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                }
-                
-            </div>
-            <div class="row">
-                <div class="col-sm-12">
-                    <div class="mt-4">
-                        <!-- pagination -->
-                        <!-- Pagination -->
-                        <div class="pagination-area">
-                            <div class="pagination wow fadeIn animated" data-wow-duration="2s" data-wow-delay="0.5s"
-                                 style="visibility: visible; animation-duration: 2s; animation-delay: 0.5s; animation-name: fadeIn;">
-                                <a asp-action="yazaryazilari" class="btn btn-link">Başa Dön</a>
-                                <a asp-action="yazaryazilari" asp-route-pageNumber="@(Model.PageIndex-1)" class="btn btn-link @prevDisabled">Önceki</a>
-                                <a asp-action="yazaryazilari" asp-route-pageNumber="@(Model.PageIndex+1)" class="btn btn-link @nextDisabled">Sonraki</a>
-                            </div>
-                        </div>
-                        <!-- End pagination -->
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-}

@@ -34,7 +34,7 @@ namespace CORE.ApplicationCommon.Helpers
         {
             try
             {
-                optimize(_file);
+                //optimize(_file);
 
                 FTPInformation fTPInformation = GetFTPInformation(_admin);
                 var uploadurl = fTPInformation.Url;

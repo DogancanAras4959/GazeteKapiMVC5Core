@@ -55,6 +55,14 @@
         display: table-cell;
     }
 
+    .base-ref {
+        color: #fff;
+        margin-top: 10px;
+        line-height: 15px !important;
+        font-size: 12px;
+        text-align:center !important;
+    }
+
     .navbar-nav {
         position: relative;
         display: block;
@@ -74,6 +82,12 @@
         position: relative;
         top: 3px;
         color: #000;
+    }
+
+    .list-unstyled {
+        padding-left: 0;
+        list-style: none;
+        text-align:center;
     }
 
     .currency-m {
@@ -205,8 +219,26 @@
         border-left: 1px solid #f4c625;
         border-right: 1px solid #f4c625 !important;
     }
+    #main_nav99.removeCurrency{
+        display:none;
+    }
+    
+    .reference-cs{
+        text-align:center !important;
+        float:none !important;
+        left:30px;
+    }
+
+    #footer-col-1 {
+        width: 0px !important;
+    }
 }
 
+@media screen and (min-width: 320px) and (max-width: 575px) {
+    .wrapper__footer .widget__footer p {
+        margin-bottom: 30px !important;
+    }
+}
 
 @media screen and (min-width: 320px) and (max-width: 575px) {
     .article__entry .article__content {

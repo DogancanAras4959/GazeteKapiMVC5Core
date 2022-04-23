@@ -4,6 +4,17 @@
     Layout = null;
 }
 
+<style>
+    #pageloaddiv {
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1000;
+        background: url('//i.stack.imgur.com/FhHRx.gif') no-repeat center center;
+    }
+</style>
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -22,7 +33,7 @@
     <link href="https://uploads.gazetekapı.com/admin/wwwroot/assets/css/icons.min.css" rel="stylesheet" type="text/css">
     <!-- App Css-->
     <link href="https://uploads.gazetekapı.com/admin/wwwroot/assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
 <body>
@@ -34,7 +45,7 @@
     <div class="account-pages mt-5">
         @if (ViewBag.LTD != null)
         {
-            <div class="container">
+            <div class="container" id="lastLoginTime">
                 <div class="row justify-content-center">
                     <div class="col-md-8 col-lg-5 col-xl-4">
                         <div class="card">
@@ -48,6 +59,36 @@
                 </div>
             </div>
         }
+
+        @if (TempData["HataMesaji"] != null)
+        {
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-md-8 col-lg-5 col-xl-4">
+                        <div class="alert alert-danger">
+                            <div class="text-center">
+                                <label>@TempData["HataMesaji"]</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+
+        <div class="container" id="loginOnProcess" style="display:none;">
+            <div class="row justify-content-center">
+                <div class="col-md-8 col-lg-5 col-xl-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="text-center">
+                                <i class="fa fa-spinner fa-spin" style="font-size:18px"></i>
+                                <label for="userpassword">  Giriş Yapılıyor</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <div class="container">
             <div class="row justify-content-center">
@@ -66,17 +107,20 @@
                                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                                     <div class="mb-3">
                                         <label class="form-label" asp-for="UserName" for="username"></label>
-                                        <input type="text" value="dogan123" autocomplete="off" class="form-control" asp-for="UserName" id="username" placeholder="Kullanıcı adını girin" />
+                                        @Html.TextBoxFor(x => x.UserName, new { @type = "text", @class = "form-control", id = "username", placeholder = "Kullanıcı adınız", autocomplete = "off" })
+                                        <!--<input type="text"--> @*value="dogan123"*@ <!--autocomplete="off" class="form-control" asp-for="UserName" id="username" placeholder="Kullanıcı adını girin" />-->
                                     </div>
 
                                     <div class="mb-3">
                                         <label class="form-label" asp-for="Password" for="userpassword"></label>
-                                        <input type="password" value="12345" autocomplete="off" class="form-control" id="userpassword" asp-for="Password" placeholder="Şifrenizi girin">
+                                        @Html.TextBoxFor(x => x.Password, new { @type = "password", @class = "form-control", id = "userpassword", placeholder = "Şifreniz", autocomplete = "off" })
+
+                                        <!--<input type="password"--> @*value="12345"*@ <!--autocomplete="off" class="form-control" id="userpassword" asp-for="Password" placeholder="Şifrenizi girin">-->
                                     </div>
 
                                     <div class="row mt-4">
                                         <div class="col-sm-12 text-end">
-                                            <button class="btn btn-primary btn-block waves-effect waves-light" style="width:100%" type="submit">Giriş Yap</button>
+                                            <button id="btn-log" class="btn btn-primary btn-block waves-effect waves-light" style="width:100%" type="submit">Giriş Yap</button>
                                         </div>
                                     </div>
 
@@ -99,6 +143,29 @@
     <script src="https://uploads.gazetekapı.com/admin/wwwroot/assets/libs/node-waves/waves.min.js"></script>
 
     <script src="https://uploads.gazetekapı.com/admin/wwwroot/assets/js/app.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#btn-log").on("click", function () {
+                document.getElementById("loginOnProcess").style.display = "block";
+                document.getElementById("lastLoginTime").style.display = "none";
+                window.setTimeout(function () {
+                    $("#btn-log").attr("disabled", true);
+                }, 100);
+            });
+        })
+    </script>
+
+    <script language="JavaScript" type="text/javascript">
+        //remove back button with all possibilities
+        function noBack() { window.history.forward() }
+        noBack();
+        window.onload = noBack;
+        window.onpageshow = function (evt) { if (evt.persisted) noBack() }
+        window.onunload = function () { void (0) }
+        //remove forward buttons
+        javascript: window.history.forward(1);
+    </script>
 
 </body>
 </html>

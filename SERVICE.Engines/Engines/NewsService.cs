@@ -125,7 +125,7 @@ namespace SERVICE.Engine.Engines
         }
         public List<NewsListItemDto> newsList()
         {
-            IEnumerable<News> newsList = _unitOfWork.GetRepository<News>().Filter(null, x => x.OrderBy(y => y.Id), "guest,users,categories,publishtype", null,null);
+            IEnumerable<News> newsList = _unitOfWork.GetRepository<News>().Filter(null, x => x.OrderByDescending(y => y.Id), "guest,users,categories,publishtype", null,null);
 
             if (newsList != null)
             {
@@ -350,8 +350,10 @@ namespace SERVICE.Engine.Engines
                     IsCommentActive = model.IsCommentActive,
                     IsOpenNotifications = model.IsOpenNotifications,
                     IsSlide = model.IsSlide,
+                    IsActive = getNews.IsActive,
+                    IsLock = getNews.IsLock,
                     UpdatedTime = DateTime.Now,
-                    CreatedTime = model.CreatedTime,
+                    CreatedTime = getNews.CreatedTime,
                     users = model.users,
                     UserId = model.UserId,
                     CategoryId = model.CategoryId,

@@ -18,7 +18,20 @@
 <link href="https://uploads.gazetekapı.com/admin/wwwroot/assets/libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css" rel="stylesheet">
 
 <form method="post" asp-action="HaberDuzenle" asp-controller="Haber" enctype="multipart/form-data">
+ 
     @Html.HiddenFor(x => x.Id)
+
+    @if (TempData["durum"] != null)
+    {
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="alert alert-success" style="text-align:center;">
+                    <p>@TempData["durum"]</p>
+                </div>
+            </div>
+        </div>
+    }
+
     <div class="row">
         <div class="col-sm-8">
             <div class="card">
@@ -68,7 +81,7 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="btn-group me-1" style="width:100%">
-                                <button type="submit" style="width:75%" class="btn btn-primary">Haberi Yayınla</button>
+                                <button type="submit" style="width:75%" class="btn btn-primary" id="newsBtn">Haberi Yayınla</button>
                                 <button type="button" style="width:25%" class="btn btn-indigo dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <i class="mdi mdi-chevron-down"></i>
                                 </button>
@@ -157,6 +170,17 @@
 <script src="https://uploads.gazetekapı.com/admin/wwwroot/assets/libs/jquery/jquery.min.js"></script>
 <script src="https://uploads.gazetekapı.com/admin/wwwroot/assets/libs/select2/js/select2.min.js"></script>
 <script src="https://uploads.gazetekapı.com/admin/wwwroot/assets/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+
+<script type="text/javascript">
+    $(function () {
+        $("#newsBtn").on("click", function () {
+            window.setTimeout(function () {
+                $("#newsBtn").attr("disabled", true);
+            }, 100);
+            document.getElementById("newsBtn").innerHTML = "Haber Yayınlanıyor...";
+        })
+    })
+</script>
 
 <script>
     $(function () {
