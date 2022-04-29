@@ -17,10 +17,8 @@
 
 <div class="col-md-8 slide-width">
     <div class="slideshow-container" style="margin-top:3px;">
-        @foreach (var item in haberlerManset)
-        {
-            @if (item.IsSlide == true)
-            {
+        @foreach (var item in haberlerManset.OrderBy(x=> x.Id).Where(x=> x.IsActive == true && x.IsSlide == true && x.IsLock == false).Take(10))
+        {         
                 <div class="mySlides">
                     <div class="card__post__body card__post__transition">
                         <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
@@ -28,7 +26,7 @@
                         </a>
 
                         <div class="text">
-                            <div class="title-word-big">
+                            <div class="title-word-big-right">
                                 <a class="next" onclick="plusSlides(1)"><img src="https://uploads.gazetekapı.com/images/chevron_next.png" width="20" /></a>
                             </div>
                             <span class="title-slide">
@@ -39,10 +37,12 @@
                                 <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">@item.Title</a>
                             }
                             </span>
+                            <div class="title-word-big">
+                                <a class="next" onclick="plusSlides(-1)"><img src="https://uploads.gazetekapı.com/images/chevron_prev.png" width="20" /></a>
+                            </div>
                         </div>
                     </div>
                 </div>
-            }
         }
 
     </div>
@@ -51,7 +51,7 @@
 <div class="col-md-4">
     <div class="popular__news-right">
         <!-- Post Article -->
-        @foreach (var item in haberlerManset.OrderByDescending(x => x.Id).ToList())
+        @foreach (var item in haberlerManset.OrderByDescending(x => x.Id).Where(x => x.IsActive == true && x.IsLock == false).ToList())
         {
 
             @if (item.IsSlide == false)
@@ -89,3 +89,33 @@
 
     </div>
 </div>
+
+    <script>
+        var slideIndex = 1;
+        showSlides(slideIndex);
+        function plusSlides(n) {
+            showSlides(slideIndex += n);
+        }
+        function currentSlide(n) {
+            showSlides(slideIndex = n);
+        }
+        function showSlides(n) {
+            var i;
+            var slides = document.getElementsByClassName("mySlides");
+            var dots = document.getElementsByClassName("dot");
+            if (n > slides.length) {
+                slideIndex = 1
+            }
+            if (n < 1) {
+                slideIndex = slides.length
+            }
+            for (i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";
+            }
+            for (i = 0; i < dots.length; i++) {
+                dots[i].className = dots[i].className.replace(" active", "");
+            }
+            slides[slideIndex - 1].style.display = "block";
+            dots[slideIndex - 1].className += " active";
+        }
+    </script>

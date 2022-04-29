@@ -34,7 +34,7 @@
                         <span asp-validation-for="NewsContent" class="text-danger"></span>
                     </div>
                     <div class="mb-3">
-                        <label for="example-text-input" class="col-sm-12 col-form-label">Etiket (Zorunlu Değildir - SEO için önerilir)</label>
+                        <label for="example-text-input" class="col-sm-12 col-form-label">Etiket (* Zorunlu alan - SEO için önerilir)</label>
                         <input asp-for="Tag" autocomplete="off" data-toggle="tooltip" name="Tag" data-placement="bottom" class="form-control" type="text" placeholder="Haber için etiketler giriniz" id="example-text-input">
                     </div>
                     <div class="mb-3">
@@ -61,13 +61,13 @@
         </div>
 
         <div class="col-sm-4">
-            @if (TempData["HataMesajı"] != null)
+            @if (ViewBag.Hata != null)
             {
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="card">
                             <div class="card-body">
-                                <label>@TempData["HataMesajı"]</label>
+                                <label style="margin:0;">@ViewBag.Hata</label>
                             </div>
                         </div>
                     </div>
@@ -85,7 +85,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
+            @*<div class="row">
                 <div class="col-sm-12">
                     <div class="card">
                         <div class="card-body">
@@ -100,7 +100,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>*@
             <div class="row">
                 <div class="col-sm-12">
                     <div class="card">

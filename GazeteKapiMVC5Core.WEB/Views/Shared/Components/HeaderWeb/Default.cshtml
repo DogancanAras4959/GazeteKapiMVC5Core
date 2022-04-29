@@ -19,9 +19,13 @@
                     <div class="topbar-left">
                         <ul class="navbar-nav ">
                             <li class="nav-item search">
-                                <a class="nav-link nav-link-search" href="#">
+                                <a class="nav-link nav-link-search" href="#" style="float:left;">
                                     <i class="fa fa-search"></i>
                                 </a>
+                                <label id="switch" class="switch">
+                                    <input type="checkbox" onchange="toggleTheme()" id="slider">
+                                    <span class="slider round"></span>
+                                </label>
                             </li>
                         </ul>
                     </div>
@@ -42,9 +46,9 @@
                             <li>
                                 <a class="sm-link" target="_blank" href="https://www.instagram.com/"><img style="height:25px;" src="https://uploads.gazetekapı.com/images/social-media/instagram.svg" /></a>
                             </li>
-                            <li>
+                            @*<li>
                                 <a class="sm-link" target="_blank" href="https://web.telegram.org/"><img style="height:25px;" src="https://uploads.gazetekapı.com/images/social-media/telegram.svg" /></a>
-                            </li>
+                            </li>*@
                             <li>
                                 <a class="sm-link" target="_blank" href="https://www.google.com.tr/"><img style="height:25px;" src="https://uploads.gazetekapı.com/images/social-media/mail.svg" /></a>
                             </li>
@@ -65,7 +69,9 @@
             <div class="container boxed">
                 <figure class="mb-0">
                     <a asp-action="sayfa" asp-controller="anasayfa">
-                        <img src="https://uploads.gazetekapı.com/images/@Model.Logo" alt="" id="img-shrink" class="logo logo-img">
+                        <img src="https://uploads.gazetekapı.com/images/@Model.Logo" alt="" id="img-shrink" class="logo logo-img logo-light">
+                        <img src="https://uploads.gazetekapı.com/images/@Model.FooterLogo" style="display:none;" alt="" id="img-shrink" class="logo logo-img logo-dark">
+
                     </a>
                 </figure>
                 <div class="offcanvas-header">
@@ -87,34 +93,34 @@
 
                                 else
                                 {
-                                    @foreach (var d in dovizlist)
-                                    {
+                                @foreach (var d in dovizlist)
+                                {
 
-                                        if (d.CurrencyCode != "XDR")
+                                    if (d.CurrencyCode != "XDR")
+                                    {
+                                        if (d.CurrencyCode.Contains("USD") || d.CurrencyCode.Contains("EUR") || d.CurrencyCode.Contains("GBP") || d.CurrencyCode.Contains("RUB"))
                                         {
-                                            if (d.CurrencyCode.Contains("USD") || d.CurrencyCode.Contains("EUR") || d.CurrencyCode.Contains("GBP") || d.CurrencyCode.Contains("RUB"))
+                                            foreach (var item in currencies)
                                             {
-                                                foreach (var item in currencies)
+                                                if (item.code == d.Kod)
                                                 {
-                                                    if (item.code == d.Kod)
+                                                    if (item.isRateOrDown == "down")
                                                     {
-                                                        if (item.isRateOrDown == "down")
-                                                        {
-                                                            <li class="nav-item" style="font-size: 14px; margin-left:10px; color: #54626b">
-                                                                <span style="font-weight:800;"><img src="https://uploads.gazetekapı.com/images/social-media/chevron-down.svg" width="15" height="15" /> @d.CurrencyCode</span> @d.ForexBuying
-                                                            </li>
-                                                        }
-                                                        else if (item.isRateOrDown == "increase")
-                                                        {
-                                                            <li class="nav-item" style="font-size: 14px; margin-left: 10px; color: #54626b">
-                                                                <span style="font-weight:800;"><img src="https://uploads.gazetekapı.com/images/social-media/chevron-up.svg" width="15" height="15" /> @d.CurrencyCode</span> @d.ForexBuying
-                                                            </li>
-                                                        }
+                                                        <li class="nav-item" id="down-currency" style="font-size: 14px; margin-left:10px; color: #54626b">
+                                                            <span style="font-weight:500;"><img src="https://uploads.gazetekapı.com/images/social-media/chevron-down.svg" width="15" height="15" /> @d.CurrencyCode</span> @d.ForexBuying
+                                                        </li>
+                                                    }
+                                                    else if (item.isRateOrDown == "increase")
+                                                    {
+                                                        <li class="nav-item" id="inc-currency" style="font-size: 14px; margin-left: 10px; color: #54626b">
+                                                            <span style="font-weight:500;"><img src="https://uploads.gazetekapı.com/images/social-media/chevron-up.svg" width="15" height="15" /> @d.CurrencyCode</span> @d.ForexBuying
+                                                        </li>
                                                     }
                                                 }
                                             }
                                         }
                                     }
+                                }
                                 }
                             </ul>
                         </div>
@@ -130,9 +136,9 @@
                                     </li>
                                 }
 
-                                <li class="nav-item">
+                                @*<li class="nav-item">
                                     <a asp-action="yazarlar" asp-controller="anasayfa" class="menu-link"> YAZARLAR </a> <div class="menu-rect"></div>
-                                </li>
+                                </li>*@
                             </ul>
                         </div>
 
@@ -241,10 +247,12 @@
             </div>
         </div>
     </div>
-    <div class="container" style="max-width:1030px; padding-top:20px;" >
+    <div class="container" style="max-width:1030px; padding-top:20px;">
         <div class="row row-banners">
             <div class="col-3 col-sm-3 banner-3">
-                <img style="width:100%" src="https://uploads.gazetekapı.com/images/lemonde.jpg" />
+                <a href="@Url.Action("aboneol","anasayfa")">
+                    <img style="width:100%" src="https://uploads.gazetekapı.com/images/lemonde.jpg" />
+                </a>
             </div>
             <div class="col-9 col-sm-9 banner-9">
                 @foreach (var item in categories.Where(x => x.Position == 1))
@@ -253,6 +261,13 @@
                         <img class="img-subcat" src="https://uploads.gazetekapı.com/images/@item.Image" />
                     </a>
                 }
+            </div>
+        </div>
+    </div>
+    <div class="container" style="max-width:1030px; padding-top:15px;">
+        <div class="row">
+            <div class="col-sm-12">
+                <img style="width:100%" src="https://uploads.gazetekapı.com/images/masterhead.jpg" />
             </div>
         </div>
     </div>

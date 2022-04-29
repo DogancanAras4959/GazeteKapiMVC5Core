@@ -617,15 +617,7 @@ namespace GazeteKapiMVC5Core.Controllers
         {
             try
             {
-                var publishTypeList = _mapper.Map<List<PublishTypeListItem>, List<PublishTypeListViewModel>>(_newService.publishTypeList());
-                ViewBag.PublishTypes = new SelectList(publishTypeList, "Id", "TypeName");
-
-                var categoryList = _mapper.Map<List<CategoryListItemDto>, List<CategoryListViewModel>>(_categoryService.GetAllCategory());
-                ViewBag.Categories = new SelectList(categoryList, "Id", "CategoryName");
-
-                var guestList = _mapper.Map<List<GuestListItemDto>, List<GuestListViewModel>>(_newService.guestList());
-                ViewBag.Guests = new SelectList(guestList, "Id", "GuestName");
-
+                LoadData();
                 //var publishedTypeList = _mapper.Map<List<PublishedTypeListItemDto>
                 return View(new NewsCreateViewModel());
             }
@@ -650,66 +642,93 @@ namespace GazeteKapiMVC5Core.Controllers
                     {
                         if (file != null)
                         {
-                            if (model.CategoryId != 0)
+                            if (model.GuestId == 999)
                             {
-                                AccountEditViewModel yoneticiGetir = SessionExtensionMethod.GetObject<AccountEditViewModel>(HttpContext.Session, "user");
-                                //model.UserId = yoneticiGetir.Id;
-
-                                //string uploadfilename = Path.GetFileNameWithoutExtension(file.FileName);
-                                //string extension = Path.GetExtension(file.FileName);
-                                //uploadfilename = uploadfilename + DateTime.Now.ToString("yymmssfff") + extension;
-                                //var path = Path.Combine(this._webHostEnvironment.WebRootPath, "Files", uploadfilename);
-                                //var stream = new FileStream(path, FileMode.Create);
-                                //await file.CopyToAsync(stream);
-                                model.Image = SaveImageProcess.ImageInsert(file, "Admin");
-                                model.UserId = yoneticiGetir.Id;
-                                int resultId = Convert.ToInt32(await _newService.createNews(_mapper.Map<NewsCreateViewModel, NewsDto>(model)));
-
-                                if (resultId > 0)
+                                await CreateModeratorLog("Başarısız", "Ekleme", "HaberOlustur", "Haber", "Yazar seçimiyle ilgili bir sorun çıktı. Yazar seçmek istemiyorsunız 'Yazar yok' seçeneğini tercih edin.");
+                                ViewBag.Hata = "Yazar seçimiyle ilgili bir sorun çıktı. Yazar seçmek istemiyorsunız 'Yazar yok' seçeneğini tercih edin."!;
+                                LoadData();
+                                return View(model);
+                            }
+                            
+                            else
+                            {
+                                if (model.PublishTypeId == 999)
                                 {
-
-                                    if (!string.IsNullOrEmpty(model.Tag))
-                                    {
-                                        if (model.Tag[^1] == ',')
-                                        {
-                                            await _newService.InsertTagToProduct(model.Tag[0..^1], resultId);
-                                        }
-                                        else
-                                        {
-                                            await _newService.InsertTagToProduct(model.Tag, resultId);
-                                        }
-                                    }
-
-                                    await CreateModeratorLog("Başarılı", "Ekleme", "HaberOlustur", "Haber", "Haber oluşturulması başarıyla gerçekleşti. Haberinizi istediğiniz gibi düzenleyebilirsiniz!");
-                                    string durum = "Haber başarıyla oluşturuldu. Son kontrollerinizi yapıp yayınlayın!";
-                                    return RedirectToAction("HaberDuzenle", "Haber", new { Id = resultId, durum = durum });
+                                    await CreateModeratorLog("Başarısız", "Ekleme", "HaberOlustur", "Haber", "Haber tipi seçimiyle ilgili bir sorun çıktı. Haber tipi seçiniz");
+                                    ViewBag.Hata = "Haber tipi seçimiyle ilgili bir sorun çıktı. Haber tipi seçiniz"!;
+                                    LoadData();
+                                    return View(model);
                                 }
                                 else
                                 {
+                                    if (model.CategoryId != 0)
+                                    {
+                                        AccountEditViewModel yoneticiGetir = SessionExtensionMethod.GetObject<AccountEditViewModel>(HttpContext.Session, "user");
+                                        //model.UserId = yoneticiGetir.Id;
 
-                                    await CreateModeratorLog("Başarısız", "Ekleme", "HaberOlustur", "Haber", "Haberiniz oluşturulurken bir hata meydana geldi. Haber oluşturulamadı!");
-                                    TempData["HataMesajı"] = "Haberiniz oluşturulurken bir hata meydana geldi! Etiketlerinizi kontrol edin"!;
-                                    return View(model);
+                                        //string uploadfilename = Path.GetFileNameWithoutExtension(file.FileName);
+                                        //string extension = Path.GetExtension(file.FileName);
+                                        //uploadfilename = uploadfilename + DateTime.Now.ToString("yymmssfff") + extension;
+                                        //var path = Path.Combine(this._webHostEnvironment.WebRootPath, "Files", uploadfilename);
+                                        //var stream = new FileStream(path, FileMode.Create);
+                                        //await file.CopyToAsync(stream);
+                                        model.Image = SaveImageProcess.ImageInsert(file, "Admin");
+                                        model.UserId = yoneticiGetir.Id;
+                                        int resultId = Convert.ToInt32(await _newService.createNews(_mapper.Map<NewsCreateViewModel, NewsDto>(model)));
+
+                                        if (resultId > 0)
+                                        {
+
+                                            if (!string.IsNullOrEmpty(model.Tag))
+                                            {
+                                                if (model.Tag[^1] == ',')
+                                                {
+                                                    await _newService.InsertTagToProduct(model.Tag[0..^1], resultId);
+                                                }
+                                                else
+                                                {
+                                                    await _newService.InsertTagToProduct(model.Tag, resultId);
+                                                }
+                                            }
+
+                                            await CreateModeratorLog("Başarılı", "Ekleme", "HaberOlustur", "Haber", "Haber oluşturulması başarıyla gerçekleşti. Haberinizi istediğiniz gibi düzenleyebilirsiniz!");
+                                            string durum = "Haber başarıyla oluşturuldu. Son kontrollerinizi yapıp yayınlayın!";
+                                            return RedirectToAction("HaberDuzenle", "Haber", new { Id = resultId, durum = durum });
+                                        }
+                                        else
+                                        {
+
+                                            await CreateModeratorLog("Başarısız", "Ekleme", "HaberOlustur", "Haber", "Haberiniz oluşturulurken bir hata meydana geldi. Haber oluşturulamadı!");
+                                            ViewBag.Hata = "Haberiniz oluşturulurken bir hata meydana geldi! Etiketlerinizi kontrol edin"!;
+                                            LoadData();
+                                            return View(model);
+                                        }
+                                    }
+                                    else
+                                    {
+                                        await CreateModeratorLog("Başarısız", "Ekleme", "HaberOlustur", "Haber", "Haber için kategori girilmelidir. Haber bu yüzden oluşturulamadı!");
+                                        ViewBag.Hata = "Haber için kategori seçilmelidir. Haber bu yüzden oluşturulamadı!"!;
+                                        LoadData();
+                                        return View(model);
+                                    }
                                 }
+         
                             }
-                            else
-                            {
-                                await CreateModeratorLog("Başarısız", "Ekleme", "HaberOlustur", "Haber", "Haber için kategori girilmelidir. Haber bu yüzden oluşturulamadı!");
-                                TempData["HataMesajı"] = "Haber için kategori seçilmelidir. Haber bu yüzden oluşturulamadı!"!;
-                                return View(model);
-                            }
+
                         }
                         else
                         {
                             await CreateModeratorLog("Başarısız", "Ekleme", "HaberOlustur", "Haber", "Haber için öne çıkan görsel girilmelidir. Haber bu yüzden oluşturulamadı");
-                            TempData["HataMesajı"] = "Haber için öne çıkan görsel girilmelidir. Haber bu yüzden oluşturulamadı"!;
+                            ViewBag.Hata = "Haber için öne çıkan görsel girilmelidir. Haber bu yüzden oluşturulamadı"!;
+                            LoadData();
                             return View(model);
                         }
                     }
                     else
                     {
                         await CreateModeratorLog("Başarısız", "Ekleme", "HaberOlustur", "Haber", "Bu haber zaten sistemde bulunuyor!");
-                        TempData["HataMesajı"] = "Oluşturmak istediğiniz haber zaten sistemde bulunuyor"!;
+                        ViewBag.Hata = "Oluşturmak istediğiniz haber zaten sistemde bulunuyor"!;
+                        LoadData();
                         return View(model);
                     }
                 }
@@ -800,76 +819,101 @@ namespace GazeteKapiMVC5Core.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    if (model.CategoryId != 0)
+                    var news = _mapper.Map<NewsDto, NewsEditViewModel>(_newService.getNews(model.Id));
+
+                    if (model.GuestId == 999)
                     {
-                        AccountEditViewModel yoneticiGetir = SessionExtensionMethod.GetObject<AccountEditViewModel>(HttpContext.Session, "user");
-                        model.UserId = yoneticiGetir.Id;
+                        await CreateModeratorLog("Başarısız", "Ekleme", "HaberOlustur", "Haber", "Yazar seçimiyle ilgili bir sorun çıktı. Yazar seçmek istemiyorsunız 'Yazar yok' seçeneğini tercih edin.");
+                        ViewBag.Hata = "Yazar seçimiyle ilgili bir sorun çıktı. Yazar seçmek istemiyorsunız 'Yazar yok' seçeneğini tercih edin."!;
+                        LoadData();
+                        return View(news);
+                    }
 
-                        if (model.Sound == null)
+                    else
+                    {
+                        if (model.PublishTypeId == 999)
                         {
-                            string friendlyUrl = GoogleTTS.GenerateSlug(model.Title, model.Id);
-                            string content = GoogleTTS.HtmlToPlainTextTTS(model.NewsContent);
-                            string outputSound = GoogleTTS.Speak(model.Spot, model.Title, friendlyUrl, content, "Admin");
-
-                            model.Sound = outputSound;
-                        }
-
-                        if (file != null)
-                        {
-
-                            model.Image = SaveImageProcess.ImageInsert(file, "Admin");
-
-                            int resultId = Convert.ToInt32(await _newService.editNews(_mapper.Map<NewsEditViewModel, NewsDto>(model)));
-
-                            if (resultId > 0)
-                            {
-
-                                if (!string.IsNullOrEmpty(model.Tag))
-                                {
-                                    if (model.Tag[^1] == ',')
-                                    {
-                                        await _newService.InsertTagToProduct(model.Tag[0..^1], resultId);
-                                    }
-                                    else
-                                    {
-                                        await _newService.InsertTagToProduct(model.Tag, resultId);
-                                    }
-                                }
-
-                                await CreateModeratorLog("Başarılı", "Güncelleme", "HaberDuzenle", "Haber", "Haber güncellemesi başarıyla gerçekleşti. Haberinizi istediğiniz gibi düzenleyebilirsiniz!");
-                                return RedirectToAction("HaberDuzenle", "Haber", new { Id = resultId });
-                            }
+                            await CreateModeratorLog("Başarısız", "Ekleme", "HaberOlustur", "Haber", "Haber tipi seçimiyle ilgili bir sorun çıktı. Haber tipi seçiniz");
+                            ViewBag.Hata = "Haber tipi seçimiyle ilgili bir sorun çıktı. Haber tipi seçiniz"!;
+                            LoadData();
+                            return View(news);
                         }
                         else
                         {
-                            int resultId = Convert.ToInt32(await _newService.editNews(_mapper.Map<NewsEditViewModel, NewsDto>(model)));
-
-                            if (resultId > 0)
+                            if (model.CategoryId != 0)
                             {
+                                AccountEditViewModel yoneticiGetir = SessionExtensionMethod.GetObject<AccountEditViewModel>(HttpContext.Session, "user");
+                                model.UserId = yoneticiGetir.Id;
 
-                                if (!string.IsNullOrEmpty(model.Tag))
+                                //if (model.Sound == null)
+                                //{
+                                //    string friendlyUrl = GoogleTTS.GenerateSlug(model.Title, model.Id);
+                                //    string content = GoogleTTS.HtmlToPlainTextTTS(model.NewsContent);
+                                //    string outputSound = GoogleTTS.Speak(model.Spot, model.Title, friendlyUrl, content, "Admin");
+
+                                //    model.Sound = outputSound;
+                                //}
+
+                                if (file != null)
                                 {
-                                    if (model.Tag[^1] == ',')
+
+                                    model.Image = SaveImageProcess.ImageInsert(file, "Admin");
+
+                                    int resultId = Convert.ToInt32(await _newService.editNews(_mapper.Map<NewsEditViewModel, NewsDto>(model)));
+
+                                    if (resultId > 0)
                                     {
-                                        await _newService.InsertTagToProduct(model.Tag[0..^1], resultId);
+
+                                        if (!string.IsNullOrEmpty(model.Tag))
+                                        {
+                                            if (model.Tag[^1] == ',')
+                                            {
+                                                await _newService.InsertTagToProduct(model.Tag[0..^1], resultId);
+                                            }
+                                            else
+                                            {
+                                                await _newService.InsertTagToProduct(model.Tag, resultId);
+                                            }
+                                        }
+                           
+                                        await CreateModeratorLog("Başarılı", "Güncelleme", "HaberDuzenle", "Haber", "Haber güncellemesi başarıyla gerçekleşti. Haberinizi istediğiniz gibi düzenleyebilirsiniz!");
+                                        return RedirectToAction("HaberDuzenle", "Haber", new { Id = resultId });
                                     }
-                                    else
+                                }
+                                else
+                                {
+                                   
+                                    int resultId = Convert.ToInt32(await _newService.editNews(_mapper.Map<NewsEditViewModel, NewsDto>(model)));
+
+                                    if (resultId > 0)
                                     {
-                                        await _newService.InsertTagToProduct(model.Tag, resultId);
+    
+                                        if (!string.IsNullOrEmpty(model.Tag))
+                                        {
+                                            if (model.Tag[^1] == ',')
+                                            {
+                                                await _newService.InsertTagToProduct(model.Tag[0..^1], resultId);
+                                            }
+                                            else
+                                            {
+                                                await _newService.InsertTagToProduct(model.Tag, resultId);
+                                            }
+                                        }
+
+                                        await CreateModeratorLog("Başarılı", "Güncelleme", "HaberDuzenle", "Haber", "Haber güncellemesi başarıyla gerçekleşti. Haberinizi istediğiniz gibi düzenleyebilirsiniz!");
+                                        return RedirectToAction("HaberDuzenle", "Haber", new { Id = resultId });
                                     }
                                 }
 
-                                await CreateModeratorLog("Başarılı", "Güncelleme", "HaberDuzenle", "Haber", "Haber güncellemesi başarıyla gerçekleşti. Haberinizi istediğiniz gibi düzenleyebilirsiniz!");
-                                return RedirectToAction("HaberDuzenle", "Haber", new { Id = resultId });
                             }
                         }
-
                     }
-
-                    return View(model);
+                    LoadData();
+                    return View(news);
                 }
                 else
                 {
+                    LoadData();
                     return View(model);
                 }
             }
@@ -880,6 +924,31 @@ namespace GazeteKapiMVC5Core.Controllers
                 TempData["HataMesaji"] = ex.ToString();
                 return RedirectToAction("ErrorPage", "Home");
             }
+        }
+
+        public IActionResult HaberSirala()
+        {
+            List<NewsLıstItemModel> haberlist = _mapper.Map<List<NewsListItemDto>, List<NewsLıstItemModel>>(_newService.newsList());
+            return View(haberlist);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> siraDegistir(int id, int sira) 
+        {
+            if (await _newService.ChangeSorted(id, sira))
+            {
+                List<NewsLıstItemModel> haberlist = _mapper.Map<List<NewsListItemDto>, List<NewsLıstItemModel>>(_newService.newsList());
+
+                foreach (var item in haberlist.Where(x=> x.Sorted >= sira).OrderBy(x=> x.Sorted).Take(10))
+                {
+                    item.Sorted = item.Sorted + 1;
+                    await _newService.ChangeSorted(item.Id, item.Sorted);
+                }
+
+                //await CreateModeratorLog("Başarılı", "Güncelleme", "siraDegistir", "Haber", "Haber başarıyla sıralandı!");
+                return RedirectToAction("HaberSirala","Haber");
+            }
+            return RedirectToAction("HaberSirala", "Haber");
         }
 
         [CheckRoleAuthorize]
@@ -1109,6 +1178,18 @@ namespace GazeteKapiMVC5Core.Controllers
             {
                 return null;
             }
+        }
+
+        public void LoadData()
+        {
+            var publishTypeList = _mapper.Map<List<PublishTypeListItem>, List<PublishTypeListViewModel>>(_newService.publishTypeList());
+            ViewBag.PublishTypes = new SelectList(publishTypeList, "Id", "TypeName");
+
+            var categoryList = _mapper.Map<List<CategoryListItemDto>, List<CategoryListViewModel>>(_categoryService.GetAllCategory());
+            ViewBag.Categories = new SelectList(categoryList, "Id", "CategoryName");
+
+            var guestList = _mapper.Map<List<GuestListItemDto>, List<GuestListViewModel>>(_newService.guestList());
+            ViewBag.Guests = new SelectList(guestList, "Id", "GuestName");
         }
 
         #endregion

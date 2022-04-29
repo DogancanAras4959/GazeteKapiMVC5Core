@@ -8,7 +8,7 @@ namespace GazeteKapiMVC5Core.WEB.ViewModels.News
         public string Title { get; set; }
         public string Spot { get; set; }
         public string NewsContent { get; set; }
-        public string Sorted { get; set; }
+        public int Sorted { get; set; }
         public string Image { get; set; }
         public string Tag { get; set; }
         public DateTime? UpdatedTime { get; set; }

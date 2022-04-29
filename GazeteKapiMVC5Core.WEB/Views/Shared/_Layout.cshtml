@@ -9,6 +9,7 @@
     <meta name="keywords" content="gazetekapı, lemonde, dergi, gazete, " />
     <meta name="theme-color" content="#030303" />
     <meta name="language" content="Turkish" />
+    <meta name="google-site-verification" content="-yBJ5UFx3dae3cclgxb_CL32eWvv1ju5Utc_DivwiaM" />
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="tr_TR" />
     <meta property="og:site_name" content="Gazete Kapı" />
@@ -32,8 +33,9 @@
     <link href="https://uploads.gazetekapı.com/front/wwwroot/css/styles.css" rel="stylesheet" />
 
     <link href="https://uploads.gazetekapı.com/front/wwwroot/css/base/layoutbase.css" rel="stylesheet" />
-
+    <link href="~/modeservicestyle.css" rel="stylesheet" />
     <link href="~/mobile-resp.css" rel="stylesheet" />
+    <link rel="manifest" href="~/site.webmanifest.json">
 
     <style>
         .img-category {
@@ -44,8 +46,8 @@
             max-width: 1030px;
         }
 
-        #footer-col-1{
-            width:153px;
+        #footer-col-1 {
+            width: 153px;
         }
 
         #img-shrink.sticky {
@@ -100,7 +102,7 @@
             display: flex;
             width: 100%;
             padding-top: 21px;
-            z-index:0;
+            z-index: 0;
         }
 
         #bnr.increase {
@@ -133,6 +135,7 @@
     <script src="https://uploads.gazetekapı.com/front/wwwroot/js/index.bundle.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
     <script src="~/InfinitiySroll.js" type="text/javascript"></script>
+    <script src="~/modeservice.js"></script>
 
     <script type="text/javascript">
         window.onscroll = function () { onScroll() };
@@ -148,6 +151,29 @@
 
             }
         }
+
+        function notifyMe() {
+            if (!Notification) {
+                alert('Lütfen Chrome, Firefox, Opera, Internet Explorer veya Spartan\'ın güncel bir versiyonunu kullanınız...');
+                return;
+            }
+
+            if (Notification.permission !== "granted")
+                Notification.requestPermission();
+
+            var notification = new Notification('Hoşgeldiniz!', {
+                icon: 'https://uploads.gazetekapı.com/images/placeholder/kapi-logo.png',
+                body: "Bizimle iletişime geçmek için tıklayın!",
+            });
+
+
+            notification.onclick = function () {
+                window.open("https://calisma.gazetekapı.com");
+            }
+        }
+
+        window.onload = notifyMe;
+
     </script>
 
     @RenderSection("scripts", false)

@@ -71,15 +71,16 @@
                         <h4 class="border_section"></h4>
                     </div>
 
-                    <div class="row mt-5">
-                        @foreach (var item in Model)
+                    <div class="row mt-2">
+                        @foreach (var item in Model.OrderByDescending(x=> x.Id).Where(x => x.IsActive == true && x.IsLock == false))
                         {
                             <div class="col-lg-4" style="margin-top:30px;">
                                 <!-- Post Article -->
                                 <div class="article__entry-new">
                                     @*<div class="article__category">
-                                            @item.categories.CategoryName
-                                        </div>*@
+
+            @item.categories.CategoryName
+        </div>*@
                                     <div class="article__image articel__image__transition">
                                         <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
                                             <img src="https://uploads.gazetekapı.com/images/@item.Image" alt="" class="img-fluid">

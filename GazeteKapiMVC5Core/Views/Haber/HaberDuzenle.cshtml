@@ -18,7 +18,7 @@
 <link href="https://uploads.gazetekapı.com/admin/wwwroot/assets/libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css" rel="stylesheet">
 
 <form method="post" asp-action="HaberDuzenle" asp-controller="Haber" enctype="multipart/form-data">
- 
+
     @Html.HiddenFor(x => x.Id)
 
     @if (TempData["durum"] != null)
@@ -26,7 +26,18 @@
         <div class="row">
             <div class="col-sm-12">
                 <div class="alert alert-success" style="text-align:center;">
-                    <p>@TempData["durum"]</p>
+                    <p style="margin:0;">@TempData["durum"]</p>
+                </div>
+            </div>
+        </div>
+    }
+
+    @if (ViewBag.Hata != null)
+    {
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="alert alert-danger" style="text-align:center;">
+                    <p style="margin:0;">@ViewBag.Hata</p>
                 </div>
             </div>
         </div>
@@ -49,7 +60,7 @@
                         <span asp-validation-for="NewsContent" class="text-danger"></span>
                     </div>
                     <div class="mb-3">
-                        <label for="example-text-input" class="col-sm-12 col-form-label">Etiket (Zorunlu Değildir - SEO için önerilir)</label>
+                        <label for="example-text-input" class="col-sm-12 col-form-label">Etiket (* Zorunlu alan - SEO için önerilir)</label>
                         <input asp-for="Tag" autocomplete="off" data-toggle="tooltip" name="Tag" data-placement="bottom" class="form-control" type="text" placeholder="Haber için etiketler giriniz" id="example-text-input">
                     </div>
                     <div class="mb-3">
@@ -106,7 +117,14 @@
                 <div class="col-sm-12">
                     <div class="card">
                         <div class="card-body">
-                            <img id="img" style="width:100%" src="https://uploads.gazetekapı.com/images/@Model.Image" />
+                            @if (Model.Image != null)
+                            {
+                                <img id="img" style="width:100%" src="https://uploads.gazetekapı.com/images/@Model.Image" />
+                            }
+                            else
+                            {
+                                <img id="img" style="width:100%" src="https://uploads.gazetekapı.com/images/imgdefault.jpg" />
+                            }
                             <label style="margin-top:10px;" class="col-sm-12 text-center">*(835x510 dosya boyutu)</label>
                             <label for="example-text-input" class="col-sm-12 col-form-label text-center" style="margin-top:10px;">Öne Çıkan Görseli Güncelle</label>
                             <input type="file" class="filestyle" id="upload" data-input="false" name="file" data-buttonname="btn-secondary">

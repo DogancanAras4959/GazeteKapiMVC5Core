@@ -1,8 +1,10 @@
 using AutoMapper;
 using GazeteKapiMVC5Core.WEB.CoreInjection;
+using GazeteKapiMVC5Core.WEB.Models.ConfigreCaptcha;
 using GazeteKapiMVC5Core.WEB.Profiles.WEB;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -32,12 +34,14 @@ namespace GazeteKapiMVC5Core.WEB
         [Obsolete]
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddRazorPages().AddRazorPagesOptions(options => { options.Conventions.ConfigureFilter(new IgnoreAntiforgeryTokenAttribute()); });
+
             services.AddDbContextDI(_configuration, Environment);
             services.AddDbContextLog(_configuration, Environment);
             services.AddInjections();
             services.AddControllersWithViews().SetCompatibilityVersion(CompatibilityVersion.Latest);
             services.AddDistributedMemoryCache();
-
+            services.Configure<reCaptchaSettings>(_configuration.GetSection("Google"));
             var mappingConfig = new MapperConfiguration(mc =>
             {
                 mc.AddProfile(new NewsProfileWeb());
@@ -46,6 +50,13 @@ namespace GazeteKapiMVC5Core.WEB
 
             IMapper mapper = mappingConfig.CreateMapper();
             services.AddSingleton(mapper);
+
+            services.Configure<CookiePolicyOptions>(options =>
+            {
+                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
+                options.CheckConsentNeeded = context => true;
+                options.MinimumSameSitePolicy = SameSiteMode.None;
+            });
 
         }
 
@@ -67,6 +78,7 @@ namespace GazeteKapiMVC5Core.WEB
             app.UseStaticFiles();
             app.UseRouting();
             app.UseAuthentication();
+            app.UseCookiePolicy();
 
             app.UseEndpoints(endpoints =>
             {

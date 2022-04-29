@@ -1,4 +1,6 @@
-﻿using Google.Cloud.TextToSpeech.V1;
+﻿using Google.Apis.Auth.OAuth2;
+using Google.Cloud.Storage.V1;
+using Google.Cloud.TextToSpeech.V1;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;

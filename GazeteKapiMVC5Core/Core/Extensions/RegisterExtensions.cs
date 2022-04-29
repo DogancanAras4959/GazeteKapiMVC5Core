@@ -5,6 +5,7 @@ using GazeteKapiMVC5Core.DataAccessLayerLOG;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -42,6 +43,7 @@ namespace GazeteKapiMVC5Core.Core.Extensions
         internal static void AddInjections(this IServiceCollection services)
         {
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddSingleton<IMyCache, MyMemoryCache>();
             services.AddTransient(typeof(IBackEndExceptionHandler), typeof(BackEndExceptionHandler));
             services.AddTransient(typeof(IUserService), typeof(UserService));
             services.AddTransient(typeof(IRoleService), typeof(RoleService));

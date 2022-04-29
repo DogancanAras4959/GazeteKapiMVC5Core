@@ -1,37 +1,38 @@
 ﻿@model IEnumerable<GazeteKapiMVC5Core.WEB.ViewModels.News.NewListViewModelWeb>
 
-<h4 class="border_section mb-3"> @ViewBag.Category </h4>
+<h4 class="border_section mb-3"> </h4>
 
-@foreach (var item in Model.Where(x => x.IsActive))
+@foreach (var item in Model.Where(x => x.IsActive == true && x.IsLock == false))
 {
 
     <div class="mb-3">
         <!-- Post Article -->
         <div class="card__post card__post-list">
-            <div class="image-sm">
+            @*<div class="image-sm">
                 <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
                     <img style="height:100px;" src="https://uploads.gazetekapı.com/images/@item.Image" class="img-fluid" alt="">
                 </a>
-            </div>
+            </div>*@
             <div class="card__post__body ">
                 <div class="card__post__content">
                     <div class="card__post__title">
-                        <p style="margin-bottom:10px;"><i class="fa fa-clock-o"></i> @item.PublishedTime.Value.ToString("MM/dd/yyyy HH:mm")</p>
+                        @*<p style="margin-bottom:10px;"><i class="fa fa-clock-o"></i> @item.PublishedTime.Value.ToString("MM/dd/yyyy HH:mm")</p>*@
                         <h6>
                             @if (item.Title.Length > 50)
                             {
-                                <a href="@Url.Action("haber", "anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
+                                <a style="font-size:25px; font-weight:700" href="@Url.Action("haber", "anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
                                     @item.Title.Substring(0, 45)<span>...</span>
                                 </a>
                             }
                             else
-                            { <a href="@Url.Action("haber", "anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
+                            { <a style="font-size:25px; font-weight:700" href="@Url.Action("haber", "anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
                                     @item.Title
                                 </a>
                             }
                         </h6>
-                        @if (item.Spot.Length > 50)
-                        {<p style="line-height:10px;">@item.Spot.Substring(0, 50) ...</p>}
+                        <p style="font-size:20px;">@item.Spot</p>
+                        <hr />
+                        <p>@Html.Raw(item.NewsContent)</p>
                     </div>
                 </div>
             </div>

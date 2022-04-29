@@ -1,0 +1,80 @@
+﻿@using Microsoft.AspNetCore.Http.Features
+
+@{
+    var consentFeature = Context.Features.Get<ITrackingConsentFeature>();
+    var showBanner = !consentFeature?.CanTrack ?? false;
+    var cookieString = consentFeature?.CreateConsentCookie();
+}
+
+<style>
+    .cookie {
+        background-color: #101010;
+        text-align: center;
+        color: #fff;
+        padding: 20px;
+        position: fixed;
+        bottom: 0px;
+    }
+
+        .cookie a {
+            color: #fff;
+        }
+
+            .cookie a:hover {
+                color: #fff;
+                border: 0;
+                text-decoration: none;
+            }
+
+    .cookie-btn {
+        background-color: #fff;
+        border: 0;
+        border-radius: 20px;
+        font-size: 14px;
+        padding: 5px 20px 5px 20px;
+        width: 100px;
+    }
+
+    .cookie-p {
+        margin-bottom: 5px;
+        font-size: 14px;
+        position: relative;
+        top: 5px;
+    }
+</style>
+
+@if (showBanner)
+{
+    <div id="cookieConsent" class="cookie fade show boxed alert-dismissible" role="alert">
+        <div class="row" id="nav-menu-display">
+            <div class="col-sm-12">
+                <ul class="navbar-nav ml-auto" style=" flex-direction: row;">
+                    <li class="nav-item">
+                        <p class="cookie-p">
+                            Kullanıcı deneyimini geliştirmek ve sitemizin verimli çalışması için çerezler kullanıyoruz:
+                            <a href="@Url.Action("cerezpolitikasi", "anasayfa")" style="text-decoration:underline;">Çerez Politikalarımız</a>
+                        </p>
+                    </li>
+                    <li class="nav-item ml-10" style="margin-left:10px;">
+                        <button type="button" data-dismiss="alert" class="cookie-btn" aria-label="Close" data-cookie-string="@cookieString">
+                            <span aria-hidden="true">Kabul Et</span>
+                        </button>
+                    </li>
+                    <li class="nav-item" style="margin-left:10px;">
+                        <button type="button" data-dismiss="alert" class="cookie-btn" aria-label="Close">
+                            <span aria-hidden="true">Reddet</span>
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <script>
+        (function () {
+            var button = document.querySelector("#cookieConsent button[data-cookie-string]");
+            button.addEventListener("click", function (event) {
+                document.cookie = button.dataset.cookieString;
+            }, false);
+        })();
+    </script>
+}

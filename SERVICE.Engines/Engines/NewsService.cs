@@ -1239,5 +1239,21 @@ namespace SERVICE.Engine.Engines
                 return null;
             }
         }
+        public async Task<bool> ChangeSorted(int id, int sira)
+        {
+            try
+            {
+                News getNews = _unitOfWork.GetRepository<News>().FindAsync(x => x.Id == id).Result;
+                getNews.Sorted = sira;
+
+                News model = await _unitOfWork.GetRepository<News>().UpdateAsync(getNews);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+           
+        }
     }
 }

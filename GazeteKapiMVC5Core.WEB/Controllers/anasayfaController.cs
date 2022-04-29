@@ -7,9 +7,11 @@ using CORE.ApplicationCommon.DTOS.PrivacyDTO.PolicyDto;
 using CORE.ApplicationCommon.DTOS.PrivacyDTO.PrivacyDto;
 using CORE.ApplicationCommon.DTOS.PrivacyDTO.TermsOfUsDto;
 using CORE.ApplicationCommon.Helpers;
+using GazeteKapiMVC5Core.WEB.Models.ConfigreCaptcha;
 using GazeteKapiMVC5Core.WEB.Models.RenderService;
 using GazeteKapiMVC5Core.WEB.ViewModels.Categories;
 using GazeteKapiMVC5Core.WEB.ViewModels.Guests;
+using GazeteKapiMVC5Core.WEB.ViewModels.Members;
 using GazeteKapiMVC5Core.WEB.ViewModels.News;
 using GazeteKapiMVC5Core.WEB.ViewModels.Policy;
 using GazeteKapiMVC5Core.WEB.ViewModels.TagsNews;
@@ -38,21 +40,25 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
         private readonly ICategoryService _categoryService;
         private readonly ISettingService _settingService;
         private readonly IViewRenderService _viewRender;
-        private int BATCH_SIZE = 0;
+        private readonly reCaptchaService _repService;
+        private int BATCH_SIZE = 1;
 
         [Obsolete]
-        public anasayfaController(INewsService newService, ICategoryService categoryService, IMapper mapper, ISettingService settingService, IViewRenderService viewRender)
+        public anasayfaController(INewsService newService, ICategoryService categoryService, IMapper mapper, ISettingService settingService, IViewRenderService viewRender, reCaptchaService repService)
         {
             _newService = newService;
             _categoryService = categoryService;
             _mapper = mapper;
             _settingService = settingService;
             _viewRender = viewRender;
+            _repService = repService;
         }
 
         #endregion
 
         [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
+
+        #region Pages
         public IActionResult sayfa()
         {
             var haberlist = _mapper.Map<List<NewsListItemDto>, List<NewListViewModelWeb>>(_newService.newsListWithWeb());
@@ -174,30 +180,6 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
 
             return View(PaginationList<NewListViewModelWeb>.Create(newList.ToList(), pageNumber ?? 1, pageSize));
         }
-        public IActionResult Slider()
-        {
-            return PartialView("Slider");
-        }
-        public IActionResult SubCategories()
-        {
-            return PartialView("SubCategories");
-        }
-        public IActionResult Carousel()
-        {
-            return PartialView("Carousel");
-        }
-        public IActionResult Gundem()
-        {
-            return PartialView("Gundem");
-        }
-        public IActionResult Yazar()
-        {
-            return PartialView("Yazar");
-        }
-        public IActionResult Footer()
-        {
-            return PartialView("Footer");
-        }
         public IActionResult yazaryazilari(int id, int? pageNumber)
         {
             int pageSize = 20;
@@ -254,6 +236,63 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
             return View(newsGet);
         }
 
+        public IActionResult gizlilikpolitikasi()
+        {
+            var getPrivacy = _mapper.Map<PrivacyDto, PrivacyBaseViewModel>(_settingService.getPrivacy(1));
+            return View(getPrivacy);
+        }
+        public IActionResult cerezpolitikasi()
+        {
+            var getCookiesPolicy = _mapper.Map<CookiePolicyDto, CookieBaseViewModel>(_settingService.getCookiePrivacy(1));
+            return View(getCookiesPolicy);
+        }
+        public IActionResult kullanimsartlari()
+        {
+            var getTermsOfUs = _mapper.Map<TermsOfUsDto, TermsOfUsBaseViewModel>(_settingService.getTermsOfUs(1));
+            return View(getTermsOfUs);
+        }
+        public IActionResult kunye()
+        {
+            var getBrand = _mapper.Map<BrandPolicyDto, BrandBaseViewModel>(_settingService.getBrandPrivacy(1));
+            return View(getBrand);
+        }
+        public IActionResult yayinilkeleri()
+        {
+            var getStreamPolicy = _mapper.Map<StreamPolicyDto, StreamBaseViewModel>(_settingService.getStreamPrivacy(2));
+            return View(getStreamPolicy);
+        }
+        public IActionResult arsiv()
+        {
+            return View();
+        }
+
+        #endregion
+
+        #region Partial Views
+        public IActionResult Slider()
+        {
+            return PartialView("Slider");
+        }
+        public IActionResult SubCategories()
+        {
+            return PartialView("SubCategories");
+        }
+        public IActionResult Carousel()
+        {
+            return PartialView("Carousel");
+        }
+        public IActionResult Gundem()
+        {
+            return PartialView("Gundem");
+        }
+        public IActionResult Yazar()
+        {
+            return PartialView("Yazar");
+        }
+        public IActionResult Footer()
+        {
+            return PartialView("Footer");
+        }
         [HttpGet]
         public IActionResult RSS()
         {
@@ -289,41 +328,12 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
             }
             return File(stream.ToArray(), "application/rss+xml;charset=utf-8");
         }
-
-        public IActionResult gizlilikpolitikasi()
+        public IActionResult ShareButtons()
         {
-            var getPrivacy = _mapper.Map<PrivacyDto, PrivacyBaseViewModel>(_settingService.getPrivacy(1));
-            return View(getPrivacy);
+            return PartialView("ShareButtons");
         }
 
-        public IActionResult cerezpolitikasi()
-        {
-            var getCookiesPolicy = _mapper.Map<CookiePolicyDto, CookieBaseViewModel>(_settingService.getCookiePrivacy(1));
-            return View(getCookiesPolicy);
-        }
-
-        public IActionResult kullanimsartlari()
-        {
-            var getTermsOfUs = _mapper.Map<TermsOfUsDto, TermsOfUsBaseViewModel>(_settingService.getTermsOfUs(1));
-            return View(getTermsOfUs);
-        }
-
-        public IActionResult kunye()
-        {
-            var getBrand = _mapper.Map<BrandPolicyDto, BrandBaseViewModel>(_settingService.getBrandPrivacy(1));
-            return View(getBrand);
-        }
-
-        public IActionResult yayinilkeleri()
-        {
-            var getStreamPolicy = _mapper.Map<StreamPolicyDto, StreamBaseViewModel>(_settingService.getStreamPrivacy(2));
-            return View(getStreamPolicy);
-        }
-
-        public IActionResult arsiv()
-        {
-            return View();
-        }
+        #endregion
 
         //public IActionResult newssitemap()
         //{
@@ -392,7 +402,7 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
                 }
                 else
                 {
-                    BATCH_SIZE = rnd.Next(1, 5);
+                    //BATCH_SIZE = rnd.Next(1, 5);
                     CategoryNumber = rnd.Next(14, 20);
 
                     category = _mapper.Map<CategoryDto, CategoryEditViewModelWeb>(_categoryService.GetCategoryById(CategoryNumber));
@@ -416,6 +426,29 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
             return PartialView(model);
         }
 
+        #endregion
+
+        #region Abonelik
+
+        public IActionResult aboneol()
+        {
+            return View();
+        }
+
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public IActionResult aboneol(MembersCreateViewModel model)
+        {
+            var rep = _repService.RecVer(model.ReCaptchaToken);
+
+            if (!rep.Result.success && rep.Result.score < 0.5)
+            {
+                ViewBag.Hata = "Siz gerçek kullanıcı değilsiniz!";
+                return View(aboneol());
+            }
+           
+            return View(aboneol());
+        }
 
         #endregion
 

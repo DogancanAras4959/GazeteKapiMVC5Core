@@ -82,7 +82,7 @@
             </div>
             <div class="col-md-12">
                 <div class="article__entry-carousel">
-                    @foreach (var item in haberlerManset.Where(x => x.categories.CategoryName == "Dünya").OrderBy(x => x.Id))
+                    @foreach (var item in haberlerManset.Where(x => x.categories.CategoryName == "Dünya" && x.IsLock == false && x.IsActive == true).OrderByDescending(x => x.Id))
                     {
                         count++;
 
@@ -139,7 +139,7 @@
 
                     <div class="row" style="margin-top:15px;">
 
-                        @foreach (var item in haberlerManset.Where(x => x.categories.CategoryName == "Kültür / Sanat").OrderBy(x => x.Id))
+                        @foreach (var item in haberlerManset.OrderByDescending(x=> x.Id).Where(x => x.categories.CategoryName == "Kültür / Sanat" && x.IsLock == false && x.IsActive == true).OrderBy(x => x.Id))
                         {
                             count++;
                             <div class="col-sm-12 col-md-4 mb-1">
@@ -197,33 +197,3 @@
     </div>
 </section>
 <!-- End Popular news category -->
-
-<script>
-    var slideIndex = 1;
-    showSlides(slideIndex);
-    function plusSlides(n) {
-        showSlides(slideIndex += n);
-    }
-    function currentSlide(n) {
-        showSlides(slideIndex = n);
-    }
-    function showSlides(n) {
-        var i;
-        var slides = document.getElementsByClassName("mySlides");
-        var dots = document.getElementsByClassName("dot");
-        if (n > slides.length) {
-            slideIndex = 1
-        }
-        if (n < 1) {
-            slideIndex = slides.length
-        }
-        for (i = 0; i < slides.length; i++) {
-            slides[i].style.display = "none";
-        }
-        for (i = 0; i < dots.length; i++) {
-            dots[i].className = dots[i].className.replace(" active", "");
-        }
-        slides[slideIndex - 1].style.display = "block";
-        dots[slideIndex - 1].className += " active";
-    }
-</script>

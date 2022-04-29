@@ -47,6 +47,7 @@ namespace SERVICE.Engine.Interfaces
         Task<bool> SetYourNewsToUp(int id);
         Task<bool> IsOpenNotificationSet(int id);
         Task<bool> IsLockNews(int id);
+        Task<bool> ChangeSorted(int id, int sira);
         Task<bool> IsActiveEnabled(int id);
 
         #endregion

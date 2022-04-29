@@ -32,7 +32,7 @@
                         </div>
                     </div>
 
-                    @foreach (var item in Model)
+                    @foreach (var item in Model.Where(x => x.IsActive == true && x.IsLock == false).OrderByDescending(x=> x.Id))
                     {
                         <div class="card__post card__post-list card__post__transition mt-30">
                             <div class="row ">

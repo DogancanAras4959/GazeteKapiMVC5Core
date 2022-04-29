@@ -35,6 +35,7 @@ namespace GazeteKapiMVC5Core.DataAccessLayer
         public virtual DbSet<BrandPolicy> brand { get; set; }
         public virtual DbSet<CookiePolicy> cookie { get; set; }
         public virtual DbSet<StreamPolicy> stream { get; set; }
+        public virtual DbSet<members> members { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new UserMapping());
@@ -55,6 +56,7 @@ namespace GazeteKapiMVC5Core.DataAccessLayer
             modelBuilder.ApplyConfiguration(new BrandMapping());
             modelBuilder.ApplyConfiguration(new CookieMapping());
             modelBuilder.ApplyConfiguration(new StreamMapping());
+            modelBuilder.ApplyConfiguration(new membersMapping());
             base.OnModelCreating(modelBuilder);
         }
     }

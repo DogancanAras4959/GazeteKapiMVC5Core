@@ -132,6 +132,8 @@ namespace SERVICES.Engine.Engines
     
         public async Task<bool> Register(UserDto model)
         {
+            model.Password = new Cyrpto().TryEncrypt(model.Password);
+
             Users newUser = await _unitOfWork.GetRepository<Users>().AddAsync(new Users 
             {
                 DisplayName = model.DisplayName,
@@ -179,11 +181,11 @@ namespace SERVICES.Engine.Engines
                 DisplayName = model.DisplayName,
                 EmailAdress = model.EmailAdress,
                 Password = passwordCrypto,
-                UpdatedTime = DateTime.Now,
+                UpdatedTime = DateTime.Now,              
                 ProfileImage = model.ProfileImage,
                 RoleId = model.RoleId,
                 CreatedTime = userGet.CreatedTime,
-                IsActive = model.IsActive,
+                IsActive = userGet.IsActive,
             });
 
             return getUser != null;

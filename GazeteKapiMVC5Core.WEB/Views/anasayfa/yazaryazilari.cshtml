@@ -104,7 +104,7 @@
                             </div>
                             <div class="row">
 
-                                @foreach (var item in Model)
+                                @foreach (var item in Model.OrderByDescending(x => x.Id).Where(x=> x.IsActive == true && x.IsLock == false))
                                 {
                                     <div class="col-lg-4">
                                             <div class="card__post ">
