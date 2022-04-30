@@ -13,6 +13,11 @@ namespace CORE.ApplicationCommon.DTOS.NewsDTO.GuestDTO
         public string Biography { get; set; }
         public string Email { get; set; }
         public bool IsActive { get; set; }
+        public string Facebook { get; set; }
+        public string Twitter { get; set; }
+        public string Instagram { get; set; }
+        public string Youtube { get; set; }
+        public string Gmail { get; set; }
         public DateTime? UpdatedTime { get; set; }
         public DateTime? CreatedTime { get; set; }
 

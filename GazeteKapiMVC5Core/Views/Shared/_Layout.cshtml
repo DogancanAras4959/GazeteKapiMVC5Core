@@ -47,6 +47,12 @@
     <script src="https://uploads.gazetekapı.com/admin/wwwroot/assets/js/pages/dashboard.init.js"></script>
     <script src="https://uploads.gazetekapı.com/admin/wwwroot/assets/js/app.js"></script>
     <script src="https://uploads.gazetekapı.com/admin/wwwroot/assets/libs/admin-resources/bootstrap-filestyle/bootstrap-filestyle.min.js"></script>
+   
+    <script type="text/javascript">
+        function preventBack() { window.history.forward(); }
+        setTimeout("preventBack()", 0);
+        window.onunload = function () { null };
+    </script>
 
     @RenderSection("Scripts", required: false)
 

@@ -36,7 +36,7 @@
 
     @foreach (var item in haberlerManset.OrderByDescending(x => x.Id).ToList().Where(x => x.IsActive == true && x.IsLock == false))
     {
-        if (item.categories.CategoryName.Contains("Gündem"))
+        if (item.categories.CategoryName.Contains("GÜNDEM"))
         {
             if (item.IsSlide == false)
             {
@@ -111,7 +111,7 @@
                         NewListViewModelWeb[] tagsList = newListData.ToArray();
                     }*@
 
-                @foreach (var item in haberlerManset.OrderByDescending(x=> x.Id).Where(x => x.categories.CategoryName == "Ekonomi" && x.IsLock == false && x.IsActive == true).Take(4))
+                @foreach (var item in haberlerManset.OrderByDescending(x=> x.Id).Where(x => x.categories.CategoryName == "EKONOMİ" && x.IsLock == false && x.IsActive == true).Take(4))
                 {
 
                     <div class="col-sm-6">

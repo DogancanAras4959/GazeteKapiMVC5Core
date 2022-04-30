@@ -9,13 +9,14 @@ function toggleTheme() {
         setTheme('theme-light');
         $('.logo-light').css('display', 'block');
         $('.logo-dark').css('display', 'none');
-
-
-
+        $('#hamburgerMenu').css('display', 'none');
+        $('#hamburgerLight').css('display', 'block');
     } else {
         setTheme('theme-dark');
         $('.logo-light').css('display', 'none');
         $('.logo-dark').css('display', 'block');
+        $('#hamburgerMenu').css('display', 'block');
+        $('#hamburgerLight').css('display', 'none');
     }
 }
 

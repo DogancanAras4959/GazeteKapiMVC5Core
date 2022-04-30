@@ -16,7 +16,8 @@ namespace GazeteKapiMVC5Core.Core.Extensions
         {
             if (context.HttpContext.Session.GetString("user") == null)
             {
-                context.HttpContext.Response.Redirect("/Yonetici/GirisYap");
+                //context.HttpContext.Response.Redirect("/Yonetici/GirisYap");
+                context.Result = new RedirectResult("/Yonetici/GirisYap");
             }
             base.OnActionExecuting(context);
         }

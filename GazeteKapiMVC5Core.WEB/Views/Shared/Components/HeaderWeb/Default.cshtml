@@ -9,7 +9,7 @@
 }
 
 <link href="http://uploads.gazetekapı.com/front/wwwroot/css/base/pagelineweb.css" rel="stylesheet" />
-
+<link href="~/hamburger.css" rel="stylesheet" />
 <header class="bg-light">
     <!-- Navbar  Top-->
     <div class="topbar d-sm-block" style="background-color: #f4c625;">
@@ -76,7 +76,8 @@
                 </figure>
                 <div class="offcanvas-header">
                     <div data-toggle="modal" data-target="#modal_aside_right" class="btn-md">
-                        <span class="navbar-toggler-icon"></span>
+                        <span id="hamburgerMenu" style="display:none;" class="navbar-toggler-icon"></span>
+                        <span id="hamburgerLight" class="navbar-toggler-icon"></span>
                     </div>
                 </div>
                 <div class="justify-content-between" id="main_nav99">
@@ -135,7 +136,15 @@
                                         <a asp-action="kategori" asp-controller="anasayfa" asp-route-id="@item.Id" class="menu-link"> @item.CategoryName.ToUpper() </a> <div class="menu-rect"></div>
                                     </li>
                                 }
-
+                            <li>
+                                <label id="menu-hamburger-label">
+                                    <input type="checkbox">
+                                    <span class="menu">
+                                        <span id="hamburgerMenu" class="hamburger menu-link" wfd-invisible="true"></span>
+                                    </span>
+                                </label>
+                                    @*<span id="hamburgerLight" style="position: relative; right: -7px; top: -2px;" class="menu-link navbar-toggler-icon"></span>*@
+                            </li>
                                 @*<li class="nav-item">
                                     <a asp-action="yazarlar" asp-controller="anasayfa" class="menu-link"> YAZARLAR </a> <div class="menu-rect"></div>
                                 </li>*@
@@ -251,7 +260,7 @@
         <div class="row row-banners">
             <div class="col-3 col-sm-3 banner-3">
                 <a href="@Url.Action("aboneol","anasayfa")">
-                    <img style="width:100%" src="https://uploads.gazetekapı.com/images/lemonde.jpg" />
+                    <img style="width:100%" src="https://uploads.gazetekapı.com/images/ust-menu-lemonde-son.svg" />
                 </a>
             </div>
             <div class="col-9 col-sm-9 banner-9">

@@ -4,6 +4,7 @@ using GazeteKapiMVC5Core.Profiles;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -51,13 +52,12 @@ namespace GazeteKapiMVC5Core
             });
             IMapper mapper = mappingConfig.CreateMapper();
             services.AddSingleton(mapper);
-            services.AddSession(x => x.IdleTimeout = TimeSpan.FromHours(1));
+            services.AddSession();
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
             {
                 options.Cookie.HttpOnly = true;
-                options.ExpireTimeSpan = TimeSpan.FromHours(1);
-                //options.LoginPath = "/Account/Login";
-                options.AccessDeniedPath = "/Yonetici/GirisYap";
+                options.AccessDeniedPath = new PathString("/Yonetici/GirisYap/");
+                options.LoginPath = new PathString("/Yonetici/GirisYap/");
                 options.SlidingExpiration = true;
             });
         }

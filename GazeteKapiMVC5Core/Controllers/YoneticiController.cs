@@ -11,6 +11,8 @@ using GazeteKapiMVC5Core.Models.Log.LogModel;
 using GazeteKapiMVC5Core.Models.News.NewsModel;
 using GazeteKapiMVC5Core.Models.Role;
 using GazeteKapiMVC5Core.Models.Settings;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -21,6 +23,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -95,6 +98,22 @@ namespace GazeteKapiMVC5Core.Controllers
                         SessionExtensionMethod.SetObject(HttpContext.Session, "user", getUser);
                         HttpContext.Session.GetString("user");
                         Response.Cookies.Append("LastLoggedInTime", DateTime.Now.ToString());
+
+                        var claims = new List<Claim>
+                        {
+                            new Claim(ClaimTypes.Name, getUser.DisplayName),
+                            new Claim("Id", getUser.Id.ToString()),
+                            new Claim(ClaimTypes.Role,getUser.RoleId.ToString())
+                        };
+
+                        var claims_identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                        var auth_properties = new AuthenticationProperties
+                        {
+                            ExpiresUtc = System.DateTimeOffset.UtcNow.AddDays(5)
+                        };
+
+                        await HttpContext.SignInAsync(
+                        CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claims_identity), auth_properties);
 
                         await CreateModeratorLog("Başarılı", "Giriş İşlemi", "GirisYap", "Yonetici", "Başarılı bir giriş işlemi gerçekleştirildi");
 
@@ -439,6 +458,7 @@ namespace GazeteKapiMVC5Core.Controllers
         {
             HttpContext.Session.Remove("user");
             HttpContext.Session.Clear();
+
             return RedirectToAction("GirisYap", "Yonetici");
         }
 

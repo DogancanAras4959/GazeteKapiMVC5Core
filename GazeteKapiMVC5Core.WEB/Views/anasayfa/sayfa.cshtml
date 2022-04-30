@@ -82,7 +82,7 @@
             </div>
             <div class="col-md-12">
                 <div class="article__entry-carousel">
-                    @foreach (var item in haberlerManset.Where(x => x.categories.CategoryName == "Dünya" && x.IsLock == false && x.IsActive == true).OrderByDescending(x => x.Id))
+                    @foreach (var item in haberlerManset.Where(x => x.categories.CategoryName == "DÜNYA" && x.IsLock == false && x.IsActive == true).OrderByDescending(x => x.Id))
                     {
                         count++;
 
@@ -139,7 +139,7 @@
 
                     <div class="row" style="margin-top:15px;">
 
-                        @foreach (var item in haberlerManset.OrderByDescending(x=> x.Id).Where(x => x.categories.CategoryName == "Kültür / Sanat" && x.IsLock == false && x.IsActive == true).OrderBy(x => x.Id))
+                        @foreach (var item in haberlerManset.OrderByDescending(x=> x.Id).Where(x => x.categories.CategoryName == "KÜLTÜR / SANAT" && x.IsLock == false && x.IsActive == true).OrderBy(x => x.Id))
                         {
                             count++;
                             <div class="col-sm-12 col-md-4 mb-1">

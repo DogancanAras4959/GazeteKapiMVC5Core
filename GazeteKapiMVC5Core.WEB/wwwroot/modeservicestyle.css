@@ -7,10 +7,28 @@ body {
     background: var(--color-secondary);
     color: var(--font-color);
 }
+ h1{
+     color: var(--font-color);
+ }
 
-    body h1,h2,h3,h4,h5,h6 {
-        color: var(--font-color) !important;
-    }
+ h4{
+     color: var(--font-color);
+ }
+
+.content-box-title {
+    position: relative;
+    left: 7px;
+    top: 2px;
+    color: var(--font-color) !important;
+}
+
+.wrap__article-detail-title h3 {
+    font-size: 18px;
+    color: var(--font-color) !important;
+    font-weight: 500;
+    line-height: 25px;
+    margin-bottom: 10px;
+}
 
 .article__entry .article__content h5 a {
     color: var(--font-color) !important;
@@ -45,10 +63,21 @@ body {
     color: var(--font-color) !important;
 }
 
+.team-member .member figcaption {
+    width: 100%;
+    border: 1px solid var(--color-dark);
+    padding: 15px 10px;
+    text-align: center;
+    background-color: var(--color-dark);
+    border-radius: 3px;
+}
+
+
 .theme-light {
     --color-primary: #0060df;
     --color-secondary: #fbfbfe;
     --color-accent: #fd6f53;
+    --color-dark: #fbfbfe;
     --font-color: #000000;
 }
 
@@ -56,6 +85,7 @@ body {
     --color-primary: #17ed90;
     --color-secondary: #2a2c2d;
     --color-accent: #12cdea;
+    --color-dark: #201e1e;
     --font-color: #ffffff;
 }
 
@@ -99,6 +129,10 @@ body {
         width: 0;
         height: 0;
     }
+
+#hamburgerMenu {
+    background-image: url(https://uploads.gazetekapı.com/images/mobilemenu.png);
+}
 
 /* The slider */
 .slider {

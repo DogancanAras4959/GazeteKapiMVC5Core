@@ -49,7 +49,7 @@
                         <div class="col-md-6">
 
                             <label for="example-text-input" class="col-sm-12 col-form-label">Email Adresi (Zorunlu değildir)</label>
-                            <input asp-for="Email" autocomplete="off" data-toggle="tooltip" data-placement="bottom" class="form-control" type="email" placeholder="Eamil adresi giriniz (Zorunlu değildir)" id="example-text-input">
+                            <input asp-for="Email" autocomplete="off" data-toggle="tooltip" data-placement="bottom" class="form-control" type="email" placeholder="Email adresi giriniz (Zorunlu değildir)" id="example-text-input">
                             <span asp-validation-for="Email" class="text-danger"></span>
 
                         </div>
@@ -60,6 +60,44 @@
                         <label for="example-text-input" class="col-sm-12 col-form-label">Biyografi (Zorunlu değildir)</label>
                         <textarea asp-for="Biography" rows="4" cols="50" data-toggle="tooltip" data-placement="bottom" class="form-control" type="text" placeholder="Yazar biyografisi giriniz (Zorunlu değildir)" id="example-text-input"></textarea>
                         <span asp-validation-for="Biography" class="text-danger"></span>
+                    </div>
+                    <div class="row g-3 needs-validation mb-3" novalidate>
+
+                        <div class="col-md-6">
+
+                            <label for="example-text-input" class="col-sm-12 col-form-label">Facebook</label>
+                            <input asp-for="Facebook" autocomplete="off" data-toggle="tooltip" data-placement="bottom" class="form-control" type="text" placeholder="Facebook hesabını girin..." id="example-text-input">
+                            <span asp-validation-for="Facebook" class="text-danger"></span>
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <label for="example-text-input" class="col-sm-12 col-form-label">Twitter</label>
+                            <input asp-for="Twitter" autocomplete="off" data-toggle="tooltip" data-placement="bottom" class="form-control" type="email" placeholder="Twitter hesabını girin..." id="example-text-input">
+                            <span asp-validation-for="Twitter" class="text-danger"></span>
+
+                        </div>
+
+                    </div>
+                    <div class="row g-3 needs-validation mb-3" novalidate>
+
+                        <div class="col-md-6">
+
+                            <label for="example-text-input" class="col-sm-12 col-form-label">Instagram</label>
+                            <input asp-for="Instagram" autocomplete="off" data-toggle="tooltip" data-placement="bottom" class="form-control" type="text" placeholder="Facebook hesabını girin..." id="example-text-input">
+                            <span asp-validation-for="Instagram" class="text-danger"></span>
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <label for="example-text-input" class="col-sm-12 col-form-label">Youtube</label>
+                            <input asp-for="Youtube" autocomplete="off" data-toggle="tooltip" data-placement="bottom" class="form-control" type="email" placeholder="Twitter hesabını girin..." id="example-text-input">
+                            <span asp-validation-for="Youtube" class="text-danger"></span>
+
+                        </div>
+
                     </div>
                     <div class="mb-3">
                         <input type="submit" class="btn btn-primary btn-sm" style="min-width: 215px; font-size: 18px; display: block; margin: 0 auto;" value="YAZAR OLUŞTUR" />

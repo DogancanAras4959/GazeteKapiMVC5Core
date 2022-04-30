@@ -1,0 +1,94 @@
+﻿*, *:before, *:after 
+{ box-sizing: border-box; }
+
+#menu-hamburger-label .menu {
+    position: relative;
+    z-index: 100;
+    height: 23px;
+    border-radius: 50% 50% 50% 50%;
+    -webkit-transition: .5s ease-in-out;
+    transition: .5s ease-in-out;
+    box-shadow: 0 0 0 0 #fff, 0 0 0 0 #fff;
+    cursor: pointer;
+}
+
+#menu-hamburger-label .hamburger {
+    position: relative;
+    top: 5px;
+    width: 27px;
+    height: 2px;
+    background: #000000;
+    display: block;
+    -webkit-transform-origin: center;
+    transform-origin: center;
+    -webkit-transition: .5s ease-in-out;
+    transition: .5s ease-in-out;
+}
+
+    #menu-hamburger-label .hamburger:after, label .hamburger:before {
+        -webkit-transition: .5s ease-in-out;
+        transition: .5s ease-in-out;
+        content: "";
+        position: absolute;
+        display: block;
+        width: 100%;
+        height: 100%;
+        background: #000000;
+    }
+
+    #menu-hamburger-label .hamburger:before {
+        top: -8px;
+    }
+
+    #menu-hamburger-label .hamburger:after {
+        bottom: -8px;
+    }
+
+#menu-hamburger-label input {
+    display: none;
+}
+
+    #menu-hamburger-label input:checked + .menu {
+        box-shadow: 0 0 0 100vw #FFF, 0 0 0 100vh #FFF;
+        border-radius: 0;
+    }
+
+        #menu-hamburger-label input:checked + .menu .hamburger {
+            -webkit-transform: rotate(45deg);
+            transform: rotate(45deg);
+        }
+
+            #menu-hamburger-label input:checked + .menu .hamburger:after {
+                -webkit-transform: rotate(90deg);
+                transform: rotate(90deg);
+                bottom: 0;
+            }
+
+            #menu-hamburger-label input:checked + .menu .hamburger:before {
+                -webkit-transform: rotate(90deg);
+                transform: rotate(90deg);
+                top: 0;
+            }
+
+        #menu-hamburger-label input:checked + .menu + ul {
+            opacity: 1;
+        }
+
+#menu-hamburger-label ul {
+    z-index: 200;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    -webkit-transition: .25s 0s ease-in-out;
+    transition: .25s 0s ease-in-out;
+}
+
+#menu-hamburger-label a {
+    margin-bottom: 1em;
+    display: block;
+    color: #f38630;
+    text-decoration: none;
+}
