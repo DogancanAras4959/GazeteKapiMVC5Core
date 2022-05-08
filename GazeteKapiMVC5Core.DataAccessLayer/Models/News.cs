@@ -15,6 +15,7 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Models
         }
 
         public int Id { get; set; }
+        public string MetaTitle { get; set; }
         public string Title { get; set; }
         public string Spot { get; set; }
         public string NewsContent { get; set; }
@@ -24,13 +25,14 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Models
         public DateTime? UpdatedTime { get; set; }
         public DateTime? PublishedTime { get; set; }
         public bool IsActive { get; set; }
+        public bool IsTitle { get; set; }
         public bool IsLock { get; set; }
         public bool IsOpenNotifications { get; set; }
         public bool IsCommentActive { get; set; }
         public bool IsSlide { get; set; }
         public int Views { get; set; }
         public string Sound { get; set; }
-
+        public int ParentNewsId { get; set; }
 
         [ForeignKey("categories")]
         public int CategoryId { get; set; }

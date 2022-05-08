@@ -640,7 +640,7 @@ namespace GazeteKapiMVC5Core.Controllers
                 {
                     if (!await _newService.NewsIfExists(model.Title))
                     {
-                        if (file != null)
+                        if (file != null && file.Length > 0)
                         {
                             if (model.GuestId == 999)
                             {
@@ -672,6 +672,14 @@ namespace GazeteKapiMVC5Core.Controllers
                                         //var path = Path.Combine(this._webHostEnvironment.WebRootPath, "Files", uploadfilename);
                                         //var stream = new FileStream(path, FileMode.Create);
                                         //await file.CopyToAsync(stream);
+
+                                        string[] allowImageTypes = new string[] {"image/jpeg","image(png" };
+
+                                        if (!allowImageTypes.Contains(file.ContentType.ToLower()))
+                                        {
+                                            return View(model);
+                                        }
+
                                         model.Image = SaveImageProcess.ImageInsert(file, "Admin");
                                         model.UserId = yoneticiGetir.Id;
                                         int resultId = Convert.ToInt32(await _newService.createNews(_mapper.Map<NewsCreateViewModel, NewsDto>(model)));
@@ -790,6 +798,9 @@ namespace GazeteKapiMVC5Core.Controllers
                 var guestList = _mapper.Map<List<GuestListItemDto>, List<GuestListViewModel>>(_newService.guestList());
                 ViewBag.Guests = new SelectList(guestList, "Id", "GuestName", news.GuestId);
 
+                var newList = _mapper.Map<List<NewsListItemDto>, List<NewsLıstItemModel>>(_newService.newsList());
+                ViewBag.News = newList;
+
                 if (durum == "")
                 {
                     TempData["durum"] = null;
@@ -877,7 +888,7 @@ namespace GazeteKapiMVC5Core.Controllers
                                         }
                            
                                         await CreateModeratorLog("Başarılı", "Güncelleme", "HaberDuzenle", "Haber", "Haber güncellemesi başarıyla gerçekleşti. Haberinizi istediğiniz gibi düzenleyebilirsiniz!");
-                                        return RedirectToAction("HaberDuzenle", "Haber", new { Id = resultId });
+                                        return RedirectToAction("Haberler", "Haber");
                                     }
                                 }
                                 else
@@ -901,7 +912,8 @@ namespace GazeteKapiMVC5Core.Controllers
                                         }
 
                                         await CreateModeratorLog("Başarılı", "Güncelleme", "HaberDuzenle", "Haber", "Haber güncellemesi başarıyla gerçekleşti. Haberinizi istediğiniz gibi düzenleyebilirsiniz!");
-                                        return RedirectToAction("HaberDuzenle", "Haber", new { Id = resultId });
+                                        return RedirectToAction("Haberler", "Haber");
+
                                     }
                                 }
 
@@ -1134,6 +1146,45 @@ namespace GazeteKapiMVC5Core.Controllers
                 await CreateModeratorLog("Sistem Hatası", "Silme", "HaberSil", "Haber", detay);
                 TempData["HataMesaji"] = ex.ToString();
                 return RedirectToAction("ErrorPage", "Home");
+            }
+        }
+
+        [HttpPost]
+        public IActionResult UploadImages(IList<IFormFile> files)
+        {
+            var filePath = "";
+            foreach (IFormFile photo in Request.Form.Files)
+            {
+                filePath = SaveImageProcess.ImageInsert(photo, "Admin");
+            }
+            return Json(new { url = "https://uploads.gazetekapı.com/images/" + filePath });
+        }
+
+        [HttpPost]
+        public async Task HaberIliskilendir(string haberlist, int haberId)
+        {
+            string[] array = haberlist.Split(',');
+            foreach (var item in array)
+            {
+                int CurrentId = Convert.ToInt32(item);
+                var news = _mapper.Map<NewsDto, NewsEditViewModel>(_newService.getNews(CurrentId));
+                news.ParentNewsId = haberId;
+                int resultId = Convert.ToInt32(await _newService.editNews(_mapper.Map<NewsEditViewModel, NewsDto>(news)));
+            }
+        }
+
+        public async Task<IActionResult> IliskiliHaberiKaldir(int id)
+        {
+            var news = _mapper.Map<NewsDto, NewsEditViewModel>(_newService.getNews(id));
+            try
+            {
+                news.ParentNewsId = 0;
+                int resultId = Convert.ToInt32(await _newService.editNews(_mapper.Map<NewsEditViewModel, NewsDto>(news)));
+                return RedirectToAction("HaberDuzenle", "Haber", new { id = news.ParentNewsId });
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("HaberDuzenle", "Haber", new { id = news.ParentNewsId });
             }
         }
 

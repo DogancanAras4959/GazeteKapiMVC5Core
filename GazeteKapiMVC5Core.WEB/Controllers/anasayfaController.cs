@@ -224,8 +224,10 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
             ViewBag.CategotyList = categoryNewList;
 
             List<NewListViewModelWeb> newListAll = _mapper.Map<List<NewsListItemDto>, List<NewListViewModelWeb>>(_newService.newsListWithWeb());
-            ViewBag.AllNewsList = newListAll;
 
+            ViewBag.AllNewsList = newListAll;
+            ViewBag.MetaTitle = friendlyTitle;
+           
             if (!string.Equals(friendlyTitle, Title, StringComparison.Ordinal))
             {
                 // If the title is null, empty or does not match the friendly title, return a 301 Permanent
@@ -235,7 +237,6 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
 
             return View(newsGet);
         }
-
         public IActionResult gizlilikpolitikasi()
         {
             var getPrivacy = _mapper.Map<PrivacyDto, PrivacyBaseViewModel>(_settingService.getPrivacy(1));

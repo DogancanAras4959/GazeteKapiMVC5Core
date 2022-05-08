@@ -8,6 +8,7 @@ namespace CORE.ApplicationCommon.DTOS.NewsDTO
 {
     public class NewBaseDto
     {
+        public string MetaTitle { get; set; }
         public string Title { get; set; }
         public string Spot { get; set; }
         public string NewsContent { get; set; }
@@ -19,10 +20,12 @@ namespace CORE.ApplicationCommon.DTOS.NewsDTO
         public int Views { get; set; }
         public bool IsActive { get; set; }
         public bool IsLock { get; set; }
+        public bool IsTitle { get; set; }
         public bool IsOpenNotifications { get; set; }
         public bool IsCommentActive { get; set; }
         public bool IsSlide { get; set; }
         public int CategoryId { get; set; }
+        public int ParentNewsId { get; set; }
         public int UserId { get; set; }
         public int GuestId { get; set; }
         public int PublishTypeId { get; set; }

@@ -264,7 +264,8 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Migrations
                         .HasColumnType("nvarchar(150)");
 
                     b.Property<string>("Gmail")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
 
                     b.Property<string>("GuestImage")
                         .HasMaxLength(100)
@@ -391,10 +392,19 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Migrations
                     b.Property<bool>("IsSlide")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("IsTitle")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("MetaTitle")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("NewsContent")
                         .IsRequired()
                         .HasMaxLength(2000)
                         .HasColumnType("nvarchar(2000)");
+
+                    b.Property<int>("ParentNewsId")
+                        .HasColumnType("int");
 
                     b.Property<int>("PublishTypeId")
                         .HasColumnType("int");

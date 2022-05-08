@@ -8,6 +8,18 @@
     List<doviz> dovizlist = ViewBag.dovizler as List<doviz>;
 }
 
+<style>
+    .menu-rect-pop {
+        width: 13px;
+        height: 13px;
+        background-color: #f4c625;
+        float: left;
+        position: relative;
+        top: 4px;
+        left: 0px;
+    }
+</style>
+
 <link href="http://uploads.gazetekapı.com/front/wwwroot/css/base/pagelineweb.css" rel="stylesheet" />
 <link href="~/hamburger.css" rel="stylesheet" />
 <header class="bg-light">
@@ -47,8 +59,8 @@
                                 <a class="sm-link" target="_blank" href="https://www.instagram.com/"><img style="height:25px;" src="https://uploads.gazetekapı.com/images/social-media/instagram.svg" /></a>
                             </li>
                             @*<li>
-                                <a class="sm-link" target="_blank" href="https://web.telegram.org/"><img style="height:25px;" src="https://uploads.gazetekapı.com/images/social-media/telegram.svg" /></a>
-                            </li>*@
+                                    <a class="sm-link" target="_blank" href="https://web.telegram.org/"><img style="height:25px;" src="https://uploads.gazetekapı.com/images/social-media/telegram.svg" /></a>
+                                </li>*@
                             <li>
                                 <a class="sm-link" target="_blank" href="https://www.google.com.tr/"><img style="height:25px;" src="https://uploads.gazetekapı.com/images/social-media/mail.svg" /></a>
                             </li>
@@ -94,34 +106,34 @@
 
                                 else
                                 {
-                                @foreach (var d in dovizlist)
-                                {
-
-                                    if (d.CurrencyCode != "XDR")
+                                    @foreach (var d in dovizlist)
                                     {
-                                        if (d.CurrencyCode.Contains("USD") || d.CurrencyCode.Contains("EUR") || d.CurrencyCode.Contains("GBP") || d.CurrencyCode.Contains("RUB"))
+
+                                        if (d.CurrencyCode != "XDR")
                                         {
-                                            foreach (var item in currencies)
+                                            if (d.CurrencyCode.Contains("USD") || d.CurrencyCode.Contains("EUR") || d.CurrencyCode.Contains("GBP") || d.CurrencyCode.Contains("RUB"))
                                             {
-                                                if (item.code == d.Kod)
+                                                foreach (var item in currencies)
                                                 {
-                                                    if (item.isRateOrDown == "down")
+                                                    if (item.code == d.Kod)
                                                     {
-                                                        <li class="nav-item" id="down-currency" style="font-size: 14px; margin-left:10px; color: #54626b">
-                                                            <span style="font-weight:500;"><img src="https://uploads.gazetekapı.com/images/social-media/chevron-down.svg" width="15" height="15" /> @d.CurrencyCode</span> @d.ForexBuying
-                                                        </li>
-                                                    }
-                                                    else if (item.isRateOrDown == "increase")
-                                                    {
-                                                        <li class="nav-item" id="inc-currency" style="font-size: 14px; margin-left: 10px; color: #54626b">
-                                                            <span style="font-weight:500;"><img src="https://uploads.gazetekapı.com/images/social-media/chevron-up.svg" width="15" height="15" /> @d.CurrencyCode</span> @d.ForexBuying
-                                                        </li>
+                                                        if (item.isRateOrDown == "down")
+                                                        {
+                                                            <li class="nav-item" id="down-currency" style="font-size: 14px; margin-left:10px; color: #54626b">
+                                                                <span style="font-weight:500;"><img src="https://uploads.gazetekapı.com/images/social-media/chevron-down.svg" width="15" height="15" /> @d.CurrencyCode</span> @d.ForexBuying
+                                                            </li>
+                                                        }
+                                                        else if (item.isRateOrDown == "increase")
+                                                        {
+                                                            <li class="nav-item" id="inc-currency" style="font-size: 14px; margin-left: 10px; color: #54626b">
+                                                                <span style="font-weight:500;"><img src="https://uploads.gazetekapı.com/images/social-media/chevron-up.svg" width="15" height="15" /> @d.CurrencyCode</span> @d.ForexBuying
+                                                            </li>
+                                                        }
                                                     }
                                                 }
                                             }
                                         }
                                     }
-                                }
                                 }
                             </ul>
                         </div>
@@ -136,18 +148,36 @@
                                         <a asp-action="kategori" asp-controller="anasayfa" asp-route-id="@item.Id" class="menu-link"> @item.CategoryName.ToUpper() </a> <div class="menu-rect"></div>
                                     </li>
                                 }
-                            <li>
-                                <label id="menu-hamburger-label">
-                                    <input type="checkbox">
-                                    <span class="menu">
-                                        <span id="hamburgerMenu" class="hamburger menu-link" wfd-invisible="true"></span>
-                                    </span>
+                                <li class="nav-item"></li>
+                                <li class="nav-item" style="margin-right:0px;">
+                                    <label id="menu-hamburger-label" style="display:block; margin-bottom:0px;">
+                                        <input type="checkbox">
+                                        <span class="menu">
+                                            <span id="hamburgerMenu" class="hamburger menu-link" wfd-invisible="true"></span>
+                                        </span>
+                                        <ul style="margin-top:100px;">
+                                            <li class="nav-item">
+                                                <img src="https://uploads.gazetekapı.com/images/@Model.Logo" alt="" class="logo logo-img">
+                                            </li>
+                                            @foreach (var item in categories.Where(x => x.Position == 0 && x.IsActive == true))
+                                            {
+                                                <li class="nav-item" style="padding-top:15px;">
+                                                    <div class="menu-rect-pop"></div>
+                                                    <a asp-action="kategori" asp-controller="anasayfa" asp-route-id="@item.Id" class="menu-link"> @item.CategoryName.ToUpper() </a>
+                                                    <div class="seperate"></div>
+                                                </li>
+                                            }
+                                            <li class="nav-item" style="margin-top:20px;">
+                                                <span style="color:#2f2f2f;">2022 © İKİFİKİR İLETİŞİM TARAFINDAN GELİŞTİRİLDİ</span>
+                                            </li>
+                                        </ul>                                       
                                 </label>
-                                    @*<span id="hamburgerLight" style="position: relative; right: -7px; top: -2px;" class="menu-link navbar-toggler-icon"></span>*@
-                            </li>
+                                @*<span id="hamburgerLight" style="position: relative; right: -7px; top: -2px;" class="menu-link navbar-toggler-icon"></span>*@
+                                </li>
+
                                 @*<li class="nav-item">
-                                    <a asp-action="yazarlar" asp-controller="anasayfa" class="menu-link"> YAZARLAR </a> <div class="menu-rect"></div>
-                                </li>*@
+            <a asp-action="yazarlar" asp-controller="anasayfa" class="menu-link"> YAZARLAR </a> <div class="menu-rect"></div>
+        </li>*@
                             </ul>
                         </div>
 

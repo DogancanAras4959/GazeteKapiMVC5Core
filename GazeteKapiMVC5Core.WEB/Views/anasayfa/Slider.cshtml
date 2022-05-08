@@ -17,32 +17,38 @@
 
 <div class="col-md-8 slide-width">
     <div class="slideshow-container" style="margin-top:3px;">
-        @foreach (var item in haberlerManset.OrderBy(x=> x.Id).Where(x=> x.IsActive == true && x.IsSlide == true && x.IsLock == false).Take(10))
-        {         
-                <div class="mySlides">
-                    <div class="card__post__body card__post__transition">
-                        <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
-                            <img src="https://uploads.gazetekapı.com/images/@item.Image" class="img-slide">
-                        </a>
+        @foreach (var item in haberlerManset.OrderBy(x => x.Id).Where(x => x.IsActive == true && x.IsSlide == true && x.IsLock == false).Take(10))
+        {
+            <div class="mySlides">
+                <div class="card__post__body card__post__transition">
+                    <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
+                        <img src="https://uploads.gazetekapı.com/images/@item.Image" class="img-slide">
+                    </a>
 
-                        <div class="text">
-                            <div class="title-word-big-right">
-                                <a class="next" onclick="plusSlides(1)"><img src="https://uploads.gazetekapı.com/images/chevron_next.png" width="20" /></a>
-                            </div>
+                    <div class="text">
+                        <div class="title-word-big-right">
+                            <a class="next" onclick="plusSlides(1)"><img src="https://uploads.gazetekapı.com/images/chevron_next.png" width="20" /></a>
+                        </div>
+                        @if (item.IsTitle == true)
+                        {
                             <span class="title-slide">
                                 @if (item.Title.Length > 70)
-                                {<a href="@Url.Action("haber", "anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">@item.Title.Substring(0, 70)<span>...</span> </a>}
-                            else
-                            {
-                                <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">@item.Title</a>
-                            }
+                                {
+                                    <a href="@Url.Action("haber", "anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">@item.Title.Substring(0, 70)<span>...</span> </a>
+                                }
+                                else
+                                {
+                                    <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">@item.Title</a>
+                                }
                             </span>
-                            <div class="title-word-big">
-                                <a class="next" onclick="plusSlides(-1)"><img src="https://uploads.gazetekapı.com/images/chevron_prev.png" width="20" /></a>
-                            </div>
+                        }
+
+                        <div class="title-word-big">
+                            <a class="next" onclick="plusSlides(-1)"><img src="https://uploads.gazetekapı.com/images/chevron_prev.png" width="20" /></a>
                         </div>
                     </div>
                 </div>
+            </div>
         }
 
     </div>
@@ -90,32 +96,32 @@
     </div>
 </div>
 
-    <script>
-        var slideIndex = 1;
-        showSlides(slideIndex);
-        function plusSlides(n) {
-            showSlides(slideIndex += n);
+<script>
+    var slideIndex = 1;
+    showSlides(slideIndex);
+    function plusSlides(n) {
+        showSlides(slideIndex += n);
+    }
+    function currentSlide(n) {
+        showSlides(slideIndex = n);
+    }
+    function showSlides(n) {
+        var i;
+        var slides = document.getElementsByClassName("mySlides");
+        var dots = document.getElementsByClassName("dot");
+        if (n > slides.length) {
+            slideIndex = 1
         }
-        function currentSlide(n) {
-            showSlides(slideIndex = n);
+        if (n < 1) {
+            slideIndex = slides.length
         }
-        function showSlides(n) {
-            var i;
-            var slides = document.getElementsByClassName("mySlides");
-            var dots = document.getElementsByClassName("dot");
-            if (n > slides.length) {
-                slideIndex = 1
-            }
-            if (n < 1) {
-                slideIndex = slides.length
-            }
-            for (i = 0; i < slides.length; i++) {
-                slides[i].style.display = "none";
-            }
-            for (i = 0; i < dots.length; i++) {
-                dots[i].className = dots[i].className.replace(" active", "");
-            }
-            slides[slideIndex - 1].style.display = "block";
-            dots[slideIndex - 1].className += " active";
+        for (i = 0; i < slides.length; i++) {
+            slides[i].style.display = "none";
         }
-    </script>
+        for (i = 0; i < dots.length; i++) {
+            dots[i].className = dots[i].className.replace(" active", "");
+        }
+        slides[slideIndex - 1].style.display = "block";
+        dots[slideIndex - 1].className += " active";
+    }
+</script>

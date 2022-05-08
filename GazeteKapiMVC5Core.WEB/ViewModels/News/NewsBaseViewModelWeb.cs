@@ -5,12 +5,15 @@ namespace GazeteKapiMVC5Core.WEB.ViewModels.News
 {
     public class NewsBaseViewModelWeb
     {
+        public string MetaTitle { get; set; }
         public string Title { get; set; }
+        public bool IsTitle { get; set; }
         public string Spot { get; set; }
         public string NewsContent { get; set; }
         public int Sorted { get; set; }
         public string Image { get; set; }
         public string Tag { get; set; }
+        public int ParentNewsId { get; set; }
         public DateTime? UpdatedTime { get; set; }
         public DateTime? CreatedTime { get; set; }
         public DateTime? PublishedTime { get; set; }

@@ -20,7 +20,21 @@
     string name = "";
     int count = 0;
     string text = ViewBag.Content;
+    string MetaTitle = ViewBag.MetaTitle;
 
+}
+
+@section metacontent{
+    <title>@Model.Title</title>
+
+    <meta property="og:title" content="@Model.Title" />
+    <meta property="og:description" content="@Model.Spot" />
+    <meta property="og:image" content="https://uploads.gazetekapı.com/images/@Model.Image" />
+    <meta property="og:url" content="https://www.gazetekapı.com/@Model.Id/@MetaTitle" />
+    <meta property="keywords" content="@ViewBag.TagNews"/>
+    <meta name="twitter:title" content="@Model.Title" />
+    <meta name="twitter:description" content="@Model.Spot" />
+    <meta name="twitter:image" content="https://uploads.gazetekapı.com/images/@Model.Image" />
 }
 
 <style>
@@ -92,13 +106,12 @@
                             <li class="list-inline-item">
                                 <span class="text-dark text-capitalize ml-1">
                                     <i class="fa fa-clock-o"></i>
-                                    @Model.PublishedTime.ToString("MM/dd/yyyy HH:mm")
+                                    @Model.PublishedTime.ToString("dd/MM/yyyy HH:mm")
                                 </span>
                             </li>
                             <li class="list-inline-item" style="float:right;">
                                 @if (Model.Sound != null || Model.Sound == "")
                                 {
-
                                     <audio id="player" src="https://uploads.gazetekapı.com/sounds/@Model.Sound" type="audio/ogg">
                                     </audio>
                                     <img src="https://uploads.gazetekapı.com/images/headphone.svg" class="headphone-cs" />
@@ -115,14 +128,12 @@
                         <div class="img-cat">
                             @foreach (var category in categories)
                             {
-
                                 if (category.Id == Model.CategoryId)
                                 {
                                     name = category.CategoryName;
                                     break;
                                 }
                             }
-
                             <a asp-action="kategori" asp-controller="anasayfa" asp-route-id="@Model.CategoryId">
                                 <span class="text-rect">@name.Substring(0, 1).ToUpper()</span>
                             </a>
@@ -198,7 +209,7 @@
 
                 <div class="related-article">
                     <div class="article__entry-carousel-three">
-                        @foreach (var item in newListRelational)
+                        @foreach (var item in newListAll.Where(x=> x.ParentNewsId == Model.Id))
                         {
                             if (item.Id != Model.Id)
                             {
@@ -215,7 +226,7 @@
                                             <ul class="list-inline">
                                                 <li class="list-inline-item">
                                                     <span>
-                                                        @item.PublishedTime.Value.ToString("MM/dd/yyyy HH:mm")
+                                                        @item.PublishedTime.Value.ToString("dd/MM/yyyy HH:mm")
                                                     </span>
                                                 </li>
 
@@ -303,7 +314,7 @@
                                                     <li class="list-inline-item">
                                                         <i class="fa fa-clock-o"></i>
                                                         <span class="text-dark text-capitalize">
-                                                            @item.PublishedTime.Value.ToString("MM/dd/yyyy HH:mm")
+                                                            @item.PublishedTime.Value.ToString("dd/MM/yyyy HH:mm")
                                                         </span>
                                                     </li>
                                                 </ul>
@@ -377,7 +388,7 @@
                                                     <li class="list-inline-item">
                                                         <i class="fa fa-clock-o"></i>
                                                         <span class="text-dark text-capitalize">
-                                                            @item.PublishedTime.Value.ToString("MM/dd/yyyy HH:mm")
+                                                            @item.PublishedTime.Value.ToString("dd/MM/yyyy HH:mm")
                                                         </span>
                                                     </li>
                                                 </ul>
@@ -409,7 +420,7 @@
 
             </div>
         </div>
-        </div>
+    </div>
 </section>
 
 @*@section Scripts {
