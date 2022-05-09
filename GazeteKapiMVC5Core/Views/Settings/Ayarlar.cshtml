@@ -17,12 +17,12 @@
                         <p class="card-title-desc">Site ayarlarınız ile ilgili tüm düzenlemelerinizi buradan gerçekleştirin</p>
                     </div>
                     <div class="mb-3">
-                        <img id="img" style="max-width:200px;" src="https://uploads.gazetekapı.com/images/@Model.Logo" />
+                        <img id="img" style="max-width:200px;" src="https://uploads.gazetekapi.com/images/@Model.Logo" />
                         <label for="example-text-input" style="margin-top:10px;" class="col-sm-12 col-form-label">Logonuzu Seçin <strong>*(.png formatında yükleyiniz)</strong></label>
                         <input type="file" class="filestyle" id="upload" data-input="false" name="file" data-buttonname="btn-secondary">
                     </div>
                     <div class="mb-3">
-                        <img id="imgFooter" style="max-width:200px;" src="https://uploads.gazetekapı.com/images/@Model.FooterLogo" />
+                        <img id="imgFooter" style="max-width:200px;" src="https://uploads.gazetekapi.com/images/@Model.FooterLogo" />
                         <label for="example-text-input" style="margin-top:10px;" class="col-sm-12 col-form-label">Footer Logonuzu Seçin <strong>*(.png formatında yükleyiniz)</strong></label>
                         <input type="file" class="filestyle" id="uploadFooter" data-input="false" name="fileFooter" data-buttonname="btn-secondary">
                     </div>
@@ -43,7 +43,7 @@
                         <label for="example-text-input" class="col-sm-12 col-form-label">Copyright</label>
                         <input asp-for="CopyrightText" autocomplete="off" data-toggle="tooltip" style="max-width:400px;" data-placement="bottom" class="form-control" type="text" id="example-text-input">
                     </div>
-                    @*<div class="mb-3">
+                    <div class="mb-3">
                         <input type="checkbox" asp-for="LogIsActive" />
                         <label class="col-sm-11">Loglamayı aktifleştir</label>
                         <p>
@@ -57,7 +57,7 @@
                             <small>* (Hata yakalamak için Loglama servisiyle beraber <span class="text-success">AKTİF</span> çalışılması önerilir)</small>
                         </p>
                     </div>
-                    <div class="mb-3">
+                    @*<div class="mb-3">
                         <input type="checkbox" asp-for="GetAgencyNewsService" />
                         <label class="col-sm-11">Ajans Servislerinden gelen haber akışını aktifleştir</label>
                         <p>
@@ -77,7 +77,7 @@
     </div>
 </div>
 
-<script src="https://uploads.gazetekapı.com/admin/wwwroot/assets/libs/jquery/jquery.min.js"></script>
+<script src="https://uploads.gazetekapi.com/admin/wwwroot/assets/libs/jquery/jquery.min.js"></script>
 
 <script>
     $(function () {

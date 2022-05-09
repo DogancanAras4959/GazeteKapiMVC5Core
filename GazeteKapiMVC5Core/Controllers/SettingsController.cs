@@ -4,6 +4,7 @@ using CORE.ApplicationCommon.DTOS.PrivacyDTO.PolicyDto;
 using CORE.ApplicationCommon.DTOS.PrivacyDTO.PrivacyDto;
 using CORE.ApplicationCommon.DTOS.PrivacyDTO.TermsOfUsDto;
 using CORE.ApplicationCommon.DTOS.SetingsDTO;
+using CORE.ApplicationCommon.Helpers;
 using GazeteKapiMVC5Core.Core.Extensions;
 using GazeteKapiMVC5Core.Models.Account;
 using GazeteKapiMVC5Core.Models.Settings;
@@ -60,24 +61,14 @@ namespace GazeteKapiMVC5Core.Controllers
 
                     if (file != null)
                     {
-                        string uploadfilename = Path.GetFileNameWithoutExtension(file.FileName);
-                        string extension = Path.GetExtension(file.FileName);
-                        uploadfilename = uploadfilename + DateTime.Now.ToString("yymmssfff") + extension;
-                        var path = Path.Combine(this._webHostEnvironment.WebRootPath, "Files", uploadfilename);
-                        var stream = new FileStream(path, FileMode.Create);
-                        await file.CopyToAsync(stream);
-                        model.Logo = uploadfilename;
+
+                        model.Logo = SaveImageProcess.ImageInsert(file, "Admin");
                     }
 
                     if (fileFooter != null)
                     {
-                        string uploadfilename = Path.GetFileNameWithoutExtension(fileFooter.FileName);
-                        string extension = Path.GetExtension(fileFooter.FileName);
-                        uploadfilename = uploadfilename + DateTime.Now.ToString("yymmssfff") + extension;
-                        var path = Path.Combine(this._webHostEnvironment.WebRootPath, "Files", uploadfilename);
-                        var stream = new FileStream(path, FileMode.Create);
-                        await fileFooter.CopyToAsync(stream);
-                        model.FooterLogo = uploadfilename;
+
+                        model.FooterLogo = SaveImageProcess.ImageInsert(fileFooter, "Admin");
                     }
 
                     if (await _settingService.editSiteSettings(_mapper.Map<SettingsEditViewModel, SettingsDto>(model)))

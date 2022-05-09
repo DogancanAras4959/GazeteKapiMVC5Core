@@ -1,29 +1,67 @@
-﻿<!DOCTYPE html>
+﻿@using GazeteKapiMVC5Core.WEB.Models.MetaConfig 
+
+@{ 
+    MetaViewModel meta = ViewBag.Meta as MetaViewModel;
+}
+
+<!DOCTYPE html>
 <html lang="">
 
 <head>
 
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1" />  
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=yes" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8;" />
+    <meta name="rating" content="general" />
+    <meta name="abstract" content="security" />
+    <meta name="robots" content="all" />
+    <meta name="googlebot" content="Index, Follow" />
+    <meta name="robots" content="Index, Follow" />
+    <meta name="distribution" content="global" />
+    <meta name="application-name" content="gazetekapi" />
     <meta name="theme-color" content="#030303" />
     <meta name="language" content="Turkish" />
+    <meta name="author" content="Gazetekapı" />
+
+    <meta http-equiv="refresh" content="180, url=@Url.Action("sayfa","anasayfa")">
     <meta name="google-site-verification" content="-yBJ5UFx3dae3cclgxb_CL32eWvv1ju5Utc_DivwiaM" />
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="tr_TR" />
     <meta property="og:site_name" content="Gazete Kapı" />
     <meta name="twitter:card" content="summary_larg_image" />
-    <meta name="twitter:site" content="" /> 
-   
-    @RenderSection("metacontent", false)
+    <meta name="twitter:site" content="" />
+    <script type="text/javascript">
 
-    <link rel="icon" type="image/x-icon" href="https://uploads.gazetekapı.com/front/wwwroot/kapi-logo.ico">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-33241980-1']);
+        _gaq.push(['_trackPageview']);
+
+        (function () {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+
+    </script>
+
+    <title>@meta.Title</title>
+    <meta property="og:title" content="@meta.Title" />
+    <meta property="og:description" content="@meta.ogDescription" />
+    <meta property="og:image" content="@meta.ogImage" />
+    <meta property="og:url" content="@meta.Url" />
+    <meta property="keywords" content="@meta.Keywords" />
+    <meta name="twitter:title" content="@meta.Title" />
+    <meta name="twitter:description" content="@meta.Description" />
+    <meta name="twitter:image" content="@meta.Image" />
+
+    <link rel="icon" type="image/x-icon" href="https://uploads.gazetekapi.com/front/wwwroot/kapi-logo.ico">
     <link rel="apple-touch-icon" href="icon.png">
     <!-- google fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,500;0,700;1,300;1,500&family=Poppins:ital,wght@0,300;0,500;0,700;1,300;1,400&display=swap"
           rel="stylesheet">
     @*<link href="./css/styles.css?537a1bbd0e5129401d28" rel="stylesheet">*@
-    <link href="https://uploads.gazetekapı.com/front/wwwroot/css/styles.css" rel="stylesheet" />
-    <link href="https://uploads.gazetekapı.com/front/wwwroot/css/base/layoutbase.css" rel="stylesheet" />
+    <link href="https://uploads.gazetekapi.com/front/wwwroot/css/styles.css" rel="stylesheet" />
+    <link href="https://uploads.gazetekapi.com/front/wwwroot/css/base/layoutbase.css" rel="stylesheet" />
     <link href="~/modeservicestyle.css" rel="stylesheet" />
     <link href="~/mobile-resp.css" rel="stylesheet" />
     <link rel="manifest" href="~/site.webmanifest.json">
@@ -110,6 +148,7 @@
             border: 1px solid #515d5e;
         }
     </style>
+
 </head>
 
 <body>
@@ -123,7 +162,7 @@
     <a href="javascript:" id="return-to-top"><i class="fa fa-chevron-up"></i></a>
 
     @*<script type="text/javascript" src="./js/index.bundle.js?537a1bbd0e5129401d28"></script>*@
-    <script src="https://uploads.gazetekapı.com/front/wwwroot/js/index.bundle.js"></script>
+    <script src="https://uploads.gazetekapi.com/front/wwwroot/js/index.bundle.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
     <script src="~/InfinitiySroll.js" type="text/javascript"></script>
     <script src="~/modeservice.js"></script>
@@ -153,16 +192,15 @@
                 Notification.requestPermission();
 
             var notification = new Notification('Hoşgeldiniz!', {
-                icon: 'https://uploads.gazetekapı.com/images/placeholder/kapi-logo.png',
+                icon: 'https://uploads.gazetekapi.com/images/placeholder/kapi-logo.png',
                 body: "Bizimle iletişime geçmek için tıklayın!",
             });
 
-
             notification.onclick = function () {
-                window.open("https://calisma.gazetekapı.com");
+                window.open("https://www.gazetekapi.com");
             }
         }
-
+        
         window.onload = notifyMe;
 
     </script>

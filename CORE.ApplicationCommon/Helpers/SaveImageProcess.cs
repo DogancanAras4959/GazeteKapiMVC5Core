@@ -21,7 +21,7 @@ namespace CORE.ApplicationCommon.Helpers
             switch (_admin)
             {
                 case "Admin":
-                    ftpInfo.Url = "ftp://uploads.gazetekapı.com//uploads/images";
+                    ftpInfo.Url = "ftp://uploads.gazetekapi.com//uploads/images";
                     ftpInfo.UserName = "sysuser_8";
                     ftpInfo.Password = "1g1*j0Ld";
                     break;
@@ -44,8 +44,8 @@ namespace CORE.ApplicationCommon.Helpers
                 var password = fTPInformation.Password;
 
                 string uploadfilename = Path.GetFileNameWithoutExtension(_file.FileName);
-                string extension = Path.GetExtension(_file.FileName);
-                uploadfilename = uploadfilename + DateTime.Now.ToString("yymmssfff") + extension;
+                //string extension = Path.GetExtension(_file.FileName);
+                uploadfilename = uploadfilename + DateTime.Now.ToString("yymmssfff") + ".webp"; /* + extension;*/
                 Stream streamObj = _file.OpenReadStream();
                 byte[] buffer = new byte[_file.Length];
                 streamObj.Read(buffer, 0, buffer.Length);

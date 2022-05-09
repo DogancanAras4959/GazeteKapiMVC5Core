@@ -21,7 +21,7 @@ namespace GazeteKapiMVC5Core.Core.Models.ConfigTTS
             switch (_admin)
             {
                 case "Admin":
-                    ftpInfo.Url = "ftp://uploads.gazetekapı.com//uploads/sounds";
+                    ftpInfo.Url = "ftp://uploads.gazetekapi.com//uploads/sounds";
                     ftpInfo.UserName = "sysuser_8";
                     ftpInfo.Password = "1g1*j0Ld";
                     break;

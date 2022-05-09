@@ -1,6 +1,7 @@
 ﻿@using GazeteKapiMVC5Core.WEB.ViewModels.News;
 @using GazeteKapiMVC5Core.WEB.ViewModels.TagsNews
 @using GazeteKapiMVC5Core.WEB.ViewModels.Categories
+@using GazeteKapiMVC5Core.WEB.Models.MetaConfig
 @using Microsoft.AspNetCore.Http.Extensions;
 @using System.Web;
 @using System.Globalization;
@@ -11,30 +12,13 @@
 
     List<TagNewsListViewModelWeb> tagList = ViewBag.TagNews as List<TagNewsListViewModelWeb>;
     List<CategoryListViewModelWeb> categories = ViewBag.CategotyList as List<CategoryListViewModelWeb>;
-    List<NewListViewModelWeb> newListRelational = ViewBag.Relational as List<NewListViewModelWeb>;
-    List<NewListViewModelWeb> newsListPopularite = ViewBag.Popularite as List<NewListViewModelWeb>;
-    List<NewListViewModelWeb> newsListPopulariteByCategory = ViewBag.PopulariteByCategory as List<NewListViewModelWeb>;
-    List<NewListViewModelWeb> newListByCategory = ViewBag.CategoryNewsByIdScroll as List<NewListViewModelWeb>;
     List<NewListViewModelWeb> newListAll = ViewBag.AllNewsList as List<NewListViewModelWeb>;
+    MetaViewModel meta = ViewBag.Meta as MetaViewModel;
 
     string name = "";
     int count = 0;
-    string text = ViewBag.Content;
-    string MetaTitle = ViewBag.MetaTitle;
 
-}
 
-@section metacontent{
-    <title>@Model.Title</title>
-
-    <meta property="og:title" content="@Model.Title" />
-    <meta property="og:description" content="@Model.Spot" />
-    <meta property="og:image" content="https://uploads.gazetekapı.com/images/@Model.Image" />
-    <meta property="og:url" content="https://www.gazetekapı.com/@Model.Id/@MetaTitle" />
-    <meta property="keywords" content="@ViewBag.TagNews"/>
-    <meta name="twitter:title" content="@Model.Title" />
-    <meta name="twitter:description" content="@Model.Spot" />
-    <meta name="twitter:image" content="https://uploads.gazetekapı.com/images/@Model.Image" />
 }
 
 <style>
@@ -45,7 +29,6 @@
         position: relative;
         bottom: 3px;
     }
-
     .article__entry .article__content ul.list-inline li.list-inline-item span {
         font-size: 14px;
         font-weight: 700;
@@ -81,8 +64,8 @@
     }
 </style>
 
-<link href="https://uploads.gazetekapı.com/front/wwwroot/css/loading.css" rel="stylesheet" />
-<link href="https://uploads.gazetekapı.com/front/wwwroot/css/base/pagelinenews.css" rel="stylesheet" />
+<link href="https://uploads.gazetekapi.com/front/wwwroot/css/loading.css" rel="stylesheet" />
+<link href="https://uploads.gazetekapi.com/front/wwwroot/css/base/pagelinenews.css" rel="stylesheet" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 <section class="bg-white pb-60" id="newSection">
@@ -112,9 +95,9 @@
                             <li class="list-inline-item" style="float:right;">
                                 @if (Model.Sound != null || Model.Sound == "")
                                 {
-                                    <audio id="player" src="https://uploads.gazetekapı.com/sounds/@Model.Sound" type="audio/ogg">
+                                    <audio id="player" src="https://uploads.gazetekapi.com/sounds/@Model.Sound" type="audio/ogg">
                                     </audio>
-                                    <img src="https://uploads.gazetekapı.com/images/headphone.svg" class="headphone-cs" />
+                                    <img src="https://uploads.gazetekapi.com/images/headphone.svg" class="headphone-cs" />
                                     <a class="btn-sound" onclick="document.getElementById('player').playbackRate=2" style="padding:5px; font-weight:900; font-size:17px;">2x</a>
                                     <a class="btn-sound" onclick="document.getElementById('player').playbackRate=1" style="padding:5px; font-weight:700; font-size:17px;">1x</a>
                                     <a class="btn-sound" onclick="document.getElementById('player').play()"><i style="font-size: 17px; padding: 5px;" class="fa fa-play"></i></a>
@@ -139,50 +122,28 @@
                             </a>
                         </div>
                         <figure>
-                            <img src="https://uploads.gazetekapı.com/images/@Model.Image" alt="" class="img-fluid">
+                            <img src="https://uploads.gazetekapi.com/images/@Model.Image" alt="" class="img-fluid">
                         </figure>
                     </div>
                 </div>
 
                 <div class="wrap__article-detail-content">
-                    <div class="total-views">
-                        <ul class="list-inline">
-                            <li class="list-inline-item">
-                                <a class="btn btn-social-o facebook"
-                                   href="#" target="_blank" rel="noopener noreferrer nofollow">
-                                    <i class="fa fa-facebook-f"></i>
-                                    @*<span>facebook</span>*@
-                                </a>
 
-                            </li>
-                            <li class="list-inline-item">
-                                <a class="btn btn-social-o twitter" href="#" target="_blank" rel="noopener noreferrer nofollow">
-                                    <i class="fa fa-twitter"></i>
-                                    @*<span>twitter</span>*@
-                                </a>
-                            </li>
-                            <li class="list-inline-item">
-                                <a class="btn btn-social-o whatsapp" href="#">
-                                    <i class="fa fa-whatsapp"></i>
-                                    @*<span>whatsapp</span>*@
-                                </a>
-                            </li>
-                            <li class="list-inline-item">
-                                <a class="btn btn-social-o telegram" href="#">
-                                    <i class="fa fa-telegram"></i>
-                                    @*<span>telegram</span>*@
-                                </a>
-                            </li>
+                    <div class="share-post">
+                        <div class="a2a_kit a2a_kit_size_32 a2a_default_style">
+                            <a class="a2a_button_facebook a2a_counter"></a>
+                            <a class="a2a_button_twitter"></a>
+                            <a class="a2a_button_telegram"></a>
+                            <a class="a2a_button_whatsapp"></a>
+                            <a class="a2a_button_email"></a>
+                            <a class="a2a_button_google_plus"></a>
+                            <div class="fb-like" data-send="false" data-layout="button_count" data-width="100" data-show-faces="false"></div>
+                            <g:plusone size="large" annotation="bubble" width="90"></g:plusone>
+                        </div>
+                        <script type="text/javascript" src="//static.addtoany.com/menu/page.js"></script>
 
-                            <li class="list-inline-item">
-                                <a class="btn btn-linkedin-o linkedin" href="#" target="_blank" rel="noopener noreferrer nofollow">
-                                    <i class="fa fa-envolepe"></i>
-                                    @*<span>gmail</span>*@
-                                </a>
-                            </li>
-
-                        </ul>
                     </div>
+
                     <p @*id="contentnews"*@>
                         @Html.Raw(Model.NewsContent)
                     </p>
@@ -209,7 +170,7 @@
 
                 <div class="related-article">
                     <div class="article__entry-carousel-three">
-                        @foreach (var item in newListAll.Where(x=> x.ParentNewsId == Model.Id))
+                        @foreach (var item in newListAll.Where(x => x.ParentNewsId == Model.Id))
                         {
                             if (item.Id != Model.Id)
                             {
@@ -219,7 +180,7 @@
                                     <div class="article__entry">
                                         <div class="article__image">
                                             <a href="@Url.Action("haber", "anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
-                                                <img src="https://uploads.gazetekapı.com/images/@item.Image" alt="" class="img-fluid">
+                                                <img src="https://uploads.gazetekapi.com/images/@item.Image" alt="" class="img-fluid">
                                             </a>
                                         </div>
                                         <div class="article__content">
@@ -294,7 +255,7 @@
                                 <div class="card__post card__post-list">
                                     <div class="image-sm">
                                         <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
-                                            <img src="https://uploads.gazetekapı.com/images/@item.Image" class="img-fluid" alt="">
+                                            <img src="https://uploads.gazetekapi.com/images/@item.Image" class="img-fluid" alt="">
                                         </a>
                                     </div>
 
@@ -350,7 +311,7 @@
 
                         <a href="#">
                             <figure>
-                                <img src="https://uploads.gazetekapı.com/images/banner.jpg" alt="" class="img-fluid">
+                                <img src="https://uploads.gazetekapi.com/images/banner.jpg" alt="" class="img-fluid">
                             </figure>
                         </a>
 
@@ -361,14 +322,14 @@
                     <h4 class="border_section"> Öne Çıkan Haberler </h4>
                     <div class="wrapper__list__article-small">
 
-                        @foreach (var item in newsListPopularite.OrderByDescending(x => x.Views).Take(5))
+                        @foreach (var item in newListAll.OrderByDescending(x => x.Views).Take(5))
                         {
                             <div class="mb-3">
                                 <!-- Post Article -->
                                 <div class="card__post card__post-list">
                                     <div class="image-sm">
                                         <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
-                                            <img src="https://uploads.gazetekapı.com/images/@item.Image" class="img-fluid" alt="">
+                                            <img src="https://uploads.gazetekapi.com/images/@item.Image" class="img-fluid" alt="">
                                         </a>
                                     </div>
 

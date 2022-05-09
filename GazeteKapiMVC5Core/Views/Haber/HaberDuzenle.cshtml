@@ -25,9 +25,9 @@
     }
 </style>
 
-<link href="https://uploads.gazetekapı.com/admin/wwwroot/assets/css/pageline.css" rel="stylesheet" />
-<link href="https://uploads.gazetekapı.com/admin/wwwroot/assets/libs/select2/css/select2.min.css" rel="stylesheet" type="text/css">
-<link href="https://uploads.gazetekapı.com/admin/wwwroot/assets/libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css" rel="stylesheet">
+<link href="https://uploads.gazetekapi.com/admin/wwwroot/assets/css/pageline.css" rel="stylesheet" />
+<link href="https://uploads.gazetekapi.com/admin/wwwroot/assets/libs/select2/css/select2.min.css" rel="stylesheet" type="text/css">
+<link href="https://uploads.gazetekapi.com/admin/wwwroot/assets/libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css" rel="stylesheet">
 
 <form method="post" asp-action="HaberDuzenle" asp-controller="Haber" enctype="multipart/form-data">
 
@@ -141,11 +141,11 @@
                         <div class="card-body">
                             @if (Model.Image != null)
                             {
-                                <img id="img" style="width:100%" src="https://uploads.gazetekapı.com/images/@Model.Image" />
+                                <img id="img" style="width:100%" src="https://uploads.gazetekapi.com/images/@Model.Image" />
                             }
                             else
                             {
-                                <img id="img" style="width:100%" src="https://uploads.gazetekapı.com/images/imgdefault.jpg" />
+                                <img id="img" style="width:100%" src="https://uploads.gazetekapi.com/images/imgdefault.jpg" />
                             }
                             <label style="margin-top:10px;" class="col-sm-12 text-center">*(835x510 dosya boyutu)</label>
                             <label for="example-text-input" class="col-sm-12 col-form-label text-center" style="margin-top:10px;">Öne Çıkan Görseli Güncelle</label>
@@ -275,10 +275,10 @@
 
 
 <script src="~/assets/css/ckeditor/ckeditor.js"></script>
-@*<script src="https://uploads.gazetekapı.com/admin/wwwroot/ckeditor/ckeditor.js"></script>*@
-<script src="https://uploads.gazetekapı.com/admin/wwwroot/assets/libs/jquery/jquery.min.js"></script>
-<script src="https://uploads.gazetekapı.com/admin/wwwroot/assets/libs/select2/js/select2.min.js"></script>
-<script src="https://uploads.gazetekapı.com/admin/wwwroot/assets/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+@*<script src="https://uploads.gazetekapi.com/admin/wwwroot/ckeditor/ckeditor.js"></script>*@
+<script src="https://uploads.gazetekapi.com/admin/wwwroot/assets/libs/jquery/jquery.min.js"></script>
+<script src="https://uploads.gazetekapi.com/admin/wwwroot/assets/libs/select2/js/select2.min.js"></script>
+<script src="https://uploads.gazetekapi.com/admin/wwwroot/assets/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
 
 <script type="text/javascript">
     $(function () {
@@ -306,7 +306,7 @@
                 reader.readAsDataURL(input.files[0]);
             }
             else {
-                $('#img').attr('src', 'https://uploads.gazetekapı.com/images/user.png');
+                $('#img').attr('src', 'https://uploads.gazetekapi.com/images/user.png');
             }
         });
 

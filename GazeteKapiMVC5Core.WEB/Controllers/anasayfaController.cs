@@ -8,6 +8,7 @@ using CORE.ApplicationCommon.DTOS.PrivacyDTO.PrivacyDto;
 using CORE.ApplicationCommon.DTOS.PrivacyDTO.TermsOfUsDto;
 using CORE.ApplicationCommon.Helpers;
 using GazeteKapiMVC5Core.WEB.Models.ConfigreCaptcha;
+using GazeteKapiMVC5Core.WEB.Models.MetaConfig;
 using GazeteKapiMVC5Core.WEB.Models.RenderService;
 using GazeteKapiMVC5Core.WEB.ViewModels.Categories;
 using GazeteKapiMVC5Core.WEB.ViewModels.Guests;
@@ -61,6 +62,9 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
         #region Pages
         public IActionResult sayfa()
         {
+
+            #region Data
+
             var haberlist = _mapper.Map<List<NewsListItemDto>, List<NewListViewModelWeb>>(_newService.newsListWithWeb());
 
             List<GuestListViewModelWeb> guestList = _mapper.Map<List<GuestListItemDto>, List<GuestListViewModelWeb>>(_newService.guestList());
@@ -73,6 +77,23 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
             ViewBag.TagNews = tagNewList;
             ViewBag.HaberlerManset = haberlist;
             ViewBag.GuestList = guestList;
+
+            #endregion
+
+            #region Meta
+
+            MetaViewModel meta = new MetaViewModel();
+            meta.Title = "Gazetekapı | Gündem, Bilim, Yaşam, Kültür / Sanat, Foto-Galeri, Video-Haber";
+            meta.Keywords = "Gazetekapı, Lemonde, Yaşam, Kültür, Sanat, Foto, Video, Türkiye, 2022, 2023, Seçim, Ekonomi, Siyaset, Futbol, Bilim, Teknoloji, Dünya, ABD, Rusya, Avrupa";
+            meta.Description = "Gazetekapı yeni bir habercilik anlayışıyla gerçekleri anlatacak!";
+            meta.Image = "https://uploads.gazetekapi.com/images/placeholder/kapi-logo.png";
+            meta.ogDescription = "Gazetekapı yeni bir habercilik anlayışıyla gerçekleri anlatacak!";
+            meta.ogTitle = "Gazetekapı | Gündem, Bilim, Yaşam, Kültür / Sanat, Foto-Galeri, Video-Haber";
+            meta.ogImage = "https://uploads.gazetekapi.com/images/placeholder/kapi-logo.png";
+            meta.Url = "https://www.gazetekapi.com/";
+            ViewBag.Meta = meta;
+
+            #endregion
 
             return View();
         }
@@ -204,6 +225,8 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
             var newsGet = _mapper.Map<NewsDto, NewsEditViewModelWeb>(_newService.getNews(Id));
             ViewBag.Content = HtmlToPlainText(newsGet.NewsContent);
 
+            #region Datas
+
             string friendlyTitle = Title;
             List<TagNewsListViewModelWeb> tagNewsList = _mapper.Map<List<TagNewsListItemDto>, List<TagNewsListViewModelWeb>>(_newService.tagsListWithNewsByNewsId(Id));
             ViewBag.TagNews = tagNewsList;
@@ -211,27 +234,58 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
             List<NewListViewModelWeb> newsListRelational = _mapper.Map<List<NewsListItemDto>, List<NewListViewModelWeb>>(_newService.newsListByCategoryId(newsGet.CategoryId));
             ViewBag.Relational = newsListRelational;
 
-            List<NewListViewModelWeb> newsListPopularite = _mapper.Map<List<NewsListItemDto>, List<NewListViewModelWeb>>(_newService.PopularNewsInWeb());
-            ViewBag.Popularite = newsListPopularite;
-
-            List<NewListViewModelWeb> newListPopulariteByCategory = _mapper.Map<List<NewsListItemDto>, List<NewListViewModelWeb>>(_newService.PopularNewsInWebInCategory(newsGet.CategoryId));
-            ViewBag.PopulariteByCategory = newListPopulariteByCategory;
-
-            List<NewListViewModelWeb> listCategoryNewsScroll = _mapper.Map<List<NewsListItemDto>, List<NewListViewModelWeb>>(_newService.newsListByCategoryId(newsGet.CategoryId));
-            ViewBag.CategoryNewsByIdScroll = listCategoryNewsScroll;
-
             List<CategoryListViewModelWeb> categoryNewList = _mapper.Map<List<CategoryListItemDto>, List<CategoryListViewModelWeb>>(_categoryService.GetAllCategory());
             ViewBag.CategotyList = categoryNewList;
 
             List<NewListViewModelWeb> newListAll = _mapper.Map<List<NewsListItemDto>, List<NewListViewModelWeb>>(_newService.newsListWithWeb());
-
             ViewBag.AllNewsList = newListAll;
-            ViewBag.MetaTitle = friendlyTitle;
-           
+
+            #endregion
+
+            #region GetTags
+
+            var tags = _mapper.Map<List<TagNewsListItemDto>, List<TagNewsListViewModelWeb>>(_newService.tagsListWithNewsByNewsId(Id));
+
+            List<string> list = new List<string>();
+
+            foreach (var item in tags)
+            {
+                list.Add(item.tag.TagName);
+            }
+
+            string[] tagsList = list.ToArray();
+
+            for (int i = 0; i < tagsList.Count(); i++)
+            {
+                if (newsGet.Tag != null)
+                {
+                    newsGet.Tag = newsGet.Tag + "," + tagsList[i];
+                }
+                else
+                {
+                    newsGet.Tag = tagsList[i];
+                }
+            }
+
+            #endregion
+
+            #region Meta
+
+            MetaViewModel meta = new MetaViewModel();
+            meta.Title = newsGet.MetaTitle;
+            meta.Keywords = newsGet.Tag;
+            meta.Description = newsGet.Spot;
+            meta.Image = "https://uploads.gazetekapi.com/images/" + newsGet.Image;
+            meta.ogDescription = newsGet.Spot;
+            meta.ogTitle = newsGet.Title;
+            meta.ogImage = "https://uploads.gazetekapi.com/images/" + newsGet.Image;
+            meta.Url = "https://www.gazetekapi.com/" + Id + newsGet.Title;
+            ViewBag.Meta = meta;
+
+            #endregion
+
             if (!string.Equals(friendlyTitle, Title, StringComparison.Ordinal))
             {
-                // If the title is null, empty or does not match the friendly title, return a 301 Permanent
-                // Redirect to the correct friendly URL.
                 return this.RedirectToRoutePermanent("haber", new { id = Id, title = friendlyTitle });
             }
 
@@ -447,7 +501,7 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
                 ViewBag.Hata = "Siz gerçek kullanıcı değilsiniz!";
                 return View(aboneol());
             }
-           
+
             return View(aboneol());
         }
 
