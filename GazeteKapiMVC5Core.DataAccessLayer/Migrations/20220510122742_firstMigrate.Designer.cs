@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GazeteKapiMVC5Core.DataAccessLayer.Migrations
 {
     [DbContext(typeof(NewsAppContext))]
-    [Migration("20220413134412_azurevmdataMigrate")]
-    partial class azurevmdataMigrate
+    [Migration("20220510122742_firstMigrate")]
+    partial class firstMigrate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,7 +21,39 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.0");
 
-            modelBuilder.Entity("DOMAIN.DataAccessLayer.Models.Authorizes", b =>
+            modelBuilder.Entity("GazeteKapiMVC5Core.DataAccessLayer.Models.AboutUs", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<DateTime>("UpdatedTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("aboutus");
+                });
+
+            modelBuilder.Entity("GazeteKapiMVC5Core.DataAccessLayer.Models.Authorizes", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -41,7 +73,39 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Migrations
                     b.ToTable("authorize");
                 });
 
-            modelBuilder.Entity("DOMAIN.DataAccessLayer.Models.Categories", b =>
+            modelBuilder.Entity("GazeteKapiMVC5Core.DataAccessLayer.Models.BrandPolicy", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<DateTime>("UpdatedTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("brand");
+                });
+
+            modelBuilder.Entity("GazeteKapiMVC5Core.DataAccessLayer.Models.Categories", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -84,107 +148,7 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Migrations
                     b.ToTable("categories");
                 });
 
-            modelBuilder.Entity("DOMAIN.DataAccessLayer.Models.RoleAuthorize", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<int>("AuthorizeId")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("IsChecked")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("RoleId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AuthorizeId");
-
-                    b.HasIndex("RoleId");
-
-                    b.ToTable("roleAuthorize");
-                });
-
-            modelBuilder.Entity("DOMAIN.DataAccessLayer.Models.Roles", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<DateTime?>("CreatedTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("RoleName")
-                        .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
-
-                    b.Property<DateTime?>("UpdatedTime")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("roles");
-                });
-
-            modelBuilder.Entity("DOMAIN.DataAccessLayer.Models.Users", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<DateTime?>("CreatedTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("DisplayName")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("EmailAdress")
-                        .HasMaxLength(70)
-                        .HasColumnType("nvarchar(70)");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasMaxLength(70)
-                        .HasColumnType("nvarchar(70)");
-
-                    b.Property<string>("ProfileImage")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<int>("RoleId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("UpdatedTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("UserName")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RoleId");
-
-                    b.ToTable("users");
-                });
-
-            modelBuilder.Entity("GazeteKapiMVC5Core.DataAccessLayer.Models.AboutUs", b =>
+            modelBuilder.Entity("GazeteKapiMVC5Core.DataAccessLayer.Models.CookiePolicy", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -213,7 +177,7 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("aboutus");
+                    b.ToTable("cookie");
                 });
 
             modelBuilder.Entity("GazeteKapiMVC5Core.DataAccessLayer.Models.Currency", b =>
@@ -297,6 +261,14 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
+                    b.Property<string>("Facebook")
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.Property<string>("Gmail")
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
                     b.Property<string>("GuestImage")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
@@ -306,8 +278,16 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Migrations
                         .HasMaxLength(70)
                         .HasColumnType("nvarchar(70)");
 
+                    b.Property<string>("Instagram")
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
+
+                    b.Property<string>("Twitter")
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
 
                     b.Property<DateTime?>("UpdatedTime")
                         .HasColumnType("datetime2");
@@ -315,63 +295,15 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Migrations
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
+                    b.Property<string>("Youtube")
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("UserId");
 
                     b.ToTable("guest");
-                });
-
-            modelBuilder.Entity("GazeteKapiMVC5Core.DataAccessLayer.Models.MenuItems", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("ItemName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("TypeId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("slug")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("TypeId");
-
-                    b.ToTable("items");
-                });
-
-            modelBuilder.Entity("GazeteKapiMVC5Core.DataAccessLayer.Models.MenuTypes", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("MenuName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Type")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("types");
                 });
 
             modelBuilder.Entity("GazeteKapiMVC5Core.DataAccessLayer.Models.News", b =>
@@ -410,10 +342,19 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Migrations
                     b.Property<bool>("IsSlide")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("IsTitle")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("MetaTitle")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("NewsContent")
                         .IsRequired()
                         .HasMaxLength(2000)
                         .HasColumnType("nvarchar(2000)");
+
+                    b.Property<int>("ParentNewsId")
+                        .HasColumnType("int");
 
                     b.Property<int>("PublishTypeId")
                         .HasColumnType("int");
@@ -513,6 +454,57 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Migrations
                     b.ToTable("publishTypes");
                 });
 
+            modelBuilder.Entity("GazeteKapiMVC5Core.DataAccessLayer.Models.RoleAuthorize", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<int>("AuthorizeId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsChecked")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("RoleId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AuthorizeId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("roleAuthorize");
+                });
+
+            modelBuilder.Entity("GazeteKapiMVC5Core.DataAccessLayer.Models.Roles", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<DateTime?>("CreatedTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("RoleName")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<DateTime?>("UpdatedTime")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("roles");
+                });
+
             modelBuilder.Entity("GazeteKapiMVC5Core.DataAccessLayer.Models.Settings", b =>
                 {
                     b.Property<int>("Id")
@@ -566,6 +558,38 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("setting");
+                });
+
+            modelBuilder.Entity("GazeteKapiMVC5Core.DataAccessLayer.Models.StreamPolicy", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<DateTime>("UpdatedTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("stream");
                 });
 
             modelBuilder.Entity("GazeteKapiMVC5Core.DataAccessLayer.Models.TagNews", b =>
@@ -638,9 +662,115 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Migrations
                     b.ToTable("termsofUse");
                 });
 
-            modelBuilder.Entity("DOMAIN.DataAccessLayer.Models.Categories", b =>
+            modelBuilder.Entity("GazeteKapiMVC5Core.DataAccessLayer.Models.Users", b =>
                 {
-                    b.HasOne("DOMAIN.DataAccessLayer.Models.Users", "user")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<DateTime?>("CreatedTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DisplayName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("EmailAdress")
+                        .HasMaxLength(70)
+                        .HasColumnType("nvarchar(70)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasMaxLength(70)
+                        .HasColumnType("nvarchar(70)");
+
+                    b.Property<string>("ProfileImage")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<int>("RoleId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("UpdatedTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("users");
+                });
+
+            modelBuilder.Entity("GazeteKapiMVC5Core.DataAccessLayer.Models.members", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("description")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<string>("emailAdress")
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.Property<string>("jobs")
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
+
+                    b.Property<string>("nameSurname")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("phoneNumber")
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)");
+
+                    b.Property<DateTime>("submitDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("members");
+                });
+
+            modelBuilder.Entity("GazeteKapiMVC5Core.DataAccessLayer.Models.AboutUs", b =>
+                {
+                    b.HasOne("GazeteKapiMVC5Core.DataAccessLayer.Models.Users", "user")
+                        .WithMany("aboutus")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("user");
+                });
+
+            modelBuilder.Entity("GazeteKapiMVC5Core.DataAccessLayer.Models.BrandPolicy", b =>
+                {
+                    b.HasOne("GazeteKapiMVC5Core.DataAccessLayer.Models.Users", "user")
+                        .WithMany("brand")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("user");
+                });
+
+            modelBuilder.Entity("GazeteKapiMVC5Core.DataAccessLayer.Models.Categories", b =>
+                {
+                    b.HasOne("GazeteKapiMVC5Core.DataAccessLayer.Models.Users", "user")
                         .WithMany("categoriesList")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -649,40 +779,10 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Migrations
                     b.Navigation("user");
                 });
 
-            modelBuilder.Entity("DOMAIN.DataAccessLayer.Models.RoleAuthorize", b =>
+            modelBuilder.Entity("GazeteKapiMVC5Core.DataAccessLayer.Models.CookiePolicy", b =>
                 {
-                    b.HasOne("DOMAIN.DataAccessLayer.Models.Authorizes", "authroize")
-                        .WithMany("roleAuthroizeForRole")
-                        .HasForeignKey("AuthorizeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("DOMAIN.DataAccessLayer.Models.Roles", "role")
-                        .WithMany("roleAuthroizeForRole")
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("authroize");
-
-                    b.Navigation("role");
-                });
-
-            modelBuilder.Entity("DOMAIN.DataAccessLayer.Models.Users", b =>
-                {
-                    b.HasOne("DOMAIN.DataAccessLayer.Models.Roles", "roles")
-                        .WithMany("usersForRoles")
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("roles");
-                });
-
-            modelBuilder.Entity("GazeteKapiMVC5Core.DataAccessLayer.Models.AboutUs", b =>
-                {
-                    b.HasOne("DOMAIN.DataAccessLayer.Models.Users", "user")
-                        .WithMany("aboutus")
+                    b.HasOne("GazeteKapiMVC5Core.DataAccessLayer.Models.Users", "user")
+                        .WithMany("cookie")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -692,7 +792,7 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Migrations
 
             modelBuilder.Entity("GazeteKapiMVC5Core.DataAccessLayer.Models.Guest", b =>
                 {
-                    b.HasOne("DOMAIN.DataAccessLayer.Models.Users", "users")
+                    b.HasOne("GazeteKapiMVC5Core.DataAccessLayer.Models.Users", "users")
                         .WithMany("guestList")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -701,31 +801,9 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Migrations
                     b.Navigation("users");
                 });
 
-            modelBuilder.Entity("GazeteKapiMVC5Core.DataAccessLayer.Models.MenuItems", b =>
-                {
-                    b.HasOne("GazeteKapiMVC5Core.DataAccessLayer.Models.MenuTypes", "type")
-                        .WithMany("items")
-                        .HasForeignKey("TypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("type");
-                });
-
-            modelBuilder.Entity("GazeteKapiMVC5Core.DataAccessLayer.Models.MenuTypes", b =>
-                {
-                    b.HasOne("DOMAIN.DataAccessLayer.Models.Users", "user")
-                        .WithMany("typesList")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("user");
-                });
-
             modelBuilder.Entity("GazeteKapiMVC5Core.DataAccessLayer.Models.News", b =>
                 {
-                    b.HasOne("DOMAIN.DataAccessLayer.Models.Categories", "categories")
+                    b.HasOne("GazeteKapiMVC5Core.DataAccessLayer.Models.Categories", "categories")
                         .WithMany("newList")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -743,7 +821,7 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("DOMAIN.DataAccessLayer.Models.Users", "users")
+                    b.HasOne("GazeteKapiMVC5Core.DataAccessLayer.Models.Users", "users")
                         .WithMany("newsList")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -760,7 +838,7 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Migrations
 
             modelBuilder.Entity("GazeteKapiMVC5Core.DataAccessLayer.Models.Privacy", b =>
                 {
-                    b.HasOne("DOMAIN.DataAccessLayer.Models.Users", "user")
+                    b.HasOne("GazeteKapiMVC5Core.DataAccessLayer.Models.Users", "user")
                         .WithMany("privacy")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -771,7 +849,7 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Migrations
 
             modelBuilder.Entity("GazeteKapiMVC5Core.DataAccessLayer.Models.PublishType", b =>
                 {
-                    b.HasOne("DOMAIN.DataAccessLayer.Models.Users", "user")
+                    b.HasOne("GazeteKapiMVC5Core.DataAccessLayer.Models.Users", "user")
                         .WithMany("publishTypeList")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -780,10 +858,40 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Migrations
                     b.Navigation("user");
                 });
 
+            modelBuilder.Entity("GazeteKapiMVC5Core.DataAccessLayer.Models.RoleAuthorize", b =>
+                {
+                    b.HasOne("GazeteKapiMVC5Core.DataAccessLayer.Models.Authorizes", "authroize")
+                        .WithMany("roleAuthroizeForRole")
+                        .HasForeignKey("AuthorizeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("GazeteKapiMVC5Core.DataAccessLayer.Models.Roles", "role")
+                        .WithMany("roleAuthroizeForRole")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("authroize");
+
+                    b.Navigation("role");
+                });
+
             modelBuilder.Entity("GazeteKapiMVC5Core.DataAccessLayer.Models.Settings", b =>
                 {
-                    b.HasOne("DOMAIN.DataAccessLayer.Models.Users", "user")
+                    b.HasOne("GazeteKapiMVC5Core.DataAccessLayer.Models.Users", "user")
                         .WithMany("settings")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("user");
+                });
+
+            modelBuilder.Entity("GazeteKapiMVC5Core.DataAccessLayer.Models.StreamPolicy", b =>
+                {
+                    b.HasOne("GazeteKapiMVC5Core.DataAccessLayer.Models.Users", "user")
+                        .WithMany("stream")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -812,7 +920,7 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Migrations
 
             modelBuilder.Entity("GazeteKapiMVC5Core.DataAccessLayer.Models.TermsOfUse", b =>
                 {
-                    b.HasOne("DOMAIN.DataAccessLayer.Models.Users", "user")
+                    b.HasOne("GazeteKapiMVC5Core.DataAccessLayer.Models.Users", "user")
                         .WithMany("termsofuse")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -821,52 +929,30 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Migrations
                     b.Navigation("user");
                 });
 
-            modelBuilder.Entity("DOMAIN.DataAccessLayer.Models.Authorizes", b =>
+            modelBuilder.Entity("GazeteKapiMVC5Core.DataAccessLayer.Models.Users", b =>
+                {
+                    b.HasOne("GazeteKapiMVC5Core.DataAccessLayer.Models.Roles", "roles")
+                        .WithMany("usersForRoles")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("roles");
+                });
+
+            modelBuilder.Entity("GazeteKapiMVC5Core.DataAccessLayer.Models.Authorizes", b =>
                 {
                     b.Navigation("roleAuthroizeForRole");
                 });
 
-            modelBuilder.Entity("DOMAIN.DataAccessLayer.Models.Categories", b =>
+            modelBuilder.Entity("GazeteKapiMVC5Core.DataAccessLayer.Models.Categories", b =>
                 {
                     b.Navigation("newList");
-                });
-
-            modelBuilder.Entity("DOMAIN.DataAccessLayer.Models.Roles", b =>
-                {
-                    b.Navigation("roleAuthroizeForRole");
-
-                    b.Navigation("usersForRoles");
-                });
-
-            modelBuilder.Entity("DOMAIN.DataAccessLayer.Models.Users", b =>
-                {
-                    b.Navigation("aboutus");
-
-                    b.Navigation("categoriesList");
-
-                    b.Navigation("guestList");
-
-                    b.Navigation("newsList");
-
-                    b.Navigation("privacy");
-
-                    b.Navigation("publishTypeList");
-
-                    b.Navigation("settings");
-
-                    b.Navigation("termsofuse");
-
-                    b.Navigation("typesList");
                 });
 
             modelBuilder.Entity("GazeteKapiMVC5Core.DataAccessLayer.Models.Guest", b =>
                 {
                     b.Navigation("newList");
-                });
-
-            modelBuilder.Entity("GazeteKapiMVC5Core.DataAccessLayer.Models.MenuTypes", b =>
-                {
-                    b.Navigation("items");
                 });
 
             modelBuilder.Entity("GazeteKapiMVC5Core.DataAccessLayer.Models.News", b =>
@@ -879,9 +965,41 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Migrations
                     b.Navigation("newList");
                 });
 
+            modelBuilder.Entity("GazeteKapiMVC5Core.DataAccessLayer.Models.Roles", b =>
+                {
+                    b.Navigation("roleAuthroizeForRole");
+
+                    b.Navigation("usersForRoles");
+                });
+
             modelBuilder.Entity("GazeteKapiMVC5Core.DataAccessLayer.Models.Tags", b =>
                 {
                     b.Navigation("tagNewsForTag");
+                });
+
+            modelBuilder.Entity("GazeteKapiMVC5Core.DataAccessLayer.Models.Users", b =>
+                {
+                    b.Navigation("aboutus");
+
+                    b.Navigation("brand");
+
+                    b.Navigation("categoriesList");
+
+                    b.Navigation("cookie");
+
+                    b.Navigation("guestList");
+
+                    b.Navigation("newsList");
+
+                    b.Navigation("privacy");
+
+                    b.Navigation("publishTypeList");
+
+                    b.Navigation("settings");
+
+                    b.Navigation("stream");
+
+                    b.Navigation("termsofuse");
                 });
 #pragma warning restore 612, 618
         }

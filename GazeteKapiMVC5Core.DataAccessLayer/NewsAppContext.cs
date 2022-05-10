@@ -30,8 +30,6 @@ namespace GazeteKapiMVC5Core.DataAccessLayer
         public virtual DbSet<AboutUs> aboutus { get; set; }
         public virtual DbSet<TermsOfUse> termsofUse { get; set; }
         public virtual DbSet<Currency> currency { get; set; }
-        public virtual DbSet<MenuItems> items { get; set; }
-        public virtual DbSet<MenuTypes> types { get; set; }
         public virtual DbSet<BrandPolicy> brand { get; set; }
         public virtual DbSet<CookiePolicy> cookie { get; set; }
         public virtual DbSet<StreamPolicy> stream { get; set; }

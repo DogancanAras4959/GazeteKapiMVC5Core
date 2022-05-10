@@ -1,6 +1,4 @@
 ﻿using CORE.ApplicationCommon.DTOS.CurrencyDTO;
-using CORE.ApplicationCommon.DTOS.MenuDTO.ItemsDto;
-using CORE.ApplicationCommon.DTOS.MenuDTO.TypesDto;
 using CORE.ApplicationCommon.DTOS.PrivacyDTO.AboutUsDto;
 using CORE.ApplicationCommon.DTOS.PrivacyDTO.PolicyDto;
 using CORE.ApplicationCommon.DTOS.PrivacyDTO.PrivacyDto;
@@ -46,14 +44,5 @@ namespace SERVICE.Engine.Interfaces
 
         #endregion
 
-        #region Menus Footer / Header
-
-        List<TypeListItemDto> getMenuTypeList();
-        Task<bool> createMenuType(TypeDto model);
-        TypeDto getMenuType(int id);
-        Task<bool> editMenuType(TypeDto model);
-        List<ItemListDto> getMenuItemsList();
-
-        #endregion
     }
 }

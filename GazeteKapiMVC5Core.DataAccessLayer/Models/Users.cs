@@ -20,7 +20,6 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Models
             privacy = new List<Privacy>();
             aboutus = new List<AboutUs>();
             termsofuse = new List<TermsOfUse>();
-            typesList = new List<MenuTypes>();
             brand = new List<BrandPolicy>();
             cookie = new List<CookiePolicy>();
             stream = new List<StreamPolicy>();
@@ -48,7 +47,6 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Models
         public virtual ICollection<Privacy> privacy { get; set; }
         public virtual ICollection<AboutUs> aboutus { get; set; }
         public virtual ICollection<TermsOfUse> termsofuse { get; set; }
-        public virtual ICollection<MenuTypes> typesList { get; set; }
         public virtual ICollection<BrandPolicy> brand { get; set; }
         public virtual ICollection<CookiePolicy> cookie { get; set; }
         public virtual ICollection<StreamPolicy> stream { get; set; }

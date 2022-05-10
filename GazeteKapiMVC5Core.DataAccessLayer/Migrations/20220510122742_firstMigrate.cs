@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace GazeteKapiMVC5Core.DataAccessLayer.Migrations
 {
-    public partial class azurevmdataMigrate : Migration
+    public partial class firstMigrate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -44,6 +44,24 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_currency", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "members",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    nameSurname = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    phoneNumber = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: true),
+                    emailAdress = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: true),
+                    description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
+                    jobs = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
+                    submitDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_members", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -153,6 +171,29 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "brand",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Title = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreatedTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_brand", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_brand_users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "categories",
                 columns: table => new
                 {
@@ -180,6 +221,29 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "cookie",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Title = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreatedTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_cookie", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_cookie_users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "guest",
                 columns: table => new
                 {
@@ -189,6 +253,11 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Migrations
                     GuestImage = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     Biography = table.Column<string>(type: "nvarchar(700)", maxLength: 700, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    Instagram = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: true),
+                    Facebook = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: true),
+                    Twitter = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: true),
+                    Gmail = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: true),
+                    Youtube = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: true),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
                     CreatedTime = table.Column<DateTime>(type: "datetime2", nullable: true),
                     UpdatedTime = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -279,6 +348,29 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "stream",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Title = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreatedTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_stream", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_stream_users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "termsofUse",
                 columns: table => new
                 {
@@ -302,33 +394,12 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "types",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    MenuName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Type = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_types", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_types_users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "news",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    MetaTitle = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Title = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Spot = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
                     NewsContent = table.Column<string>(type: "nvarchar(2000)", maxLength: 2000, nullable: false),
@@ -338,12 +409,14 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Migrations
                     UpdatedTime = table.Column<DateTime>(type: "datetime2", nullable: true),
                     PublishedTime = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    IsTitle = table.Column<bool>(type: "bit", nullable: false),
                     IsLock = table.Column<bool>(type: "bit", nullable: false),
                     IsOpenNotifications = table.Column<bool>(type: "bit", nullable: false),
                     IsCommentActive = table.Column<bool>(type: "bit", nullable: false),
                     IsSlide = table.Column<bool>(type: "bit", nullable: false),
                     Views = table.Column<int>(type: "int", nullable: false),
                     Sound = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ParentNewsId = table.Column<int>(type: "int", nullable: false),
                     CategoryId = table.Column<int>(type: "int", nullable: false),
                     UserId = table.Column<int>(type: "int", nullable: false),
                     GuestId = table.Column<int>(type: "int", nullable: false),
@@ -379,28 +452,6 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "items",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ItemName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    slug = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    TypeId = table.Column<int>(type: "int", nullable: false),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_items", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_items_types_TypeId",
-                        column: x => x.TypeId,
-                        principalTable: "types",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "tagNews",
                 columns: table => new
                 {
@@ -432,19 +483,24 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_brand_UserId",
+                table: "brand",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_categories_UserId",
                 table: "categories",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_cookie_UserId",
+                table: "cookie",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_guest_UserId",
                 table: "guest",
                 column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_items_TypeId",
-                table: "items",
-                column: "TypeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_news_CategoryId",
@@ -492,6 +548,11 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_stream_UserId",
+                table: "stream",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_tagNews_NewsId",
                 table: "tagNews",
                 column: "NewsId");
@@ -507,11 +568,6 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_types_UserId",
-                table: "types",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_users_RoleId",
                 table: "users",
                 column: "RoleId");
@@ -523,10 +579,16 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Migrations
                 name: "aboutus");
 
             migrationBuilder.DropTable(
+                name: "brand");
+
+            migrationBuilder.DropTable(
+                name: "cookie");
+
+            migrationBuilder.DropTable(
                 name: "currency");
 
             migrationBuilder.DropTable(
-                name: "items");
+                name: "members");
 
             migrationBuilder.DropTable(
                 name: "privacy");
@@ -538,13 +600,13 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Migrations
                 name: "setting");
 
             migrationBuilder.DropTable(
+                name: "stream");
+
+            migrationBuilder.DropTable(
                 name: "tagNews");
 
             migrationBuilder.DropTable(
                 name: "termsofUse");
-
-            migrationBuilder.DropTable(
-                name: "types");
 
             migrationBuilder.DropTable(
                 name: "authorize");

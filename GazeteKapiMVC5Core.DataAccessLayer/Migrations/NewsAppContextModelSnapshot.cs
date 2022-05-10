@@ -304,58 +304,6 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Migrations
                     b.ToTable("guest");
                 });
 
-            modelBuilder.Entity("GazeteKapiMVC5Core.DataAccessLayer.Models.MenuItems", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("ItemName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("TypeId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("slug")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("TypeId");
-
-                    b.ToTable("items");
-                });
-
-            modelBuilder.Entity("GazeteKapiMVC5Core.DataAccessLayer.Models.MenuTypes", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("MenuName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Type")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("types");
-                });
-
             modelBuilder.Entity("GazeteKapiMVC5Core.DataAccessLayer.Models.News", b =>
                 {
                     b.Property<int>("Id")
@@ -851,28 +799,6 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Migrations
                     b.Navigation("users");
                 });
 
-            modelBuilder.Entity("GazeteKapiMVC5Core.DataAccessLayer.Models.MenuItems", b =>
-                {
-                    b.HasOne("GazeteKapiMVC5Core.DataAccessLayer.Models.MenuTypes", "type")
-                        .WithMany("items")
-                        .HasForeignKey("TypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("type");
-                });
-
-            modelBuilder.Entity("GazeteKapiMVC5Core.DataAccessLayer.Models.MenuTypes", b =>
-                {
-                    b.HasOne("GazeteKapiMVC5Core.DataAccessLayer.Models.Users", "user")
-                        .WithMany("typesList")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("user");
-                });
-
             modelBuilder.Entity("GazeteKapiMVC5Core.DataAccessLayer.Models.News", b =>
                 {
                     b.HasOne("GazeteKapiMVC5Core.DataAccessLayer.Models.Categories", "categories")
@@ -1027,11 +953,6 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Migrations
                     b.Navigation("newList");
                 });
 
-            modelBuilder.Entity("GazeteKapiMVC5Core.DataAccessLayer.Models.MenuTypes", b =>
-                {
-                    b.Navigation("items");
-                });
-
             modelBuilder.Entity("GazeteKapiMVC5Core.DataAccessLayer.Models.News", b =>
                 {
                     b.Navigation("tagNewsListForNews");
@@ -1077,8 +998,6 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Migrations
                     b.Navigation("stream");
 
                     b.Navigation("termsofuse");
-
-                    b.Navigation("typesList");
                 });
 #pragma warning restore 612, 618
         }

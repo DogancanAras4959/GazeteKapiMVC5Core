@@ -59,8 +59,8 @@ namespace GazeteKapiMVC5Core.Controllers
             ViewBag.CatCount = _mapper.Map<int>(_countService.CountCategories());
             ViewBag.GuestCount = _mapper.Map<int>(_countService.CountGuests());
             ViewBag.UserCount = _mapper.Map<int>(_countService.CountUsers());
-            ViewBag.LogCount = _mapper.Map<int>(_countService.CountLogs());
-            ViewBag.ErrorCount = _mapper.Map<int>(_countService.CountSystemErrors());
+            //ViewBag.LogCount = _mapper.Map<int>(_countService.CountLogs());
+            //ViewBag.ErrorCount = _mapper.Map<int>(_countService.CountSystemErrors());
             ViewBag.NewsCount = _mapper.Map<int>(_countService.CountNews());
             ViewBag.TagsCount = _mapper.Map<int>(_countService.CountTags());
         }
