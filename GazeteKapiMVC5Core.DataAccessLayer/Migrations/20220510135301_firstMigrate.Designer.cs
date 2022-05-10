@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GazeteKapiMVC5Core.DataAccessLayer.Migrations
 {
     [DbContext(typeof(NewsAppContext))]
-    [Migration("20220510122742_firstMigrate")]
+    [Migration("20220510135301_firstMigrate")]
     partial class firstMigrate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

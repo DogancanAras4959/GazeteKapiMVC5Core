@@ -104,6 +104,7 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
             List<TagNewsListViewModelWeb> tagNewList = null;
             List<CategoryListViewModelWeb> categoryList = null;
             List<NewListViewModelWeb> modelNew = new List<NewListViewModelWeb>();
+            MetaViewModel meta = new MetaViewModel();
 
             if (searchnews != null && searchnews != "")
             {
@@ -151,6 +152,20 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
 
                 NewListViewModelWeb[] tagsList = modelNew.GroupBy(o => new { o.Title }).Select(x => x.FirstOrDefault()).ToArray();
 
+                #region Meta
+
+                meta.Title = searchnews;
+                meta.Keywords = "Gazetekapı, Lemonde, Yaşam, Kültür, Sanat, Foto, Video, Türkiye, 2022, 2023, Seçim, Ekonomi, Siyaset, Futbol, Bilim, Teknoloji, Dünya, ABD, Rusya, Avrupa";
+                meta.Description = "Gazetekapı yeni bir habercilik anlayışıyla gerçekleri anlatacak!";
+                meta.Image = "https://uploads.gazetekapi.com/images/placeholder/kapi-logo.png";
+                meta.ogDescription = "Gazetekapı yeni bir habercilik anlayışıyla gerçekleri anlatacak!";
+                meta.ogTitle = searchnews;
+                meta.ogImage = "https://uploads.gazetekapi.com/images/placeholder/kapi-logo.png";
+                meta.Url = "https://www.gazetekapi.com/anasayfa/aramasonucu";
+                ViewBag.Meta = meta;
+
+                #endregion
+
                 return View(PaginationList<NewListViewModelWeb>.Create(tagsList.ToList(), pageNumber ?? 1, pageSize));
             }
 
@@ -186,17 +201,63 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
 
                 NewListViewModelWeb[] tagsList = modelNew.GroupBy(o => new { o.Title }).Select(x => x.FirstOrDefault()).ToArray();
 
+                #region Meta
+
+                meta.Title = searchnews;
+                meta.Keywords = "Gazetekapı, Lemonde, Yaşam, Kültür, Sanat, Foto, Video, Türkiye, 2022, 2023, Seçim, Ekonomi, Siyaset, Futbol, Bilim, Teknoloji, Dünya, ABD, Rusya, Avrupa";
+                meta.Description = "Gazetekapı yeni bir habercilik anlayışıyla gerçekleri anlatacak!";
+                meta.Image = "https://uploads.gazetekapi.com/images/placeholder/kapi-logo.png";
+                meta.ogDescription = "Gazetekapı yeni bir habercilik anlayışıyla gerçekleri anlatacak!";
+                meta.ogTitle = searchnews;
+                meta.ogImage = "https://uploads.gazetekapi.com/images/placeholder/kapi-logo.png";
+                meta.Url = "https://www.gazetekapi.com/anasayfa/aramasonucu";
+                ViewBag.Meta = meta;
+
+                #endregion
+
                 return View(PaginationList<NewListViewModelWeb>.Create(tagsList.ToList(), pageNumber ?? 1, pageSize));
             }
+
+            #region Meta
+
+            meta.Title = searchnews;
+            meta.Keywords = "Gazetekapı, Lemonde, Yaşam, Kültür, Sanat, Foto, Video, Türkiye, 2022, 2023, Seçim, Ekonomi, Siyaset, Futbol, Bilim, Teknoloji, Dünya, ABD, Rusya, Avrupa";
+            meta.Description = "Gazetekapı yeni bir habercilik anlayışıyla gerçekleri anlatacak!";
+            meta.Image = "https://uploads.gazetekapi.com/images/placeholder/kapi-logo.png";
+            meta.ogDescription = "Gazetekapı yeni bir habercilik anlayışıyla gerçekleri anlatacak!";
+            meta.ogTitle = searchnews;
+            meta.ogImage = "https://uploads.gazetekapi.com/images/placeholder/kapi-logo.png";
+            meta.Url = "https://www.gazetekapi.com/anasayfa/aramasonucu";
+            ViewBag.Meta = meta;
+
+            #endregion
+
             return View();
         }
         public IActionResult kategori(int? pageNumber, int Id)
         {
-
             var category = _mapper.Map<CategoryDto, CategoryEditViewModelWeb>(_categoryService.GetCategoryById(Id));
 
             TempData["kategori"] = category.CategoryName;
+            ViewData["id"] = category.Id;
+
+            #region Meta
+
+            MetaViewModel meta = new MetaViewModel();
+            meta.Title = category.CategoryName;
+            meta.Keywords = "Gazetekapı, Lemonde, Yaşam, Kültür, Sanat, Foto, Video, Türkiye, 2022, 2023, Seçim, Ekonomi, Siyaset, Futbol, Bilim, Teknoloji, Dünya, ABD, Rusya, Avrupa";
+            meta.Description = category.Description;
+            meta.Image = "https://uploads.gazetekapi.com/images/placeholder/kapi-logo.png";
+            meta.ogDescription = category.Description;
+            meta.ogTitle = category.CategoryName;
+            meta.ogImage = "https://uploads.gazetekapi.com/images/placeholder/kapi-logo.png";
+            meta.Url = "https://www.gazetekapi.com/anasayfa/kategpri/" + category.Id;
+            ViewBag.Meta = meta;
+
+            #endregion
+
             int pageSize = 18;
+
             List<NewListViewModelWeb> newList = _mapper.Map<List<NewsListItemDto>, List<NewListViewModelWeb>>(_newService.newsListByCategoryId(Id));
 
             return View(PaginationList<NewListViewModelWeb>.Create(newList.ToList(), pageNumber ?? 1, pageSize));
@@ -210,11 +271,43 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
             ViewBag.Categories = categoryList;
 
             List<NewListViewModelWeb> newList = _mapper.Map<List<NewsListItemDto>, List<NewListViewModelWeb>>(_newService.newsListWithGuest(guest.Id));
+
+            #region Meta
+
+            MetaViewModel meta = new MetaViewModel();
+            meta.Title = guest.GuestName;
+            meta.Keywords = "Gazetekapı, Lemonde, Yaşam, Kültür, Sanat, Foto, Video, Türkiye, 2022, 2023, Seçim, Ekonomi, Siyaset, Futbol, Bilim, Teknoloji, Dünya, ABD, Rusya, Avrupa";
+            meta.Description = guest.Biography;
+            meta.Image = "https://uploads.gazetekapi.com/images/" + guest.GuestImage;
+            meta.ogDescription = guest.Biography;
+            meta.ogTitle = guest.GuestName;
+            meta.ogImage = "https://uploads.gazetekapi.com/images/" +guest.GuestImage;
+            meta.Url = "https://www.gazetekapi.com/anasayfa/yazaryazilari/" + guest.Id;
+            ViewBag.Meta = meta;
+
+            #endregion
+
             return View(PaginationList<NewListViewModelWeb>.Create(newList.ToList(), pageNumber ?? 1, pageSize));
         }
         public IActionResult yazarlar()
         {
             List<GuestListViewModelWeb> guestList = _mapper.Map<List<GuestListItemDto>, List<GuestListViewModelWeb>>(_newService.guestList());
+
+            #region Meta
+
+            MetaViewModel meta = new MetaViewModel();
+            meta.Title = "Gazetekapı | Gündem, Bilim, Yaşam, Kültür / Sanat, Foto-Galeri, Video-Haber";
+            meta.Keywords = "Gazetekapı, Lemonde, Yaşam, Kültür, Sanat, Foto, Video, Türkiye, 2022, 2023, Seçim, Ekonomi, Siyaset, Futbol, Bilim, Teknoloji, Dünya, ABD, Rusya, Avrupa";
+            meta.Description = "Gazetekapı yeni bir habercilik anlayışıyla gerçekleri anlatacak!";
+            meta.Image = "https://uploads.gazetekapi.com/images/placeholder/kapi-logo.png";
+            meta.ogDescription = "Gazetekapı yeni bir habercilik anlayışıyla gerçekleri anlatacak!";
+            meta.ogTitle = "Gazetekapı | Gündem, Bilim, Yaşam, Kültür / Sanat, Foto-Galeri, Video-Haber";
+            meta.ogImage = "https://uploads.gazetekapi.com/images/placeholder/kapi-logo.png";
+            meta.Url = "https://www.gazetekapi.com/";
+            ViewBag.Meta = meta;
+
+            #endregion
+
             return View(guestList);
         }
 
@@ -294,30 +387,125 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
         public IActionResult gizlilikpolitikasi()
         {
             var getPrivacy = _mapper.Map<PrivacyDto, PrivacyBaseViewModel>(_settingService.getPrivacy(1));
+
+            #region Meta
+
+            MetaViewModel meta = new MetaViewModel();
+            meta.Title = "Gazetekapı | Gündem, Bilim, Yaşam, Kültür / Sanat, Foto-Galeri, Video-Haber";
+            meta.Keywords = "Gazetekapı, Lemonde, Yaşam, Kültür, Sanat, Foto, Video, Türkiye, 2022, 2023, Seçim, Ekonomi, Siyaset, Futbol, Bilim, Teknoloji, Dünya, ABD, Rusya, Avrupa";
+            meta.Description = "Gazetekapı yeni bir habercilik anlayışıyla gerçekleri anlatacak!";
+            meta.Image = "https://uploads.gazetekapi.com/images/placeholder/kapi-logo.png";
+            meta.ogDescription = "Gazetekapı yeni bir habercilik anlayışıyla gerçekleri anlatacak!";
+            meta.ogTitle = "Gazetekapı | Gündem, Bilim, Yaşam, Kültür / Sanat, Foto-Galeri, Video-Haber";
+            meta.ogImage = "https://uploads.gazetekapi.com/images/placeholder/kapi-logo.png";
+            meta.Url = "https://www.gazetekapi.com/";
+            ViewBag.Meta = meta;
+
+            #endregion
+
             return View(getPrivacy);
-        }
+        }   
         public IActionResult cerezpolitikasi()
         {
             var getCookiesPolicy = _mapper.Map<CookiePolicyDto, CookieBaseViewModel>(_settingService.getCookiePrivacy(1));
+
+            #region Meta
+
+            MetaViewModel meta = new MetaViewModel();
+            meta.Title = "Gazetekapı | Gündem, Bilim, Yaşam, Kültür / Sanat, Foto-Galeri, Video-Haber";
+            meta.Keywords = "Gazetekapı, Lemonde, Yaşam, Kültür, Sanat, Foto, Video, Türkiye, 2022, 2023, Seçim, Ekonomi, Siyaset, Futbol, Bilim, Teknoloji, Dünya, ABD, Rusya, Avrupa";
+            meta.Description = "Gazetekapı yeni bir habercilik anlayışıyla gerçekleri anlatacak!";
+            meta.Image = "https://uploads.gazetekapi.com/images/placeholder/kapi-logo.png";
+            meta.ogDescription = "Gazetekapı yeni bir habercilik anlayışıyla gerçekleri anlatacak!";
+            meta.ogTitle = "Gazetekapı | Gündem, Bilim, Yaşam, Kültür / Sanat, Foto-Galeri, Video-Haber";
+            meta.ogImage = "https://uploads.gazetekapi.com/images/placeholder/kapi-logo.png";
+            meta.Url = "https://www.gazetekapi.com/";
+            ViewBag.Meta = meta;
+
+            #endregion
+
             return View(getCookiesPolicy);
         }
         public IActionResult kullanimsartlari()
         {
             var getTermsOfUs = _mapper.Map<TermsOfUsDto, TermsOfUsBaseViewModel>(_settingService.getTermsOfUs(1));
+
+            #region Meta
+
+            MetaViewModel meta = new MetaViewModel();
+            meta.Title = "Gazetekapı | Gündem, Bilim, Yaşam, Kültür / Sanat, Foto-Galeri, Video-Haber";
+            meta.Keywords = "Gazetekapı, Lemonde, Yaşam, Kültür, Sanat, Foto, Video, Türkiye, 2022, 2023, Seçim, Ekonomi, Siyaset, Futbol, Bilim, Teknoloji, Dünya, ABD, Rusya, Avrupa";
+            meta.Description = "Gazetekapı yeni bir habercilik anlayışıyla gerçekleri anlatacak!";
+            meta.Image = "https://uploads.gazetekapi.com/images/placeholder/kapi-logo.png";
+            meta.ogDescription = "Gazetekapı yeni bir habercilik anlayışıyla gerçekleri anlatacak!";
+            meta.ogTitle = "Gazetekapı | Gündem, Bilim, Yaşam, Kültür / Sanat, Foto-Galeri, Video-Haber";
+            meta.ogImage = "https://uploads.gazetekapi.com/images/placeholder/kapi-logo.png";
+            meta.Url = "https://www.gazetekapi.com/";
+            ViewBag.Meta = meta;
+
+            #endregion
+
             return View(getTermsOfUs);
         }
         public IActionResult kunye()
         {
             var getBrand = _mapper.Map<BrandPolicyDto, BrandBaseViewModel>(_settingService.getBrandPrivacy(1));
+
+            #region Meta
+
+            MetaViewModel meta = new MetaViewModel();
+            meta.Title = "Gazetekapı | Gündem, Bilim, Yaşam, Kültür / Sanat, Foto-Galeri, Video-Haber";
+            meta.Keywords = "Gazetekapı, Lemonde, Yaşam, Kültür, Sanat, Foto, Video, Türkiye, 2022, 2023, Seçim, Ekonomi, Siyaset, Futbol, Bilim, Teknoloji, Dünya, ABD, Rusya, Avrupa";
+            meta.Description = "Gazetekapı yeni bir habercilik anlayışıyla gerçekleri anlatacak!";
+            meta.Image = "https://uploads.gazetekapi.com/images/placeholder/kapi-logo.png";
+            meta.ogDescription = "Gazetekapı yeni bir habercilik anlayışıyla gerçekleri anlatacak!";
+            meta.ogTitle = "Gazetekapı | Gündem, Bilim, Yaşam, Kültür / Sanat, Foto-Galeri, Video-Haber";
+            meta.ogImage = "https://uploads.gazetekapi.com/images/placeholder/kapi-logo.png";
+            meta.Url = "https://www.gazetekapi.com/";
+            ViewBag.Meta = meta;
+
+            #endregion
+
             return View(getBrand);
         }
         public IActionResult yayinilkeleri()
         {
             var getStreamPolicy = _mapper.Map<StreamPolicyDto, StreamBaseViewModel>(_settingService.getStreamPrivacy(2));
+
+            #region Meta
+
+            MetaViewModel meta = new MetaViewModel();
+            meta.Title = "Gazetekapı | Gündem, Bilim, Yaşam, Kültür / Sanat, Foto-Galeri, Video-Haber";
+            meta.Keywords = "Gazetekapı, Lemonde, Yaşam, Kültür, Sanat, Foto, Video, Türkiye, 2022, 2023, Seçim, Ekonomi, Siyaset, Futbol, Bilim, Teknoloji, Dünya, ABD, Rusya, Avrupa";
+            meta.Description = "Gazetekapı yeni bir habercilik anlayışıyla gerçekleri anlatacak!";
+            meta.Image = "https://uploads.gazetekapi.com/images/placeholder/kapi-logo.png";
+            meta.ogDescription = "Gazetekapı yeni bir habercilik anlayışıyla gerçekleri anlatacak!";
+            meta.ogTitle = "Gazetekapı | Gündem, Bilim, Yaşam, Kültür / Sanat, Foto-Galeri, Video-Haber";
+            meta.ogImage = "https://uploads.gazetekapi.com/images/placeholder/kapi-logo.png";
+            meta.Url = "https://www.gazetekapi.com/";
+            ViewBag.Meta = meta;
+
+            #endregion
+
             return View(getStreamPolicy);
         }
         public IActionResult arsiv()
         {
+            #region Meta
+
+            MetaViewModel meta = new MetaViewModel();
+            meta.Title = "Gazetekapı | Gündem, Bilim, Yaşam, Kültür / Sanat, Foto-Galeri, Video-Haber";
+            meta.Keywords = "Gazetekapı, Lemonde, Yaşam, Kültür, Sanat, Foto, Video, Türkiye, 2022, 2023, Seçim, Ekonomi, Siyaset, Futbol, Bilim, Teknoloji, Dünya, ABD, Rusya, Avrupa";
+            meta.Description = "Gazetekapı yeni bir habercilik anlayışıyla gerçekleri anlatacak!";
+            meta.Image = "https://uploads.gazetekapi.com/images/placeholder/kapi-logo.png";
+            meta.ogDescription = "Gazetekapı yeni bir habercilik anlayışıyla gerçekleri anlatacak!";
+            meta.ogTitle = "Gazetekapı | Gündem, Bilim, Yaşam, Kültür / Sanat, Foto-Galeri, Video-Haber";
+            meta.ogImage = "https://uploads.gazetekapi.com/images/placeholder/kapi-logo.png";
+            meta.Url = "https://www.gazetekapi.com/";
+            ViewBag.Meta = meta;
+
+            #endregion
+
             return View();
         }
 
@@ -487,6 +675,17 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
 
         public IActionResult aboneol()
         {
+            MetaViewModel meta = new MetaViewModel();
+            meta.Title = "Gazetekapı | Gündem, Bilim, Yaşam, Kültür / Sanat, Foto-Galeri, Video-Haber";
+            meta.Keywords = "Gazetekapı, Lemonde, Yaşam, Kültür, Sanat, Foto, Video, Türkiye, 2022, 2023, Seçim, Ekonomi, Siyaset, Futbol, Bilim, Teknoloji, Dünya, ABD, Rusya, Avrupa";
+            meta.Description = "Gazetekapı yeni bir habercilik anlayışıyla gerçekleri anlatacak!";
+            meta.Image = "https://uploads.gazetekapi.com/images/placeholder/kapi-logo.png";
+            meta.ogDescription = "Gazetekapı yeni bir habercilik anlayışıyla gerçekleri anlatacak!";
+            meta.ogTitle = "Gazetekapı | Gündem, Bilim, Yaşam, Kültür / Sanat, Foto-Galeri, Video-Haber";
+            meta.ogImage = "https://uploads.gazetekapi.com/images/placeholder/kapi-logo.png";
+            meta.Url = "https://www.gazetekapi.com/";
+            ViewBag.Meta = meta;
+
             return View();
         }
 

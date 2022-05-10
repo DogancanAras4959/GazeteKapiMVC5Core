@@ -223,7 +223,7 @@
                         </tr>
                     </thead>
                     <tbody id="newList">
-                        @foreach (var item in newsList.Where(x=> x.ParentNewsId == 0).ToList())
+                        @foreach (var item in newsList.Where(x => x.ParentNewsId == 0).ToList())
                         {
                             <tr>
                                 <td>@item.Title</td>
@@ -275,7 +275,7 @@
 
 
 <script src="~/assets/css/ckeditor/ckeditor.js"></script>
-@*<script src="https://uploads.gazetekapi.com/admin/wwwroot/ckeditor/ckeditor.js"></script>*@
+<script src="https://uploads.gazetekapi.com/admin/wwwroot/assets/css/ckeditor/ckeditor.js"></script>
 <script src="https://uploads.gazetekapi.com/admin/wwwroot/assets/libs/jquery/jquery.min.js"></script>
 <script src="https://uploads.gazetekapi.com/admin/wwwroot/assets/libs/select2/js/select2.min.js"></script>
 <script src="https://uploads.gazetekapi.com/admin/wwwroot/assets/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>

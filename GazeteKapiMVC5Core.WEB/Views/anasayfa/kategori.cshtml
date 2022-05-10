@@ -1,4 +1,5 @@
 ﻿@using CORE.ApplicationCommon.Helpers;
+@using GazeteKapiMVC5Core.WEB.Models.MetaConfig
 @model PaginationList<GazeteKapiMVC5Core.WEB.ViewModels.News.NewListViewModelWeb>
 
 @{
@@ -11,6 +12,7 @@
 @{
     var prevDisabled = !Model.HasPrevious ? "disabled" : "";
     var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+
 }
 
 <link href="https://uploads.gazetekapi.com/front/wwwroot/css/base/pagelineweb.css" rel="stylesheet" />
@@ -72,15 +74,15 @@
                     </div>
 
                     <div class="row mt-2">
-                        @foreach (var item in Model.OrderByDescending(x=> x.Id).Where(x => x.IsActive == true && x.IsLock == false))
+                        @foreach (var item in Model.OrderByDescending(x => x.Id).Where(x => x.IsActive == true && x.IsLock == false))
                         {
                             <div class="col-lg-4" style="margin-top:30px;">
                                 <!-- Post Article -->
                                 <div class="article__entry-new">
                                     @*<div class="article__category">
 
-            @item.categories.CategoryName
-        </div>*@
+                                            @item.categories.CategoryName
+                                        </div>*@
                                     <div class="article__image articel__image__transition">
                                         <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
                                             <img src="https://uploads.gazetekapi.com/images/@item.Image" alt="" class="img-fluid">

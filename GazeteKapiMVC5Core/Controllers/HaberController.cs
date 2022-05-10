@@ -219,12 +219,7 @@ namespace GazeteKapiMVC5Core.Controllers
 
                     if (file != null)
                     {
-                        string uploadfilename = Path.GetFileNameWithoutExtension(file.FileName);
-                        string extension = Path.GetExtension(file.FileName);
-                        uploadfilename = uploadfilename + DateTime.Now.ToString("yymmssfff") + extension;
-                        var path = Path.Combine(this._webHostEnvironment.WebRootPath, "Files", uploadfilename);
-                        var stream = new FileStream(path, FileMode.Create);
-                        await file.CopyToAsync(stream);
+                
                         category.Image = SaveImageProcess.ImageInsert(file, "Admin");
                     }
                     else

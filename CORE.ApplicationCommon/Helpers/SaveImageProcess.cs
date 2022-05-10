@@ -19,8 +19,8 @@ namespace CORE.ApplicationCommon.Helpers
             {
                 case "Admin":
                     ftpInfo.Url = "ftp://uploads.gazetekapi.com//uploads/images";
-                    ftpInfo.UserName = "sysuser_8";
-                    ftpInfo.Password = "1g1*j0Ld";
+                    ftpInfo.UserName = "gazeteka_719";
+                    ftpInfo.Password = "QE3Ltrpvs1!ek7r";
                     break;
 
                 default:

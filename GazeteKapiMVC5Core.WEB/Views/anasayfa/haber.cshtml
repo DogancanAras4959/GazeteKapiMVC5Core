@@ -13,11 +13,10 @@
     List<TagNewsListViewModelWeb> tagList = ViewBag.TagNews as List<TagNewsListViewModelWeb>;
     List<CategoryListViewModelWeb> categories = ViewBag.CategotyList as List<CategoryListViewModelWeb>;
     List<NewListViewModelWeb> newListAll = ViewBag.AllNewsList as List<NewListViewModelWeb>;
-    MetaViewModel meta = ViewBag.Meta as MetaViewModel;
+    //MetaViewModel meta = ViewBag.Meta as MetaViewModel;
 
     string name = "";
     int count = 0;
-
 
 }
 
@@ -404,7 +403,6 @@
             });
         });
     </script>
-
 
     <script>
         var infinityScroll = new InfinitiySroll("anyTable", "/anasayfa/_loadNews", { sortOrder: "ascending", searchString: "3" });
