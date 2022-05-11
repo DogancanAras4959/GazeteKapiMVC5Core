@@ -21,6 +21,8 @@ namespace CORE.ApplicationCommon.DTOS.NewsDTO
         public bool IsActive { get; set; }
         public bool IsLock { get; set; }
         public bool IsTitle { get; set; }
+        public int RowNo { get; set; }
+        public int ColNo { get; set; }
         public bool IsOpenNotifications { get; set; }
         public bool IsCommentActive { get; set; }
         public bool IsSlide { get; set; }

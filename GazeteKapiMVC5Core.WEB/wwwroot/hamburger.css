@@ -75,9 +75,10 @@
         }
 
 #menu-hamburger-label ul {
-    z-index: 200;
+    z-index:0;
     position: absolute;
     top: 100px;
+    display:none;
     left: 37%;
     -webkit-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);

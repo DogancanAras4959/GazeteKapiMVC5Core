@@ -28,7 +28,15 @@
                     <ul class="sub-menu" aria-expanded="false">
                         <li><a asp-area="" asp-controller="Haber" asp-action="Kategoriler">Kategoriler</a></li>
                         <li><a asp-area="" asp-controller="Haber" asp-action="Haberler">Haberler</a></li>
-                        <li><a asp-area="" asp-controller="Haber" asp-action="HaberSirala">Haber Sırala</a></li>
+                        <li>
+                            <a href="javascript: void(0);" class="has-arrow waves-effect">
+                                <span> Haber Yerleştirme </span>
+                            </a>
+                            <ul class="sub-menu" aria-expanded="false">
+                                <li><a asp-area="" asp-controller="Haber" asp-action="HaberSirala">Manşet Haberler</a></li>
+                                <li><a asp-area="" asp-controller="Haber" asp-action="HaberYerlestirme">Tüm Haberler</a></li>
+                            </ul>
+                        </li>                   
                         <li><a asp-area="" asp-controller="Haber" asp-action="Etiketler">Etiketler</a></li>
                     </ul>
                 </li>

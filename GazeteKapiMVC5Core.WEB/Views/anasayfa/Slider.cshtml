@@ -17,7 +17,7 @@
 
 <div class="col-md-8 slide-width">
     <div class="slideshow-container" style="margin-top:3px;">
-        @foreach (var item in haberlerManset.OrderBy(x => x.Id).Where(x => x.IsActive == true && x.IsSlide == true && x.IsLock == false).Take(10))
+        @foreach (var item in haberlerManset.OrderBy(x => x.RowNo).Where(x => x.IsActive == true && x.IsSlide == true && x.IsLock == false).Take(10))
         {
             <div class="mySlides">
                 <div class="card__post__body card__post__transition">

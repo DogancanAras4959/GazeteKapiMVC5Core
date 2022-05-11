@@ -88,12 +88,14 @@
                                 </select>
                             </div>
                             <div class="col-sm-4">
-                                <select asp-for="GuestId" asp-items="@ViewBag.Guests" class="form-control">
-                                    <option selected="selected" value="999">Yazar seçiniz (Zorunlu Değildir)</option>
+                                <select asp-for="CategoryId" asp-items="@ViewBag.Categories" class="form-control">
+                                    <option selected="selected" value="999">Kategori seçiniz (Zorunlu Değildir)</option>
+
                                 </select>
                             </div>
                             <div class="col-sm-4">
-                                <select asp-for="CategoryId" asp-items="@ViewBag.Categories" class="form-control">
+                                <select asp-for="GuestId" asp-items="@ViewBag.Guests" class="form-control">
+                                    <option selected="selected" value="999">Yazar seçiniz (Zorunlu Değildir)</option>
                                 </select>
                             </div>
                         </div>

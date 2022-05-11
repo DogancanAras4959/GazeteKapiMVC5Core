@@ -6,13 +6,20 @@
     int rowNo = 0;
 }
 
+<style>
+    #sortable tr:hover {
+        background-color: #0094ff;
+        color: #fff;
+    }
+</style>
+
 <link href="https://uploads.gazetekapi.com/admin/wwwroot/assets/css/pageline.css" rel="stylesheet" />
 
 <div class="row">
     <div class="col-12">
         <div class="card">
             <div class="card-body">
-                <div class="row">
+                <div class="row mb-3">
                     <div class="col-sm-12">
                         <h4 class="card-title">Manşet Haberleri Sırala</h4>
                         <p class="card-title-desc">Ana Sayfanızdaki manşet bölümünüz için haberlerinizi sıralayın</p>
@@ -21,54 +28,31 @@
                 </div>
                 <div class="table-rep-plugin">
                     <div class="table-responsive mb-0" data-bs-pattern="priority-columns">
-                        <table class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                        <table class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing:0; width: 50%;">
                             <thead>
                                 <tr>
-                                    <th style="text-align:center;">#</th>
+                                    <th style="text-align:center;">Sıra</th>
                                     <th>Başlık</th>
-                                    <th>İşlem</th>
+                                    @*<th>İşlem</th>*@
                                 </tr>
                             </thead>
-                            <tbody>
-                                @foreach (var item in Model.OrderBy(x => x.Sorted).Where(x => x.IsActive == true && x.IsSlide == true && x.IsLock == false).Take(10))
+                            <tbody id="sortable" style="cursor:pointer;">
+                                @foreach (var item in Model)
                                 {
-                                    <tr class="button-items" id="tooltip-container">
-                                        <td style="text-align:center;">@Html.DisplayFor(model => item.Id)</td>
-                                        <td>
-                                            <a data-bs-container="#tooltip-container"
-                                               data-bs-toggle="tooltip"
-                                               data-bs-placement="top" title="Haberi Düzenle"
-                                               asp-action="HaberDuzenle" asp-controller="Haber" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.Title)</a>
-                                        </td>
-                                        @*<td>
-                                                @if (item.Sorted == 1)
-                                                {
-                                                    <a style="padding:3px;" data-bs-container="#tooltip-container"
-                                                       data-bs-toggle="tooltip" data-bs-placement="top"
-                                                       title="Aşağı İndir" asp-action="asagiindir" asp-route-id="@item.Id" class="ml-1"><i class="mdi mdi-arrow-down mdi-24px"></i></a>
-                                                }
-                                                else
-                                                {
-                                                    <a style="padding:3px;" data-bs-container="#tooltip-container"
-                                                       data-bs-toggle="tooltip" data-bs-placement="top"
-                                                       title="Yukarı Taşı" asp-action="yukaritasi" asp-route-id="@item.Id" class="ml-1"><i class="mdi mdi-arrow-up mdi-24px"></i></a>
-                                                    <a style="padding:3px;" data-bs-container="#tooltip-container"
-                                                       data-bs-toggle="tooltip" data-bs-placement="top"
-                                                       title="Aşağı İndir" asp-action="asagiindir" asp-route-id="@item.Id" class="ml-1"><i class="mdi mdi-arrow-down mdi-24px"></i></a>
-                                                }
-                                            </td>*@
-                                        <td>
-                                            @{ string dataId = item.Id + "_siraInput"; }
-                                            <input style="width:50px; float:left;" type="text" asp-for="@item.Sorted" id="@dataId" class="form-control" />
-                                            <button type="submit" onclick="sirala(@item.Id);" id="btnsubmit" class="btn btn-info btn-block">
-                                                <i id="edit" class="fa fa-edit"></i>
-                                                <i id="process" class="fa fa-spinner fa-spin" style="font-size: 18px; display: none;"></i>
-                                            </button>
+                                    <tr>
+                                        <td style="text-align:center;">@Html.DisplayFor(model => item.RowNo)</td>
+                                        <td class="taskSingleInline" id="task@(item.Id)" data-taskid="@(item.Id)">
+                                            <a asp-action="HaberDuzenle" asp-controller="Haber" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.Title)</a>
                                         </td>
                                     </tr>
                                 }
                             </tbody>
                         </table>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <a class="btn btn-primary" href="@Url.Action("HaberSirala","Haber")">Sayfayı Güncelle</a>
                     </div>
                 </div>
             </div>
@@ -83,7 +67,7 @@
         document.getElementById("process").style.display = "block";
 
         var sira = $("#" + Id + "_siraInput").val();
-        var id = Id; 
+        var id = Id;
 
         $.ajax({
             type: "POST",
@@ -91,7 +75,39 @@
             data: { id: id, sira: sira },
             success: function (response) {
                 window.location.href = '@Url.Action("HaberSirala","Haber")';
+
             }
         });
     }
+</script>
+
+
+
+<script>
+
+    $(function () {
+        $("#sortable").sortable({
+            update: function (event, ui) {
+                var itemIds = "";
+                $("#sortable").find(".taskSingleInline").each(function () {
+                    var itemId = $(this).attr("data-taskid");
+                    itemIds = itemIds + itemId + ",";
+                });
+                $.ajax({
+
+                    url: '@Url.Action("SiralamayiGuncelle","Haber")',
+                    data: { itemIds: itemIds },
+                    type: 'POST',
+                    succcess: function (data) {
+                        window.location.href = '@Url.Action("HaberSirala","Haber")';
+                    },
+                    error: function (xhr, status, error) {
+                        window.location.href = '@Url.Action("HaberSirala","Haber")';
+                    }
+
+                });
+            }
+        });
+    });
+
 </script>

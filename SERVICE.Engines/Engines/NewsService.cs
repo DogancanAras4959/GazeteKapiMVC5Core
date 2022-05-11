@@ -23,6 +23,8 @@ namespace SERVICE.Engine.Engines
         {
             _unitOfWork = unitOfWork;
         }
+
+        #region Guest
         public async Task<bool> createGuets(GuestDto model)
         {
             Guest newGuest = await _unitOfWork.GetRepository<Guest>().AddAsync(new Guest
@@ -70,22 +72,6 @@ namespace SERVICE.Engine.Engines
 
             return guestGet != null;
         }
-        public async Task<bool> EditIsActive(int id)
-        {
-            Guest getUser = _unitOfWork.GetRepository<Guest>().FindAsync(x => x.Id == id).Result;
-            if (getUser.IsActive == false)
-            {
-                getUser.IsActive = true;
-                Guest model = await _unitOfWork.GetRepository<Guest>().UpdateAsync(getUser);
-                return getUser != null;
-            }
-            else
-            {
-                getUser.IsActive = false;
-                Guest model = await _unitOfWork.GetRepository<Guest>().UpdateAsync(getUser);
-                return getUser != null;
-            }
-        }
         public GuestDto getGuest(int id)
         {
             Guest getGuest = _unitOfWork.GetRepository<Guest>().FindAsync(x => x.Id == id).Result;
@@ -122,7 +108,7 @@ namespace SERVICE.Engine.Engines
         }
         public List<GuestListItemDto> guestList()
         {
-            IEnumerable<Guest> guestList = _unitOfWork.GetRepository<Guest>().Filter(null, x => x.OrderByDescending(y => y.Id), "users", null, null);
+            IEnumerable<Guest> guestList = _unitOfWork.GetRepository<Guest>().Filter(x => x.GuestName != "Yazar Yok", x => x.OrderByDescending(y => y.Id), "users", null, null);
 
             return guestList.Select(x => new GuestListItemDto
             {
@@ -143,142 +129,26 @@ namespace SERVICE.Engine.Engines
                 IsActive = x.IsActive,
             }).ToList();
         }
-        public List<NewsListItemDto> newsList()
+        public async Task<bool> EditIsActive(int id)
         {
-            IEnumerable<News> newsList = _unitOfWork.GetRepository<News>().Filter(null, x => x.OrderByDescending(y => y.Id), "guest,users,categories,publishtype", null,null);
-
-            if (newsList != null)
+            Guest getUser = _unitOfWork.GetRepository<Guest>().FindAsync(x => x.Id == id).Result;
+            if (getUser.IsActive == false)
             {
-                return newsList.Select(x => new NewsListItemDto
-                {
-
-                    Id = x.Id,
-                    Title = x.Title,
-                    Spot = x.Spot,
-                    Image = x.Image,
-                    NewsContent = x.NewsContent,
-                    IsSlide = x.IsSlide,
-                    IsOpenNotifications = x.IsOpenNotifications,
-                    IsLock = x.IsLock,
-                    IsActive = x.IsActive,
-                    Views = x.Views,
-                    IsTitle = x.IsTitle,
-                    UpdatedTime = x.UpdatedTime,
-                    CreatedTime = x.CreatedTime,
-                    CategoryId = x.CategoryId,
-                    UserId = x.UserId,
-                    GuestId = x.GuestId,
-                    ParentNewsId = x.ParentNewsId,
-                    PublishTypeId = x.PublishTypeId,
-                    PublishedTime = x.PublishedTime,
-                    IsCommentActive = x.IsCommentActive,
-                    Sorted = x.Sorted,
-                    guest = x.guest,
-                    publishtype = x.publishtype,
-                    users = x.users,
-                    categories = x.categories,
-                    Sound = x.Sound,
-
-                }).ToList();
+                getUser.IsActive = true;
+                Guest model = await _unitOfWork.GetRepository<Guest>().UpdateAsync(getUser);
+                return getUser != null;
             }
             else
             {
-                return null;
+                getUser.IsActive = false;
+                Guest model = await _unitOfWork.GetRepository<Guest>().UpdateAsync(getUser);
+                return getUser != null;
             }
         }
-        public List<PublishTypeListItem> publishTypeList()
-        {
-            IEnumerable<PublishType> listTypes = _unitOfWork.GetRepository<PublishType>().Filter(null, x => x.OrderByDescending(y => y.Id), "user", 1, 50);
 
-            return listTypes.Select(x => new PublishTypeListItem
-            {
-                Id = x.Id,
-                TypeName = x.TypeName,
-                user = x.user,
-                UserId = x.UserId,
+        #endregion
 
-            }).ToList();
-        }
-        public async Task<bool> NewsIfExists(string title) =>
-            await _unitOfWork.GetRepository<News>().FindAsync(x => x.Title == title) != null;
-        public async Task<int> createNews(NewsDto model)
-        {
-            try
-            {
-                if (model.GuestId == 0)
-                {
-                    model.GuestId = 3;
-                }
-
-                News createNews = await _unitOfWork.GetRepository<News>().AddAsync(new News
-                {
-                    Title = model.Title,
-                    Spot = model.Spot,
-                    IsSlide = model.IsSlide,
-                    IsActive = true,
-                    IsLock = false,
-                    IsCommentActive = model.IsCommentActive,
-                    IsOpenNotifications = model.IsOpenNotifications,
-                    UpdatedTime = DateTime.Now,
-                    MetaTitle = model.MetaTitle,
-                    CreatedTime = DateTime.Now,
-                    IsTitle = model.IsTitle,
-                    Views = 0,
-                    CategoryId = model.CategoryId,
-                    UserId = model.UserId,
-                    GuestId = model.GuestId,
-                    PublishTypeId = model.PublishTypeId,
-                    NewsContent = model.NewsContent,
-                    Image = model.Image,
-                    Sorted = 0,
-                });
-
-                return createNews.Id;
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-
-        }
-        public NewsDto getNews(int id)
-        {
-
-            News getNews = _unitOfWork.GetRepository<News>().FindAsync(x => x.Id == id).Result;
-
-            if (getNews != null)
-            {
-                return new NewsDto
-                {
-                    Id = getNews.Id,
-                    Title = getNews.Title,
-                    Spot = getNews.Spot,
-                    IsSlide = getNews.IsSlide,
-                    IsActive = getNews.IsActive,
-                    IsLock = getNews.IsLock,
-                    IsCommentActive = getNews.IsCommentActive,
-                    IsOpenNotifications = getNews.IsOpenNotifications,
-                    UpdatedTime = getNews.UpdatedTime,
-                    CreatedTime = getNews.CreatedTime,
-                    PublishedTime = getNews.PublishedTime,
-                    Views = getNews.Views,
-                    CategoryId = getNews.CategoryId,
-                    MetaTitle = getNews.MetaTitle,
-                    UserId = getNews.UserId,
-                    GuestId = getNews.GuestId,
-                    PublishTypeId = getNews.PublishTypeId,
-                    NewsContent = getNews.NewsContent,
-                    Image = getNews.Image,
-                    Sorted = getNews.Sorted,
-                    IsTitle = getNews.IsTitle,
-                    Sound = getNews.Sound,
-                };
-            }
-            else
-            {
-                return null;
-            }
-        }
+        #region Tag & Tag-News
         public async Task<bool> createTag(TagDto model)
         {
             Tags newTags = await _unitOfWork.GetRepository<Tags>().AddAsync(new Tags
@@ -344,133 +214,6 @@ namespace SERVICE.Engine.Engines
                 throw;
             }
 
-        }
-        public async Task<int> editNews(NewsDto model)
-        {
-            try
-            {
-                News getNews = await _unitOfWork.GetRepository<News>().FindAsync(x => x.Id == model.Id);
-
-                if (model.GuestId == 0)
-                {
-                    model.GuestId = 3;
-                }
-
-                if (model.Image == null)
-                {
-                    model.Image = getNews.Image;
-                }
-
-                if (model.CreatedTime == null)
-                {
-                    model.CreatedTime = getNews.CreatedTime;
-                }
-
-                News newsGet = await _unitOfWork.GetRepository<News>().UpdateAsync(new News
-                {
-                    Id = model.Id,
-                    Image = model.Image,
-                    Title = model.Title,
-                    Spot = model.Spot,
-                    NewsContent = model.NewsContent,
-                    IsCommentActive = model.IsCommentActive,
-                    IsOpenNotifications = model.IsOpenNotifications,
-                    IsSlide = model.IsSlide,
-                    IsTitle = model.IsTitle,
-                    MetaTitle = model.MetaTitle,
-                    IsActive = getNews.IsActive,
-                    IsLock = getNews.IsLock,
-                    UpdatedTime = DateTime.Now,
-                    CreatedTime = getNews.CreatedTime,
-                    users = model.users,
-                    UserId = model.UserId,
-                    CategoryId = model.CategoryId,
-                    ParentNewsId = model.ParentNewsId,
-                    categories = model.categories,
-                    guest = model.guest,
-                    GuestId = model.GuestId,
-                    PublishTypeId = model.PublishTypeId,
-                    publishtype = model.publishtype,
-                    PublishedTime = DateTime.Now,
-                    Sound = model.Sound,
-                });
-
-                return newsGet.Id;
-
-            }
-            catch (Exception)
-            {
-                return 0;
-            }
-        }
-        public bool newsDelete(int id)
-        {
-            Task<int> result = _unitOfWork.GetRepository<News>().DeleteAsync(new News { Id = id });
-            return Convert.ToBoolean(result.Result);
-        }
-        public async Task<bool> SetYourNewsToUp(int id)
-        {
-            News getNews = _unitOfWork.GetRepository<News>().FindAsync(x => x.Id == id).Result;
-            if (getNews.IsSlide == false)
-            {
-                getNews.IsSlide = true;
-                News model = await _unitOfWork.GetRepository<News>().UpdateAsync(getNews);
-                return getNews != null;
-            }
-            else
-            {
-                getNews.IsSlide = false;
-                News model = await _unitOfWork.GetRepository<News>().UpdateAsync(getNews);
-                return getNews != null;
-            }
-        }
-        public async Task<bool> IsOpenNotificationSet(int id)
-        {
-            News getNews = _unitOfWork.GetRepository<News>().FindAsync(x => x.Id == id).Result;
-            if (getNews.IsOpenNotifications == false)
-            {
-                getNews.IsOpenNotifications = true;
-                News model = await _unitOfWork.GetRepository<News>().UpdateAsync(getNews);
-                return getNews != null;
-            }
-            else
-            {
-                getNews.IsOpenNotifications = false;
-                News model = await _unitOfWork.GetRepository<News>().UpdateAsync(getNews);
-                return getNews != null;
-            }
-        }
-        public async Task<bool> IsLockNews(int id)
-        {
-            News getNews = _unitOfWork.GetRepository<News>().FindAsync(x => x.Id == id).Result;
-            if (getNews.IsLock == false)
-            {
-                getNews.IsLock = true;
-                News model = await _unitOfWork.GetRepository<News>().UpdateAsync(getNews);
-                return getNews != null;
-            }
-            else
-            {
-                getNews.IsLock = false;
-                News model = await _unitOfWork.GetRepository<News>().UpdateAsync(getNews);
-                return getNews != null;
-            }
-        }
-        public async Task<bool> IsActiveEnabled(int id)
-        {
-            News getNews = _unitOfWork.GetRepository<News>().FindAsync(x => x.Id == id).Result;
-            if (getNews.IsActive == false)
-            {
-                getNews.IsActive = true;
-                News model = await _unitOfWork.GetRepository<News>().UpdateAsync(getNews);
-                return getNews != null;
-            }
-            else
-            {
-                getNews.IsActive = false;
-                News model = await _unitOfWork.GetRepository<News>().UpdateAsync(getNews);
-                return getNews != null;
-            }
         }
         public List<TagNewsListItemDto> tagsListWithNews()
         {
@@ -572,7 +315,7 @@ namespace SERVICE.Engine.Engines
         }
         public List<TagListItemDto> tagList()
         {
-            IEnumerable<Tags> newsList = _unitOfWork.GetRepository<Tags>().Filter(null, x => x.OrderByDescending(y => y.Id), "",null,null);
+            IEnumerable<Tags> newsList = _unitOfWork.GetRepository<Tags>().Filter(null, x => x.OrderByDescending(y => y.Id), "", null, null);
 
             if (newsList != null)
             {
@@ -587,6 +330,329 @@ namespace SERVICE.Engine.Engines
             else
             {
                 return null;
+            }
+        }
+        public bool tagDelete(int id)
+        {
+            Task<int> result = _unitOfWork.GetRepository<Tags>().DeleteAsync(new Tags { Id = id });
+            return Convert.ToBoolean(result.Result);
+        }
+        public List<TagNewsListItemDto> tagsListWithNewsWebSearch(string search)
+        {
+            IEnumerable<TagNews> getTags = _unitOfWork.GetRepository<TagNews>().Filter(null, x => x.OrderByDescending(y => y.Id), "tag,news", null, null);
+
+            if (!String.IsNullOrEmpty(search))
+            {
+                getTags = getTags.Where(x => x.tag.TagName!.Contains(search));
+            }
+
+            return getTags.Select(x => new TagNewsListItemDto
+            {
+                Id = x.Id,
+                tag = x.tag,
+                news = x.news
+
+            }).ToList();
+        }
+        public List<TagNewsListItemDto> tagsListWithNewsByTagId(int? id)
+        {
+            IEnumerable<TagNews> newsList = _unitOfWork.GetRepository<TagNews>().Filter(x => x.TagId == id, x => x.OrderByDescending(y => y.Id), "tag,news", null, null);
+
+            if (newsList != null)
+            {
+                return newsList.Select(x => new TagNewsListItemDto
+                {
+
+                    Id = x.Id,
+                    NewsId = x.NewsId,
+                    TagId = x.TagId,
+                    news = x.news,
+                    tag = x.tag,
+
+                }).ToList();
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        #endregion
+
+        #region News
+        public List<NewsListItemDto> newsList()
+        {
+            IEnumerable<News> newsList = _unitOfWork.GetRepository<News>().Filter(null, x => x.OrderByDescending(y => y.Id), "guest,users,categories,publishtype", null, null);
+
+            if (newsList != null)
+            {
+                return newsList.Select(x => new NewsListItemDto
+                {
+
+                    Id = x.Id,
+                    Title = x.Title,
+                    Spot = x.Spot,
+                    RowNo = x.RowNo,
+                    ColNo = x.ColNo,
+                    Image = x.Image,
+                    NewsContent = x.NewsContent,
+                    IsSlide = x.IsSlide,
+                    IsOpenNotifications = x.IsOpenNotifications,
+                    IsLock = x.IsLock,
+                    IsActive = x.IsActive,
+                    Views = x.Views,
+                    IsTitle = x.IsTitle,
+                    UpdatedTime = x.UpdatedTime,
+                    CreatedTime = x.CreatedTime,
+                    CategoryId = x.CategoryId,
+                    UserId = x.UserId,
+                    GuestId = x.GuestId,
+                    ParentNewsId = x.ParentNewsId,
+                    PublishTypeId = x.PublishTypeId,
+                    PublishedTime = x.PublishedTime,
+                    IsCommentActive = x.IsCommentActive,
+                    Sorted = x.Sorted,
+                    guest = x.guest,
+                    publishtype = x.publishtype,
+                    users = x.users,
+                    categories = x.categories,
+                    Sound = x.Sound,
+
+                }).ToList();
+            }
+            else
+            {
+                return null;
+            }
+        }
+        public List<PublishTypeListItem> publishTypeList()
+        {
+            IEnumerable<PublishType> listTypes = _unitOfWork.GetRepository<PublishType>().Filter(null, x => x.OrderByDescending(y => y.Id), "user", 1, 50);
+
+            return listTypes.Select(x => new PublishTypeListItem
+            {
+                Id = x.Id,
+                TypeName = x.TypeName,
+                user = x.user,
+                UserId = x.UserId,
+
+            }).ToList();
+        }
+        public async Task<bool> NewsIfExists(string title) =>
+            await _unitOfWork.GetRepository<News>().FindAsync(x => x.Title == title) != null;
+        public async Task<int> createNews(NewsDto model)
+        {
+            try
+            {
+                if (model.GuestId == 0 || model.GuestId == 999)
+                {
+                    var getGuest = _unitOfWork.GetRepository<Guest>().FindAsync(x => x.GuestName == "Yazar Yok").Result;
+
+                    model.GuestId = getGuest.Id;
+                }
+
+                News createNews = await _unitOfWork.GetRepository<News>().AddAsync(new News
+                {
+                    Title = model.Title,
+                    Spot = model.Spot,
+                    IsSlide = model.IsSlide,
+                    IsActive = true,
+                    RowNo = 0,
+                    ColNo = 0,
+                    IsLock = false,
+                    IsCommentActive = model.IsCommentActive,
+                    IsOpenNotifications = model.IsOpenNotifications,
+                    UpdatedTime = DateTime.Now,
+                    MetaTitle = model.MetaTitle,
+                    CreatedTime = DateTime.Now,
+                    IsTitle = model.IsTitle,
+                    Views = 0,
+                    CategoryId = model.CategoryId,
+                    UserId = model.UserId,
+                    GuestId = model.GuestId,
+                    PublishTypeId = model.PublishTypeId,
+                    NewsContent = model.NewsContent,
+                    Image = model.Image,
+                    Sorted = 0,
+                });
+
+                return createNews.Id;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+        }
+        public NewsDto getNews(int id)
+        {
+
+            News getNews = _unitOfWork.GetRepository<News>().FindAsync(x => x.Id == id).Result;
+
+            if (getNews != null)
+            {
+                return new NewsDto
+                {
+                    Id = getNews.Id,
+                    Title = getNews.Title,
+                    Spot = getNews.Spot,
+                    RowNo = getNews.RowNo,
+                    ColNo = getNews.ColNo,
+                    IsSlide = getNews.IsSlide,
+                    IsActive = getNews.IsActive,
+                    IsLock = getNews.IsLock,
+                    IsCommentActive = getNews.IsCommentActive,
+                    IsOpenNotifications = getNews.IsOpenNotifications,
+                    UpdatedTime = getNews.UpdatedTime,
+                    CreatedTime = getNews.CreatedTime,
+                    PublishedTime = getNews.PublishedTime,
+                    Views = getNews.Views,
+                    CategoryId = getNews.CategoryId,
+                    MetaTitle = getNews.MetaTitle,
+                    UserId = getNews.UserId,
+                    GuestId = getNews.GuestId,
+                    PublishTypeId = getNews.PublishTypeId,
+                    NewsContent = getNews.NewsContent,
+                    Image = getNews.Image,
+                    Sorted = getNews.Sorted,
+                    IsTitle = getNews.IsTitle,
+                    Sound = getNews.Sound,
+                };
+            }
+            else
+            {
+                return null;
+            }
+        }
+        public async Task<int> editNews(NewsDto model)
+        {
+            try
+            {
+                News getNews = await _unitOfWork.GetRepository<News>().FindAsync(x => x.Id == model.Id);
+
+                if (model.GuestId == 0 || model.GuestId == 999)
+                {
+                    var getGuest = _unitOfWork.GetRepository<Guest>().FindAsync(x => x.GuestName == "Yazar Yok").Result;
+
+                    model.GuestId = getGuest.Id;
+                }
+
+                if (model.Image == null)
+                {
+                    model.Image = getNews.Image;
+                }
+
+                if (model.CreatedTime == null)
+                {
+                    model.CreatedTime = getNews.CreatedTime;
+                }
+
+                News newsGet = await _unitOfWork.GetRepository<News>().UpdateAsync(new News
+                {
+                    Id = model.Id,
+                    Image = model.Image,
+                    Title = model.Title,
+                    Spot = model.Spot,
+                    NewsContent = model.NewsContent,
+                    IsCommentActive = model.IsCommentActive,
+                    IsOpenNotifications = model.IsOpenNotifications,
+                    IsSlide = model.IsSlide,
+                    RowNo = model.RowNo,
+                    ColNo = model.ColNo,
+                    IsTitle = model.IsTitle,
+                    MetaTitle = model.MetaTitle,
+                    IsActive = getNews.IsActive,
+                    IsLock = getNews.IsLock,
+                    UpdatedTime = DateTime.Now,
+                    CreatedTime = getNews.CreatedTime,
+                    users = model.users,
+                    UserId = model.UserId,
+                    CategoryId = model.CategoryId,
+                    ParentNewsId = model.ParentNewsId,
+                    categories = model.categories,
+                    guest = model.guest,
+                    GuestId = model.GuestId,
+                    PublishTypeId = model.PublishTypeId,
+                    publishtype = model.publishtype,
+                    PublishedTime = DateTime.Now,
+                    Sound = model.Sound,
+                });
+
+                return newsGet.Id;
+
+            }
+            catch (Exception)
+            {
+                return 0;
+            }
+        }
+        public bool newsDelete(int id)
+        {
+            Task<int> result = _unitOfWork.GetRepository<News>().DeleteAsync(new News { Id = id });
+            return Convert.ToBoolean(result.Result);
+        }
+        public async Task<bool> SetYourNewsToUp(int id)
+        {
+            News getNews = _unitOfWork.GetRepository<News>().FindAsync(x => x.Id == id).Result;
+            if (getNews.IsSlide == false)
+            {
+                getNews.IsSlide = true;
+                News model = await _unitOfWork.GetRepository<News>().UpdateAsync(getNews);
+                return getNews != null;
+            }
+            else
+            {
+                getNews.IsSlide = false;
+                News model = await _unitOfWork.GetRepository<News>().UpdateAsync(getNews);
+                return getNews != null;
+            }
+        }
+        public async Task<bool> IsOpenNotificationSet(int id)
+        {
+            News getNews = _unitOfWork.GetRepository<News>().FindAsync(x => x.Id == id).Result;
+            if (getNews.IsOpenNotifications == false)
+            {
+                getNews.IsOpenNotifications = true;
+                News model = await _unitOfWork.GetRepository<News>().UpdateAsync(getNews);
+                return getNews != null;
+            }
+            else
+            {
+                getNews.IsOpenNotifications = false;
+                News model = await _unitOfWork.GetRepository<News>().UpdateAsync(getNews);
+                return getNews != null;
+            }
+        }
+        public async Task<bool> IsLockNews(int id)
+        {
+            News getNews = _unitOfWork.GetRepository<News>().FindAsync(x => x.Id == id).Result;
+            if (getNews.IsLock == false)
+            {
+                getNews.IsLock = true;
+                News model = await _unitOfWork.GetRepository<News>().UpdateAsync(getNews);
+                return getNews != null;
+            }
+            else
+            {
+                getNews.IsLock = false;
+                News model = await _unitOfWork.GetRepository<News>().UpdateAsync(getNews);
+                return getNews != null;
+            }
+        }
+        public async Task<bool> IsActiveEnabled(int id)
+        {
+            News getNews = _unitOfWork.GetRepository<News>().FindAsync(x => x.Id == id).Result;
+            if (getNews.IsActive == false)
+            {
+                getNews.IsActive = true;
+                News model = await _unitOfWork.GetRepository<News>().UpdateAsync(getNews);
+                return getNews != null;
+            }
+            else
+            {
+                getNews.IsActive = false;
+                News model = await _unitOfWork.GetRepository<News>().UpdateAsync(getNews);
+                return getNews != null;
             }
         }
         public List<NewsListItemDto> newsListByUserId(int id)
@@ -641,11 +707,13 @@ namespace SERVICE.Engine.Engines
                     getNews = getNews.Where(x => x.Title!.Contains(searhNameNews));
                 }
 
-                return getNews.Select(x=> new NewsListItemDto 
+                return getNews.Select(x => new NewsListItemDto
                 {
                     Id = x.Id,
                     Title = x.Title,
                     Spot = x.Spot,
+                    RowNo = x.RowNo,
+                    ColNo = x.ColNo,
                     Image = x.Image,
                     NewsContent = x.NewsContent,
                     IsSlide = x.IsSlide,
@@ -688,6 +756,8 @@ namespace SERVICE.Engine.Engines
                     Id = x.Id,
                     Title = x.Title,
                     Spot = x.Spot,
+                    RowNo = x.RowNo,
+                    ColNo = x.ColNo,
                     IsTitle = x.IsTitle,
                     Image = x.Image,
                     NewsContent = x.NewsContent,
@@ -731,6 +801,8 @@ namespace SERVICE.Engine.Engines
                     Spot = x.Spot,
                     Image = x.Image,
                     IsTitle = x.IsTitle,
+                    RowNo = x.RowNo,
+                    ColNo = x.ColNo,
                     NewsContent = x.NewsContent,
                     IsSlide = x.IsSlide,
                     IsOpenNotifications = x.IsOpenNotifications,
@@ -759,14 +831,9 @@ namespace SERVICE.Engine.Engines
                 return null;
             }
         }
-        public bool tagDelete(int id)
-        {
-            Task<int> result = _unitOfWork.GetRepository<Tags>().DeleteAsync(new Tags { Id = id });
-            return Convert.ToBoolean(result.Result);
-        }
         public List<TagListItemDto> tagListWithSearch(string searchName)
         {
-            IEnumerable<Tags> getTags = _unitOfWork.GetRepository<Tags> ().Filter(null, x => x.OrderByDescending(y => y.Id), "", null, null);
+            IEnumerable<Tags> getTags = _unitOfWork.GetRepository<Tags>().Filter(null, x => x.OrderByDescending(y => y.Id), "", null, null);
 
             if (!String.IsNullOrEmpty(searchName))
             {
@@ -784,7 +851,7 @@ namespace SERVICE.Engine.Engines
         {
             try
             {
-                IEnumerable<News> getNews = _unitOfWork.GetRepository<News>().Filter(x=> x.GuestId == guestId, x => x.OrderByDescending(y => y.Id), "users,guest,publishtype,categories", null, null);
+                IEnumerable<News> getNews = _unitOfWork.GetRepository<News>().Filter(x => x.GuestId == guestId, x => x.OrderByDescending(y => y.Id), "users,guest,publishtype,categories", null, null);
 
                 if (!String.IsNullOrEmpty(searchstring))
                 {
@@ -796,6 +863,8 @@ namespace SERVICE.Engine.Engines
                     Id = x.Id,
                     Title = x.Title,
                     Spot = x.Spot,
+                    RowNo = x.RowNo,
+                    ColNo = x.ColNo,
                     Image = x.Image,
                     NewsContent = x.NewsContent,
                     IsSlide = x.IsSlide,
@@ -839,6 +908,8 @@ namespace SERVICE.Engine.Engines
                     Title = x.Title,
                     Spot = x.Spot,
                     Image = x.Image,
+                    RowNo = x.RowNo,
+                    ColNo = x.ColNo,
                     NewsContent = x.NewsContent,
                     IsSlide = x.IsSlide,
                     IsOpenNotifications = x.IsOpenNotifications,
@@ -882,6 +953,8 @@ namespace SERVICE.Engine.Engines
                     Title = x.Title,
                     Spot = x.Spot,
                     Image = x.Image,
+                    RowNo = x.RowNo,
+                    ColNo = x.ColNo,
                     NewsContent = x.NewsContent,
                     IsSlide = x.IsSlide,
                     IsOpenNotifications = x.IsOpenNotifications,
@@ -927,6 +1000,8 @@ namespace SERVICE.Engine.Engines
                     Title = x.Title,
                     Spot = x.Spot,
                     Image = x.Image,
+                    RowNo = x.RowNo,
+                    ColNo = x.ColNo,
                     NewsContent = x.NewsContent,
                     IsSlide = x.IsSlide,
                     IsOpenNotifications = x.IsOpenNotifications,
@@ -968,6 +1043,8 @@ namespace SERVICE.Engine.Engines
                     Title = x.Title,
                     Spot = x.Spot,
                     IsTitle = x.IsTitle,
+                    RowNo = x.RowNo,
+                    ColNo = x.ColNo,
                     Image = x.Image,
                     NewsContent = x.NewsContent,
                     IsSlide = x.IsSlide,
@@ -1009,6 +1086,8 @@ namespace SERVICE.Engine.Engines
                     Title = x.Title,
                     Spot = x.Spot,
                     IsTitle = x.IsTitle,
+                    RowNo = x.RowNo,
+                    ColNo = x.ColNo,
                     Image = x.Image,
                     NewsContent = x.NewsContent,
                     IsSlide = x.IsSlide,
@@ -1050,6 +1129,8 @@ namespace SERVICE.Engine.Engines
                     Title = x.Title,
                     Spot = x.Spot,
                     Image = x.Image,
+                    RowNo = x.RowNo,
+                    ColNo = x.ColNo,
                     NewsContent = x.NewsContent,
                     IsSlide = x.IsSlide,
                     IsTitle = x.IsTitle,
@@ -1091,6 +1172,8 @@ namespace SERVICE.Engine.Engines
                     Title = x.Title,
                     Spot = x.Spot,
                     IsTitle = x.IsTitle,
+                    RowNo = x.RowNo,
+                    ColNo = x.ColNo,
                     Image = x.Image,
                     NewsContent = x.NewsContent,
                     IsSlide = x.IsSlide,
@@ -1122,7 +1205,7 @@ namespace SERVICE.Engine.Engines
         }
         public List<NewsListItemDto> PopularNewsInWebInCategory(int categoryId)
         {
-            IEnumerable<News> newsList = _unitOfWork.GetRepository<News>().Filter(x=> x.CategoryId == categoryId, x => x.OrderByDescending(y => y.Views), "users,guest,publishtype,categories", 1, 1);
+            IEnumerable<News> newsList = _unitOfWork.GetRepository<News>().Filter(x => x.CategoryId == categoryId, x => x.OrderByDescending(y => y.Views), "users,guest,publishtype,categories", 1, 1);
 
             if (newsList != null)
             {
@@ -1130,6 +1213,8 @@ namespace SERVICE.Engine.Engines
                 {
                     Id = x.Id,
                     Title = x.Title,
+                    RowNo = x.RowNo,
+                    ColNo = x.ColNo,
                     Spot = x.Spot,
                     Image = x.Image,
                     NewsContent = x.NewsContent,
@@ -1161,45 +1246,6 @@ namespace SERVICE.Engine.Engines
                 return null;
             }
         }
-        public List<TagNewsListItemDto> tagsListWithNewsWebSearch(string search)
-        {
-            IEnumerable<TagNews> getTags = _unitOfWork.GetRepository<TagNews>().Filter(null, x => x.OrderByDescending(y => y.Id), "tag,news", null, null);
-
-            if (!String.IsNullOrEmpty(search))
-            {
-                getTags = getTags.Where(x => x.tag.TagName!.Contains(search));
-            }
-
-            return getTags.Select(x => new TagNewsListItemDto
-            {
-                Id = x.Id,
-                tag = x.tag,
-                news = x.news
-
-            }).ToList();
-        }
-        public List<TagNewsListItemDto> tagsListWithNewsByTagId(int? id)
-        {
-            IEnumerable<TagNews> newsList = _unitOfWork.GetRepository<TagNews>().Filter(x => x.TagId == id, x => x.OrderByDescending(y => y.Id), "tag,news", null, null);
-
-            if (newsList != null)
-            {
-                return newsList.Select(x => new TagNewsListItemDto
-                {
-
-                    Id = x.Id,
-                    NewsId = x.NewsId,
-                    TagId = x.TagId,
-                    news = x.news,
-                    tag = x.tag,
-
-                }).ToList();
-            }
-            else
-            {
-                return null;
-            }
-        }
         public List<NewsListItemDto> newsListLoadByScroll(int pageIndex, int pageSize)
         {
             IEnumerable<News> newsList = _unitOfWork.GetRepository<News>().Filter(null, x => x.OrderBy(y => y.Id), "users,guest,publishtype,categories", pageIndex, pageSize);
@@ -1214,6 +1260,8 @@ namespace SERVICE.Engine.Engines
                     Image = x.Image,
                     NewsContent = x.NewsContent,
                     IsSlide = x.IsSlide,
+                    RowNo = x.RowNo,
+                    ColNo = x.ColNo,
                     IsOpenNotifications = x.IsOpenNotifications,
                     IsLock = x.IsLock,
                     IsActive = x.IsActive,
@@ -1243,7 +1291,7 @@ namespace SERVICE.Engine.Engines
         }
         public List<NewsListItemDto> newsListWithWeb()
         {
-            IEnumerable<News> newsList = _unitOfWork.GetRepository<News>().Filter(x=> x.IsActive == true, x => x.OrderBy(y => y.Id), "guest,users,categories,publishtype", null, null);
+            IEnumerable<News> newsList = _unitOfWork.GetRepository<News>().Filter(x => x.IsActive == true, x => x.OrderBy(y => y.Id), "guest,users,categories,publishtype", null, null);
 
             if (newsList != null)
             {
@@ -1255,6 +1303,8 @@ namespace SERVICE.Engine.Engines
                     Spot = x.Spot,
                     Image = x.Image,
                     IsTitle = x.IsTitle,
+                    RowNo = x.RowNo,
+                    ColNo = x.ColNo,
                     NewsContent = x.NewsContent,
                     IsSlide = x.IsSlide,
                     IsOpenNotifications = x.IsOpenNotifications,
@@ -1298,8 +1348,55 @@ namespace SERVICE.Engine.Engines
             {
                 return false;
             }
-           
+
         }
+        public List<NewsListItemDto> newsListOrderRow()
+        {
+            IEnumerable<News> newsList = _unitOfWork.GetRepository<News>().Filter(x=> x.IsActive == true && x.IsLock == false && x.IsSlide == true , x => x.OrderBy(y => y.RowNo), "guest,users,categories,publishtype", 1, 10);
+
+            if (newsList != null)
+            {
+                return newsList.Select(x => new NewsListItemDto
+                {
+
+                    Id = x.Id,
+                    Title = x.Title,
+                    Spot = x.Spot,
+                    RowNo = x.RowNo,
+                    ColNo = x.ColNo,
+                    Image = x.Image,
+                    NewsContent = x.NewsContent,
+                    IsSlide = x.IsSlide,
+                    IsOpenNotifications = x.IsOpenNotifications,
+                    IsLock = x.IsLock,
+                    IsActive = x.IsActive,
+                    Views = x.Views,
+                    IsTitle = x.IsTitle,
+                    UpdatedTime = x.UpdatedTime,
+                    CreatedTime = x.CreatedTime,
+                    CategoryId = x.CategoryId,
+                    UserId = x.UserId,
+                    GuestId = x.GuestId,
+                    ParentNewsId = x.ParentNewsId,
+                    PublishTypeId = x.PublishTypeId,
+                    PublishedTime = x.PublishedTime,
+                    IsCommentActive = x.IsCommentActive,
+                    Sorted = x.Sorted,
+                    guest = x.guest,
+                    publishtype = x.publishtype,
+                    users = x.users,
+                    categories = x.categories,
+                    Sound = x.Sound,
+
+                }).ToList();
+            }
+            else
+            {
+                return null;
+            }
+
+        }
+        #endregion
 
     }
 }

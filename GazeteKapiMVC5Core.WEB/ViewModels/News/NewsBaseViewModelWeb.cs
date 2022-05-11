@@ -10,6 +10,7 @@ namespace GazeteKapiMVC5Core.WEB.ViewModels.News
         public bool IsTitle { get; set; }
         public string Spot { get; set; }
         public string NewsContent { get; set; }
+        public int RowNo { get; set; }
         public int Sorted { get; set; }
         public string Image { get; set; }
         public string Tag { get; set; }

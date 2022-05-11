@@ -33,6 +33,8 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Models
         public int Views { get; set; }
         public string Sound { get; set; }
         public int ParentNewsId { get; set; }
+        public int RowNo { get; set; }
+        public int ColNo { get; set; }
 
         [ForeignKey("categories")]
         public int CategoryId { get; set; }

@@ -203,6 +203,11 @@
         
         window.onload = notifyMe;
 
+        $("#hamburger-button").on("click", function () {
+            $('#menu-hamburger-label ul').css('display', 'block');
+            $('#menu-hamburger-label ul').css('z-index', '200');
+        });
+
     </script>
 
     @RenderSection("scripts", false)

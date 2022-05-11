@@ -318,6 +318,9 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
             var newsGet = _mapper.Map<NewsDto, NewsEditViewModelWeb>(_newService.getNews(Id));
             ViewBag.Content = HtmlToPlainText(newsGet.NewsContent);
 
+            var guest = _mapper.Map<GuestDto, GuestEditViewModelWeb>(_newService.getGuest(newsGet.GuestId));
+            ViewBag.Guest = guest;
+
             #region Datas
 
             string friendlyTitle = Title;
