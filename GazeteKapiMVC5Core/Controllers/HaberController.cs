@@ -1176,7 +1176,7 @@ namespace GazeteKapiMVC5Core.Controllers
             return Json(true);
         }
 
-        public async Task<IActionResult> HaberYerlestirme()
+        public IActionResult HaberYerlestirme()
         {
             var categories = _mapper.Map<List<CategoryListItemDto>, List<CategoryListViewModel>>(_categoryService.GetAllCategory());
 
@@ -1184,6 +1184,27 @@ namespace GazeteKapiMVC5Core.Controllers
             ViewBag.NewsList = news;
 
             return View(categories);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> KategoriyiDegistir(string itemsId, string categoriesId)
+        {
+            int newsId = Convert.ToInt32(itemsId);
+            var getNews = _mapper.Map<NewsDto, NewsEditViewModel>(_newService.getNews(newsId));
+
+            int categoryId = Convert.ToInt32(categoriesId);
+            getNews.CategoryId = categoryId;
+
+            int result = Convert.ToInt32(await _newService.editNews(_mapper.Map<NewsEditViewModel, NewsDto>(getNews)));
+
+            if (result != 0)
+            {
+                return Json(true);
+            }
+            else
+            {
+                return Json(false);
+            }
         }
 
         #endregion
