@@ -9,10 +9,6 @@
 }
 
 <style>
-    #sortable tr:hover {
-        background-color: #0094ff;
-        color: #fff;
-    }
 
     #sortable tr td {
         -webkit-transition: transform 0.25s ease-in-out;
@@ -78,6 +74,7 @@
                 <div class="card scroller">
                     <div class="card-body">
                         <h4 class="card-title-desc mb-3">@item.CategoryName</h4>
+                        <input type="hidden" value="@item.Id"/>
                         <div class="table-rep-plugin">
                             <div class="table-responsive mb-0" data-bs-pattern="priority-columns">
                                 <table class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing:0; width: 100%;">
@@ -85,7 +82,6 @@
                                         <tr>
                                             <th style="text-align:center;">Sıra</th>
                                             <th>Başlık</th>
-                                            @*<th>İşlem</th>*@
                                         </tr>
                                     </thead>
                                     <tbody id="sortable" class="connected-sortable draggable-all" style="cursor:pointer;">
@@ -123,6 +119,14 @@
 <script>
     $(".draggable-all").sortable({
         connectWith: ".connected-sortable",
-        stack: ".connected-sortable tbody"
+        stack: ".connected-sortable tbody",
+        update: function (event, ui) {
+            var itemsId = "";
+            var categoryId = "";
+            $("#sortable").find(".taskSingleInline").each(function () {
+                var itemId = $(this).attr("data-taskid");
+                itemIds = itemIds + itemId + ",";
+            });
+        }
     }).disableSelection();
 </script>
