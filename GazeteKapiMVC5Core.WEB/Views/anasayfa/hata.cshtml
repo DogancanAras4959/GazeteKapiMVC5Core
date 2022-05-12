@@ -1,0 +1,40 @@
+﻿
+@{
+    ViewData["Title"] = "hata";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .error-content h1 {
+        font-size: 150px;
+        font-weight: 900;
+        background: url(../images/placeholder/1920x960.jpg) no-repeat;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: black;
+        -moz-background-clip: text;
+        background-clip: text;
+        background-size: cover;
+        background-position: center;
+    }
+
+    .banner-cs{
+        display:none;
+    }
+
+    .row-banners{
+        display:none;
+    }
+
+    #banner-header{
+        display:none;
+    }
+</style>
+
+<div class="error-content d-flex p-5 h-100 align-items-center text-center">
+    <div class="container">
+        <h1>@ViewData["ErrorCode"]</h1>
+        <h2>Sayfa Bulunamadı</h2>
+        <p class="lead">Aradığınız sayfa bulunamadı veya bir hata gerçekleşti</p>
+        <a href="@Url.Action("sayfa","anasayfa")" class="btn btn-primary"><i class="fa fa-home"></i> Geri Dön </a>
+    </div>
+</div>

@@ -18,6 +18,7 @@ using GazeteKapiMVC5Core.WEB.ViewModels.Policy;
 using GazeteKapiMVC5Core.WEB.ViewModels.TagsNews;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using SERVICE.Engine.Interfaces;
 using SERVICES.Engine.Interfaces;
 using System;
@@ -78,6 +79,8 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
             ViewBag.TagNews = tagNewList;
             ViewBag.HaberlerManset = haberlist;
             ViewBag.GuestList = guestList;
+
+            LoadJsonData();
 
             #endregion
 
@@ -513,6 +516,24 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
             return View();
         }
 
+        [Route("/anasayfa/hata/{code:int}")]
+        public IActionResult hata(int code)
+        {
+
+            MetaViewModel meta = new MetaViewModel();
+            meta.Title = "Gazetekapı | Le Monde diplomatique Türkiye";
+            meta.Keywords = "Gazetekapı, Lemonde, Yaşam, Kültür, Sanat, Seçim, Ekonomi, Siyaset";
+            meta.Description = "Gazetekapı yeni haberciliğiyle yola çıktı! Gazetekapı ile bilim teknoloji, yaşam, siyaset, ekonomiye dair bütün haberleri sizlerle buluşturacağız!";
+            meta.Image = "https://uploads.gazetekapi.com/images/placeholder/kapi-logo.png";
+            meta.ogDescription = "Gazetekapı yeni haberciliğiyle yola çıktı! Gazetekapı ile bilim teknoloji, yaşam, siyaset, ekonomiye dair bütün haberleri sizlerle buluşturacağız!";
+            meta.ogTitle = "Gazetekapı | Le Monde diplomatique Türkiye";
+            meta.ogImage = "https://uploads.gazetekapi.com/images/placeholder/kapi-logo.png";
+            meta.Url = "https://www.gazetekapi.com/";
+            ViewBag.Meta = meta;
+
+            ViewData["ErrorCode"] = $"{code}";
+            return View("~/Views/anasayfa/hata.cshtml");
+        }
         #endregion
 
         #region Partial Views
@@ -708,6 +729,17 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
             return View(aboneol());
         }
 
+        #endregion
+
+        #region Extends Method
+        
+        public void LoadJsonData()
+        {
+            var listNewsJsonData = _mapper.Map<List<NewsListItemDto>, List<NewListViewModelWeb>>(_newService.newsListJsonData());
+            string data = JsonConvert.SerializeObject(listNewsJsonData);
+            ViewData["Data"] = data;
+        }
+        
         #endregion
 
     }

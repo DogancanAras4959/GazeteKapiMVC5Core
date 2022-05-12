@@ -1,7 +1,9 @@
 ﻿@using GazeteKapiMVC5Core.WEB.Models.MetaConfig 
-
+@using GazeteKapiMVC5Core.WEB.ViewModels.News
+ 
 @{ 
     MetaViewModel meta = ViewBag.Meta as MetaViewModel;
+    List<NewListViewModelWeb> newsList = ViewBag.HaberlerManset as List<NewListViewModelWeb>;
 }
 
 <!DOCTYPE html>
@@ -10,11 +12,11 @@
 <head>
 
     <meta charset="utf-8" />
-    <meta http-equiv="content-language" content="tr">
-    <meta http-equiv="refresh" content="180, url='@Url.Action("sayfa","anasayfa")'">
+    <meta http-equiv="content-language" content="tr" />
+    <meta http-equiv="refresh" content="180, url='@Url.Action("sayfa","anasayfa")'" />
     <script async src="https://cdn.ampproject.org/v0.js"></script>
-    <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
-    <link rel="canonical" href="https://amp.dev/documentation/guides-and-tutorials/start/create/basic_markup/">
+    <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1" />
+    <link rel="canonical" href="https://amp.dev/documentation/guides-and-tutorials/start/create/basic_markup/" />
     <meta name="rating" content="general" />
     <meta name="abstract" content="security" />
     <meta name="googlebot" content="Index, Follow" />
@@ -23,10 +25,10 @@
     <meta name="application-name" content="gazetekapi" />
     <meta name="theme-color" content="#030303" />
     <meta name="author" content="Gazetekapı" />
-    <meta name="google-site-verification" content="-yBJ5UFx3dae3cclgxb_CL32eWvv1ju5Utc_DivwiaM" />
+    <meta name="google-site-verification" content="PEFfAU7AcnEUeP0fmuas2H4GcsRXcZxf5apJq_huNow" />
     <meta name="twitter:card" content="summary_larg_image" />
     <meta name="twitter:title" content="@meta.Title" />
-    <meta name="twitter:site" content="@meta.Url" />
+    <meta name="twitter:site" content="@meta.Url" /> 
     <meta name="twitter:description" content="@meta.Description" />
     <meta name="twitter:image" content="@meta.Image" />
     <meta name="description" content="@meta.Description" />
@@ -41,20 +43,30 @@
     <meta property="og:image" content="@meta.ogImage" />
     <meta property="og:url" content="@meta.Url" />
 
-    <link rel="icon" type="image/x-icon" href="https://uploads.gazetekapi.com/front/kapi-logo.ico">
-    <link rel="apple-touch-icon" href="icon.png">
+    <link rel="icon" type="image/x-icon" href="https://uploads.gazetekapi.com/front/kapi-logo.ico" />
+    <link rel="apple-touch-icon" href="icon.png" />
     <link rel="canonical" href="https://www.gazetekapi.com" />
 
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,500;0,700;1,300;1,500&family=Poppins:ital,wght@0,300;0,500;0,700;1,300;1,400&display=swap"
-          rel="stylesheet">
+          rel="stylesheet" />
     @*<link href="./css/styles.css?537a1bbd0e5129401d28" rel="stylesheet">*@
     <link href="https://uploads.gazetekapi.com/front/css/styles.css" rel="stylesheet" />
     <link href="https://uploads.gazetekapi.com/front/css/base/layoutbase.css" rel="stylesheet" />
     <link href="~/modeservicestyle.css" rel="stylesheet" />
     <link href="~/mobile-resp.css" rel="stylesheet" />
-    <link rel="manifest" href="~/manifest.json" crossorigin="use-credentials">
+    <link rel="manifest" href="~/manifest.json" crossorigin="use-credentials" />
 
     <title>@meta.Title</title>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-LCQHBQ4BXX"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-LCQHBQ4BXX');
+    </script>
 
     <style>
         .img-category {
@@ -138,28 +150,27 @@
             border: 1px solid #515d5e;
         }
     </style>
-  
-    <style amp-boilerplate>
-    body
-    {
-        -webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;
-        -moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;
-        -ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;
-        animation:-amp-start 8s steps(1,end) 0s 1 normal both
-    }
-    </style>
-   
-    <noscript>
-   
+
     <style amp-boilerplate>
         body {
-            -webkit-animation: none;
-            -moz-animation: none;
-            -ms-animation: none;
-            animation: none
+            -webkit-animation: -amp-start 8s steps(1,end) 0s 1 normal both;
+            -moz-animation: -amp-start 8s steps(1,end) 0s 1 normal both;
+            -ms-animation: -amp-start 8s steps(1,end) 0s 1 normal both;
+            animation: -amp-start 8s steps(1,end) 0s 1 normal both
         }
     </style>
-    
+
+    <noscript>
+
+        <style amp-boilerplate>
+            body {
+                -webkit-animation: none;
+                -moz-animation: none;
+                -ms-animation: none;
+                animation: none
+            }
+        </style>
+
     </noscript>
 
 </head>
@@ -180,7 +191,7 @@
     <script src="~/InfinitiySroll.js"></script>
     <script src="~/modeservice.js"></script>
 
-    <script type="text/javascript">
+    <script>
         window.onscroll = function () { onScroll() };
         function onScroll() {
             if (document.body.scrollTop > 50 || document.documentElement.scrollTop > 50) {
@@ -196,6 +207,7 @@
         }
 
         function notifyMe() {
+
             if (!Notification) {
                 alert('Lütfen Chrome, Firefox, Opera, Internet Explorer veya Spartan\'ın güncel bir versiyonunu kullanınız...');
                 return;
@@ -204,14 +216,29 @@
             if (Notification.permission !== "granted")
                 Notification.requestPermission();
 
-            var notification = new Notification('Hoşgeldiniz!', {
-                icon: 'https://uploads.gazetekapi.com/images/placeholder/kapi-logo.png',
-                body: "Bizimle iletişime geçmek için tıklayın!",
-            });
+            else {
 
-            notification.onclick = function () {
-                window.open("https://www.gazetekapi.com");
-            }
+            }     
+
+            var myArray = @Html.Raw(ViewData["Data"]);
+
+            $.each(myArray, function (i, val)
+            {
+                if (val.IsOpenNotifications == true) {
+                    var notification = new Notification(val.Title, {
+                        icon: 'https://uploads.gazetekapi.com/images/' + val.Image,
+                        body: "Haberi okumak için tıklayın!",
+                    });
+
+                    notification.onclick = function () {
+                        window.open("https://www.gazetekapi.com/haber/" + val.CategoryId + "/" + val.Title);
+                    }
+
+                    setTimeout(notification.close, 10000);
+
+                }       
+            });
+               
         }
         
         window.onload = notifyMe;

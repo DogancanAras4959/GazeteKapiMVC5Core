@@ -1396,6 +1396,47 @@ namespace SERVICE.Engine.Engines
             }
 
         }
+        public List<NewsListItemDto> newsListJsonData()
+        {
+            IEnumerable<News> newsList = _unitOfWork.GetRepository<News>().Filter(x => x.IsActive == true, x => x.OrderBy(y => y.Id), "", null, null);
+
+            if (newsList != null)
+            {
+                return newsList.Select(x => new NewsListItemDto
+                {
+
+                    Id = x.Id,
+                    Title = x.Title,
+                    Spot = x.Spot,
+                    Image = x.Image,
+                    IsTitle = x.IsTitle,
+                    RowNo = x.RowNo,
+                    ColNo = x.ColNo,
+                    NewsContent = x.NewsContent,
+                    IsSlide = x.IsSlide,
+                    IsOpenNotifications = x.IsOpenNotifications,
+                    IsLock = x.IsLock,
+                    ParentNewsId = x.ParentNewsId,
+                    IsActive = x.IsActive,
+                    Views = x.Views,
+                    UpdatedTime = x.UpdatedTime,
+                    CreatedTime = x.CreatedTime,
+                    CategoryId = x.CategoryId,
+                    UserId = x.UserId,
+                    GuestId = x.GuestId,
+                    PublishTypeId = x.PublishTypeId,
+                    PublishedTime = x.PublishedTime,
+                    IsCommentActive = x.IsCommentActive,
+                    Sorted = x.Sorted,  
+
+                }).ToList();
+            }
+            else
+            {
+                return null;
+            }
+        }
+
         #endregion
 
     }

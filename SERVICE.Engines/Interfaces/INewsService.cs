@@ -32,6 +32,7 @@ namespace SERVICE.Engine.Interfaces
         List<NewsListItemDto> newsList();
         List<NewsListItemDto> newsListOrderRow();
         List<NewsListItemDto> newsListWithWeb();
+        List<NewsListItemDto> newsListJsonData();
         List<NewsListItemDto> newsListByUserId(int id);
         List<PublishTypeListItem> publishTypeList();
         List<NewsListItemDto> searchDataInNews(string searchName);

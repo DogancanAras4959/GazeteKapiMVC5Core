@@ -86,8 +86,8 @@
             <div class="container boxed">
                 <figure class="mb-0">
                     <a asp-action="sayfa" asp-controller="anasayfa">
-                        <img src="https://uploads.gazetekapi.com/images/@Model.Logo" alt="@Model.Logo" title="@Model.Logo" id="img-shrink" class="logo logo-img logo-light">
-                        <img src="https://uploads.gazetekapi.com/images/@Model.FooterLogo" style="display:none;" title="@Model.FooterLogo" alt="@Model.FooterLogo" id="img-shrink" class="logo logo-img logo-dark">
+                        <img src="https://uploads.gazetekapi.com/images/@Model.Logo" alt="@Model.Logo" title="@Model.Logo" id="img-shrink" class="logo logo-img logo-light" />
+                        <img src="https://uploads.gazetekapi.com/images/@Model.FooterLogo" style="display:none;" title="@Model.FooterLogo" alt="@Model.FooterLogo" id="img-shrink" class="logo logo-img logo-dark" />
 
                     </a>
                 </figure>
@@ -162,7 +162,7 @@
                                         </span>
                                         <ul id="menu-hamburger-opened" style="margin-top:100px;">
                                             <li class="nav-item">
-                                                <img src="https://uploads.gazetekapi.com/images/@Model.Logo" title="@Model.Logo" alt="@Model.Logo" class="logo logo-img">
+                                                <img src="https://uploads.gazetekapi.com/images/@Model.Logo" title="@Model.Logo" alt="@Model.Logo" class="logo logo-img" />
                                             </li>
                                             @foreach (var item in categories.Where(x => x.Position == 0 && x.IsActive == true))
                                             {
@@ -308,7 +308,7 @@
             </div>
         </div>
     </div>
-    <div class="container" style="max-width:1030px; padding-top:15px;">
+    <div class="container" id="banner-header" style="max-width:1030px; padding-top:15px;">
         <div class="row">
             <div class="col-sm-12">
                 <img style="width:100%" title="masterhead" alt="masterhead" src="https://uploads.gazetekapi.com/images/masterhead.jpg" />
