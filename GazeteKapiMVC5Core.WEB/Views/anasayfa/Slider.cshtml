@@ -31,7 +31,7 @@
                         </div>
                         @if (item.IsTitle == true)
                         {
-                            <h1 class="title-slide">
+                            <h2 class="title-slide">
                                 @if (item.Title.Length > 70)
                                 {
                                     <a href="@Url.Action("haber", "anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">@item.Title.Substring(0, 70)<span>...</span> </a>
@@ -40,7 +40,7 @@
                                 {
                                     <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">@item.Title</a>
                                 }
-                            </h1>
+                            </h2>
                         }
 
                         <div class="title-word-big">
