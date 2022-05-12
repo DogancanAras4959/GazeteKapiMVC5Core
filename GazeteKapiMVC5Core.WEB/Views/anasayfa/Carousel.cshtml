@@ -29,7 +29,7 @@
                 <div class="article__entry">
                     <div class="article__image">
                         <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
-                            <img src="https://uploads.gazetekapi.com/images/@item.Image" alt="" class="img-fluid">
+                            <img src="https://uploads.gazetekapi.com/images/@item.Image" alt="@item.Image" title="@item.Image" class="img-fluid">
                         </a>
                     </div>
                     <div class="article__content">

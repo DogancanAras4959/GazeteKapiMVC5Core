@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace GazeteKapiMVC5Core.DataAccessLayerLOG.Migrations
 {
-    public partial class logMigrateContext : Migration
+    public partial class logMigrate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

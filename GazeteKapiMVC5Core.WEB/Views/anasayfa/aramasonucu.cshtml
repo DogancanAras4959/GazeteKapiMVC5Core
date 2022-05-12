@@ -13,7 +13,7 @@
     var nextDisabled = !Model.HasNextPage ? "disabled" : "";
 }
 
-<link href="https://uploads.gazetekapi.com/front/wwwroot/css/base/pagelineweb.css" rel="stylesheet" />
+<link href="https://uploads.gazetekapi.com/front/css/base/pagelineweb.css" type="text/css" rel="stylesheet" />
 
 @if (Model != null)
 {
@@ -23,12 +23,12 @@
                 <div class="col-md-8 mx-auto">
                     <div class="wrap__search-result">
                         <div class="wrap__search-result-keyword">
-                            <h2>
+                            <h1>
                                 <span class="text-primary">
                                     "@TempData["kelime"]"
                                 </span>
                                 kelimesi için @TempData["toplam"] haber bulundu
-                            </h2>
+                            </h1>
                         </div>
                     </div>
 
@@ -39,7 +39,7 @@
                                 <div class="col-md-5">
                                     <div class="card__post__transition">
                                         <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
-                                            <img src="https://uploads.gazetekapi.com/images/@item.Image" class="img-fluid w-100" alt="">
+                                            <img src="https://uploads.gazetekapi.com/images/@item.Image" class="img-fluid w-100" title="@item.Image" alt="@item.Image">
                                         </a>
                                     </div>
                                 </div>

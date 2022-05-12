@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="site.webmanifest" />
+    <Content Include="robots.txt" />
   </ItemGroup>
 
   <ItemGroup>
@@ -33,6 +33,10 @@
 
   <ItemGroup>
     <Folder Include="Properties\PublishProfiles\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\manifest.json" />
   </ItemGroup>
 
 </Project>

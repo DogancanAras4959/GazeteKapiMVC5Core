@@ -16,6 +16,7 @@ using GazeteKapiMVC5Core.WEB.ViewModels.Members;
 using GazeteKapiMVC5Core.WEB.ViewModels.News;
 using GazeteKapiMVC5Core.WEB.ViewModels.Policy;
 using GazeteKapiMVC5Core.WEB.ViewModels.TagsNews;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using SERVICE.Engine.Interfaces;
 using SERVICES.Engine.Interfaces;
@@ -83,12 +84,12 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
             #region Meta
 
             MetaViewModel meta = new MetaViewModel();
-            meta.Title = "Gazetekapı | Gündem, Bilim, Yaşam, Kültür / Sanat, Foto-Galeri, Video-Haber";
-            meta.Keywords = "Gazetekapı, Lemonde, Yaşam, Kültür, Sanat, Foto, Video, Türkiye, 2022, 2023, Seçim, Ekonomi, Siyaset, Futbol, Bilim, Teknoloji, Dünya, ABD, Rusya, Avrupa";
-            meta.Description = "Gazetekapı yeni bir habercilik anlayışıyla gerçekleri anlatacak!";
+            meta.Title = "Gazetekapı | Le Monde diplomatique Türkiye";
+            meta.Keywords = "Gazetekapı, Lemonde, Yaşam, Kültür, Sanat, Seçim, Ekonomi, Siyaset";
+            meta.Description = "Gazetekapı yeni haberciliğiyle yola çıktı! Gazetekapı ile bilim teknoloji, yaşam, siyaset, ekonomiye dair bütün haberleri sizlerle buluşturacağız!";
             meta.Image = "https://uploads.gazetekapi.com/images/placeholder/kapi-logo.png";
-            meta.ogDescription = "Gazetekapı yeni bir habercilik anlayışıyla gerçekleri anlatacak!";
-            meta.ogTitle = "Gazetekapı | Gündem, Bilim, Yaşam, Kültür / Sanat, Foto-Galeri, Video-Haber";
+            meta.ogDescription = "Gazetekapı yeni haberciliğiyle yola çıktı! Gazetekapı ile bilim teknoloji, yaşam, siyaset, ekonomiye dair bütün haberleri sizlerle buluşturacağız!";
+            meta.ogTitle = "Gazetekapı | Le Monde diplomatique Türkiye";
             meta.ogImage = "https://uploads.gazetekapi.com/images/placeholder/kapi-logo.png";
             meta.Url = "https://www.gazetekapi.com/";
             ViewBag.Meta = meta;
@@ -155,10 +156,10 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
                 #region Meta
 
                 meta.Title = searchnews;
-                meta.Keywords = "Gazetekapı, Lemonde, Yaşam, Kültür, Sanat, Foto, Video, Türkiye, 2022, 2023, Seçim, Ekonomi, Siyaset, Futbol, Bilim, Teknoloji, Dünya, ABD, Rusya, Avrupa";
-                meta.Description = "Gazetekapı yeni bir habercilik anlayışıyla gerçekleri anlatacak!";
+                meta.Keywords = "Gazetekapı, Lemonde, Yaşam, Kültür, Sanat, Seçim, Ekonomi, Siyaset";
+                meta.Description = "Gazetekapı yeni haberciliğiyle yola çıktı! Gazetekapı ile bilim teknoloji, yaşam, siyaset, ekonomiye dair bütün haberleri sizlerle buluşturacağız!";
                 meta.Image = "https://uploads.gazetekapi.com/images/placeholder/kapi-logo.png";
-                meta.ogDescription = "Gazetekapı yeni bir habercilik anlayışıyla gerçekleri anlatacak!";
+                meta.ogDescription = "Gazetekapı yeni haberciliğiyle yola çıktı! Gazetekapı ile bilim teknoloji, yaşam, siyaset, ekonomiye dair bütün haberleri sizlerle buluşturacağız!";
                 meta.ogTitle = searchnews;
                 meta.ogImage = "https://uploads.gazetekapi.com/images/placeholder/kapi-logo.png";
                 meta.Url = "https://www.gazetekapi.com/anasayfa/aramasonucu";
@@ -204,10 +205,10 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
                 #region Meta
 
                 meta.Title = searchnews;
-                meta.Keywords = "Gazetekapı, Lemonde, Yaşam, Kültür, Sanat, Foto, Video, Türkiye, 2022, 2023, Seçim, Ekonomi, Siyaset, Futbol, Bilim, Teknoloji, Dünya, ABD, Rusya, Avrupa";
-                meta.Description = "Gazetekapı yeni bir habercilik anlayışıyla gerçekleri anlatacak!";
+                meta.Keywords = "Gazetekapı, Lemonde, Yaşam, Kültür, Sanat, Seçim, Ekonomi, Siyaset";
+                meta.Description = "Gazetekapı yeni haberciliğiyle yola çıktı! Gazetekapı ile bilim teknoloji, yaşam, siyaset, ekonomiye dair bütün haberleri sizlerle buluşturacağız!";
                 meta.Image = "https://uploads.gazetekapi.com/images/placeholder/kapi-logo.png";
-                meta.ogDescription = "Gazetekapı yeni bir habercilik anlayışıyla gerçekleri anlatacak!";
+                meta.ogDescription = "Gazetekapı yeni haberciliğiyle yola çıktı! Gazetekapı ile bilim teknoloji, yaşam, siyaset, ekonomiye dair bütün haberleri sizlerle buluşturacağız!";
                 meta.ogTitle = searchnews;
                 meta.ogImage = "https://uploads.gazetekapi.com/images/placeholder/kapi-logo.png";
                 meta.Url = "https://www.gazetekapi.com/anasayfa/aramasonucu";
@@ -221,10 +222,10 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
             #region Meta
 
             meta.Title = searchnews;
-            meta.Keywords = "Gazetekapı, Lemonde, Yaşam, Kültür, Sanat, Foto, Video, Türkiye, 2022, 2023, Seçim, Ekonomi, Siyaset, Futbol, Bilim, Teknoloji, Dünya, ABD, Rusya, Avrupa";
-            meta.Description = "Gazetekapı yeni bir habercilik anlayışıyla gerçekleri anlatacak!";
+            meta.Keywords = "Gazetekapı, Lemonde, Yaşam, Kültür, Sanat, Seçim, Ekonomi, Siyaset";
+            meta.Description = "Gazetekapı yeni haberciliğiyle yola çıktı! Gazetekapı ile bilim teknoloji, yaşam, siyaset, ekonomiye dair bütün haberleri sizlerle buluşturacağız!";
             meta.Image = "https://uploads.gazetekapi.com/images/placeholder/kapi-logo.png";
-            meta.ogDescription = "Gazetekapı yeni bir habercilik anlayışıyla gerçekleri anlatacak!";
+            meta.ogDescription = "Gazetekapı yeni haberciliğiyle yola çıktı! Gazetekapı ile bilim teknoloji, yaşam, siyaset, ekonomiye dair bütün haberleri sizlerle buluşturacağız!";
             meta.ogTitle = searchnews;
             meta.ogImage = "https://uploads.gazetekapi.com/images/placeholder/kapi-logo.png";
             meta.Url = "https://www.gazetekapi.com/anasayfa/aramasonucu";
@@ -245,7 +246,7 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
 
             MetaViewModel meta = new MetaViewModel();
             meta.Title = category.CategoryName;
-            meta.Keywords = "Gazetekapı, Lemonde, Yaşam, Kültür, Sanat, Foto, Video, Türkiye, 2022, 2023, Seçim, Ekonomi, Siyaset, Futbol, Bilim, Teknoloji, Dünya, ABD, Rusya, Avrupa";
+            meta.Keywords = "Gazetekapı, Lemonde, Yaşam, Kültür, Sanat, Seçim, Ekonomi, Siyaset";
             meta.Description = category.Description;
             meta.Image = "https://uploads.gazetekapi.com/images/placeholder/kapi-logo.png";
             meta.ogDescription = category.Description;
@@ -276,7 +277,7 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
 
             MetaViewModel meta = new MetaViewModel();
             meta.Title = guest.GuestName;
-            meta.Keywords = "Gazetekapı, Lemonde, Yaşam, Kültür, Sanat, Foto, Video, Türkiye, 2022, 2023, Seçim, Ekonomi, Siyaset, Futbol, Bilim, Teknoloji, Dünya, ABD, Rusya, Avrupa";
+            meta.Keywords = "Gazetekapı, Lemonde, Yaşam, Kültür, Sanat, Seçim, Ekonomi, Siyaset";
             meta.Description = guest.Biography;
             meta.Image = "https://uploads.gazetekapi.com/images/" + guest.GuestImage;
             meta.ogDescription = guest.Biography;
@@ -296,12 +297,12 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
             #region Meta
 
             MetaViewModel meta = new MetaViewModel();
-            meta.Title = "Gazetekapı | Gündem, Bilim, Yaşam, Kültür / Sanat, Foto-Galeri, Video-Haber";
-            meta.Keywords = "Gazetekapı, Lemonde, Yaşam, Kültür, Sanat, Foto, Video, Türkiye, 2022, 2023, Seçim, Ekonomi, Siyaset, Futbol, Bilim, Teknoloji, Dünya, ABD, Rusya, Avrupa";
-            meta.Description = "Gazetekapı yeni bir habercilik anlayışıyla gerçekleri anlatacak!";
+            meta.Title = "Gazetekapı | Le Monde diplomatique Türkiye";
+            meta.Keywords = "Gazetekapı, Lemonde, Yaşam, Kültür, Sanat, Seçim, Ekonomi, Siyaset";
+            meta.Description = "Gazetekapı yeni haberciliğiyle yola çıktı! Gazetekapı ile bilim teknoloji, yaşam, siyaset, ekonomiye dair bütün haberleri sizlerle buluşturacağız!";
             meta.Image = "https://uploads.gazetekapi.com/images/placeholder/kapi-logo.png";
-            meta.ogDescription = "Gazetekapı yeni bir habercilik anlayışıyla gerçekleri anlatacak!";
-            meta.ogTitle = "Gazetekapı | Gündem, Bilim, Yaşam, Kültür / Sanat, Foto-Galeri, Video-Haber";
+            meta.ogDescription = "Gazetekapı yeni haberciliğiyle yola çıktı! Gazetekapı ile bilim teknoloji, yaşam, siyaset, ekonomiye dair bütün haberleri sizlerle buluşturacağız!";
+            meta.ogTitle = "Gazetekapı | Le Monde diplomatique Türkiye";
             meta.ogImage = "https://uploads.gazetekapi.com/images/placeholder/kapi-logo.png";
             meta.Url = "https://www.gazetekapi.com/";
             ViewBag.Meta = meta;
@@ -394,12 +395,12 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
             #region Meta
 
             MetaViewModel meta = new MetaViewModel();
-            meta.Title = "Gazetekapı | Gündem, Bilim, Yaşam, Kültür / Sanat, Foto-Galeri, Video-Haber";
-            meta.Keywords = "Gazetekapı, Lemonde, Yaşam, Kültür, Sanat, Foto, Video, Türkiye, 2022, 2023, Seçim, Ekonomi, Siyaset, Futbol, Bilim, Teknoloji, Dünya, ABD, Rusya, Avrupa";
-            meta.Description = "Gazetekapı yeni bir habercilik anlayışıyla gerçekleri anlatacak!";
+            meta.Title = "Gazetekapı | Le Monde diplomatique Türkiye";
+            meta.Keywords = "Gazetekapı, Lemonde, Yaşam, Kültür, Sanat, Seçim, Ekonomi, Siyaset";
+            meta.Description = "Gazetekapı yeni haberciliğiyle yola çıktı! Gazetekapı ile bilim teknoloji, yaşam, siyaset, ekonomiye dair bütün haberleri sizlerle buluşturacağız!";
             meta.Image = "https://uploads.gazetekapi.com/images/placeholder/kapi-logo.png";
-            meta.ogDescription = "Gazetekapı yeni bir habercilik anlayışıyla gerçekleri anlatacak!";
-            meta.ogTitle = "Gazetekapı | Gündem, Bilim, Yaşam, Kültür / Sanat, Foto-Galeri, Video-Haber";
+            meta.ogDescription = "Gazetekapı yeni haberciliğiyle yola çıktı! Gazetekapı ile bilim teknoloji, yaşam, siyaset, ekonomiye dair bütün haberleri sizlerle buluşturacağız!";
+            meta.ogTitle = "Gazetekapı | Le Monde diplomatique Türkiye";
             meta.ogImage = "https://uploads.gazetekapi.com/images/placeholder/kapi-logo.png";
             meta.Url = "https://www.gazetekapi.com/";
             ViewBag.Meta = meta;
@@ -415,12 +416,12 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
             #region Meta
 
             MetaViewModel meta = new MetaViewModel();
-            meta.Title = "Gazetekapı | Gündem, Bilim, Yaşam, Kültür / Sanat, Foto-Galeri, Video-Haber";
-            meta.Keywords = "Gazetekapı, Lemonde, Yaşam, Kültür, Sanat, Foto, Video, Türkiye, 2022, 2023, Seçim, Ekonomi, Siyaset, Futbol, Bilim, Teknoloji, Dünya, ABD, Rusya, Avrupa";
-            meta.Description = "Gazetekapı yeni bir habercilik anlayışıyla gerçekleri anlatacak!";
+            meta.Title = "Gazetekapı | Le Monde diplomatique Türkiye";
+            meta.Keywords = "Gazetekapı, Lemonde, Yaşam, Kültür, Sanat, Seçim, Ekonomi, Siyaset";
+            meta.Description = "Gazetekapı yeni haberciliğiyle yola çıktı! Gazetekapı ile bilim teknoloji, yaşam, siyaset, ekonomiye dair bütün haberleri sizlerle buluşturacağız!";
             meta.Image = "https://uploads.gazetekapi.com/images/placeholder/kapi-logo.png";
-            meta.ogDescription = "Gazetekapı yeni bir habercilik anlayışıyla gerçekleri anlatacak!";
-            meta.ogTitle = "Gazetekapı | Gündem, Bilim, Yaşam, Kültür / Sanat, Foto-Galeri, Video-Haber";
+            meta.ogDescription = "Gazetekapı yeni haberciliğiyle yola çıktı! Gazetekapı ile bilim teknoloji, yaşam, siyaset, ekonomiye dair bütün haberleri sizlerle buluşturacağız!";
+            meta.ogTitle = "Gazetekapı | Le Monde diplomatique Türkiye";
             meta.ogImage = "https://uploads.gazetekapi.com/images/placeholder/kapi-logo.png";
             meta.Url = "https://www.gazetekapi.com/";
             ViewBag.Meta = meta;
@@ -436,12 +437,12 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
             #region Meta
 
             MetaViewModel meta = new MetaViewModel();
-            meta.Title = "Gazetekapı | Gündem, Bilim, Yaşam, Kültür / Sanat, Foto-Galeri, Video-Haber";
-            meta.Keywords = "Gazetekapı, Lemonde, Yaşam, Kültür, Sanat, Foto, Video, Türkiye, 2022, 2023, Seçim, Ekonomi, Siyaset, Futbol, Bilim, Teknoloji, Dünya, ABD, Rusya, Avrupa";
-            meta.Description = "Gazetekapı yeni bir habercilik anlayışıyla gerçekleri anlatacak!";
+            meta.Title = "Gazetekapı | Le Monde diplomatique Türkiye";
+            meta.Keywords = "Gazetekapı, Lemonde, Yaşam, Kültür, Sanat, Seçim, Ekonomi, Siyaset";
+            meta.Description = "Gazetekapı yeni haberciliğiyle yola çıktı! Gazetekapı ile bilim teknoloji, yaşam, siyaset, ekonomiye dair bütün haberleri sizlerle buluşturacağız!";
             meta.Image = "https://uploads.gazetekapi.com/images/placeholder/kapi-logo.png";
-            meta.ogDescription = "Gazetekapı yeni bir habercilik anlayışıyla gerçekleri anlatacak!";
-            meta.ogTitle = "Gazetekapı | Gündem, Bilim, Yaşam, Kültür / Sanat, Foto-Galeri, Video-Haber";
+            meta.ogDescription = "Gazetekapı yeni haberciliğiyle yola çıktı! Gazetekapı ile bilim teknoloji, yaşam, siyaset, ekonomiye dair bütün haberleri sizlerle buluşturacağız!";
+            meta.ogTitle = "Gazetekapı | Le Monde diplomatique Türkiye";
             meta.ogImage = "https://uploads.gazetekapi.com/images/placeholder/kapi-logo.png";
             meta.Url = "https://www.gazetekapi.com/";
             ViewBag.Meta = meta;
@@ -457,12 +458,12 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
             #region Meta
 
             MetaViewModel meta = new MetaViewModel();
-            meta.Title = "Gazetekapı | Gündem, Bilim, Yaşam, Kültür / Sanat, Foto-Galeri, Video-Haber";
-            meta.Keywords = "Gazetekapı, Lemonde, Yaşam, Kültür, Sanat, Foto, Video, Türkiye, 2022, 2023, Seçim, Ekonomi, Siyaset, Futbol, Bilim, Teknoloji, Dünya, ABD, Rusya, Avrupa";
-            meta.Description = "Gazetekapı yeni bir habercilik anlayışıyla gerçekleri anlatacak!";
+            meta.Title = "Gazetekapı | Le Monde diplomatique Türkiye";
+            meta.Keywords = "Gazetekapı, Lemonde, Yaşam, Kültür, Sanat, Seçim, Ekonomi, Siyaset"; 
+            meta.Description = "Gazetekapı yeni haberciliğiyle yola çıktı! Gazetekapı ile bilim teknoloji, yaşam, siyaset, ekonomiye dair bütün haberleri sizlerle buluşturacağız!";
             meta.Image = "https://uploads.gazetekapi.com/images/placeholder/kapi-logo.png";
-            meta.ogDescription = "Gazetekapı yeni bir habercilik anlayışıyla gerçekleri anlatacak!";
-            meta.ogTitle = "Gazetekapı | Gündem, Bilim, Yaşam, Kültür / Sanat, Foto-Galeri, Video-Haber";
+            meta.ogDescription = "Gazetekapı yeni haberciliğiyle yola çıktı! Gazetekapı ile bilim teknoloji, yaşam, siyaset, ekonomiye dair bütün haberleri sizlerle buluşturacağız!";
+            meta.ogTitle = "Gazetekapı | Le Monde diplomatique Türkiye";
             meta.ogImage = "https://uploads.gazetekapi.com/images/placeholder/kapi-logo.png";
             meta.Url = "https://www.gazetekapi.com/";
             ViewBag.Meta = meta;
@@ -478,12 +479,12 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
             #region Meta
 
             MetaViewModel meta = new MetaViewModel();
-            meta.Title = "Gazetekapı | Gündem, Bilim, Yaşam, Kültür / Sanat, Foto-Galeri, Video-Haber";
-            meta.Keywords = "Gazetekapı, Lemonde, Yaşam, Kültür, Sanat, Foto, Video, Türkiye, 2022, 2023, Seçim, Ekonomi, Siyaset, Futbol, Bilim, Teknoloji, Dünya, ABD, Rusya, Avrupa";
-            meta.Description = "Gazetekapı yeni bir habercilik anlayışıyla gerçekleri anlatacak!";
+            meta.Title = "Gazetekapı | Le Monde diplomatique Türkiye";
+            meta.Keywords = "Gazetekapı, Lemonde, Yaşam, Kültür, Sanat, Seçim, Ekonomi, Siyaset"; 
+            meta.Description = "Gazetekapı yeni haberciliğiyle yola çıktı! Gazetekapı ile bilim teknoloji, yaşam, siyaset, ekonomiye dair bütün haberleri sizlerle buluşturacağız!";
             meta.Image = "https://uploads.gazetekapi.com/images/placeholder/kapi-logo.png";
-            meta.ogDescription = "Gazetekapı yeni bir habercilik anlayışıyla gerçekleri anlatacak!";
-            meta.ogTitle = "Gazetekapı | Gündem, Bilim, Yaşam, Kültür / Sanat, Foto-Galeri, Video-Haber";
+            meta.ogDescription = "Gazetekapı yeni haberciliğiyle yola çıktı! Gazetekapı ile bilim teknoloji, yaşam, siyaset, ekonomiye dair bütün haberleri sizlerle buluşturacağız!";
+            meta.ogTitle = "Gazetekapı | Le Monde diplomatique Türkiye";
             meta.ogImage = "https://uploads.gazetekapi.com/images/placeholder/kapi-logo.png";
             meta.Url = "https://www.gazetekapi.com/";
             ViewBag.Meta = meta;
@@ -497,12 +498,12 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
             #region Meta
 
             MetaViewModel meta = new MetaViewModel();
-            meta.Title = "Gazetekapı | Gündem, Bilim, Yaşam, Kültür / Sanat, Foto-Galeri, Video-Haber";
-            meta.Keywords = "Gazetekapı, Lemonde, Yaşam, Kültür, Sanat, Foto, Video, Türkiye, 2022, 2023, Seçim, Ekonomi, Siyaset, Futbol, Bilim, Teknoloji, Dünya, ABD, Rusya, Avrupa";
-            meta.Description = "Gazetekapı yeni bir habercilik anlayışıyla gerçekleri anlatacak!";
+            meta.Title = "Gazetekapı | Le Monde diplomatique Türkiye";
+            meta.Keywords = "Gazetekapı, Lemonde, Yaşam, Kültür, Sanat, Seçim, Ekonomi, Siyaset";
+            meta.Description = "Gazetekapı yeni haberciliğiyle yola çıktı! Gazetekapı ile bilim teknoloji, yaşam, siyaset, ekonomiye dair bütün haberleri sizlerle buluşturacağız!";
             meta.Image = "https://uploads.gazetekapi.com/images/placeholder/kapi-logo.png";
-            meta.ogDescription = "Gazetekapı yeni bir habercilik anlayışıyla gerçekleri anlatacak!";
-            meta.ogTitle = "Gazetekapı | Gündem, Bilim, Yaşam, Kültür / Sanat, Foto-Galeri, Video-Haber";
+            meta.ogDescription = "Gazetekapı yeni haberciliğiyle yola çıktı! Gazetekapı ile bilim teknoloji, yaşam, siyaset, ekonomiye dair bütün haberleri sizlerle buluşturacağız!";
+            meta.ogTitle = "Gazetekapı | Le Monde diplomatique Türkiye";
             meta.ogImage = "https://uploads.gazetekapi.com/images/placeholder/kapi-logo.png";
             meta.Url = "https://www.gazetekapi.com/";
             ViewBag.Meta = meta;
@@ -679,12 +680,12 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
         public IActionResult aboneol()
         {
             MetaViewModel meta = new MetaViewModel();
-            meta.Title = "Gazetekapı | Gündem, Bilim, Yaşam, Kültür / Sanat, Foto-Galeri, Video-Haber";
-            meta.Keywords = "Gazetekapı, Lemonde, Yaşam, Kültür, Sanat, Foto, Video, Türkiye, 2022, 2023, Seçim, Ekonomi, Siyaset, Futbol, Bilim, Teknoloji, Dünya, ABD, Rusya, Avrupa";
-            meta.Description = "Gazetekapı yeni bir habercilik anlayışıyla gerçekleri anlatacak!";
+            meta.Title = "Gazetekapı";
+            meta.Keywords = "Gazetekapı, Lemonde, Yaşam, Kültür, Sanat, Seçim, Ekonomi, Siyaset";
+            meta.Description = "Gazetekapı yeni haberciliğiyle yola çıktı! Gazetekapı ile bilim teknoloji, yaşam, siyaset, ekonomiye dair bütün haberleri sizlerle buluşturacağız!";
             meta.Image = "https://uploads.gazetekapi.com/images/placeholder/kapi-logo.png";
-            meta.ogDescription = "Gazetekapı yeni bir habercilik anlayışıyla gerçekleri anlatacak!";
-            meta.ogTitle = "Gazetekapı | Gündem, Bilim, Yaşam, Kültür / Sanat, Foto-Galeri, Video-Haber";
+            meta.ogDescription = "Gazetekapı yeni haberciliğiyle yola çıktı! Gazetekapı ile bilim teknoloji, yaşam, siyaset, ekonomiye dair bütün haberleri sizlerle buluşturacağız!";
+            meta.ogTitle = "Gazetekapı.com";
             meta.ogImage = "https://uploads.gazetekapi.com/images/placeholder/kapi-logo.png";
             meta.Url = "https://www.gazetekapi.com/";
             ViewBag.Meta = meta;

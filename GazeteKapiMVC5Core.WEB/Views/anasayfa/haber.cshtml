@@ -15,7 +15,6 @@
     List<CategoryListViewModelWeb> categories = ViewBag.CategotyList as List<CategoryListViewModelWeb>;
     List<NewListViewModelWeb> newListAll = ViewBag.AllNewsList as List<NewListViewModelWeb>;
     GuestEditViewModelWeb guest = ViewBag.Guest as GuestEditViewModelWeb;
-    //MetaViewModel meta = ViewBag.Meta as MetaViewModel;
 
     string name = "";
     int count = 0;
@@ -79,8 +78,8 @@
 
 </style>
 
-<link href="https://uploads.gazetekapi.com/front/wwwroot/css/loading.css" rel="stylesheet" />
-<link href="https://uploads.gazetekapi.com/front/wwwroot/css/base/pagelinenews.css" rel="stylesheet" />
+<link href="https://uploads.gazetekapi.com/front/css/loading.css" rel="stylesheet" />
+<link href="https://uploads.gazetekapi.com/front/css/base/pagelinenews.css" type="text/css" rel="stylesheet" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 <section class="bg-white pb-60" id="newSection">
@@ -112,7 +111,7 @@
                                 {
                                     <audio id="player" src="https://uploads.gazetekapi.com/sounds/@Model.Sound" type="audio/ogg">
                                     </audio>
-                                    <img src="https://uploads.gazetekapi.com/images/headphone.svg" class="headphone-cs" />
+                                    <img src="https://uploads.gazetekapi.com/images/headphone.svg" alt="headphone" class="headphone-cs" />
                                     <a class="btn-sound" onclick="document.getElementById('player').playbackRate=2" style="padding:5px; font-weight:900; font-size:17px;">2x</a>
                                     <a class="btn-sound" onclick="document.getElementById('player').playbackRate=1" style="padding:5px; font-weight:700; font-size:17px;">1x</a>
                                     <a class="btn-sound" onclick="document.getElementById('player').play()"><i style="font-size: 17px; padding: 5px;" class="fa fa-play"></i></a>
@@ -137,7 +136,7 @@
                             </a>
                         </div>
                         <figure>
-                            <img src="https://uploads.gazetekapi.com/images/@Model.Image" alt="" class="img-fluid">
+                            <img src="https://uploads.gazetekapi.com/images/@Model.Image" title="@Model.Image" alt="@Model.Image" class="img-fluid">
                         </figure>
                     </div>
                 </div>
@@ -203,7 +202,7 @@
                                     <div class="article__entry">
                                         <div class="article__image">
                                             <a href="@Url.Action("haber", "anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
-                                                <img src="https://uploads.gazetekapi.com/images/@item.Image" alt="" class="img-fluid">
+                                                <img src="https://uploads.gazetekapi.com/images/@item.Image" alt="@item.Image" title="@item.Image" class="img-fluid">
                                             </a>
                                         </div>
                                         <div class="article__content">
@@ -278,10 +277,9 @@
                                 <div class="card__post card__post-list">
                                     <div class="image-sm">
                                         <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
-                                            <img src="https://uploads.gazetekapi.com/images/@item.Image" class="img-fluid" alt="">
+                                            <img src="https://uploads.gazetekapi.com/images/@item.Image" class="img-fluid" title="@item.Image" alt="@item.Image">
                                         </a>
                                     </div>
-
 
                                     <div class="card__post__body ">
                                         <div class="card__post__content">
@@ -334,7 +332,7 @@
 
                         <a href="#">
                             <figure>
-                                <img src="https://uploads.gazetekapi.com/images/banner.jpg" alt="" class="img-fluid">
+                                <img src="https://uploads.gazetekapi.com/images/banner.jpg" alt="banner-down" title="banner-down" class="img-fluid">
                             </figure>
                         </a>
 
@@ -352,7 +350,7 @@
                                 <div class="card__post card__post-list">
                                     <div class="image-sm">
                                         <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
-                                            <img src="https://uploads.gazetekapi.com/images/@item.Image" class="img-fluid" alt="">
+                                            <img src="https://uploads.gazetekapi.com/images/@item.Image" title="@item.Image" class="img-fluid" alt="@item.Image">
                                         </a>
                                     </div>
 

@@ -13,7 +13,7 @@
     }
 </style>
 
-<link href="https://uploads.gazetekapi.com/front/wwwroot/css/base/slider.css" rel="stylesheet" />
+<link href="https://uploads.gazetekapi.com/front/css/base/slider.css" rel="stylesheet" />
 
 <div class="col-md-8 slide-width">
     <div class="slideshow-container" style="margin-top:3px;">
@@ -22,16 +22,16 @@
             <div class="mySlides">
                 <div class="card__post__body card__post__transition">
                     <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
-                        <img src="https://uploads.gazetekapi.com/images/@item.Image" class="img-slide">
+                        <img src="https://uploads.gazetekapi.com/images/@item.Image" alt="@item.Image" class="img-slide">
                     </a>
 
                     <div class="text">
                         <div class="title-word-big-right">
-                            <a class="next" onclick="plusSlides(1)"><img src="https://uploads.gazetekapi.com/images/chevron_next.png" width="20" /></a>
+                            <a class="next" onclick="plusSlides(1)"><img src="https://uploads.gazetekapi.com/images/chevron_next.png" title="chevron-next" alt="chevron-next" width="20" /></a>
                         </div>
                         @if (item.IsTitle == true)
                         {
-                            <span class="title-slide">
+                            <h1 class="title-slide">
                                 @if (item.Title.Length > 70)
                                 {
                                     <a href="@Url.Action("haber", "anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">@item.Title.Substring(0, 70)<span>...</span> </a>
@@ -40,11 +40,11 @@
                                 {
                                     <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">@item.Title</a>
                                 }
-                            </span>
+                            </h1>
                         }
 
                         <div class="title-word-big">
-                            <a class="next" onclick="plusSlides(-1)"><img src="https://uploads.gazetekapi.com/images/chevron_prev.png" width="20" /></a>
+                            <a class="next" onclick="plusSlides(-1)"><img src="https://uploads.gazetekapi.com/images/chevron_prev.png" title="chevron-prev" alt="chevron-prev" width="20" /></a>
                         </div>
                     </div>
                 </div>
@@ -67,7 +67,7 @@
                 <div class="card__post" style="margin-top:2px;">
                     <div class="card__post__body card__post__transition">
                         <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
-                            <img src="https://uploads.gazetekapi.com/images/@item.Image" class="img-fluid" alt="">
+                            <img src="https://uploads.gazetekapi.com/images/@item.Image" title="@item.Image" class="img-fluid" alt="@item.Image">
                         </a>
                         <div class="text-sm">
                             <div class="title-word-big-sm">

@@ -3,13 +3,17 @@ using GazeteKapiMVC5Core.WEB.CoreInjection;
 using GazeteKapiMVC5Core.WEB.Models.ConfigreCaptcha;
 using GazeteKapiMVC5Core.WEB.Profiles.WEB;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Newtonsoft.Json;
 using System;
+using System.IO;
+using System.Linq;
 
 namespace GazeteKapiMVC5Core.WEB
 {
@@ -35,7 +39,9 @@ namespace GazeteKapiMVC5Core.WEB
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddRazorPages().AddRazorPagesOptions(options => { options.Conventions.ConfigureFilter(new IgnoreAntiforgeryTokenAttribute()); });
-
+            services.AddHealthChecks()
+                        .AddCheck("ping1", new PingHealthCheck("www.google.com", 100))
+                        .AddCheck("ping2", new PingHealthCheck("www.bing.com", 100, 30));
             services.AddDbContextDI(_configuration, Environment);
             services.AddDbContextLog(_configuration, Environment);
             services.AddInjections();
@@ -79,6 +85,8 @@ namespace GazeteKapiMVC5Core.WEB
             app.UseRouting();
             app.UseAuthentication();
             app.UseCookiePolicy();
+
+            app.UseHealthChecks("/hc");
 
             app.UseEndpoints(endpoints =>
             {

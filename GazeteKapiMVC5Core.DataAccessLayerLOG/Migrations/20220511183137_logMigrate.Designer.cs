@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GazeteKapiMVC5Core.DataAccessLayerLOG.Migrations
 {
     [DbContext(typeof(NewsAppContextLog))]
-    [Migration("20220413134906_logMigrateContext")]
-    partial class logMigrateContext
+    [Migration("20220511183137_logMigrate")]
+    partial class logMigrate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
