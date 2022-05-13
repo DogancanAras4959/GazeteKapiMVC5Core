@@ -12,6 +12,7 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Models
         public News()
         {
             tagNewsListForNews = new List<TagNews>();
+            seoScoreNews = new List<SeoScore>();
         }
 
         public int Id { get; set; }
@@ -54,5 +55,6 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Models
         public virtual PublishType publishtype { get; set; }
 
         public virtual ICollection<TagNews> tagNewsListForNews { get; set; }
+        public virtual ICollection<SeoScore> seoScoreNews { get; set; }
     }
 }

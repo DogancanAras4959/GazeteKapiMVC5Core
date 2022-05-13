@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace CORE.ApplicationCommon.DTOS.LogsDTO.UserLogDTO
+namespace CORE.ApplicationCommon.DTOS.SeoDTO.SeoMetaDto
 {
-    public class UserLogDto : UserLogBaseDto
+    public class SeoMetaDto : SeoMetaBaseDto
     {
         public int Id { get; set; }
     }

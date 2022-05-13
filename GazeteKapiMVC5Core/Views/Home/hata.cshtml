@@ -1,0 +1,35 @@
+﻿
+@{
+    ViewData["Title"] = "ErrorPage";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-8" style="display:block; margin:0 auto;">
+        <div class="card" style="padding:30px;">
+            <div class="card-body">
+                <div class="row mb-4">
+                    <div class="col-sm-12 text-center">
+                        <img src="https://uploads.gazetekapi.com/images//cloud_coding_1x.png" width="120" height="120" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h3 class="text-center text-danger">Hata</h3>
+                        <p class="text-center" style="font-size:20px; margin-bottom:0px;">@TempData["HataMesaji"]</p>
+                    </div>
+                </div>
+                <hr />
+                <div class="row">
+                    <div class="col-sm-12">
+                        <p class="text-muted mb-1 text-center" style="font-size: 16px;">
+                            <a asp-controller="Home" asp-action="Index" class="btn btn-primary">Geri Dön</a>
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

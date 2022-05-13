@@ -1,9 +1,11 @@
 ﻿@using GazeteKapiMVC5Core.WEB.ViewModels.News;
-
+@using GazeteKapiMVC5Core.WEB.ViewModels.Categories;
 @{
     ViewData["Title"] = "sayfa";
     Layout = "~/Views/Shared/_Layout.cshtml";
     List<NewListViewModelWeb> haberlerManset = ViewBag.HaberlerManset as List<NewListViewModelWeb>;
+    List<CategoryListViewModelWeb> categories = ViewBag.CategoryList as List<CategoryListViewModelWeb>;
+
     int count = 0;
 }
 
@@ -148,7 +150,7 @@
 
                     <div class="row" style="margin-top:15px;">
 
-                        @foreach (var item in haberlerManset.OrderByDescending(x=> x.Id).Where(x => x.categories.CategoryName == "KÜLTÜR / SANAT" && x.IsLock == false && x.IsActive == true).OrderBy(x => x.Id))
+                        @foreach (var item in haberlerManset.OrderByDescending(x => x.Id).Where(x => x.categories.CategoryName == "KÜLTÜR / SANAT" && x.IsLock == false && x.IsActive == true).OrderBy(x => x.Id))
                         {
                             count++;
                             <div class="col-sm-12 col-md-4 mb-1">
@@ -163,7 +165,7 @@
                                                 @if (item.Title.Length > 55)
                                                 {
                                                     <a style="color:#515d5e;" href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
-                                                        @item.Title.Substring(0,55)<span>...</span>
+                                                        @item.Title.Substring(0, 55)<span>...</span>
                                                     </a>
                                                 }
                                                 else
@@ -194,6 +196,72 @@
         </div>
     </div>
 
+    @foreach (var item in categories.Where(x => x.CategoryName != "DÜNYA" && x.CategoryName != "KÜLTÜR / SANAT" && x.CategoryName != "GÜNDEM").ToList())
+    {
+        <div class="container boxed">
+            <div class="wrapper__list__article">
+                <h4 class="border_section"></h4>
+            </div>
+            <div class="row" style="padding-bottom:5px;">
+                <div class="col-sm-12">
+                    <div class="rect-content-box-title">
+                        <span class="rect-title">@item.CategoryName.Substring(0, 1)</span>
+                    </div>
+                    <h3 class="content-box-title">@item.CategoryName</h3>
+                </div>
+            </div>
+            <div class="row mb-2">
+
+                @foreach (var item2 in haberlerManset.OrderByDescending(x => x.Id).Where(x => x.IsActive == true && x.IsLock == false && x.CategoryId == item.Id))
+                {
+
+                    if (item2.IsSlide == false)
+                    {
+
+                        count++;
+                        <div class="col-sm-12 col-md-4 mb-2">
+                            <!-- Post Article -->
+                            <div class="card__post ">
+                                <div class="card__post__body">
+                                    <a href="@Url.Action("haber", "anasayfa", new { Id = item.Id, Title = item2.GenerateSlug() })">
+                                        <img src="https://uploads.gazetekapi.com/images/@item2.Image" class="img-fluid" title="@item2.Image" alt="@item2.Image" />
+                                    </a>
+                                    <div style="margin-top:15px;">
+                                        <h6>
+                                            @if (item2.Title.Length > 80)
+                                            {
+                                                <a id="btn-article" style="color:#515d5e;" href="@Url.Action("haber", "anasayfa", new { Id = item2.Id, Title = item2.GenerateSlug() })">
+                                                    @item2.Title.Substring(0, 80)<span>...</span>
+                                                </a>
+                                            }
+                                            else
+                                            {
+                                                <a id="btn-article" style="color:#515d5e;" href="@Url.Action("haber", "anasayfa", new { Id = item2.Id, Title = item2.GenerateSlug() })">
+                                                    @item2.Title
+                                                </a>
+                                            }
+
+                                        </h6>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        if (count == 6)
+                        {
+                            count = 0;
+                            break;
+                        }
+                    }
+
+                }
+
+            </div>
+        </div>
+
+    }
+
     <div class="mt-4">
         <div class="container boxed">
             <div class="row">
@@ -202,7 +270,7 @@
                 </div>
             </div>
         </div>
-       
+
     </div>
-</section>
-<!-- End Popular news category -->
+
+    <!-- End Popular news category -->

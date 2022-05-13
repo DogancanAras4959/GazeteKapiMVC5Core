@@ -21,8 +21,11 @@ namespace GazeteKapiMVC5Core.PanelComponent
 
         public void KullaniciGetir()
         {           
-            AccountEditViewModel yoneticiGetir = SessionExtensionMethod.GetObject<AccountEditViewModel>(HttpContext.Session, "user");       
-            ViewBag.Yonetici = yoneticiGetir;
+            AccountEditViewModel yoneticiGetir = SessionExtensionMethod.GetObject<AccountEditViewModel>(HttpContext.Session, "user");
+            if (yoneticiGetir != null)
+            {
+                ViewBag.Yonetici = yoneticiGetir;
+            }
         }    
     }
 }

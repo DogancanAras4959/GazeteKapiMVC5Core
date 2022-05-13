@@ -34,6 +34,8 @@ namespace GazeteKapiMVC5Core.DataAccessLayer
         public virtual DbSet<CookiePolicy> cookie { get; set; }
         public virtual DbSet<StreamPolicy> stream { get; set; }
         public virtual DbSet<members> members { get; set; }
+        public virtual DbSet<SeoScore> seoScores { get; set; }
+        public virtual DbSet<SeoCheckMeta> seoCheckMeta { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new UserMapping());
@@ -55,6 +57,8 @@ namespace GazeteKapiMVC5Core.DataAccessLayer
             modelBuilder.ApplyConfiguration(new CookieMapping());
             modelBuilder.ApplyConfiguration(new StreamMapping());
             modelBuilder.ApplyConfiguration(new membersMapping());
+            modelBuilder.ApplyConfiguration(new SeoScoreMapping());
+            modelBuilder.ApplyConfiguration(new SeoCheckMetaMapping());
             base.OnModelCreating(modelBuilder);
         }
     }

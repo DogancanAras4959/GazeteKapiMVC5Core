@@ -33,9 +33,18 @@ namespace GazeteKapiMVC5Core.Controllers
         [CheckRoleAuthorize]
         public IActionResult Index()
         {
-            CountData();
-            ListData();
-            return View();
+            try
+            {
+                CountData();
+                ListData();
+                return View();
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception(ex.ToString());
+            }
+           
         }
 
         public IActionResult Privacy()
@@ -54,13 +63,18 @@ namespace GazeteKapiMVC5Core.Controllers
             return View();
         }
 
-        public void CountData()
+        [Route("/home/hata/{code:int}")]
+        public IActionResult hata(int code)
+        {
+            ViewData["ErrorCode"] = $"{code}";
+            return View("~/Views/Home/hata.cshtml");
+        }
+
+            public void CountData()
         {
             ViewBag.CatCount = _mapper.Map<int>(_countService.CountCategories());
             ViewBag.GuestCount = _mapper.Map<int>(_countService.CountGuests());
             ViewBag.UserCount = _mapper.Map<int>(_countService.CountUsers());
-            //ViewBag.LogCount = _mapper.Map<int>(_countService.CountLogs());
-            //ViewBag.ErrorCount = _mapper.Map<int>(_countService.CountSystemErrors());
             ViewBag.NewsCount = _mapper.Map<int>(_countService.CountNews());
             ViewBag.TagsCount = _mapper.Map<int>(_countService.CountTags());
         }

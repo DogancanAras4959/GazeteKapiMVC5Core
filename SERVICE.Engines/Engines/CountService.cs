@@ -1,8 +1,6 @@
 ﻿using CORE.ApplicationCore.UnitOfWork;
 using GazeteKapiMVC5Core.DataAccessLayer.Models;
-using DOMAIN.DataAccessLayerLOG.Models;
 using GazeteKapiMVC5Core.DataAccessLayer;
-using GazeteKapiMVC5Core.DataAccessLayerLOG;
 using SERVICE.Engine.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -15,11 +13,9 @@ namespace SERVICE.Engine.Engines
     public class CountService : ICountService
     {
         private readonly IUnitOfWork<NewsAppContext> _unitOfWork;
-        private readonly IUnitOfWork<NewsAppContextLog> _unitOfWorkLogs;
-        public CountService(IUnitOfWork<NewsAppContext> unitOfWork, IUnitOfWork<NewsAppContextLog> unitOfWorksLogs)
+        public CountService(IUnitOfWork<NewsAppContext> unitOfWork)
         {
-            _unitOfWork = unitOfWork;
-            _unitOfWorkLogs = unitOfWorksLogs;
+            _unitOfWork = unitOfWork;       
         }
 
         public int CountCategories()
@@ -40,29 +36,11 @@ namespace SERVICE.Engine.Engines
             return count;
         }
 
-        public int CountLogs()
-        {
-            IEnumerable<Logs> logsCount = _unitOfWorkLogs.GetRepository<Logs>().Filter(null, x => x.OrderBy(y => y.Id), "", null, null);
-
-            int count = logsCount.Count();
-
-            return count;
-        }
-
         public int CountNews()
         {
             IEnumerable<News> newsCount = _unitOfWork.GetRepository<News>().Filter(null, x => x.OrderBy(y => y.Id), "", null, null);
 
             int count = newsCount.Count();
-
-            return count;
-        }
-
-        public int CountSystemErrors()
-        {
-            IEnumerable<Logs> logSystemErrorCounts = _unitOfWorkLogs.GetRepository<Logs>().Filter(x=> x.transactions.TransactionNames=="Sistem Hatası", x => x.OrderBy(y => y.Id), "transactions", null, null);
-
-            int count = logSystemErrorCounts.Count();
 
             return count;
         }

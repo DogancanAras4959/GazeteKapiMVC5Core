@@ -534,6 +534,7 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
             ViewData["ErrorCode"] = $"{code}";
             return View("~/Views/anasayfa/hata.cshtml");
         }
+
         #endregion
 
         #region Partial Views

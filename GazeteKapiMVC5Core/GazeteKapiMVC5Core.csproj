@@ -39,7 +39,6 @@
   <ItemGroup>
     <ProjectReference Include="..\CORE.ApplicationCommon\CORE.ApplicationCommon.csproj" />
     <ProjectReference Include="..\CORE.ApplicationCore\CORE.ApplicationCore.csproj" />
-    <ProjectReference Include="..\GazeteKapiMVC5Core.DataAccessLayerLOG\GazeteKapiMVC5Core.DataAccessLayerLOG.csproj" />
     <ProjectReference Include="..\GazeteKapiMVC5Core.DataAccessLayer\GazeteKapiMVC5Core.DataAccessLayer.csproj" />
     <ProjectReference Include="..\SERVICE.Engines\SERVICE.Engine.csproj" />
   </ItemGroup>

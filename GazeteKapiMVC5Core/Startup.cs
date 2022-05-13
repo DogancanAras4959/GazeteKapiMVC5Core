@@ -37,57 +37,75 @@ namespace GazeteKapiMVC5Core
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContextDI(_configuration, Environment);
-            services.AddDbContextLog(_configuration, Environment);
-            services.AddInjections();
-            services.AddControllersWithViews().SetCompatibilityVersion(CompatibilityVersion.Latest);
-            services.AddDistributedMemoryCache();
-            //services.AddAutoMapper(typeof(Startup));
-            var mappingConfig = new MapperConfiguration(mc =>
+            try
             {
-                mc.AddProfile(new UserProfile());
-                mc.AddProfile(new NewsProfile());
-                mc.AddProfile(new LogProfile());
-                mc.AddProfile(new SiteProfile());
-            });
-            IMapper mapper = mappingConfig.CreateMapper();
-            services.AddSingleton(mapper);
-            services.AddSession();
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
+                services.AddDbContextDI(_configuration, Environment);
+                services.AddInjections();
+                services.AddControllersWithViews().SetCompatibilityVersion(CompatibilityVersion.Latest);
+                services.AddDistributedMemoryCache();
+                //services.AddAutoMapper(typeof(Startup));
+                var mappingConfig = new MapperConfiguration(mc =>
+                {
+                    mc.AddProfile(new UserProfile());
+                    mc.AddProfile(new NewsProfile());
+                    mc.AddProfile(new SiteProfile());
+                    mc.AddProfile(new SeoProfiles());
+                });
+                IMapper mapper = mappingConfig.CreateMapper();
+                services.AddSingleton(mapper);
+                services.AddSession();
+                services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
+                {
+                    options.Cookie.HttpOnly = true;
+                    options.AccessDeniedPath = new PathString("/Yonetici/GirisYap/");
+                    options.LoginPath = new PathString("/Yonetici/GirisYap/");
+                    options.SlidingExpiration = true;
+                });
+            }
+            catch (Exception ex)
             {
-                options.Cookie.HttpOnly = true;
-                options.AccessDeniedPath = new PathString("/Yonetici/GirisYap/");
-                options.LoginPath = new PathString("/Yonetici/GirisYap/");
-                options.SlidingExpiration = true;
-            });
+
+                throw new Exception(ex.ToString());
+            }
+          
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
+            try
             {
-                app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
-            }
-            app.UseHttpsRedirection();
-            app.UseStaticFiles();
-            app.UseSession();
-            app.UseRouting();
-            app.UseAuthentication();
-            app.UseAuthorization();
+                if (env.IsDevelopment())
+                {
+                    app.UseDeveloperExceptionPage();
+                }
+                else
+                {
+                    app.UseExceptionHandler("/Home/hata/{0}");
+                    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                    app.UseHsts();
+                }
+                app.UseStatusCodePagesWithReExecute("/Home/hata/{0}");
+                app.UseHttpsRedirection();
+                app.UseStaticFiles();
+                app.UseSession();
+                app.UseRouting();
+                app.UseAuthentication();
+                app.UseAuthorization();
 
-            app.UseEndpoints(endpoints =>
+                app.UseEndpoints(endpoints =>
+                {
+                    endpoints.MapControllerRoute(
+                        name: "default",
+                        pattern: "{controller=Yonetici}/{action=GirisYap}/{id?}");
+                });
+            }
+            catch (Exception ex)
             {
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Yonetici}/{action=GirisYap}/{id?}");
-            });
+
+                throw new Exception(ex.ToString());
+            }
+          
         }
     }
 }

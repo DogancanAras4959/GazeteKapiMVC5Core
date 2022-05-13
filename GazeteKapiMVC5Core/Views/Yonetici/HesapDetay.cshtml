@@ -1,5 +1,4 @@
 ﻿@model GazeteKapiMVC5Core.Models.Account.AccountEditViewModel
-@using GazeteKapiMVC5Core.Models.Log.LogModel;
 @using GazeteKapiMVC5Core.Models.News.NewsModel;
 
 @{
@@ -7,7 +6,6 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 
     List<NewsLıstItemModel> listNews = ViewBag.News as List<NewsLıstItemModel>;
-    List<LogListViewModel> listLogs = ViewBag.Logs as List<LogListViewModel>;
 
 }
 
@@ -100,57 +98,6 @@
                                                     <a asp-controller="Haber" asp-action="HaberDuzenle" asp-route-id="@item.Id"><i class="fas fa-edit fa-1x"></i></a>
                                                 </td>
                                             </tr>
-                                        }
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-sm-4">
-                                <h4 class="card-title">Hesap Hareketleri</h4>
-                                <p class="card-title-desc"></p>
-                            </div>
-                            <div class="col-sm-8">
-                                <div style="float:right;"><a asp-controller="Log" asp-action="Loglar" class="btn btn-primary btn-sm">Hareketleri Gör</a></div>
-                            </div>
-                        </div>
-                        <div class="table-rep-plugin">
-                            <div class="table-responsive mb-0" data-bs-pattern="priority-columns">
-                                <table id="tech-companies-1" class="table table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th>Id</th>
-                                            <th>Hareket</th>
-                                            <th>Zaman</th>
-                                            <th>Durum</th>
-                                            <th>Sayfa</th>
-                                            <th>İşlem</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @if (listLogs != null)
-                                        {
-                                            @foreach (var item in listLogs)
-                                            {
-                                                <tr>
-                                                    <td>@Html.DisplayFor(modelItem => item.Id)</td>
-                                                    <td>@Html.DisplayFor(modelItem => item.processes.ProcessesName)</td>
-                                                    <td>@Html.DisplayFor(modelItem => item.Time)</td>
-                                                    <td>@Html.DisplayFor(modelItem => item.transaction.TransactionNames)</td>
-                                                    <td>@Html.DisplayFor(modelItem => item.Action) - @Html.DisplayFor(modelItem => item.Controller)</td>
-                                                    <td>
-                                                        <a asp-controller="Log" asp-action="LogDetay" asp-route-id="@item.Id"><i class="fas fa-eye fa-1x"></i></a>
-                                                    </td>
-                                                </tr>
-                                            }
                                         }
                                     </tbody>
                                 </table>

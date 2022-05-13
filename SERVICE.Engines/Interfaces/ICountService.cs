@@ -10,8 +10,6 @@ namespace SERVICE.Engine.Interfaces
         int CountNews();
         int CountCategories();
         int CountTags();
-        int CountLogs();
-        int CountSystemErrors();
         int CountGuests();
         //Task<int> CountAgencyNews();
         int CountUsers();

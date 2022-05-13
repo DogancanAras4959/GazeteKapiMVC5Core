@@ -11,6 +11,20 @@
         position: relative;
         height: 229.5px;
     }
+
+    .dots {
+        position: absolute;
+        display: flex;
+        top: 18px;
+        left: 25px;
+        z-index: 500;
+    }
+
+    .dots h2{
+        color:#fff;
+        font-weight:800;
+        font-size:35px;
+    }
 </style>
 
 <link href="https://uploads.gazetekapi.com/front/css/base/slider.css" rel="stylesheet" />
@@ -21,6 +35,9 @@
         {
             <div class="mySlides">
                 <div class="card__post__body card__post__transition">
+                    <div class="dots">
+                        <h2>@item.RowNo</h2>
+                    </div>
                     <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
                         <img src="https://uploads.gazetekapi.com/images/@item.Image" alt="@item.Image" class="img-slide" />
                     </a>
@@ -65,7 +82,7 @@
                 count++;
 
                 <div class="card__post" style="margin-top:2px;">
-                    <div class="card__post__body card__post__transition">
+                    <div class="card__post__body card__post__transition">    
                         <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
                             <img src="https://uploads.gazetekapi.com/images/@item.Image" title="@item.Image" class="img-fluid" alt="@item.Image" />
                         </a>

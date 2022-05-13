@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace CORE.ApplicationCommon.DTOS.LogsDTO.ProcessDTO
+namespace CORE.ApplicationCommon.DTOS.SeoDTO
 {
-    public class ProcessDto : ProcessBaseDto
+    public class SeoScoreListItemDto : SeoScoreBaseDto
     {
         public int Id { get; set; }
     }

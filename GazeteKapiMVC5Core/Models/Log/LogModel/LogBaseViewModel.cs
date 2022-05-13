@@ -1,4 +1,4 @@
-﻿using DOMAIN.DataAccessLayerLOG.Models;
+﻿
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,8 +16,5 @@ namespace GazeteKapiMVC5Core.Models.Log.LogModel
         public int UserId { get; set; }
         public int TransactionId { get; set; }
         public int ProcessId { get; set; }
-        public Transactions transaction { get; set; }
-        public Processes processes { get; set; }
-        public UsersLog userlogs { get; set; }
     }
 }

@@ -20,18 +20,39 @@
         <div class="col-sm-8">
             <div class="card">
                 <div class="card-body">
+                   
                     <div class="mb-3">
-                        <input asp-for="MetaTitle" autocomplete="off" data-toggle="tooltip" data-placement="bottom" class="form-control" type="text" placeholder="Haber için ana başlık giriniz (*SEO için önerilir)" id="example-text-input">
+                        
+                        <input asp-for="MetaTitle" autocomplete="off" data-toggle="tooltip" 
+                               maxlength="65" id="defaultconfig" 
+                               data-placement="bottom" class="form-control" type="text" 
+                               placeholder="Haber için ana başlık giriniz (*SEO için önerilir)">
+
                         <span asp-validation-for="MetaTitle" class="text-danger"></span>
+
                     </div>
+
                     <div class="mb-3">
-                        <input asp-for="Title" autocomplete="off" data-toggle="tooltip" data-placement="bottom" class="form-control" type="text" placeholder="Haber için manşet başlık giriniz" id="example-text-input">
+                      
+                        <input asp-for="Title" autocomplete="off" data-toggle="tooltip"  
+                               maxlength="95" id="defaultconfig" 
+                               data-placement="bottom" class="form-control" type="text" 
+                               placeholder="Haber için manşet başlık giriniz">
+                       
                         <span asp-validation-for="Title" class="text-danger"></span>
+
                     </div>
+
                     <div class="mb-3">
-                        <textarea asp-for="Spot" autocomplete="off" rows="4" cols="50" data-toggle="tooltip" data-placement="bottom" class="form-control" type="text" placeholder="Haber için spot giriniz" id="example-text-input"></textarea>
+                       
+                        <textarea asp-for="Spot" autocomplete="off" rows="4" cols="50" maxlength="320" 
+                                  id="defaultconfig" data-toggle="tooltip" data-placement="bottom" 
+                                  class="form-control" type="text" placeholder="Haber için spot giriniz"></textarea>
+                       
                         <span asp-validation-for="Spot" class="text-danger"></span>
+
                     </div>
+
                     <div class="mb-3">
                         @*<textarea asp-for="NewsContent" rows="3" cols="150" class="ckeditor"></textarea>*@
                         <textarea asp-for="NewsContent" rows="3" cols="150" id="editor"></textarea>

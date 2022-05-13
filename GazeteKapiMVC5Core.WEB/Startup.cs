@@ -43,7 +43,6 @@ namespace GazeteKapiMVC5Core.WEB
                         .AddCheck("ping1", new PingHealthCheck("www.google.com", 100))
                         .AddCheck("ping2", new PingHealthCheck("www.bing.com", 100, 30));
             services.AddDbContextDI(_configuration, Environment);
-            services.AddDbContextLog(_configuration, Environment);
             services.AddInjections();
             services.AddControllersWithViews().SetCompatibilityVersion(CompatibilityVersion.Latest);
             services.AddDistributedMemoryCache();
@@ -85,15 +84,6 @@ namespace GazeteKapiMVC5Core.WEB
             app.UseRouting();
             app.UseAuthentication();
             app.UseCookiePolicy();
-            app.Use(async (context, next) =>
-            {
-                await next();
-                if (context.Response.StatusCode == 404)
-                {
-                    context.Request.Path = "/Home";
-                    await next();
-                }
-            });
             app.UseHealthChecks("/hc");
 
             app.UseEndpoints(endpoints =>

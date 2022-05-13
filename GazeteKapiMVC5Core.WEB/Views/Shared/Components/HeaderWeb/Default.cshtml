@@ -19,9 +19,28 @@
         left: 0px;
     }
 
-    #menu-hamburger-opened{
-        z-index:0;
+    #menu-hamburger-opened {
+        z-index: 0;
     }
+
+    .dropdown-toggle[data-toggle="dropdown"]:after {
+         font-family: "FontAwesome"; 
+         font-weight: 900; 
+         content: "\f107"; 
+         width: 100%; 
+         text-align: right; 
+         display:none;
+    }
+
+    .navigation-wrap .navbar-nav .nav-item .dropdown-menu {
+        border: 0;
+        margin-top: 15px;
+        padding-top: 10px;
+        padding-bottom: 0px;
+        box-shadow: 0 5px 10px 0 rgb(138 155 165 / 15%);
+        z-index: 1022;
+    }
+
 </style>
 
 <link href="https://uploads.gazetekapi.com/front/css/base/pagelineweb.css" rel="stylesheet" />
@@ -153,36 +172,18 @@
                                         <a asp-action="kategori" asp-controller="anasayfa" asp-route-id="@item.Id" class="menu-link"> @item.CategoryName.ToUpper() </a> <div class="menu-rect"></div>
                                     </li>
                                 }
-                                <li class="nav-item"></li>
-                                <li class="nav-item" style="margin-right:0px;" id="hamburger-button">
-                                    <label id="menu-hamburger-label" style="display:block; margin-bottom:0px;">
-                                        <input type="checkbox">
-                                        <span class="menu">
-                                            <span id="hamburgerMenu" class="hamburger menu-link" wfd-invisible="true"></span>
-                                        </span>
-                                        <ul id="menu-hamburger-opened" style="margin-top:100px;">
-                                            <li class="nav-item">
-                                                <img src="https://uploads.gazetekapi.com/images/@Model.Logo" title="@Model.Logo" alt="@Model.Logo" class="logo logo-img" />
-                                            </li>
-                                            @foreach (var item in categories.Where(x => x.Position == 0 && x.IsActive == true))
-                                            {
-                                                <li class="nav-item" style="padding-top:15px;">
-                                                    <div class="menu-rect-pop"></div>
-                                                    <a asp-action="kategori" asp-controller="anasayfa" asp-route-id="@item.Id" class="menu-link"> @item.CategoryName.ToUpper() </a>
-                                                    <div class="seperate"></div>
-                                                </li>
-                                            }
-                                            <li class="nav-item" style="margin-top:20px;">
-                                                <span style="color:#2f2f2f;">2022 © <a href="https://www.ikifikir.net" id="link-reference" rel="nofollow"> İKİFİKİR İLETİŞİM </a> TARAFINDAN GELİŞTİRİLDİ</span>
-                                            </li>
-                                        </ul>                                       
-                                </label>
-                                @*<span id="hamburgerLight" style="position: relative; right: -7px; top: -2px;" class="menu-link navbar-toggler-icon"></span>*@
-                                </li>
-
-                                @*<li class="nav-item">
-            <a asp-action="yazarlar" asp-controller="anasayfa" class="menu-link"> YAZARLAR </a> <div class="menu-rect"></div>
-        </li>*@
+                            <li class="nav-item dropdown has-megamenu" style="margin-left:13px; margin-right:0px; margin-top:3px; cursor:pointer;">
+                                <a class="menu-link dropdown-toggle" data-toggle="dropdown"> <img alt="hamburger_icon" title="hamburger-menu" src="https://uploads.gazetekapi.com/images/hamburger-icon.png" /> </a>
+                                <div class="dropdown-menu animate fade-down megamenu mx-auto" role="menu">
+                                    <div class="container wrap__mobile-megamenu">
+                                        <div class="col-megamenu">
+                                            <h5 class="title">Recent news</h5>
+                                            <hr>
+                                            <!-- Popular news carousel -->
+                                        </div> <!-- col-megamenu.// -->
+                                    </div>
+                                </div> <!-- dropdown-mega-menu.// -->
+                            </li>
                             </ul>
                         </div>
 

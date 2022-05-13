@@ -509,6 +509,66 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Migrations
                     b.ToTable("roles");
                 });
 
+            modelBuilder.Entity("GazeteKapiMVC5Core.DataAccessLayer.Models.SeoCheckMeta", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<bool>("IsDone")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("Point")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Requirement")
+                        .HasMaxLength(220)
+                        .HasColumnType("nvarchar(220)");
+
+                    b.Property<int>("SeoScoreId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("TypeLevel")
+                        .HasMaxLength(70)
+                        .HasColumnType("nvarchar(70)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SeoScoreId");
+
+                    b.ToTable("seoCheckMeta");
+                });
+
+            modelBuilder.Entity("GazeteKapiMVC5Core.DataAccessLayer.Models.SeoScore", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<int>("Amount")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Level")
+                        .HasColumnType("int");
+
+                    b.Property<int>("NewsId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Note")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UniqeCode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NewsId");
+
+                    b.ToTable("seoScores");
+                });
+
             modelBuilder.Entity("GazeteKapiMVC5Core.DataAccessLayer.Models.Settings", b =>
                 {
                     b.Property<int>("Id")
@@ -881,6 +941,28 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Migrations
                     b.Navigation("role");
                 });
 
+            modelBuilder.Entity("GazeteKapiMVC5Core.DataAccessLayer.Models.SeoCheckMeta", b =>
+                {
+                    b.HasOne("GazeteKapiMVC5Core.DataAccessLayer.Models.SeoScore", "seoScoreToMeta")
+                        .WithMany("seoMetas")
+                        .HasForeignKey("SeoScoreId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("seoScoreToMeta");
+                });
+
+            modelBuilder.Entity("GazeteKapiMVC5Core.DataAccessLayer.Models.SeoScore", b =>
+                {
+                    b.HasOne("GazeteKapiMVC5Core.DataAccessLayer.Models.News", "news")
+                        .WithMany("seoScoreNews")
+                        .HasForeignKey("NewsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("news");
+                });
+
             modelBuilder.Entity("GazeteKapiMVC5Core.DataAccessLayer.Models.Settings", b =>
                 {
                     b.HasOne("GazeteKapiMVC5Core.DataAccessLayer.Models.Users", "user")
@@ -961,6 +1043,8 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Migrations
 
             modelBuilder.Entity("GazeteKapiMVC5Core.DataAccessLayer.Models.News", b =>
                 {
+                    b.Navigation("seoScoreNews");
+
                     b.Navigation("tagNewsListForNews");
                 });
 
@@ -974,6 +1058,11 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Migrations
                     b.Navigation("roleAuthroizeForRole");
 
                     b.Navigation("usersForRoles");
+                });
+
+            modelBuilder.Entity("GazeteKapiMVC5Core.DataAccessLayer.Models.SeoScore", b =>
+                {
+                    b.Navigation("seoMetas");
                 });
 
             modelBuilder.Entity("GazeteKapiMVC5Core.DataAccessLayer.Models.Tags", b =>

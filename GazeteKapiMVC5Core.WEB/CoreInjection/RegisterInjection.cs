@@ -1,7 +1,6 @@
 ﻿using CORE.ApplicationCore.BackEndExceptionHandler;
 using CORE.ApplicationCore.UnitOfWork;
 using GazeteKapiMVC5Core.DataAccessLayer;
-using GazeteKapiMVC5Core.DataAccessLayerLOG;
 using GazeteKapiMVC5Core.WEB.Models.ConfigreCaptcha;
 using GazeteKapiMVC5Core.WEB.Models.RenderService;
 using Microsoft.AspNetCore.Hosting;
@@ -34,17 +33,6 @@ namespace GazeteKapiMVC5Core.WEB.CoreInjection
                 .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking));
         }
 
-        internal static void AddDbContextLog(this IServiceCollection services, IConfiguration configuration, IWebHostEnvironment environment)
-        {
-            var contextConnectionString = configuration.GetConnectionString("Log");
-            services.AddDbContextPool<NewsAppContextLog>(x => x.UseSqlServer(contextConnectionString, o =>
-            {
-                o.EnableRetryOnFailure(3);
-            })
-               .EnableSensitiveDataLogging(environment.IsDevelopment())
-               .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking));
-        }
-
         internal static void AddInjections(this IServiceCollection services)
         {
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
@@ -52,7 +40,6 @@ namespace GazeteKapiMVC5Core.WEB.CoreInjection
             services.AddTransient(typeof(IUserService), typeof(UserService));
             services.AddTransient(typeof(IRoleService), typeof(RoleService));
             services.AddTransient(typeof(ICategoryService), typeof(CategoryService));
-            services.AddTransient(typeof(ILogService), typeof(LogService));
             services.AddTransient(typeof(INewsService), typeof(NewsService));
             services.AddTransient(typeof(ISettingService), typeof(SettingService));
             services.AddTransient(typeof(ICountService), typeof(CountService));

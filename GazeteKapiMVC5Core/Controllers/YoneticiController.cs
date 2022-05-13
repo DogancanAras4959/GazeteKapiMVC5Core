@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using CORE.ApplicationCommon.DTOS.AccountDTO;
-using CORE.ApplicationCommon.DTOS.LogsDTO.LogDTO;
 using CORE.ApplicationCommon.DTOS.NewsDTO;
 using CORE.ApplicationCommon.DTOS.RoleDTO;
 using CORE.ApplicationCommon.DTOS.SetingsDTO;
+using CORE.ApplicationCommon.Helpers;
 using CORE.ApplicationCommon.Helpers.Cyrptography;
 using GazeteKapiMVC5Core.Core.Extensions;
 using GazeteKapiMVC5Core.Models.Account;
@@ -37,16 +37,14 @@ namespace GazeteKapiMVC5Core.Controllers
         private readonly IRoleService _roleService;
         private readonly IMapper _mapper;
         private IWebHostEnvironment _webHostEnvironment;
-        private readonly ILogService _logService;
         private readonly INewsService _newsService;
         private readonly ISettingService _settingService;
-        public YoneticiController(IUserService userService, IRoleService roleService, IMapper mapper, IWebHostEnvironment hostingEnvironment, ILogService logService, INewsService newsService, ISettingService settingService)
+        public YoneticiController(IUserService userService, IRoleService roleService, IMapper mapper, IWebHostEnvironment hostingEnvironment, INewsService newsService, ISettingService settingService)
         {
             _userService = userService ?? throw new ArgumentNullException(nameof(userService));
             _roleService = roleService ?? throw new ArgumentNullException(nameof(roleService));
             _webHostEnvironment = hostingEnvironment ?? throw new ArgumentNullException(nameof(hostingEnvironment));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
-            _logService = logService ?? throw new ArgumentNullException(nameof(logService));
             _newsService = newsService ?? throw new ArgumentNullException(nameof(newsService));
             _settingService = settingService ?? throw new ArgumentException(nameof(settingService));
         }
@@ -86,7 +84,6 @@ namespace GazeteKapiMVC5Core.Controllers
 
                     if (result == false)
                     {
-                        await CreateModeratorLog("Başarısız", "Giriş İşlemi", "GirisYap", "Yonetici", "Kullanıcı adı veya şifre yanlış. Kullanıcının giriş işlemi başarısız oldu!");
                         TempData["HataMesaji"] = "Kullanıcı adı veya şifre yanlış. Kullanıcının giriş işlemi başarısız oldu!";
                         return RedirectToAction("GirisYap", "Yonetici");
                     }
@@ -115,13 +112,10 @@ namespace GazeteKapiMVC5Core.Controllers
                         await HttpContext.SignInAsync(
                         CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claims_identity), auth_properties);
 
-                        await CreateModeratorLog("Başarılı", "Giriş İşlemi", "GirisYap", "Yonetici", "Başarılı bir giriş işlemi gerçekleştirildi");
-
                         return result ? RedirectToAction("Index", "Home") : RedirectToAction("GirisYap", "Yonetici");
                     }
                     else
                     {
-                        await CreateModeratorLog("Başarısız", "Giriş İşlemi", "GirisYap", "Yonetici", "Kullanıcının giriş işlemi başarısız oldu. Kullanıcı akti değil!");
                         TempData["HataMesaji"] = "Kullanıcı aktif değil";
                         return RedirectToAction("GirisYap", "Yonetici");
                     }
@@ -134,8 +128,6 @@ namespace GazeteKapiMVC5Core.Controllers
             }
             catch (Exception ex)
             {
-                string detay = "Sistemden kaynaklı bir hata meydana geldi: " + ex.ToString();
-                await CreateModeratorLog("Sistem Hatası", "Giriş İşlemi", "GirisYap", "Yonetici", detay);
                 TempData["HataMesaji"] = ex.ToString();
                 return RedirectToAction("ErrorPage", "Home");
             }
@@ -144,17 +136,15 @@ namespace GazeteKapiMVC5Core.Controllers
 
         //[RoleAuthorize("Kullanicilar")]
         [CheckRoleAuthorize]
-        public async Task<IActionResult> Kullanicilar()
+        public IActionResult Kullanicilar()
         {
             try
             {
-                await CreateModeratorLog("Başarılı", "Sayfa Girişi", "Kullanicilar", "Yonetici", "Kullanıcının yönetici sayfasına girişi başarılı!");
                 return View(_mapper.Map<List<UserListItemDto>, List<UserListViewModel>>(_userService.GetAllUsers()));
             }
             catch (Exception ex)
             {
-                string detay = "Sistemden kaynaklı bir hata meydana geldi: " + ex.ToString();
-                await CreateModeratorLog("Sistem Hatası", "Sayfa Girişi", "Kullanicilar", "Yonetici", detay);
+
                 TempData["HataMesaji"] = ex.ToString();
                 return RedirectToAction("ErrorPage", "Home");
             }
@@ -163,19 +153,17 @@ namespace GazeteKapiMVC5Core.Controllers
         [HttpGet]
         [CheckRoleAuthorize]
         //[RoleAuthorize("KullaniciOlustur")]
-        public async Task<IActionResult> KullaniciOlustur()
+        public IActionResult KullaniciOlustur()
         {
             try
             {
                 var listRoles = _mapper.Map<List<RoleListItemDto>, List<RolesListViewModel>>(_roleService.GetAllRole());
                 ViewBag.Roles = new SelectList(listRoles, "Id", "RoleName");
-                await CreateModeratorLog("Başarılı", "Sayfa Girişi", "KullaniciOlustur", "Yonetici", "Kullanıcı ekleme sayfasına giriş başarılı oldu!");
                 return View(new AccountCreateViewModel());
             }
             catch (Exception ex)
             {
-                string detay = "Sistemden kaynaklı bir hata meydana geldi: " + ex.ToString();
-                await CreateModeratorLog("Sistem Hatası", "Sayfa Girişi", "KullaniciOlustur", "Yonetici", detay);
+
                 TempData["HataMesaji"] = ex.ToString();
                 return RedirectToAction("ErrorPage", "Home");
             }
@@ -196,14 +184,7 @@ namespace GazeteKapiMVC5Core.Controllers
                         {
                             if (file != null)
                             {
-                                //model.ProfileImage = SaveImageProcess.ImageInsert(file,"Admin"); <- bunu sunucuya atınca kullanacağız
-                                string uploadfilename = Path.GetFileNameWithoutExtension(file.FileName);
-                                string extension = Path.GetExtension(file.FileName);
-                                uploadfilename = uploadfilename + DateTime.Now.ToString("yymmssfff") + extension;
-                                var path = Path.Combine(this._webHostEnvironment.WebRootPath, "Files", uploadfilename);
-                                var stream = new FileStream(path, FileMode.Create);
-                                await file.CopyToAsync(stream);
-                                model.ProfileImage = uploadfilename;
+                                model.ProfileImage = SaveImageProcess.ImageInsert(file,"Admin");
                             }
                             else
                             {
@@ -220,18 +201,15 @@ namespace GazeteKapiMVC5Core.Controllers
 
                             else
                             {
-                                await CreateModeratorLog("Başarısız", "Ekleme", "KullaniciOlustur", "Yonetici", "Kullanıcının oluşturulması için şifre bilgisi gerekmektedir.");
                                 return View(model);
                             }
 
-                            await CreateModeratorLog("Başarısız", "Ekleme", "KullaniciOlustur", "Yonetici", "Oluşurulmaya çalışılan yönetici sistemde bulunuyor");
                             return View(model);
                         }
                         return View(model);
                     }
                     else
                     {
-                        await CreateModeratorLog("Başarısız", "Ekleme", "KullaniciOlustur", "Yonetici", "Şifreler birbiriyle uyuşmuyor. Bu yüzden kullanıcı oluşturulamadı!");
                         return View(model);
                     }
                 }
@@ -239,8 +217,7 @@ namespace GazeteKapiMVC5Core.Controllers
             }
             catch (Exception ex)
             {
-                string detay = "Sistemden kaynaklı bir hata meydana geldi: " + ex.ToString();
-                await CreateModeratorLog("Sistem Hatası", "Ekleme", "KullaniciOlustur", "Yonetici", detay);
+
                 TempData["HataMesaji"] = ex.ToString();
                 return RedirectToAction("ErrorPage", "Home");
             }
@@ -250,20 +227,18 @@ namespace GazeteKapiMVC5Core.Controllers
         [HttpGet]
         [CheckRoleAuthorize]
         //[RoleAuthorize("KullaniciDuzenle")]
-        public async Task<IActionResult> KullaniciDuzenle(int Id)
+        public IActionResult KullaniciDuzenle(int Id)
         {
             try
             {
                 var getUser = _mapper.Map<UserDto, AccountEditViewModel>(_userService.GetUserById(Id));
                 var listRoles = _mapper.Map<List<RoleListItemDto>, List<RolesListViewModel>>(_roleService.GetAllRole());
                 ViewBag.Roles = new SelectList(listRoles, "Id", "RoleName", getUser.RoleId);
-                await CreateModeratorLog("Başarılı", "Sayfa Girişi", "KullaniciDuzenle", "Yonetici", "Kullanıcı Düzenleme sayfasına giriş başarılı!");
                 return View(getUser);
             }
             catch (Exception ex)
             {
-                string detay = "Sistemden kaynaklı bir hata meydana geldi: " + ex.ToString();
-                await CreateModeratorLog("Sistem Hatası", "Sayfa Girişi", "KullaniciDuzenle", "Yonetici", detay);
+
                 TempData["HataMesaji"] = ex.ToString();
                 return RedirectToAction("ErrorPage", "Home");
             }
@@ -285,14 +260,7 @@ namespace GazeteKapiMVC5Core.Controllers
                         {
                             if (file != null)
                             {
-                                //model.ProfileImage = SaveImageProcess.ImageInsert(file,"Admin"); <- bunu sunucuya atınca kullanacağız
-                                string uploadfilename = Path.GetFileNameWithoutExtension(file.FileName);
-                                string extension = Path.GetExtension(file.FileName);
-                                uploadfilename = uploadfilename + DateTime.Now.ToString("yymmssfff") + extension;
-                                var path = Path.Combine(this._webHostEnvironment.WebRootPath, "Files", uploadfilename);
-                                var stream = new FileStream(path, FileMode.Create);
-                                await file.CopyToAsync(stream);
-                                model.ProfileImage = uploadfilename;
+                                model.ProfileImage = SaveImageProcess.ImageInsert(file,"Admin");             
                             }
                             else
                             {
@@ -301,7 +269,6 @@ namespace GazeteKapiMVC5Core.Controllers
 
                             if (await _userService.UpdateUser(_mapper.Map<AccountEditViewModel, UserDto>(model)))
                             {
-                                await CreateModeratorLog("Başarılı", "Güncelleme", "KullaniciDuzenle", "Yonetici", "Kullanıcı başarıyla güncellendi!");
                                 return RedirectToAction(nameof(Kullanicilar));
                             }
 
@@ -310,7 +277,6 @@ namespace GazeteKapiMVC5Core.Controllers
 
                         else
                         {
-                            await CreateModeratorLog("Başarısız", "Güncelleme", "KullaniciDuzenle", "Yonetici", "Kullanıcı güncellenemedi. Şifreler birbiriyle uyuşmuyor!");
                             return View(model);
                         }
                     }
@@ -327,7 +293,6 @@ namespace GazeteKapiMVC5Core.Controllers
 
                         if (await _userService.UpdateUser(_mapper.Map<AccountEditViewModel, UserDto>(model)))
                         {
-                            await CreateModeratorLog("Başarılı", "Güncelleme", "KullaniciDuzenle", "Yonetici", "Kullanıcı başarıyla güncellendi!");
                             return RedirectToAction(nameof(Kullanicilar));
                         }
 
@@ -339,8 +304,6 @@ namespace GazeteKapiMVC5Core.Controllers
             }
             catch (Exception ex)
             {
-                string detay = "Sistemden kaynaklı bir hata meydana geldi: " + ex.ToString();
-                await CreateModeratorLog("Sistem Hatası", "Güncelleme", "KullaniciDuzenle", "Yonetici", detay);
                 TempData["HataMesaji"] = ex.ToString();
                 return RedirectToAction("ErrorPage", "Home");
             }
@@ -349,7 +312,7 @@ namespace GazeteKapiMVC5Core.Controllers
 
         [CheckRoleAuthorize]
         //[RoleAuthorize("KullaniciSil")]
-        public async Task<IActionResult> KullaniciSil(int id)
+        public IActionResult KullaniciSil(int id)
         {
             try
             {
@@ -359,27 +322,23 @@ namespace GazeteKapiMVC5Core.Controllers
                 {
                     if (!_userService.DeleteUserById(id))
                     {
-                        await CreateModeratorLog("Başarısız", "Silme", "KullaniciSil", "Yonetici", "Kullanıcı sistemden kaldırılırken bir hata meydana geldi!");
                         return RedirectToAction(nameof(Kullanicilar));
                     }
                     else
                     {
-                        await CreateModeratorLog("Başarılı", "Silme", "KullaniciSil", "Yonetici", "Kullanıcı başarıyla sistemden kaldırıldı");
                         return RedirectToAction(nameof(Kullanicilar));
                     }
                 }
                 else
                 {
                     TempData["mesaj"] = "Bu kullanıcı oturum açmış durumda kullanıcıyı sistemden kaldıramazsınız";
-                    await CreateModeratorLog("Başarısız", "Silme", "KullaniciSil", "Yonetici", "Kullanıcı oturum açtığından sistemden kaldırılamadı");
                     return RedirectToAction(nameof(Kullanicilar));
                 }
 
             }
             catch (Exception ex)
             {
-                string detay = "Sistemden kaynaklı bir hata meydana geldi: " + ex.ToString();
-                await CreateModeratorLog("Sistem Hatası", "Silme", "KullaniciSil", "Yonetici", detay);
+
                 TempData["HataMesaji"] = ex.ToString();
                 return RedirectToAction("ErrorPage", "Home");
             }
@@ -398,26 +357,22 @@ namespace GazeteKapiMVC5Core.Controllers
                 {
                     if (await _userService.EditIsActive(id))
                     {
-                        await CreateModeratorLog("Başarılı", "Güncelleme", "DurumDuzenle", "Yonetici", "Kullanıcı başarıyla güncellendi. Kullanıcını durumu düzenlendi!");
                         return RedirectToAction(nameof(Kullanicilar));
                     }
                     else
                     {
-                        await CreateModeratorLog("Başarısız", "Güncelleme", "DurumDuzenle", "Yonetici", "Kullanıcının durumu güncellenemedi!");
                         return RedirectToAction(nameof(Kullanicilar));
                     }
                 }
                 else
                 {
                     TempData["mesaj"] = "Bu kullanıcı oturum açmış durumda kullanıcıyı pasifleştiremezsiniz";
-                    await CreateModeratorLog("Başarısız", "Güncelleme", "KullaniciSil", "Yonetici", "Kullanıcı oturum açtığından pasifleştirilemedi");
                     return RedirectToAction(nameof(Kullanicilar));
                 }
             }
             catch (Exception ex)
             {
-                string detay = "Sistemden kaynaklı bir hata meydana geldi: " + ex.ToString();
-                await CreateModeratorLog("Sistem Hatası", "Güncelleme", "DurumDuzenle", "Yonetici", detay);
+
                 TempData["HataMesaji"] = ex.ToString();
                 return RedirectToAction("ErrorPage", "Home");
             }
@@ -426,29 +381,18 @@ namespace GazeteKapiMVC5Core.Controllers
 
         //[RoleAuthorize("HesapDetay")]
         [CheckRoleAuthorize]
-        public async Task<IActionResult> HesapDetay(int id)
+        public IActionResult HesapDetay(int id)
         {
             try
             {
                 var user = _mapper.Map<UserDto, AccountEditViewModel>(_userService.GetUserById(id));
 
                 var newsByUserId = _mapper.Map<List<NewsListItemDto>, List<NewsLıstItemModel>>(_newsService.newsListByUserId(id));
-                ViewBag.News = newsByUserId;
-
-                var logs = _mapper.Map<List<LogListItemDto>, List<LogListViewModel>>(_logService.getLogsByUser(user.UserName));
-                if (logs == null)
-                {
-                    ViewBag.Logs = "Kullanıcıdan Log bilgisi alınamıyor";
-                }
-                else { ViewBag.Logs = logs; }
-
-                await CreateModeratorLog("Başarılı", "Sayfa Girişi", "HesapDetay", "Yonetici", "Kullanıcı hesabına başarılı bir şekilde erişildi!");
+                ViewBag.News = newsByUserId;             
                 return View(user);
             }
             catch (Exception ex)
             {
-                string detay = "Sistemden kaynaklı bir hata meydana geldi: " + ex.ToString();
-                await CreateModeratorLog("Sistem Hatası", "Sayfa Girişi", "HesapDetay", "Yonetici", detay);
                 TempData["HataMesaji"] = ex.ToString();
                 return RedirectToAction("ErrorPage", "Home");
             }
@@ -474,45 +418,6 @@ namespace GazeteKapiMVC5Core.Controllers
             }
 
             return sb.ToString();
-        }
-
-        public async Task<CheckLogService> CreateModeratorLog(string durum, string islem, string action, string controller, string details)
-        {
-            AccountEditViewModel yoneticiGetir = SessionExtensionMethod.GetObject<AccountEditViewModel>(HttpContext.Session, "user");
-            var setting = _mapper.Map<SettingsDto, SettingsBaseViewModel>(_settingService.getSettings(1));
-
-            if (setting.LogIsActive == true)
-            {
-                if (setting.LogSystemErrorActive == true)
-                {
-                    CheckLogService ct = new CheckLogService(_logService, _mapper);
-                    if (yoneticiGetir.UserName == "" || yoneticiGetir.UserName == null)
-                    {
-                        durum = "Sistem Hatası";
-
-                        await ct.CreateLogs(durum, islem, action, controller, details, "Sistem");
-                        return ct;
-                    }
-                    await ct.CreateLogs(durum, islem, action, controller, details, yoneticiGetir.UserName);
-                    return ct;
-                }
-                else
-                {
-                    CheckLogService ct = new CheckLogService(_logService, _mapper);
-                    if (yoneticiGetir.UserName == "" || yoneticiGetir.UserName == null)
-                    {
-                        await ct.CreateLogs(durum, islem, action, controller, details, "Sistem");
-                        return ct;
-                    }
-                    await ct.CreateLogs(durum, islem, action, controller, details, yoneticiGetir.UserName);
-                    return ct;
-                }
-
-            }
-            else
-            {
-                return null;
-            }
         }
 
         #endregion
