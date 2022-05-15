@@ -18,7 +18,9 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Models
         public string Note { get; set; }
         public int Amount { get; set; }
         public int Level { get; set; }
-        
+        public bool IsFinished { get; set; }
+        public bool IsCreated { get; set; }
+
         [ForeignKey("news")]
         public int NewsId { get; set; }
 

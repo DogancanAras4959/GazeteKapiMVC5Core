@@ -4,14 +4,16 @@ using GazeteKapiMVC5Core.DataAccessLayer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GazeteKapiMVC5Core.DataAccessLayer.Migrations
 {
     [DbContext(typeof(NewsAppContext))]
-    partial class NewsAppContextModelSnapshot : ModelSnapshot
+    [Migration("20220513220015_seoScoreConfigureMigrate")]
+    partial class seoScoreConfigureMigrate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -532,10 +534,6 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Migrations
                     b.Property<string>("TypeLevel")
                         .HasMaxLength(70)
                         .HasColumnType("nvarchar(70)");
-
-                    b.Property<string>("metaCode")
-                        .HasMaxLength(120)
-                        .HasColumnType("nvarchar(120)");
 
                     b.HasKey("Id");
 

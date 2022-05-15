@@ -11,6 +11,8 @@ namespace GazeteKapiMVC5Core.Models.Seo.SeoMeta
         public int SeoScoreId { get; set; }
         public int Point { get; set; }
         public string Requirement { get; set; }
+        public string metaCode { get; set; }
+
         public bool IsDone { get; set; }
 
     }

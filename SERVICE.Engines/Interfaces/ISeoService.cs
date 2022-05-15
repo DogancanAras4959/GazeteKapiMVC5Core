@@ -1,5 +1,6 @@
 ﻿using CORE.ApplicationCommon.DTOS.SeoDTO;
 using CORE.ApplicationCommon.DTOS.SeoDTO.SeoMetaDto;
+using GazeteKapiMVC5Core.DataAccessLayer.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -13,7 +14,9 @@ namespace SERVICE.Engine.Interfaces
         SeoScoreDto GetSeoScoreByNewsId(int NewsId);
         SeoScoreDto GetSeoScore(int Id);
         Task CreateSeoMetaToSeoScore(int seoScoreId);
-
-        //Task<int> UpdateSeoScore(SeoScoreDto model);
+        List<SeoMetaListItemDto> listSeoMetasBySeoScoreId(int seoScoreId);
+        bool UpdateSeoScoreAfterCreateTask(int Id);
+        SeoCheckMeta SeoMetaIsDone(int Id);
+        SeoScore IncreaseSeoScore(int seoScoreId, int point);
     }
 }

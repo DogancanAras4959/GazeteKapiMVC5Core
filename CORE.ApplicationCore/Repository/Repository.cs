@@ -110,7 +110,6 @@ namespace CORE.ApplicationCore.Repository
             _context.Entry(entity).State = EntityState.Modified;
 
             await _unitOfWork.Commit();
-
             return entity;
         }
 

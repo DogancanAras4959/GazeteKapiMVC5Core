@@ -1,11 +1,13 @@
 ﻿@model GazeteKapiMVC5Core.Models.News.NewsModel.NewsEditViewModel
 @using GazeteKapiMVC5Core.Models.News.NewsModel;
 @using GazeteKapiMVC5Core.Models.Seo.SeoScore;
- 
+@using GazeteKapiMVC5Core.Models.Seo.SeoMeta;  
+
 @{
     ViewData["Title"] = "HaberOlustur";
     Layout = "~/Views/Shared/_Layout.cshtml";
     List<NewsLıstItemModel> newsList = ViewBag.News as List<NewsLıstItemModel>;
+    List<SeoMetaListViewModel> seoListMeta = ViewBag.listSeoMeta as List<SeoMetaListViewModel>;
     SeoScoreBaseViewModel seoScore = ViewBag.SeoScore as SeoScoreBaseViewModel;
 }
 
@@ -18,6 +20,13 @@
 }
 
 <style>
+    .table > :not(caption) > * > * {
+        padding: 0.50rem 0.50rem !important;
+        background-color: var(--bs-table-bg);
+        border-bottom-width: 0px !important;
+        -webkit-box-shadow: inset 0 0 0 9999px var(--bs-table-accent-bg);
+        box-shadow: inset 0 0 0 9999px var(--bs-table-accent-bg);
+    }
     .scroller {
         width: 500px;
         height: 500px;
@@ -25,16 +34,17 @@
         scrollbar-color: rebeccapurple green;
         scrollbar-width: thin;
     }
+
     .left {
         float: left;
         position: relative;
         padding-right: 15px;
     }
 
-    .right{
-        position:relative;
-        top:15px;
-        margin-left:5px;
+    .right {
+        position: relative;
+        top: 15px;
+        margin-left: 5px;
     }
 
     .input-score {
@@ -50,6 +60,25 @@
         text-align: center;
         color: rgb(255, 187, 68);
         padding: 0px;
+    }
+
+    .rounded-pill {
+        padding: 1em !important;
+    }
+    .rounded-pill {
+        border-radius: 2rem !important;
+    }
+    .badge {
+        display: inline-block;
+        padding: 0.25em 0.4em;
+        font-size: 90% !important;
+        font-weight: 700 !important;
+        line-height: 1;
+        color: #fff;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: baseline;
+        border-radius: 0.25rem;
     }
 </style>
 
@@ -82,7 +111,7 @@
             </div>
         </div>
     }
-    
+
     <div class="row">
         <div class="col-sm-8">
             <div class="row">
@@ -93,7 +122,7 @@
                                 <div class="text-center" dir="ltr">
                                     <div style="display:inline;width:75px;height:75px;">
                                         <input class="knob input-score" data-width="75" data-height="75"
-                                               data-linecap="round" data-fgcolor="#ffbb44" value="@seoScore.Amount"
+                                               data-linecap="round" data-fgcolor="@ViewData["progress-color"]" value="@seoScore.Amount"
                                                data-skin="tron" data-angleoffset="180" data-readonly="true" data-thickness=".1"
                                                readonly="readonly" />
                                     </div>
@@ -112,22 +141,27 @@
             <div class="card">
                 <div class="card-body">
                     <div class="mb-3">
+                        <label class="mdi-label">Meta Başlık</label>
                         <input asp-for="MetaTitle" autocomplete="off" data-toggle="tooltip" data-placement="bottom" class="form-control" type="text" placeholder="Haber için ana başlık giriniz (*SEO için önerilir)" id="example-text-input">
                         <span asp-validation-for="MetaTitle" class="text-danger"></span>
                     </div>
                     <div class="mb-3">
+                        <label class="mdi-label">Manşet Başlık</label>
                         <input asp-for="Title" autocomplete="off" data-toggle="tooltip" data-placement="bottom" class="form-control" type="text" placeholder="Haber için manşet başlık giriniz" id="example-text-input">
                         <span asp-validation-for="Title" class="text-danger"></span>
                     </div>
                     <div class="mb-3">
+                        <label class="mdi-label">Spot</label>
                         <textarea asp-for="Spot" autocomplete="off" rows="4" cols="50" data-toggle="tooltip" data-placement="bottom" class="form-control" type="text" placeholder="Haber için spot giriniz" id="example-text-input"></textarea>
                         <span asp-validation-for="Spot" class="text-danger"></span>
                     </div>
                     <div class="mb-3">
+                        <label class="mdi-label">Haber İçerik</label>
                         <textarea asp-for="NewsContent" rows="75" cols="150" id="editor"></textarea>
                         <span asp-validation-for="NewsContent" class="text-danger"></span>
                     </div>
                     <div class="mb-3">
+                        <label class="mdi-label">Haber Etiketi</label>
                         <label for="example-text-input" class="col-sm-12 col-form-label">Etiket (* Zorunlu alan - SEO için önerilir)</label>
                         <input asp-for="Tag" autocomplete="off" data-toggle="tooltip" name="Tag" data-placement="bottom" class="form-control" type="text" placeholder="Haber için etiketler giriniz" id="example-text-input">
                     </div>
@@ -160,9 +194,44 @@
                     </div>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-centered table-vertical table-nowrap mb-0">
+                                  
+                                    <tbody>
+                                        @foreach (var item in seoListMeta)
+                                        {
+                                            @if (item.TypeLevel == "High")
+                                            {
+                                                <tr>
+                                                    <td><span class="badge rounded-pill bg-danger">@item.Requirement</span></td>
+                                                </tr>
+                                            }
+                                            else if (item.TypeLevel == "Middle")
+                                            {
+                                                <tr>
+                                                    <td><span class="badge rounded-pill bg-warning">@item.Requirement</span></td>
+                                                </tr>
+                                            }
+                                            else if (item.TypeLevel == "Easy")
+                                            {
+                                                <tr>
+                                                    <td><span class="badge rounded-pill bg-success">@item.Requirement</span></td>
+                                                </tr>
+                                            }
 
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-
         <div class="col-sm-4">
             <div class="row">
                 <div class="col-sm-12">

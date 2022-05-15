@@ -713,26 +713,28 @@ namespace GazeteKapiMVC5Core.Controllers
 
                 if (getSeoIfExists == null)
                 {
-                    
+
                     SeoScoreCreateViewModel newModel = new SeoScoreCreateViewModel();
                     string code = RandomStringForUniqueCode(20);
                     newModel.NewsId = id;
 
-                    int resultId = Convert.ToInt32(await _seoService.CreateSeoScore(_mapper.Map<SeoScoreCreateViewModel, SeoScoreDto>(newModel),code));
+                    int resultId = Convert.ToInt32(await _seoService.CreateSeoScore(_mapper.Map<SeoScoreCreateViewModel, SeoScoreDto>(newModel), code));
 
                     if (resultId > 0 && resultId != -1)
                     {
                         var getSeo = _mapper.Map<SeoScoreDto, SeoScoreBaseViewModel>(_seoService.GetSeoScoreByNewsId(news.Id));
 
                         #region Seo Meta Create
-                       
+
                         await _seoService.CreateSeoMetaToSeoScore(getSeo.Id);
-                       
+                        //_seoService.UpdateSeoScoreAfterCreateTask(getSeo.Id);
+                        // Bu mesele çok önemli. IsCreated false'a çevrilmeli
                         #endregion
 
                         LevelAnalyze(getSeo.Id);
                         ViewBag.SeoScore = getSeo;
-                        
+
+                        AnalyzePostToSeoAsync (news.Id, news.MetaTitle, news.Image, news.Spot, news.Tag);
                     }
                 }
 
@@ -740,8 +742,28 @@ namespace GazeteKapiMVC5Core.Controllers
                 {
 
                     #region Seo Meta Create
-                    //var listSeoMetas = 
-                    await _seoService.CreateSeoMetaToSeoScore(getSeoIfExists.Id);
+
+                    var listSeoMetas = _mapper.Map<List<SeoMetaListItemDto>, List<SeoMetaListViewModel>>(_seoService.listSeoMetasBySeoScoreId(getSeoIfExists.Id));
+
+                    if (listSeoMetas.Count == 0 && listSeoMetas.Where(x => x.IsDone == true).ToList().Count == 0)
+                    {
+                        if (getSeoIfExists.IsFinished == false && getSeoIfExists.IsCreated == true)
+                        {
+                            await _seoService.CreateSeoMetaToSeoScore(getSeoIfExists.Id);
+                           AnalyzePostToSeoAsync(news.Id, news.MetaTitle, news.Image, news.Spot, news.Tag);
+                            //_seoService.UpdateSeoScoreAfterCreateTask(getSeoIfExists.Id);
+                            // Bu mesele çok önemli. IsCreated false'a çevrilmeli
+                        }
+                    }
+                    else
+                    {
+                        ViewBag.listSeoMeta = listSeoMetas;
+                        AnalyzePostToSeoAsync(news.Id, news.MetaTitle, news.Image, news.Spot, news.Tag);
+                    }
+
+                    #endregion
+
+                    #region Seo Score & Meta Update After Insert
 
                     #endregion
 
@@ -1165,25 +1187,28 @@ namespace GazeteKapiMVC5Core.Controllers
             switch (levelCase)
             {
                 case 0:
-                    ViewData["scoreNote"] = "Skor Yok";
+                    ViewData["scoreNote"] = ScoreAnalyze(getSeoIfExists.Id);
                     break;
-
                 case 1:
-                    ViewData["scoreNote"] = "Kötü";
+                    ViewData["scoreNote"] = ScoreAnalyze(getSeoIfExists.Id);
+                    ViewData["progress-color"] = "#ea553d";
                     ViewData["bg"] = "text-danger";
                     break;
 
                 case 2:
-                    ViewData["scoreNote"] = "Ortalama";
+                    ViewData["scoreNote"] = ScoreAnalyze(getSeoIfExists.Id);
+                    ViewData["progress-color"] = "#fb8c00";
                     ViewData["bg"] = "text-warning";
                     break;
 
                 case 3:
-                    ViewData["scoreNote"] = "İyi";
+                    ViewData["scoreNote"] = ScoreAnalyze(getSeoIfExists.Id);
+                    ViewData["progress-color"] = "#67a8e4";
                     ViewData["bg"] = "text-primary";
                     break;
                 case 4:
-                    ViewData["scoreNote"] = "Çok İyi";
+                    ViewData["scoreNote"] = ScoreAnalyze(getSeoIfExists.Id);
+                    ViewData["progress-color"] = "#4ac18e";
                     ViewData["bg"] = "text-success";
                     break;
 
@@ -1201,6 +1226,77 @@ namespace GazeteKapiMVC5Core.Controllers
               .Select(s => s[random.Next(s.Length)]).ToArray());
         }
 
+        public void AnalyzePostToSeoAsync(int newsId, string metaTitle, string image, string metaDescription, string tags)
+        {
+
+            #region fields
+
+            //var news = _mapper.Map<NewsDto, NewsEditViewModel>(_newService.getNews(newsId));
+
+            var seoScoreByNewsId = _mapper.Map<SeoScoreDto, SeoScoreBaseViewModel>(_seoService.GetSeoScoreByNewsId(newsId));
+
+            var listSeoMetas = _mapper.Map<List<SeoMetaListItemDto>, List<SeoMetaListViewModel>>(_seoService.listSeoMetasBySeoScoreId(seoScoreByNewsId.Id));
+
+            #endregion
+
+            #region Title
+
+            #region Başlık Var Mı?
+
+            if (metaTitle != null || metaTitle == "")
+            {
+                foreach (var item in listSeoMetas)
+                {
+                    if (item.metaCode.Contains("b-3"))
+                    {
+                        if (_seoService.SeoMetaIsDone(item.Id) != null)
+                        {
+                            _seoService.IncreaseSeoScore(item.SeoScoreId, item.Point);
+                            break;
+                        }
+                    }
+                }
+
+                //update           
+            }
+
+            #endregion
+
+            //lenghti yazacağız
+            //int lengthTitle = Convert.ToInt32(metaTitle.Length);
+
+            #endregion
+        }
+
+
+        public string ScoreAnalyze(int seoScoreId)
+        {
+            var getSeoIfExists = _mapper.Map<SeoScoreDto, SeoScoreBaseViewModel>(_seoService.GetSeoScore(seoScoreId));
+            if (getSeoIfExists.Amount == 0)
+            {
+                return "Skor Yok";
+            }
+            else if (getSeoIfExists.Amount >= 1 && getSeoIfExists.Amount <= 34)
+            {
+                return "Kötü";
+            }
+            else if (getSeoIfExists.Amount > 34 && getSeoIfExists.Amount <= 60)
+            {
+                return "Ortalama";
+            }
+            else if (getSeoIfExists.Amount > 60 && getSeoIfExists.Amount <= 85)
+            {
+                return "İyi";
+            }
+            else if (getSeoIfExists.Amount > 85 && getSeoIfExists.Amount <= 9)
+            {
+                return "Çok İyi";
+            }
+            else
+            {
+                return "Hata";
+            }
+        }
         #endregion
     }
 }

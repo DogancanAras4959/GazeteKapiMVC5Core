@@ -18,7 +18,7 @@ namespace GazeteKapiMVC5Core.Profiles
             CreateMap<SeoScoreCreateViewModel, SeoScoreDto>();
             CreateMap<SeoScoreEditViewModel, SeoScoreDto>();
             CreateMap<SeoScoreDto, SeoScoreEditViewModel>();
-
+            CreateMap<SeoMetaListItemDto,SeoMetaListViewModel>();
             CreateMap<SeoMetaCreateViewModel, SeoMetaDto>();
         }
     }

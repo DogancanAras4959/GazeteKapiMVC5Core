@@ -11,6 +11,8 @@ namespace CORE.ApplicationCommon.DTOS.SeoDTO
         public int Amount { get; set; }
         public int Level { get; set; }
         public int NewsId { get; set; }
+        public bool IsCreated { get; set; }
+        public bool IsFinished { get; set; }
 
     }
 }

@@ -12,7 +12,10 @@ namespace GazeteKapiMVC5Core.Models.Seo.SeoScore
         public string Note { get; set; }
         public int Amount { get; set; }
         public int Level { get; set; }
+        public bool IsFinished { get; set; }
         public string UniqueCode { get; set; }
+        public bool IsCreated { get; set; }
+
         public GazeteKapiMVC5Core.DataAccessLayer.Models.News newsToSeo { get; set; }
     
     }

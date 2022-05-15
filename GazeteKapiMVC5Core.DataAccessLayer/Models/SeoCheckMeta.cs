@@ -17,6 +17,7 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Models
         public string Requirement { get; set; }
         public int Point { get; set; }
         public bool IsDone { get; set; }
+        public string metaCode { get; set; }
 
         [ForeignKey("seoScoreToMeta")]
         public int SeoScoreId { get; set; }
