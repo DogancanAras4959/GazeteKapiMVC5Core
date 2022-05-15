@@ -15,8 +15,12 @@ namespace SERVICE.Engine.Interfaces
         SeoScoreDto GetSeoScore(int Id);
         Task CreateSeoMetaToSeoScore(int seoScoreId);
         List<SeoMetaListItemDto> listSeoMetasBySeoScoreId(int seoScoreId);
+        List<SeoMetaListItemDto> listSeoMetasBySeoScoreIdByAnalyze(int seoScoreId);
+
         bool UpdateSeoScoreAfterCreateTask(int Id);
         SeoCheckMeta SeoMetaIsDone(int Id);
+        SeoCheckMeta SeoMetaIsNotDone(int Id);
+        SeoScore DownPointSeoScore(int SeoScoreId, int point);
         SeoScore IncreaseSeoScore(int seoScoreId, int point);
     }
 }

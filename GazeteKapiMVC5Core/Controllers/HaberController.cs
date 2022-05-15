@@ -709,14 +709,14 @@ namespace GazeteKapiMVC5Core.Controllers
 
                 #region SEO Create or Updates
 
-                var getSeoIfExists = _mapper.Map<SeoScoreDto, SeoScoreBaseViewModel>(_seoService.GetSeoScoreByNewsId(news.Id));
+                var getSeoIfExists = _mapper.Map<SeoScoreDto, SeoScoreBaseViewModel>(_seoService.GetSeoScoreByNewsId(id));
 
                 if (getSeoIfExists == null)
                 {
 
                     SeoScoreCreateViewModel newModel = new SeoScoreCreateViewModel();
                     string code = RandomStringForUniqueCode(20);
-                    newModel.NewsId = id;
+                    newModel.NewsId = news.Id;
 
                     int resultId = Convert.ToInt32(await _seoService.CreateSeoScore(_mapper.Map<SeoScoreCreateViewModel, SeoScoreDto>(newModel), code));
 
@@ -734,7 +734,26 @@ namespace GazeteKapiMVC5Core.Controllers
                         LevelAnalyze(getSeo.Id);
                         ViewBag.SeoScore = getSeo;
 
-                        AnalyzePostToSeoAsync (news.Id, news.MetaTitle, news.Image, news.Spot, news.Tag);
+                        #region Seo Meta Create
+
+                        var listSeoMetas = _mapper.Map<List<SeoMetaListItemDto>, List<SeoMetaListViewModel>>(_seoService.listSeoMetasBySeoScoreId(getSeo.Id));
+
+                        if (listSeoMetas.Count == 0 && listSeoMetas.Where(x => x.IsDone == true).ToList().Count == 0)
+                        {
+                            if (getSeoIfExists.IsFinished == false && getSeoIfExists.IsCreated == true)
+                            {
+                                await _seoService.CreateSeoMetaToSeoScore(getSeoIfExists.Id);
+                                //_seoService.UpdateSeoScoreAfterCreateTask(getSeoIfExists.Id);
+                                // Bu mesele çok önemli. IsCreated false'a çevrilmeli
+                            }
+                        }
+                        else
+                        {
+                            ViewBag.listSeoMeta = listSeoMetas;
+                        }
+
+                        #endregion
+
                     }
                 }
 
@@ -750,7 +769,6 @@ namespace GazeteKapiMVC5Core.Controllers
                         if (getSeoIfExists.IsFinished == false && getSeoIfExists.IsCreated == true)
                         {
                             await _seoService.CreateSeoMetaToSeoScore(getSeoIfExists.Id);
-                           AnalyzePostToSeoAsync(news.Id, news.MetaTitle, news.Image, news.Spot, news.Tag);
                             //_seoService.UpdateSeoScoreAfterCreateTask(getSeoIfExists.Id);
                             // Bu mesele çok önemli. IsCreated false'a çevrilmeli
                         }
@@ -758,7 +776,6 @@ namespace GazeteKapiMVC5Core.Controllers
                     else
                     {
                         ViewBag.listSeoMeta = listSeoMetas;
-                        AnalyzePostToSeoAsync(news.Id, news.MetaTitle, news.Image, news.Spot, news.Tag);
                     }
 
                     #endregion
@@ -1166,6 +1183,13 @@ namespace GazeteKapiMVC5Core.Controllers
 
         #region Extend Methods
 
+        public IActionResult RefreshSeoScore(int Id)
+        {
+            var news = _mapper.Map<NewsDto, NewsEditViewModel>(_newService.getNews(Id));
+            AnalyzePostToSeoAsync(news);
+            return RedirectToAction("HaberDuzenle", "Haber", new { Id = news.Id, durum = "" });
+        }
+
         public void LoadData()
         {
             var publishTypeList = _mapper.Map<List<PublishTypeListItem>, List<PublishTypeListViewModel>>(_newService.publishTypeList());
@@ -1177,6 +1201,201 @@ namespace GazeteKapiMVC5Core.Controllers
             var guestList = _mapper.Map<List<GuestListItemDto>, List<GuestListViewModel>>(_newService.guestList());
             ViewBag.Guests = new SelectList(guestList, "Id", "GuestName");
         }
+
+        private static Random random = new Random();
+        public static string RandomStringForUniqueCode(int length)
+        {
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            return new string(Enumerable.Repeat(chars, length)
+              .Select(s => s[random.Next(s.Length)]).ToArray());
+        }
+
+        public void AnalyzePostToSeoAsync(NewsEditViewModel model)
+        {
+
+            #region fields
+
+            var seoScoreByNewsId = _mapper.Map<SeoScoreDto, SeoScoreBaseViewModel>(_seoService.GetSeoScoreByNewsId(model.Id));
+
+            var listSeoMetas = _mapper.Map<List<SeoMetaListItemDto>, List<SeoMetaListViewModel>>(_seoService.listSeoMetasBySeoScoreIdByAnalyze(seoScoreByNewsId.Id));
+
+            List<SeoMetaListViewModel> newList = new List<SeoMetaListViewModel>();
+
+            var tags = _mapper.Map<List<TagNewsListItemDto>, List<TagNewsListViewModel>>(_newService.tagsListWithNewsByNewsId(model.Id));
+
+            #endregion
+
+            int count = 0;
+            int point = 0;
+
+            foreach (var item in listSeoMetas)
+            {
+
+                count += 1;
+
+                if (item.metaCode.Contains("b-3") && item.IsDone == false)
+                {
+                    if (model.MetaTitle != null || model.MetaTitle == "")
+                        newList.Add(item);              
+                }
+
+                if (item.metaCode.Contains("b-1") && item.IsDone == false)
+                {
+                    if (model.MetaTitle != null || model.MetaTitle == "")
+                    {
+                        int lengthOfTitle = model.Title.Length;
+                        bool isRight = (lengthOfTitle < 35) ? false :
+                            (lengthOfTitle > 65) ? false :
+                            (lengthOfTitle > 35 && lengthOfTitle < 65) ? true :
+                            (lengthOfTitle == 0) ? false : false;
+
+                        if (isRight)
+                            newList.Add(item);
+                    }
+                   
+                }
+
+                if (item.metaCode.Contains("i-2") && item.IsDone == false)
+                {
+                    if (model.Image != null || model.Image == "")
+                        newList.Add(item);
+                }
+
+                if (item.metaCode.Contains("d-3") && item.IsDone == false)
+                {
+                    if (model.Spot != null || model.Spot == "")
+                        newList.Add(item);
+                }
+
+                if (item.metaCode.Contains("d-1") && item.IsDone == false)
+                {
+                    int lengthOfTitle = model.Spot.Length;
+                    bool isRight = (lengthOfTitle < 120) ? false :
+                        (lengthOfTitle > 160) ? false :
+                        (lengthOfTitle > 120 && lengthOfTitle < 160) ? true :
+                        (lengthOfTitle == 0) ? false : false;
+
+                    if (isRight)
+                        newList.Add(item);
+                }
+
+                if (item.metaCode.Contains("i-1") && item.IsDone == false)
+                {
+                    if (model.Image != null || model.Image == "")
+                    {
+                        string extension = Path.GetExtension(model.Image);
+                        bool isRight = extension != ".gif" ? true : false;
+
+                        if (isRight)
+                            newList.Add(item);
+                    }
+                }
+
+                if (item.metaCode.Contains("k-1") && item.IsDone == false)
+                {
+
+                    int countTags = tags.Count();
+
+                    bool isRight = countTags < 5 ? false :
+                                   countTags > 8 ? false :
+                                   countTags >= 5 && countTags <= 8 ? true : false;
+
+                    if (isRight)
+                        newList.Add(item);
+                }
+
+                if (item.metaCode.Contains("d-2") && item.IsDone == false)
+                {
+                    if (model.Spot != null || model.Spot == "")
+                    {
+                        int tagCount = 0;
+                        foreach (var tagItem in tags)
+                        {
+                            if (model.Spot.Contains(tagItem.tag.TagName))
+                            {
+                                tagCount++;
+                            }
+                            bool isRight = tagCount > 0 ? true :
+                                           tagCount == 0 ? false : false;
+
+                            if (isRight)
+                                newList.Add(item);
+                        }
+                    }
+                     
+                }
+
+                if (item.metaCode.Contains("d-1") && item.IsDone == false)
+                {
+                    if (model.MetaTitle != null || model.MetaTitle == "")
+                    {
+                        int tagCount = 0;
+                        foreach (var tagItem in tags)
+                        {
+                            if (model.MetaTitle.Contains(tagItem.tag.TagName))
+                            {
+                                tagCount++;
+                            }
+
+                            bool isRight = tagCount > 0 ? true :
+                                           tagCount == 0 ? false : false;
+
+                            if (isRight)
+                                newList.Add(item);
+                        }
+                    }
+                }
+
+                if (count == 10)
+                {
+                    point += ChangeSeoMetaStatus(newList);
+                    _seoService.IncreaseSeoScore(seoScoreByNewsId.Id, point);
+                }
+            }
+
+        }
+
+        private int ChangeSeoMetaStatus(List<SeoMetaListViewModel> newList)
+        {
+            int point = 0;
+            foreach (var item in newList)
+            {
+                _seoService.SeoMetaIsDone(item.Id);
+                point += item.Point;
+            }
+
+            return point;
+        }
+
+        public string ScoreAnalyze(int seoScoreId)
+        {
+            var getSeoIfExists = _mapper.Map<SeoScoreDto, SeoScoreBaseViewModel>(_seoService.GetSeoScore(seoScoreId));
+            if (getSeoIfExists.Amount == 0)
+            {
+                return "Skor Yok";
+            }
+            else if (getSeoIfExists.Amount >= 1 && getSeoIfExists.Amount <= 34)
+            {
+                return "Kötü";
+            }
+            else if (getSeoIfExists.Amount > 34 && getSeoIfExists.Amount <= 60)
+            {
+                return "Ortalama";
+            }
+            else if (getSeoIfExists.Amount > 60 && getSeoIfExists.Amount <= 85)
+            {
+                return "İyi";
+            }
+            else if (getSeoIfExists.Amount > 85 && getSeoIfExists.Amount <= 9)
+            {
+                return "Çok İyi";
+            }
+            else
+            {
+                return "Hata";
+            }
+        }
+
         private void LevelAnalyze(int Id)
         {
 
@@ -1218,85 +1437,7 @@ namespace GazeteKapiMVC5Core.Controllers
             }
         }
 
-        private static Random random = new Random();
-        public static string RandomStringForUniqueCode(int length)
-        {
-            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-            return new string(Enumerable.Repeat(chars, length)
-              .Select(s => s[random.Next(s.Length)]).ToArray());
-        }
-
-        public void AnalyzePostToSeoAsync(int newsId, string metaTitle, string image, string metaDescription, string tags)
-        {
-
-            #region fields
-
-            //var news = _mapper.Map<NewsDto, NewsEditViewModel>(_newService.getNews(newsId));
-
-            var seoScoreByNewsId = _mapper.Map<SeoScoreDto, SeoScoreBaseViewModel>(_seoService.GetSeoScoreByNewsId(newsId));
-
-            var listSeoMetas = _mapper.Map<List<SeoMetaListItemDto>, List<SeoMetaListViewModel>>(_seoService.listSeoMetasBySeoScoreId(seoScoreByNewsId.Id));
-
-            #endregion
-
-            #region Title
-
-            #region Başlık Var Mı?
-
-            if (metaTitle != null || metaTitle == "")
-            {
-                foreach (var item in listSeoMetas)
-                {
-                    if (item.metaCode.Contains("b-3"))
-                    {
-                        if (_seoService.SeoMetaIsDone(item.Id) != null)
-                        {
-                            _seoService.IncreaseSeoScore(item.SeoScoreId, item.Point);
-                            break;
-                        }
-                    }
-                }
-
-                //update           
-            }
-
-            #endregion
-
-            //lenghti yazacağız
-            //int lengthTitle = Convert.ToInt32(metaTitle.Length);
-
-            #endregion
-        }
-
-
-        public string ScoreAnalyze(int seoScoreId)
-        {
-            var getSeoIfExists = _mapper.Map<SeoScoreDto, SeoScoreBaseViewModel>(_seoService.GetSeoScore(seoScoreId));
-            if (getSeoIfExists.Amount == 0)
-            {
-                return "Skor Yok";
-            }
-            else if (getSeoIfExists.Amount >= 1 && getSeoIfExists.Amount <= 34)
-            {
-                return "Kötü";
-            }
-            else if (getSeoIfExists.Amount > 34 && getSeoIfExists.Amount <= 60)
-            {
-                return "Ortalama";
-            }
-            else if (getSeoIfExists.Amount > 60 && getSeoIfExists.Amount <= 85)
-            {
-                return "İyi";
-            }
-            else if (getSeoIfExists.Amount > 85 && getSeoIfExists.Amount <= 9)
-            {
-                return "Çok İyi";
-            }
-            else
-            {
-                return "Hata";
-            }
-        }
         #endregion
     }
 }
+

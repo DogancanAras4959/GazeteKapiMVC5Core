@@ -117,16 +117,16 @@ namespace SERVICE.Engine.Engines
         {
             List<SeoCheckMeta> items = new List<SeoCheckMeta>();
 
-            SeoCheckMeta item1 = new SeoCheckMeta { Point = 15, Requirement = "Haber ana başlığınız 35-65 karakter arasında olmalıdır", TypeLevel = "High", SeoScoreId = seoScoreId, IsDone = false, metaCode ="b-1" };
-            SeoCheckMeta item2 = new SeoCheckMeta { Point = 10, Requirement = "Haberinizde 5-8 arası anahtar kelime bulunmalıdır", TypeLevel = "High", SeoScoreId = seoScoreId, IsDone = false, metaCode="k-1" };
-            SeoCheckMeta item3 = new SeoCheckMeta { Point = 12, Requirement = "GIF formatında fotoğraf eklemekten kaçının", TypeLevel = "Middle", SeoScoreId = seoScoreId, IsDone = false, metaCode="i-1" };
-            SeoCheckMeta item4 = new SeoCheckMeta { Point = 10, Requirement = "Haberinizin açıklama boyutu 120-320 karakter arası olmalıdır", TypeLevel = "Middle", SeoScoreId = seoScoreId, IsDone = false, metaCode="d-1" };
-            SeoCheckMeta item5 = new SeoCheckMeta { Point = 10, Requirement = "Haber başlığınızda anahtar kelimelerden en az biri geçmeli", TypeLevel = "Middle", SeoScoreId = seoScoreId, IsDone = false, metaCode="b-2" };
-            SeoCheckMeta item6 = new SeoCheckMeta { Point = 3, Requirement = "Haber açıklamanızda anahtar kelimelerden en az biri geçmeli", TypeLevel = "Easy", SeoScoreId = seoScoreId, IsDone = false, metaCode="d-2" };
-            SeoCheckMeta item7 = new SeoCheckMeta { Point = 7, Requirement = "Haberiniz için Ana Başlık giriniz", TypeLevel = "Easy", SeoScoreId = seoScoreId, IsDone = false, metaCode="b-3" };
-            SeoCheckMeta item8 = new SeoCheckMeta { Point = 9, Requirement = "Haberiniz için meta açıklaması giriniz", TypeLevel = "Easy", SeoScoreId = seoScoreId, IsDone = false, metaCode="d-3" };
-            SeoCheckMeta item9 = new SeoCheckMeta { Point = 10, Requirement = "Haberiniz için bir fotoğraf yükleyin", TypeLevel = "Middle", SeoScoreId = seoScoreId, IsDone = false, metaCode="i-2" };
-            SeoCheckMeta item10 = new SeoCheckMeta { Point = 14, Requirement = "Haberiniz için özgün anahtar kelimeler giriniz", TypeLevel = "High", SeoScoreId = seoScoreId, IsDone = false, metaCode="k-2" };
+            SeoCheckMeta item1 = new SeoCheckMeta { Point = 15, Requirement = "Haber meta başlığınız 35-65 karakter arasında olmalıdır", TypeLevel = "High", SeoScoreId = seoScoreId, IsDone = false, metaCode = "b-1" };
+            SeoCheckMeta item2 = new SeoCheckMeta { Point = 10, Requirement = "Haberinizde 5-8 arası anahtar kelime bulunmalıdır", TypeLevel = "High", SeoScoreId = seoScoreId, IsDone = false, metaCode = "k-1" };
+            SeoCheckMeta item3 = new SeoCheckMeta { Point = 12, Requirement = "GIF formatında fotoğraf eklemekten kaçının", TypeLevel = "Middle", SeoScoreId = seoScoreId, IsDone = false, metaCode = "i-1" };
+            SeoCheckMeta item4 = new SeoCheckMeta { Point = 10, Requirement = "Haberinizin meta açıklama boyutu 120-160 karakter arası olmalıdır", TypeLevel = "Middle", SeoScoreId = seoScoreId, IsDone = false, metaCode = "d-1" };
+            SeoCheckMeta item5 = new SeoCheckMeta { Point = 10, Requirement = "Haber meta başlığınızda anahtar kelimelerden en az biri geçmeli", TypeLevel = "Middle", SeoScoreId = seoScoreId, IsDone = false, metaCode = "b-2" };
+            SeoCheckMeta item6 = new SeoCheckMeta { Point = 3, Requirement = "Haber meta açıklamanızda anahtar kelimelerden en az biri geçmeli", TypeLevel = "Easy", SeoScoreId = seoScoreId, IsDone = false, metaCode = "d-2" };
+            SeoCheckMeta item7 = new SeoCheckMeta { Point = 7, Requirement = "Haberiniz için meta başlık giriniz", TypeLevel = "Easy", SeoScoreId = seoScoreId, IsDone = false, metaCode = "b-3" };
+            SeoCheckMeta item8 = new SeoCheckMeta { Point = 9, Requirement = "Haberiniz için meta açıklaması giriniz", TypeLevel = "Easy", SeoScoreId = seoScoreId, IsDone = false, metaCode = "d-3" };
+            SeoCheckMeta item9 = new SeoCheckMeta { Point = 10, Requirement = "Haberiniz için bir fotoğraf yükleyin", TypeLevel = "Middle", SeoScoreId = seoScoreId, IsDone = false, metaCode = "i-2" };
+            SeoCheckMeta item10 = new SeoCheckMeta { Point = 14, Requirement = "Haberiniz için özgün anahtar kelimeler giriniz", TypeLevel = "High", SeoScoreId = seoScoreId, IsDone = false, metaCode = "k-2" };
 
             items.Add(item1);
             items.Add(item2);
@@ -168,17 +168,44 @@ namespace SERVICE.Engine.Engines
             }
         }
 
+        public List<SeoMetaListItemDto> listSeoMetasBySeoScoreIdByAnalyze(int seoScoreId)
+        {
+            IEnumerable<SeoCheckMeta> newsList = _unitOfWork.GetRepository<SeoCheckMeta>().Filter(x => x.SeoScoreId == seoScoreId, x => x.OrderByDescending(y => y.Point), "seoScoreToMeta", null, null);
+
+            if (newsList != null)
+            {
+                return newsList.Select(x => new SeoMetaListItemDto
+                {
+
+                    Id = x.Id,
+                    Requirement = x.Requirement,
+                    Point = x.Point,
+                    TypeLevel = x.TypeLevel,
+                    IsDone = x.IsDone,
+                    SeoScoreId = x.SeoScoreId,
+                    seoScore = x.seoScoreToMeta,
+                    metaCode = x.metaCode,
+
+                }).ToList();
+            }
+            else
+            {
+                return null;
+            }
+        }
+
         public bool UpdateSeoScoreAfterCreateTask(int Id)
         {
-            SeoScore getSeoScore =  _unitOfWork.GetRepository<SeoScore>().FindAsync(x => x.Id == Id).Result;
+            SeoScore getSeoScore = _unitOfWork.GetRepository<SeoScore>().FindAsync(x => x.Id == Id).Result;
             getSeoScore.IsCreated = false;
-            
-            SeoScore model =  _unitOfWork.GetRepository<SeoScore>().UpdateAsync(getSeoScore).Result;
+
+            SeoScore model = _unitOfWork.GetRepository<SeoScore>().UpdateAsync(getSeoScore).Result;
             return model != null;
         }
 
         public SeoCheckMeta SeoMetaIsDone(int Id)
         {
+
             SeoCheckMeta getSeoMeta = _unitOfWork.GetRepository<SeoCheckMeta>().FindAsync(x => x.Id == Id).Result;
 
             SeoCheckMeta checkMeta = _unitOfWork.GetRepository<SeoCheckMeta>().UpdateAsync(new SeoCheckMeta
@@ -194,7 +221,8 @@ namespace SERVICE.Engine.Engines
 
             }).Result;
 
-            return checkMeta;
+            return getSeoMeta;
+
         }
 
         public SeoScore IncreaseSeoScore(int seoScoreId, int point)
@@ -224,8 +252,65 @@ namespace SERVICE.Engine.Engines
             }
 
             return _unitOfWork.GetRepository<SeoScore>().UpdateAsync(getSeoScore).Result;
-           
+
         }
 
+        public SeoCheckMeta SeoMetaIsNotDone(int Id)
+        {
+            SeoCheckMeta getSeoMeta = _unitOfWork.GetRepository<SeoCheckMeta>().FindAsync(x => x.Id == Id).Result;
+
+            SeoCheckMeta checkMeta = _unitOfWork.GetRepository<SeoCheckMeta>().UpdateAsync(new SeoCheckMeta
+            {
+                Id = getSeoMeta.Id,
+                metaCode = getSeoMeta.metaCode,
+                SeoScoreId = getSeoMeta.SeoScoreId,
+                Point = getSeoMeta.Point,
+                Requirement = getSeoMeta.Requirement,
+                TypeLevel = getSeoMeta.TypeLevel,
+                IsDone = false,
+                seoScoreToMeta = getSeoMeta.seoScoreToMeta,
+
+            }).Result;
+
+            return checkMeta;
+        }
+
+        public SeoScore DownPointSeoScore(int SeoScoreId, int point)
+        {
+            var getSeoScore = _unitOfWork.GetRepository<SeoScore>().FindAsync(x => x.Id == SeoScoreId).Result;
+
+            if (getSeoScore.Amount != 0)
+            {
+                getSeoScore.Amount -= point;
+
+                if (getSeoScore.Amount < 0)
+                {
+                    getSeoScore.Amount = 0;
+                }
+            }
+
+            if (getSeoScore.Amount == 0)
+            {
+                getSeoScore.Level = 0;
+            }
+            else if (getSeoScore.Amount >= 1 && getSeoScore.Amount < 35)
+            {
+                getSeoScore.Level = 1;
+            }
+            else if (getSeoScore.Amount > 35 && getSeoScore.Amount < 60)
+            {
+                getSeoScore.Level = 2;
+            }
+            else if (getSeoScore.Amount > 60 && getSeoScore.Amount < 85)
+            {
+                getSeoScore.Level = 3;
+            }
+            else if (getSeoScore.Amount > 85 && getSeoScore.Amount <= 99)
+            {
+                getSeoScore.Level = 4;
+            }
+
+            return _unitOfWork.GetRepository<SeoScore>().UpdateAsync(getSeoScore).Result;
+        }
     }
 }
