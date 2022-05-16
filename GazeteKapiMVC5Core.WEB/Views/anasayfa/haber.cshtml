@@ -75,7 +75,20 @@
         color:#292d2f;
         font-size:15px;
     }
+    .frame {
+        position: relative;
+        width: 100%;
+        height: 0;
+        padding-bottom: 56.25%;
+    }
 
+    .video {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
 </style>
 
 <link href="https://uploads.gazetekapi.com/front/css/loading.css" rel="stylesheet" />
@@ -167,8 +180,8 @@
 
                     @if (Model.VideoSlug != null || Model.VideoSlug != "")
                     {
-                        <div class="ratio ratio-16x9">
-                            <iframe src="@Model.VideoSlug" frameborder="0"
+                        <div class="ratio ratio-16x9 frame" style="margin-top:15px;">
+                            <iframe src="@Model.VideoSlug" class="video" frameborder="0"
                                     allowfullscreen></iframe>
                         </div>
                     }

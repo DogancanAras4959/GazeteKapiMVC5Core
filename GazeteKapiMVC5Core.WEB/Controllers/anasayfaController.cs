@@ -240,6 +240,9 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
         }
         public IActionResult kategori(int? pageNumber, int Id)
         {
+            List<CategoryListViewModelWeb> categoryList = _mapper.Map<List<CategoryListItemDto>, List<CategoryListViewModelWeb>>(_categoryService.GetAllCategory());
+            ViewBag.CategoryList = categoryList;
+
             var category = _mapper.Map<CategoryDto, CategoryEditViewModelWeb>(_categoryService.GetCategoryById(Id));
 
             TempData["kategori"] = category.CategoryName;
@@ -297,6 +300,9 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
         {
             List<GuestListViewModelWeb> guestList = _mapper.Map<List<GuestListItemDto>, List<GuestListViewModelWeb>>(_newService.guestList());
 
+            List<CategoryListViewModelWeb> categoryList = _mapper.Map<List<CategoryListItemDto>, List<CategoryListViewModelWeb>>(_categoryService.GetAllCategory());
+            ViewBag.CategoryList = categoryList;
+
             #region Meta
 
             MetaViewModel meta = new MetaViewModel();
@@ -319,6 +325,9 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
         [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
         public IActionResult haber(int Id, string Title)
         {
+            List<CategoryListViewModelWeb> categoryList = _mapper.Map<List<CategoryListItemDto>, List<CategoryListViewModelWeb>>(_categoryService.GetAllCategory());
+            ViewBag.CategoryList = categoryList;
+
             var newsGet = _mapper.Map<NewsDto, NewsEditViewModelWeb>(_newService.getNews(Id));
             ViewBag.Content = HtmlToPlainText(newsGet.NewsContent);
 
@@ -393,6 +402,9 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
         }
         public IActionResult gizlilikpolitikasi()
         {
+            List<CategoryListViewModelWeb> categoryList = _mapper.Map<List<CategoryListItemDto>, List<CategoryListViewModelWeb>>(_categoryService.GetAllCategory());
+            ViewBag.CategoryList = categoryList;
+
             var getPrivacy = _mapper.Map<PrivacyDto, PrivacyBaseViewModel>(_settingService.getPrivacy(1));
 
             #region Meta
@@ -414,6 +426,9 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
         }   
         public IActionResult cerezpolitikasi()
         {
+            List<CategoryListViewModelWeb> categoryList = _mapper.Map<List<CategoryListItemDto>, List<CategoryListViewModelWeb>>(_categoryService.GetAllCategory());
+            ViewBag.CategoryList = categoryList;
+
             var getCookiesPolicy = _mapper.Map<CookiePolicyDto, CookieBaseViewModel>(_settingService.getCookiePrivacy(1));
 
             #region Meta
@@ -435,6 +450,9 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
         }
         public IActionResult kullanimsartlari()
         {
+            List<CategoryListViewModelWeb> categoryList = _mapper.Map<List<CategoryListItemDto>, List<CategoryListViewModelWeb>>(_categoryService.GetAllCategory());
+            ViewBag.CategoryList = categoryList;
+
             var getTermsOfUs = _mapper.Map<TermsOfUsDto, TermsOfUsBaseViewModel>(_settingService.getTermsOfUs(1));
 
             #region Meta
@@ -456,6 +474,10 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
         }
         public IActionResult kunye()
         {
+
+            List<CategoryListViewModelWeb> categoryList = _mapper.Map<List<CategoryListItemDto>, List<CategoryListViewModelWeb>>(_categoryService.GetAllCategory());
+            ViewBag.CategoryList = categoryList;
+
             var getBrand = _mapper.Map<BrandPolicyDto, BrandBaseViewModel>(_settingService.getBrandPrivacy(1));
 
             #region Meta
@@ -477,6 +499,9 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
         }
         public IActionResult yayinilkeleri()
         {
+            List<CategoryListViewModelWeb> categoryList = _mapper.Map<List<CategoryListItemDto>, List<CategoryListViewModelWeb>>(_categoryService.GetAllCategory());
+            ViewBag.CategoryList = categoryList;
+
             var getStreamPolicy = _mapper.Map<StreamPolicyDto, StreamBaseViewModel>(_settingService.getStreamPrivacy(2));
 
             #region Meta
@@ -498,6 +523,10 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
         }
         public IActionResult arsiv()
         {
+
+            List<CategoryListViewModelWeb> categoryList = _mapper.Map<List<CategoryListItemDto>, List<CategoryListViewModelWeb>>(_categoryService.GetAllCategory());
+            ViewBag.CategoryList = categoryList;
+
             #region Meta
 
             MetaViewModel meta = new MetaViewModel();
@@ -519,6 +548,8 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
         [Route("/anasayfa/hata/{code:int}")]
         public IActionResult hata(int code)
         {
+            List<CategoryListViewModelWeb> categoryList = _mapper.Map<List<CategoryListItemDto>, List<CategoryListViewModelWeb>>(_categoryService.GetAllCategory());
+            ViewBag.CategoryList = categoryList;
 
             MetaViewModel meta = new MetaViewModel();
             meta.Title = "Gazetekapı | Le Monde diplomatique Türkiye";

@@ -240,8 +240,8 @@
         left:30px;
     }
 
-    #footer-col-1 {
-        width: 0px !important;
+     #footer-col-1 {
+        width: 100% !important;
     }
 }
 

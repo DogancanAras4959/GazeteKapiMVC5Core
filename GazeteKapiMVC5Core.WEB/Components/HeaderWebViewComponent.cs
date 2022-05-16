@@ -33,6 +33,7 @@ namespace GazeteKapiMVC5Core.WEB.Components
         {
             List<CategoryListViewModelWeb> categoryList = _mapper.Map<List<CategoryListItemDto>, List<CategoryListViewModelWeb>>(_categoryService.GetAllCategory());
             ViewBag.CategoryList = categoryList;
+
             await GetCurrencyServiceAsync();
             var siteSetting = _mapper.Map<SettingsDto, SettingsBaseViewModelWeb>(_siteSetting.getSettings(1));
             return View(siteSetting);
