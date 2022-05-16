@@ -22,6 +22,7 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Models
         public string NewsContent { get; set; }
         public int Sorted { get; set; }
         public string Image { get; set; }
+        public string VideoSlug { get; set; }
         public DateTime? CreatedTime { get; set; }
         public DateTime? UpdatedTime { get; set; }
         public DateTime? PublishedTime { get; set; }

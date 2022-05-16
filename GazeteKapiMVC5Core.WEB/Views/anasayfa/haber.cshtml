@@ -165,7 +165,13 @@
                         </div>
                     }
 
-
+                    @if (Model.VideoSlug != null || Model.VideoSlug != "")
+                    {
+                        <div class="ratio ratio-16x9">
+                            <iframe src="@Model.VideoSlug" frameborder="0"
+                                    allowfullscreen></iframe>
+                        </div>
+                    }
                     <p @*id="contentnews"*@>
                         @Html.Raw(Model.NewsContent)
                     </p>

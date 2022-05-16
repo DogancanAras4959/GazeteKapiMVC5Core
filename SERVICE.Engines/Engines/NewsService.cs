@@ -401,6 +401,7 @@ namespace SERVICE.Engine.Engines
                     IsOpenNotifications = x.IsOpenNotifications,
                     IsLock = x.IsLock,
                     IsActive = x.IsActive,
+                    VideoSlug = x.VideoSlug,
                     Views = x.Views,
                     IsTitle = x.IsTitle,
                     UpdatedTime = x.UpdatedTime,
@@ -460,6 +461,7 @@ namespace SERVICE.Engine.Engines
                     IsActive = true,
                     RowNo = 0,
                     ColNo = 0,
+                    VideoSlug = model.VideoSlug,
                     IsLock = false,
                     IsCommentActive = model.IsCommentActive,
                     IsOpenNotifications = model.IsOpenNotifications,
@@ -501,6 +503,7 @@ namespace SERVICE.Engine.Engines
                     ColNo = getNews.ColNo,
                     IsSlide = getNews.IsSlide,
                     IsActive = getNews.IsActive,
+                    VideoSlug = getNews.VideoSlug,
                     IsLock = getNews.IsLock,
                     IsCommentActive = getNews.IsCommentActive,
                     IsOpenNotifications = getNews.IsOpenNotifications,
@@ -553,6 +556,7 @@ namespace SERVICE.Engine.Engines
                     Id = model.Id,
                     Image = model.Image,
                     Title = model.Title,
+                    VideoSlug = model.VideoSlug,
                     Spot = model.Spot,
                     NewsContent = model.NewsContent,
                     IsCommentActive = model.IsCommentActive,
@@ -667,6 +671,7 @@ namespace SERVICE.Engine.Engines
                     Id = x.Id,
                     Title = x.Title,
                     Spot = x.Spot,
+                    VideoSlug = x.VideoSlug,
                     Image = x.Image,
                     NewsContent = x.NewsContent,
                     IsSlide = x.IsSlide,
@@ -714,6 +719,8 @@ namespace SERVICE.Engine.Engines
                     Title = x.Title,
                     Spot = x.Spot,
                     RowNo = x.RowNo,
+                    VideoSlug = x.VideoSlug,
+
                     ColNo = x.ColNo,
                     Image = x.Image,
                     NewsContent = x.NewsContent,
@@ -759,6 +766,8 @@ namespace SERVICE.Engine.Engines
                     Spot = x.Spot,
                     RowNo = x.RowNo,
                     ColNo = x.ColNo,
+                    VideoSlug = x.VideoSlug,
+
                     IsTitle = x.IsTitle,
                     Image = x.Image,
                     NewsContent = x.NewsContent,
@@ -804,6 +813,8 @@ namespace SERVICE.Engine.Engines
                     IsTitle = x.IsTitle,
                     RowNo = x.RowNo,
                     ColNo = x.ColNo,
+                    VideoSlug = x.VideoSlug,
+
                     NewsContent = x.NewsContent,
                     IsSlide = x.IsSlide,
                     IsOpenNotifications = x.IsOpenNotifications,
@@ -867,6 +878,8 @@ namespace SERVICE.Engine.Engines
                     RowNo = x.RowNo,
                     ColNo = x.ColNo,
                     Image = x.Image,
+                    VideoSlug = x.VideoSlug,
+
                     NewsContent = x.NewsContent,
                     IsSlide = x.IsSlide,
                     IsTitle = x.IsTitle,
@@ -910,6 +923,8 @@ namespace SERVICE.Engine.Engines
                     Spot = x.Spot,
                     Image = x.Image,
                     RowNo = x.RowNo,
+                    VideoSlug = x.VideoSlug,
+
                     ColNo = x.ColNo,
                     NewsContent = x.NewsContent,
                     IsSlide = x.IsSlide,
@@ -956,6 +971,8 @@ namespace SERVICE.Engine.Engines
                     Image = x.Image,
                     RowNo = x.RowNo,
                     ColNo = x.ColNo,
+                    VideoSlug = x.VideoSlug,
+
                     NewsContent = x.NewsContent,
                     IsSlide = x.IsSlide,
                     IsOpenNotifications = x.IsOpenNotifications,
@@ -1001,6 +1018,8 @@ namespace SERVICE.Engine.Engines
                     Title = x.Title,
                     Spot = x.Spot,
                     Image = x.Image,
+                    VideoSlug = x.VideoSlug,
+
                     RowNo = x.RowNo,
                     ColNo = x.ColNo,
                     NewsContent = x.NewsContent,
@@ -1046,6 +1065,8 @@ namespace SERVICE.Engine.Engines
                     IsTitle = x.IsTitle,
                     RowNo = x.RowNo,
                     ColNo = x.ColNo,
+                    VideoSlug = x.VideoSlug,
+
                     Image = x.Image,
                     NewsContent = x.NewsContent,
                     IsSlide = x.IsSlide,
@@ -1086,6 +1107,8 @@ namespace SERVICE.Engine.Engines
                     Id = x.Id,
                     Title = x.Title,
                     Spot = x.Spot,
+                    VideoSlug = x.VideoSlug,
+
                     IsTitle = x.IsTitle,
                     RowNo = x.RowNo,
                     ColNo = x.ColNo,
@@ -1130,6 +1153,8 @@ namespace SERVICE.Engine.Engines
                     Title = x.Title,
                     Spot = x.Spot,
                     Image = x.Image,
+                    VideoSlug = x.VideoSlug,
+
                     RowNo = x.RowNo,
                     ColNo = x.ColNo,
                     NewsContent = x.NewsContent,
@@ -1171,6 +1196,8 @@ namespace SERVICE.Engine.Engines
                 {
                     Id = x.Id,
                     Title = x.Title,
+                    VideoSlug = x.VideoSlug,
+
                     Spot = x.Spot,
                     IsTitle = x.IsTitle,
                     RowNo = x.RowNo,
@@ -1220,6 +1247,8 @@ namespace SERVICE.Engine.Engines
                     Image = x.Image,
                     NewsContent = x.NewsContent,
                     IsSlide = x.IsSlide,
+                    VideoSlug = x.VideoSlug,
+
                     IsOpenNotifications = x.IsOpenNotifications,
                     IsLock = x.IsLock,
                     IsTitle = x.IsTitle,
@@ -1262,6 +1291,8 @@ namespace SERVICE.Engine.Engines
                     NewsContent = x.NewsContent,
                     IsSlide = x.IsSlide,
                     RowNo = x.RowNo,
+                    VideoSlug = x.VideoSlug,
+
                     ColNo = x.ColNo,
                     IsOpenNotifications = x.IsOpenNotifications,
                     IsLock = x.IsLock,
@@ -1304,6 +1335,8 @@ namespace SERVICE.Engine.Engines
                     Spot = x.Spot,
                     Image = x.Image,
                     IsTitle = x.IsTitle,
+                    VideoSlug = x.VideoSlug,
+
                     RowNo = x.RowNo,
                     ColNo = x.ColNo,
                     NewsContent = x.NewsContent,
@@ -1412,6 +1445,8 @@ namespace SERVICE.Engine.Engines
                     Image = x.Image,
                     IsTitle = x.IsTitle,
                     RowNo = x.RowNo,
+                    VideoSlug = x.VideoSlug,
+
                     ColNo = x.ColNo,
                     NewsContent = x.NewsContent,
                     IsSlide = x.IsSlide,

@@ -9,6 +9,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CORE.ApplicationCommon.DTOS.CategoryDTO.FooterTypeDTO;
+using CORE.ApplicationCommon.DTOS.CategoryDTO.StylePageDTO;
 
 namespace SERVICES.Engine.Engines
 {
@@ -41,6 +43,9 @@ namespace SERVICES.Engine.Engines
                 Description = model.Description,
                 CreatedTime = DateTime.Now,
                 UpdatedTime = DateTime.Now,
+                StyleId = model.StyleId,
+                TypeId = model.TypeId,
+                Sorted = model.Sorted,
                 UserId = model.UserId,
                 Position = model.Position,
                 Image = model.Image,
@@ -86,10 +91,40 @@ namespace SERVICES.Engine.Engines
                 IsActive = x.IsActive,
                 UpdatedTime = x.UpdatedTime,
                 CreatedTime = x.CreatedTime,
+                StyleId = x.StyleId,
+                Sorted = x.Sorted,
+                TypeId = x.TypeId,
                 Position = x.Position,
+                styles = x.stylePosts,
+                typeFooter = x.typeToCategories,
                 user = x.user,
                 Image = x.Image,
                 
+            }).ToList();
+        }
+
+        public List<FooterTypeListItemDto> GetAllFooterTypes()
+        {
+            IEnumerable<FooterType> footerTypes = _unitOfWork.GetRepository<FooterType>().Filter(null, x => x.OrderBy(y => y.Id), "", 1, 100);
+
+            return footerTypes.Select(x => new FooterTypeListItemDto
+            {
+                Id = x.Id,
+                IsActive = x.IsActive,
+                TypeName = x.TypeName,
+
+            }).ToList();
+        }
+
+        public List<StylePageListItemDto> GetAllStyleTypes()
+        {
+            IEnumerable<StylePosts> footerTypes = _unitOfWork.GetRepository<StylePosts>().Filter(null, x => x.OrderBy(y => y.Id), "", 1, 100);
+
+            return footerTypes.Select(x => new StylePageListItemDto
+            {
+                Id = x.Id,
+                isActive = x.IsActive,
+                StyleName = x.StyleName,
 
             }).ToList();
         }
@@ -113,9 +148,11 @@ namespace SERVICES.Engine.Engines
                 UpdatedTime = getCategory.UpdatedTime,
                 CreatedTime = getCategory.CreatedTime,
                 Image = getCategory.Image,
+                TypeId = getCategory.TypeId,
+                StyleId = getCategory.StyleId,
+                Sorted = getCategory.Sorted,
                 Position = getCategory.Position,
                 UserId = getCategory.UserId,
-                user = getCategory.user
             };
         }
 
@@ -136,6 +173,11 @@ namespace SERVICES.Engine.Engines
                 ParentCategoryId = getCategory.ParentCategoryId,
                 IsActive = getCategory.IsActive,
                 UpdatedTime = getCategory.UpdatedTime,
+                Sorted = getCategory.Sorted,
+                styles = getCategory.stylePosts,
+                StyleId = getCategory.StyleId,
+                typeFooter = getCategory.typeToCategories,
+                TypeId = getCategory.TypeId,
                 CreatedTime = getCategory.CreatedTime,
                 Image = getCategory.Image,
                 Position = getCategory.Position,
@@ -157,7 +199,12 @@ namespace SERVICES.Engine.Engines
                 IsActive = x.IsActive,
                 UpdatedTime = x.UpdatedTime,
                 CreatedTime = x.CreatedTime,
+                TypeId = x.TypeId,
+                Sorted = x.Sorted,
+                StyleId = x.StyleId,
                 user = x.user,
+                Position = x.Position,
+                Image = x.Image,
                 UserId = x.UserId,
 
             }).ToList();
@@ -184,8 +231,13 @@ namespace SERVICES.Engine.Engines
                 ParentCategoryId = model.ParentCategoryId,
                 IsActive = categoryGet.IsActive,
                 UpdatedTime = DateTime.Now,
+                TypeId = model.TypeId,
+                Sorted = categoryGet.Sorted,
+                StyleId = model.StyleId,
                 CreatedTime = categoryGet.CreatedTime,
                 user = categoryGet.user,
+                stylePosts = categoryGet.stylePosts,
+                typeToCategories = categoryGet.typeToCategories,
                 Position = model.Position,
                 Image = model.Image,
                 UserId = model.UserId,

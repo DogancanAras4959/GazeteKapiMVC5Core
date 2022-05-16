@@ -49,6 +49,18 @@
                         </select>
                     </div>
                     <div class="mb-3">
+                        <label for="example-text-input" class="col-sm-12 col-form-label">Footer Konum</label>
+                        <select asp-for="TypeId" asp-items="@ViewBag.FooterTypes" class="form-control">
+                            <option selected="selected" value="999">Lütfen bir konum seçiniz </option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="example-text-input" class="col-sm-12 col-form-label">Tasarım</label>
+                        <select asp-for="StyleId" asp-items="@ViewBag.StyleTypes" class="form-control">
+                            <option selected="selected" value="999">Lütfen bir stil seçiniz</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
                         <label for="example-text-input" class="col-sm-12 col-form-label">Pozisyon</label>
                         <select asp-for="Position" class="form-control">
                             <option selected="selected" value="0">Pozisyon Yok</option>

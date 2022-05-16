@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using CORE.ApplicationCommon.DTOS.AccountDTO;
 using CORE.ApplicationCommon.DTOS.CategoryDTO;
+using CORE.ApplicationCommon.DTOS.CategoryDTO.FooterTypeDTO;
+using CORE.ApplicationCommon.DTOS.CategoryDTO.StylePageDTO;
 using CORE.ApplicationCommon.DTOS.NewsDTO;
 using CORE.ApplicationCommon.DTOS.NewsDTO.GuestDTO;
 using CORE.ApplicationCommon.DTOS.NewsDTO.MediaDTO;
@@ -15,6 +17,8 @@ using GazeteKapiMVC5Core.Core.Extensions;
 using GazeteKapiMVC5Core.Core.Models.ConfigTTS;
 using GazeteKapiMVC5Core.Models.Account;
 using GazeteKapiMVC5Core.Models.Category;
+using GazeteKapiMVC5Core.Models.Category.FooterTypeModel;
+using GazeteKapiMVC5Core.Models.Category.StyleTypeModel;
 using GazeteKapiMVC5Core.Models.News.GuestModel;
 using GazeteKapiMVC5Core.Models.News.MediaModel;
 using GazeteKapiMVC5Core.Models.News.NewsModel;
@@ -91,6 +95,13 @@ namespace GazeteKapiMVC5Core.Controllers
             {
                 var list = _mapper.Map<List<CategoryListItemDto>, List<CategoryListViewModel>>(_categoryService.GetParentCategoryList());
                 ViewBag.CategoriesParent = new SelectList(list, "Id", "CategoryName");
+
+                var listStyleType = _mapper.Map<List<StylePageListItemDto>, List<StyleTypeListViewModel>>(_categoryService.GetAllStyleTypes());
+                ViewBag.StyleTypes = new SelectList(listStyleType, "Id", "styleName");
+
+                var listFooterType = _mapper.Map<List<FooterTypeListItemDto>, List<FooterTypeListViewModel>>(_categoryService.GetAllFooterTypes());
+                ViewBag.FooterTypes = new SelectList(listFooterType, "Id", "TypeName");
+
                 return View(new CategoryCreateViewModel());
             }
             catch (Exception ex)
@@ -117,12 +128,7 @@ namespace GazeteKapiMVC5Core.Controllers
                     {
                         if (file != null)
                         {
-                            //string uploadfilename = Path.GetFileNameWithoutExtension(file.FileName);
-                            //string extension = Path.GetExtension(file.FileName);
-                            //uploadfilename = uploadfilename + DateTime.Now.ToString("yymmssfff") + extension;
-                            //var path = Path.Combine(this._webHostEnvironment.WebRootPath, "Files", uploadfilename);
-                            //var stream = new FileStream(path, FileMode.Create);
-                            //await file.CopyToAsync(stream);
+                          
                             category.Image = SaveImageProcess.ImageInsert(file, "Admin");
                         }
                         else
@@ -185,7 +191,15 @@ namespace GazeteKapiMVC5Core.Controllers
             try
             {
                 var categories = _mapper.Map<CategoryDto, CategoryEditViewModel>(_categoryService.GetCategoryById(id));
+                
                 var list = _mapper.Map<List<CategoryListItemDto>, List<CategoryListViewModel>>(_categoryService.GetParentCategoryList());
+
+                var listStyleType = _mapper.Map<List<StylePageListItemDto>, List<StyleTypeListViewModel>>(_categoryService.GetAllStyleTypes());
+                ViewBag.StyleTypes = new SelectList(listStyleType, "Id", "styleName");
+
+                var listFooterType = _mapper.Map<List<FooterTypeListItemDto>, List<FooterTypeListViewModel>>(_categoryService.GetAllFooterTypes());
+                ViewBag.FooterTypes = new SelectList(listFooterType, "Id", "TypeName");
+
                 ViewBag.CategoriesParent = new SelectList(list, "Id", "CategoryName", categories.Id);
                 return View(categories);
             }

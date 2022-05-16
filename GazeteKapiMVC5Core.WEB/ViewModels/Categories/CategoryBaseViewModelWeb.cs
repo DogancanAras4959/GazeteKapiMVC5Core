@@ -16,7 +16,14 @@ namespace GazeteKapiMVC5Core.WEB.ViewModels.Categories
         public int Position { get; set; }
         public DateTime CreatedTime { get; set; }
         public DateTime UpdatedTime { get; set; }
+        
         public int UserId { get; set; }
         public Users user { get; set; }
+
+        public int TypeId { get; set; }
+        public FooterType type { get; set; }
+        
+        public int StyleId { get; set; }
+        public StylePosts styles { get; set; }
     }
 }

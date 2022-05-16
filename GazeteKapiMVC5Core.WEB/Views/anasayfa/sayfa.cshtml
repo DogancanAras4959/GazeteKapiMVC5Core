@@ -198,67 +198,162 @@
 
     @foreach (var item in categories.Where(x => x.CategoryName != "DÜNYA" && x.CategoryName != "KÜLTÜR / SANAT" && x.CategoryName != "GÜNDEM").ToList())
     {
-        <div class="container boxed">
-            <div class="wrapper__list__article">
-                <h4 class="border_section"></h4>
-            </div>
-            <div class="row" style="padding-bottom:5px;">
-                <div class="col-sm-12">
-                    <div class="rect-content-box-title">
-                        <span class="rect-title">@item.CategoryName.Substring(0, 1)</span>
-                    </div>
-                    <h3 class="content-box-title">@item.CategoryName</h3>
+        if (item.StyleId == 1)
+        {
+            <div class="container boxed">
+                <div class="wrapper__list__article">
+                    <h4 class="border_section"></h4>
                 </div>
-            </div>
-            <div class="row mb-2">
+                <div class="row" style="padding-bottom:5px;">
+                    <div class="col-sm-12">
+                        <div class="rect-content-box-title">
+                            <span class="rect-title">@item.CategoryName.Substring(0, 1)</span>
+                        </div>
+                        <h3 class="content-box-title">@item.CategoryName</h3>
+                    </div>
+                </div>
+                <div class="row mb-2">
 
-                @foreach (var item2 in haberlerManset.OrderByDescending(x => x.Id).Where(x => x.IsActive == true && x.IsLock == false && x.CategoryId == item.Id))
-                {
-
-                    if (item2.IsSlide == false)
+                    @foreach (var item2 in haberlerManset.OrderByDescending(x => x.Id).Where(x => x.IsActive == true && x.IsLock == false && x.CategoryId == item.Id))
                     {
 
-                        count++;
-                        <div class="col-sm-12 col-md-4 mb-2">
-                            <!-- Post Article -->
-                            <div class="card__post ">
-                                <div class="card__post__body">
-                                    <a href="@Url.Action("haber", "anasayfa", new { Id = item.Id, Title = item2.GenerateSlug() })">
-                                        <img src="https://uploads.gazetekapi.com/images/@item2.Image" class="img-fluid" title="@item2.Image" alt="@item2.Image" />
-                                    </a>
-                                    <div style="margin-top:15px;">
-                                        <h6>
-                                            @if (item2.Title.Length > 80)
-                                            {
-                                                <a id="btn-article" style="color:#515d5e;" href="@Url.Action("haber", "anasayfa", new { Id = item2.Id, Title = item2.GenerateSlug() })">
-                                                    @item2.Title.Substring(0, 80)<span>...</span>
-                                                </a>
-                                            }
-                                            else
-                                            {
-                                                <a id="btn-article" style="color:#515d5e;" href="@Url.Action("haber", "anasayfa", new { Id = item2.Id, Title = item2.GenerateSlug() })">
-                                                    @item2.Title
-                                                </a>
-                                            }
-
-                                        </h6>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-
-                        if (count == 6)
+                        if (item2.IsSlide == false)
                         {
-                            count = 0;
-                            break;
+
+                            count++;
+                            <div class="col-sm-12 col-md-4 mb-2">
+                                <!-- Post Article -->
+                                <div class="card__post ">
+                                    <div class="card__post__body">
+                                        <a href="@Url.Action("haber", "anasayfa", new { Id = item.Id, Title = item2.GenerateSlug() })">
+                                            <img src="https://uploads.gazetekapi.com/images/@item2.Image" class="img-fluid" title="@item2.Image" alt="@item2.Image" />
+                                        </a>
+                                        <div style="margin-top:15px;">
+                                            <h6>
+                                                @if (item2.Title.Length > 80)
+                                                {
+                                                    <a id="btn-article" style="color:#515d5e;" href="@Url.Action("haber", "anasayfa", new { Id = item2.Id, Title = item2.GenerateSlug() })">
+                                                        @item2.Title.Substring(0, 80)<span>...</span>
+                                                    </a>
+                                                }
+                                                else
+                                                {
+                                                    <a id="btn-article" style="color:#515d5e;" href="@Url.Action("haber", "anasayfa", new { Id = item2.Id, Title = item2.GenerateSlug() })">
+                                                        @item2.Title
+                                                    </a>
+                                                }
+
+                                            </h6>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            if (count == 6)
+                            {
+                                count = 0;
+                                break;
+                            }
                         }
+
                     }
 
-                }
-
+                </div>
             </div>
-        </div>
+        }
+
+        if (item.StyleId == 2)
+        {
+            <div class="container boxed">
+                <div class="wrapper__list__article">
+                    <h4 class="border_section">@item.CategoryName</h4>
+                    <div class="wrapp__list__article-responsive">
+
+                        @foreach (var item2 in haberlerManset.OrderByDescending(x => x.Id).Where(x => x.IsActive == true && x.IsLock == false && x.CategoryId == item.Id))
+                        {
+                            if (item2.IsSlide == false)
+                            {
+                                count++;
+                                <div class="card__post card__post-list card__post__transition mt-30">
+                                    <div class="row ">
+                                        <div class="col-md-5">
+                                            <div class="card__post__transition">
+                                                <a href="@Url.Action("haber", "anasayfa", new { Id = item.Id, Title = item2.GenerateSlug() })">
+                                                    <img src="https://uploads.gazetekapi.com/images/@item2.Image" class="img-fluid w-100" alt="">
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-7 my-auto pl-0">
+                                            <div class="card__post__body ">
+                                                <div class="card__post__content  ">
+                                                    <div class="card__post__category ">
+                                                        @item2.categories.CategoryName
+                                                    </div>
+                                                    <div class="card__post__author-info mb-2">
+                                                        <ul class="list-inline">
+
+                                                            <li class="list-inline-item">
+                                                                <span class="text-dark text-capitalize">
+                                                                    @item2.PublishedTime.Value.ToString("dd/MM/yyyy HH:mm")
+                                                                </span>
+                                                            </li>
+
+                                                        </ul>
+                                                    </div>
+                                                    <div class="card__post__title">
+                                                        @if (item2.Title.Length > 80)
+                                                        {
+                                                            <h5>
+                                                                <a id="btn-article" style="color:#515d5e;" href="@Url.Action("haber", "anasayfa", new { Id = item2.Id, Title = item2.GenerateSlug() })">
+                                                                    @item2.Title.Substring(0, 80)<span>...</span>
+                                                                </a>
+                                                            </h5>
+                                                        }
+                                                        else
+                                                        {
+                                                            <h5>
+                                                                <a id="btn-article" style="color:#515d5e;" href="@Url.Action("haber", "anasayfa", new { Id = item2.Id, Title = item2.GenerateSlug() })">
+                                                                    @item2.Title
+                                                                </a>
+                                                            </h5>
+                                                        }
+                                                        @if (item2.Spot.Length > 120)
+                                                        {
+                                                            <p class="d-none d-lg-block d-xl-block mb-0">
+                                                                @item2.Spot.Substring(0, 120) <span>...</span>
+                                                            </p>
+                                                        }
+                                                        else
+                                                        {
+                                                            <p class="d-none d-lg-block d-xl-block mb-0">
+                                                                @item2.Spot
+                                                            </p>
+                                                        }
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                if (count == 6)
+                                {
+                                    count = 0;
+                                    break;
+                                }
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+
+        if (item.StyleId == 3)
+        {
+
+        }
+
 
     }
 

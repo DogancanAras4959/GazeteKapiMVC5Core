@@ -1,11 +1,15 @@
 ﻿using AutoMapper;
 using CORE.ApplicationCommon.DTOS.CategoryDTO;
+using CORE.ApplicationCommon.DTOS.CategoryDTO.FooterTypeDTO;
+using CORE.ApplicationCommon.DTOS.CategoryDTO.StylePageDTO;
 using CORE.ApplicationCommon.DTOS.NewsDTO;
 using CORE.ApplicationCommon.DTOS.NewsDTO.GuestDTO;
 using CORE.ApplicationCommon.DTOS.NewsDTO.PublishTypeDTO;
 using CORE.ApplicationCommon.DTOS.NewsDTO.TagDTO;
 using CORE.ApplicationCommon.DTOS.NewsDTO.TagNewsDTO;
 using GazeteKapiMVC5Core.Models.Category;
+using GazeteKapiMVC5Core.Models.Category.FooterTypeModel;
+using GazeteKapiMVC5Core.Models.Category.StyleTypeModel;
 using GazeteKapiMVC5Core.Models.News.GuestModel;
 using GazeteKapiMVC5Core.Models.News.NewsModel;
 using GazeteKapiMVC5Core.Models.News.PublishTypeModel;
@@ -72,6 +76,13 @@ namespace GazeteKapiMVC5Core.Profiles
             CreateMap<TagNewsListItemDto, TagNewsListViewModel>()
                 .ForMember(x => x.news, y => y.MapFrom(t => t.news))
                 .ForMember(x => x.tag, y => y.MapFrom(t => t.tag));
+
+            #endregion
+
+            #region Types
+
+            CreateMap<StylePageListItemDto, StyleTypeListViewModel>();
+            CreateMap<FooterTypeListItemDto, FooterTypeListViewModel>();
 
             #endregion
 

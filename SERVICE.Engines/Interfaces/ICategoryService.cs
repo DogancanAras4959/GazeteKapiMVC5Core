@@ -1,4 +1,6 @@
 ﻿using CORE.ApplicationCommon.DTOS.CategoryDTO;
+using CORE.ApplicationCommon.DTOS.CategoryDTO.FooterTypeDTO;
+using CORE.ApplicationCommon.DTOS.CategoryDTO.StylePageDTO;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -17,6 +19,8 @@ namespace SERVICES.Engine.Interfaces
         Task<bool> EditIsActiveById(int id);
         bool DeleteCategoryById(int id);
         List<CategoryListItemDto> GetParentCategoryList();
+        List<StylePageListItemDto> GetAllStyleTypes();
+        List<FooterTypeListItemDto> GetAllFooterTypes();
         CategoryDto GetCategoryByName(string categoryName);
     }
 }

@@ -13,10 +13,10 @@ namespace GazeteKapiMVC5Core.DataAccessLayerAbone.Mapping
         {
             builder.HasKey(x => x.Id);
             builder.Property(x => x.email).HasMaxLength(75);
-            builder.Property(x => x.namesurname).HasMaxLength(100);
+            builder.Property(x => x.namesurName).HasMaxLength(100);
             builder.Property(x => x.password).HasMaxLength(25);
             builder.Property(x => x.phoneNumber).HasMaxLength(13);
-            builder.Property(x => x.username).HasMaxLength(50);
+            builder.Property(x => x.userName).HasMaxLength(50);
             builder.HasOne(x => x.roles).WithMany(x => x.userList).HasForeignKey(x => x.rolId);
         }
     }

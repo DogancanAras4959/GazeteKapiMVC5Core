@@ -16,6 +16,7 @@ namespace GazeteKapiMVC5Core.Models.News.NewsModel
         public int RowNo { get; set; }
         public int ColNo { get; set; }
         public int Sorted { get; set; }
+        public string VideoSlug { get; set; }
         public int ParentNewsId { get; set; }
         public string Image { get; set; }
         public string Tag { get; set; }
