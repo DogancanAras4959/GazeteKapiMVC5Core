@@ -23,6 +23,7 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Models
             brand = new List<BrandPolicy>();
             cookie = new List<CookiePolicy>();
             stream = new List<StreamPolicy>();
+            media = new List<Media>();
         }
 
         public int Id { get; set; }
@@ -50,5 +51,6 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Models
         public virtual ICollection<BrandPolicy> brand { get; set; }
         public virtual ICollection<CookiePolicy> cookie { get; set; }
         public virtual ICollection<StreamPolicy> stream { get; set; }
+        public virtual ICollection<Media> media { get; set; }
     }
 }

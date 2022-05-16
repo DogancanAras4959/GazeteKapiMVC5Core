@@ -20,7 +20,15 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Models
         public int? ParentCategoryId { get; set; }
         public bool IsActive { get; set; }
         public string Image { get; set; }
+        public int Sorted { get; set; }
         public int Position { get; set; }
+
+        [ForeignKey("typeToCategories")]
+        public int? TypeId { get; set; }
+
+        [ForeignKey("stylePosts")]
+        public int? StyleId { get; set; }
+
         public DateTime CreatedTime { get; set; }
         public DateTime UpdatedTime { get; set; }
         
@@ -28,6 +36,9 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Models
         public int UserId { get; set; }
         public Users user { get; set; }
 
+        public FooterType typeToCategories { get; set; }
+        public StylePosts stylePosts { get; set; }
         public virtual ICollection<News> newList { get; set; } 
+
     }
 }

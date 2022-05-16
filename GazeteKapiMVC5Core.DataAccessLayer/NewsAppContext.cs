@@ -36,6 +36,10 @@ namespace GazeteKapiMVC5Core.DataAccessLayer
         public virtual DbSet<members> members { get; set; }
         public virtual DbSet<SeoScore> seoScores { get; set; }
         public virtual DbSet<SeoCheckMeta> seoCheckMeta { get; set; }
+        public virtual DbSet<Media> medias { get; set; }
+        public virtual DbSet<FooterType> footerTypes { get; set; }
+        public virtual DbSet<StylePosts> stylePosts { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new UserMapping());
@@ -59,6 +63,8 @@ namespace GazeteKapiMVC5Core.DataAccessLayer
             modelBuilder.ApplyConfiguration(new membersMapping());
             modelBuilder.ApplyConfiguration(new SeoScoreMapping());
             modelBuilder.ApplyConfiguration(new SeoCheckMetaMapping());
+            modelBuilder.ApplyConfiguration(new MediaMapping());
+            modelBuilder.ApplyConfiguration(new StylePostsMapping());
             base.OnModelCreating(modelBuilder);
         }
     }

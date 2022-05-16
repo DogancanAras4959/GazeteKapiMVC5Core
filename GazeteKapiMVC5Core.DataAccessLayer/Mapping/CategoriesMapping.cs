@@ -15,6 +15,8 @@ namespace DOMAIN.DataAccessLayer.Mapping
             builder.Property(x => x.CategoryName).HasMaxLength(90);
             builder.Property(x => x.Description).HasMaxLength(500);
             builder.HasOne(x => x.user).WithMany(x => x.categoriesList).HasForeignKey(x => x.UserId);
+            builder.HasOne(x => x.typeToCategories).WithMany(x => x.categoriesList).HasForeignKey(x => x.TypeId);
+            builder.HasOne(x => x.stylePosts).WithMany(x => x.categories).HasForeignKey(x => x.StyleId);
         }
     }
 }

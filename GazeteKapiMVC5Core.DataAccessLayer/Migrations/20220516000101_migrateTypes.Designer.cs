@@ -4,14 +4,16 @@ using GazeteKapiMVC5Core.DataAccessLayer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GazeteKapiMVC5Core.DataAccessLayer.Migrations
 {
     [DbContext(typeof(NewsAppContext))]
-    partial class NewsAppContextModelSnapshot : ModelSnapshot
+    [Migration("20220516000101_migrateTypes")]
+    partial class migrateTypes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -136,10 +138,7 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Migrations
                     b.Property<int>("Sorted")
                         .HasColumnType("int");
 
-                    b.Property<int?>("StyleId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("TypeId")
+                    b.Property<int>("TypeId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("UpdatedTime")
@@ -149,8 +148,6 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("StyleId");
 
                     b.HasIndex("TypeId");
 
@@ -732,25 +729,6 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Migrations
                     b.ToTable("stream");
                 });
 
-            modelBuilder.Entity("GazeteKapiMVC5Core.DataAccessLayer.Models.StylePosts", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("StyleName")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("stylePosts");
-                });
-
             modelBuilder.Entity("GazeteKapiMVC5Core.DataAccessLayer.Models.TagNews", b =>
                 {
                     b.Property<int>("Id")
@@ -929,21 +907,17 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Migrations
 
             modelBuilder.Entity("GazeteKapiMVC5Core.DataAccessLayer.Models.Categories", b =>
                 {
-                    b.HasOne("GazeteKapiMVC5Core.DataAccessLayer.Models.StylePosts", "stylePosts")
-                        .WithMany("categories")
-                        .HasForeignKey("StyleId");
-
                     b.HasOne("GazeteKapiMVC5Core.DataAccessLayer.Models.FooterType", "typeToCategories")
                         .WithMany("categoriesList")
-                        .HasForeignKey("TypeId");
+                        .HasForeignKey("TypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("GazeteKapiMVC5Core.DataAccessLayer.Models.Users", "user")
                         .WithMany("categoriesList")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("stylePosts");
 
                     b.Navigation("typeToCategories");
 
@@ -1186,11 +1160,6 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Migrations
             modelBuilder.Entity("GazeteKapiMVC5Core.DataAccessLayer.Models.SeoScore", b =>
                 {
                     b.Navigation("seoMetas");
-                });
-
-            modelBuilder.Entity("GazeteKapiMVC5Core.DataAccessLayer.Models.StylePosts", b =>
-                {
-                    b.Navigation("categories");
                 });
 
             modelBuilder.Entity("GazeteKapiMVC5Core.DataAccessLayer.Models.Tags", b =>

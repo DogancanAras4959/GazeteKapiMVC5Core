@@ -70,7 +70,7 @@ namespace GazeteKapiMVC5Core.Controllers
             return View("~/Views/Home/hata.cshtml");
         }
 
-            public void CountData()
+        public void CountData()
         {
             ViewBag.CatCount = _mapper.Map<int>(_countService.CountCategories());
             ViewBag.GuestCount = _mapper.Map<int>(_countService.CountGuests());

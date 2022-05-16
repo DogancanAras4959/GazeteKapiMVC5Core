@@ -707,88 +707,7 @@ namespace GazeteKapiMVC5Core.Controllers
 
                 #endregion
 
-                #region SEO Create or Updates
-
-                var getSeoIfExists = _mapper.Map<SeoScoreDto, SeoScoreBaseViewModel>(_seoService.GetSeoScoreByNewsId(id));
-
-                if (getSeoIfExists == null)
-                {
-
-                    SeoScoreCreateViewModel newModel = new SeoScoreCreateViewModel();
-                    string code = RandomStringForUniqueCode(20);
-                    newModel.NewsId = news.Id;
-
-                    int resultId = Convert.ToInt32(await _seoService.CreateSeoScore(_mapper.Map<SeoScoreCreateViewModel, SeoScoreDto>(newModel), code));
-
-                    if (resultId > 0 && resultId != -1)
-                    {
-                        var getSeo = _mapper.Map<SeoScoreDto, SeoScoreBaseViewModel>(_seoService.GetSeoScoreByNewsId(news.Id));
-
-                        #region Seo Meta Create
-
-                        await _seoService.CreateSeoMetaToSeoScore(getSeo.Id);
-                        //_seoService.UpdateSeoScoreAfterCreateTask(getSeo.Id);
-                        // Bu mesele çok önemli. IsCreated false'a çevrilmeli
-                        #endregion
-
-                        LevelAnalyze(getSeo.Id);
-                        ViewBag.SeoScore = getSeo;
-
-                        #region Seo Meta Create
-
-                        var listSeoMetas = _mapper.Map<List<SeoMetaListItemDto>, List<SeoMetaListViewModel>>(_seoService.listSeoMetasBySeoScoreId(getSeo.Id));
-
-                        if (listSeoMetas.Count == 0 && listSeoMetas.Where(x => x.IsDone == true).ToList().Count == 0)
-                        {
-                            if (getSeoIfExists.IsFinished == false && getSeoIfExists.IsCreated == true)
-                            {
-                                await _seoService.CreateSeoMetaToSeoScore(getSeoIfExists.Id);
-                                //_seoService.UpdateSeoScoreAfterCreateTask(getSeoIfExists.Id);
-                                // Bu mesele çok önemli. IsCreated false'a çevrilmeli
-                            }
-                        }
-                        else
-                        {
-                            ViewBag.listSeoMeta = listSeoMetas;
-                        }
-
-                        #endregion
-
-                    }
-                }
-
-                else
-                {
-
-                    #region Seo Meta Create
-
-                    var listSeoMetas = _mapper.Map<List<SeoMetaListItemDto>, List<SeoMetaListViewModel>>(_seoService.listSeoMetasBySeoScoreId(getSeoIfExists.Id));
-
-                    if (listSeoMetas.Count == 0 && listSeoMetas.Where(x => x.IsDone == true).ToList().Count == 0)
-                    {
-                        if (getSeoIfExists.IsFinished == false && getSeoIfExists.IsCreated == true)
-                        {
-                            await _seoService.CreateSeoMetaToSeoScore(getSeoIfExists.Id);
-                            //_seoService.UpdateSeoScoreAfterCreateTask(getSeoIfExists.Id);
-                            // Bu mesele çok önemli. IsCreated false'a çevrilmeli
-                        }
-                    }
-                    else
-                    {
-                        ViewBag.listSeoMeta = listSeoMetas;
-                    }
-
-                    #endregion
-
-                    #region Seo Score & Meta Update After Insert
-
-                    #endregion
-
-                    ViewBag.SeoScore = getSeoIfExists;
-                    LevelAnalyze(getSeoIfExists.Id);
-                }
-
-                #endregion
+                await seoCreateOrUpdate(news);
 
                 return View(news);
             }
@@ -1181,14 +1100,14 @@ namespace GazeteKapiMVC5Core.Controllers
 
         #endregion
 
-        #region Extend Methods
-
-        public IActionResult RefreshSeoScore(int Id)
+        #region OrtamMedyası
+        public IActionResult OrtamMedyasi()
         {
-            var news = _mapper.Map<NewsDto, NewsEditViewModel>(_newService.getNews(Id));
-            AnalyzePostToSeoAsync(news);
-            return RedirectToAction("HaberDuzenle", "Haber", new { Id = news.Id, durum = "" });
+            return View();
         }
+        #endregion
+
+        #region Extend Methods
 
         public void LoadData()
         {
@@ -1200,6 +1119,97 @@ namespace GazeteKapiMVC5Core.Controllers
 
             var guestList = _mapper.Map<List<GuestListItemDto>, List<GuestListViewModel>>(_newService.guestList());
             ViewBag.Guests = new SelectList(guestList, "Id", "GuestName");
+        }
+
+        #endregion
+
+        #region Seo Methods
+        private async Task seoCreateOrUpdate(NewsEditViewModel news)
+        {
+            #region SEO Create or Updates
+
+            var getSeoIfExists = _mapper.Map<SeoScoreDto, SeoScoreBaseViewModel>(_seoService.GetSeoScoreByNewsId(news.Id));
+
+            if (getSeoIfExists == null)
+            {
+
+                SeoScoreCreateViewModel newModel = new SeoScoreCreateViewModel();
+                string code = RandomStringForUniqueCode(20);
+                newModel.NewsId = news.Id;
+
+                int resultId = Convert.ToInt32(await _seoService.CreateSeoScore(_mapper.Map<SeoScoreCreateViewModel, SeoScoreDto>(newModel), code));
+
+                if (resultId > 0 && resultId != -1)
+                {
+                    var getSeo = _mapper.Map<SeoScoreDto, SeoScoreBaseViewModel>(_seoService.GetSeoScoreByNewsId(news.Id));
+
+                    #region Seo Meta Create
+
+                    await _seoService.CreateSeoMetaToSeoScore(getSeo.Id);
+                    //_seoService.UpdateSeoScoreAfterCreateTask(getSeo.Id);
+                    // Bu mesele çok önemli. IsCreated false'a çevrilmeli
+                    #endregion
+
+                    LevelAnalyze(getSeo.Id);
+                    ViewBag.SeoScore = getSeo;
+
+                    #region Seo Meta Create
+
+                    var listSeoMetas = _mapper.Map<List<SeoMetaListItemDto>, List<SeoMetaListViewModel>>(_seoService.listSeoMetasBySeoScoreId(getSeo.Id));
+
+                    if (listSeoMetas.Count == 0 && listSeoMetas.Where(x => x.IsDone == true).ToList().Count == 0)
+                    {
+                        if (getSeoIfExists.IsFinished == false && getSeoIfExists.IsCreated == true)
+                        {
+                            await _seoService.CreateSeoMetaToSeoScore(getSeoIfExists.Id);
+                            //_seoService.UpdateSeoScoreAfterCreateTask(getSeoIfExists.Id);
+                            // Bu mesele çok önemli. IsCreated false'a çevrilmeli
+                        }
+                    }
+                    else
+                    {
+                        ViewBag.listSeoMeta = listSeoMetas;
+                    }
+
+                    #endregion
+
+                }
+            }
+
+            else
+            {
+
+                #region Seo Meta Create
+
+                var listSeoMetas = _mapper.Map<List<SeoMetaListItemDto>, List<SeoMetaListViewModel>>(_seoService.listSeoMetasBySeoScoreId(getSeoIfExists.Id));
+
+                if (listSeoMetas.Count == 0 && listSeoMetas.Where(x => x.IsDone == true).ToList().Count == 0)
+                {
+                    if (getSeoIfExists.IsFinished == false && getSeoIfExists.IsCreated == true)
+                    {
+                        await _seoService.CreateSeoMetaToSeoScore(getSeoIfExists.Id);
+                        //_seoService.UpdateSeoScoreAfterCreateTask(getSeoIfExists.Id);
+                        // Bu mesele çok önemli. IsCreated false'a çevrilmeli
+                    }
+                }
+                else
+                {
+                    ViewBag.listSeoMeta = listSeoMetas;
+                }
+
+                #endregion
+
+                ViewBag.SeoScore = getSeoIfExists;
+                LevelAnalyze(getSeoIfExists.Id);
+            }
+
+            #endregion
+        }
+        public IActionResult RefreshSeoScore(int Id)
+        {
+            var news = _mapper.Map<NewsDto, NewsEditViewModel>(_newService.getNews(Id));
+            AnalyzePostToSeoAsync(news);
+            return RedirectToAction("HaberDuzenle", "Haber", new { Id = news.Id, durum = "" });
         }
 
         private static Random random = new Random();
@@ -1236,7 +1246,7 @@ namespace GazeteKapiMVC5Core.Controllers
                 if (item.metaCode.Contains("b-3") && item.IsDone == false)
                 {
                     if (model.MetaTitle != null || model.MetaTitle == "")
-                        newList.Add(item);              
+                        newList.Add(item);
                 }
 
                 if (item.metaCode.Contains("b-1") && item.IsDone == false)
@@ -1252,7 +1262,7 @@ namespace GazeteKapiMVC5Core.Controllers
                         if (isRight)
                             newList.Add(item);
                     }
-                   
+
                 }
 
                 if (item.metaCode.Contains("i-2") && item.IsDone == false)
@@ -1315,17 +1325,17 @@ namespace GazeteKapiMVC5Core.Controllers
                             {
                                 tagCount++;
                             }
-                            bool isRight = tagCount > 0 ? true :
-                                           tagCount == 0 ? false : false;
-
-                            if (isRight)
-                                newList.Add(item);
                         }
+                        bool isRight = tagCount > 0 ? true :
+                                          tagCount == 0 ? false : false;
+
+                        if (isRight)
+                            newList.Add(item);
                     }
-                     
+
                 }
 
-                if (item.metaCode.Contains("d-1") && item.IsDone == false)
+                if (item.metaCode.Contains("b-2") && item.IsDone == false)
                 {
                     if (model.MetaTitle != null || model.MetaTitle == "")
                     {
@@ -1336,13 +1346,12 @@ namespace GazeteKapiMVC5Core.Controllers
                             {
                                 tagCount++;
                             }
-
-                            bool isRight = tagCount > 0 ? true :
-                                           tagCount == 0 ? false : false;
-
-                            if (isRight)
-                                newList.Add(item);
                         }
+                        bool isRight = tagCount > 0 ? true :
+                                         tagCount == 0 ? false : false;
+
+                        if (isRight)
+                            newList.Add(item);
                     }
                 }
 
@@ -1438,6 +1447,7 @@ namespace GazeteKapiMVC5Core.Controllers
         }
 
         #endregion
+
     }
 }
 
