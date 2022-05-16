@@ -1,5 +1,6 @@
 ﻿using CORE.ApplicationCommon.DTOS.NewsDTO;
 using CORE.ApplicationCommon.DTOS.NewsDTO.GuestDTO;
+using CORE.ApplicationCommon.DTOS.NewsDTO.MediaDTO;
 using CORE.ApplicationCommon.DTOS.NewsDTO.PublishTypeDTO;
 using CORE.ApplicationCommon.DTOS.NewsDTO.TagDTO;
 using CORE.ApplicationCommon.DTOS.NewsDTO.TagNewsDTO;
@@ -1435,6 +1436,49 @@ namespace SERVICE.Engine.Engines
             {
                 return null;
             }
+        }
+
+        #endregion
+
+        #region Media
+
+        public List<MediaListItemDto> mediaList()
+        {
+            IEnumerable<Media> newsList = _unitOfWork.GetRepository<Media>().Filter(null, x => x.OrderBy(y => y.Id), "", null, null);
+
+            if (newsList != null)
+            {
+                return newsList.Select(x => new MediaListItemDto
+                {
+                    Id = x.Id,
+                    Title = x.Title,
+                    CreatedTime = x.CreatedTime,
+                    Extension = x.Extension,
+                    UpdatedTime = x.UpdatedTime,
+                    UserId = x.userId,
+                    Slug = x.Slug
+                }).ToList();
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public async Task<bool> insertMedia(MediaDto model)
+        {
+            Media newMedia = await _unitOfWork.GetRepository<Media>().AddAsync(new Media
+            {
+               CreatedTime = DateTime.Now,
+               UpdatedTime = DateTime.Now,
+               Extension = model.Extension,
+               Slug = model.Slug,
+               Title = model.Title,
+               userId = model.UserId
+
+            });
+
+            return true;
         }
 
         #endregion

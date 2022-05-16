@@ -1,11 +1,13 @@
 ﻿using AutoMapper;
 using CORE.ApplicationCommon.DTOS.CurrencyDTO;
+using CORE.ApplicationCommon.DTOS.NewsDTO.MediaDTO;
 using CORE.ApplicationCommon.DTOS.PrivacyDTO.AboutUsDto;
 using CORE.ApplicationCommon.DTOS.PrivacyDTO.PolicyDto;
 using CORE.ApplicationCommon.DTOS.PrivacyDTO.PrivacyDto;
 using CORE.ApplicationCommon.DTOS.PrivacyDTO.TermsOfUsDto;
 using CORE.ApplicationCommon.DTOS.SetingsDTO;
 using GazeteKapiMVC5Core.Models.CurrencyModel;
+using GazeteKapiMVC5Core.Models.News.MediaModel;
 using GazeteKapiMVC5Core.Models.Settings;
 using GazeteKapiMVC5Core.Models.Site.AboutUsModel;
 using GazeteKapiMVC5Core.Models.Site.PolicyModel;
@@ -49,6 +51,9 @@ namespace GazeteKapiMVC5Core.Profiles
             CreateMap<CookieEditModel, CookiePolicyDto>();
             CreateMap<CookiePolicyDto, CookieEditModel>();
             CreateMap<CookiePolicyDto, CookieBaseModel>();
+
+            CreateMap<MediaListItemDto, MediaListViewModel>();
+            CreateMap<MediaCreateViewModel, MediaDto>();
         }
     }
 }

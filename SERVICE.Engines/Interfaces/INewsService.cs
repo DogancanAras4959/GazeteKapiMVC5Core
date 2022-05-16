@@ -1,5 +1,6 @@
 ﻿using CORE.ApplicationCommon.DTOS.NewsDTO;
 using CORE.ApplicationCommon.DTOS.NewsDTO.GuestDTO;
+using CORE.ApplicationCommon.DTOS.NewsDTO.MediaDTO;
 using CORE.ApplicationCommon.DTOS.NewsDTO.PublishTypeDTO;
 using CORE.ApplicationCommon.DTOS.NewsDTO.TagDTO;
 using CORE.ApplicationCommon.DTOS.NewsDTO.TagNewsDTO;
@@ -72,6 +73,12 @@ namespace SERVICE.Engine.Interfaces
         List<NewsListItemDto> PopularNewsInAdminHome();
         List<NewsListItemDto> PopularNewsInWeb();
         List<NewsListItemDto> PopularNewsInWebInCategory(int categoryId);
+        #endregion
+
+        #region Videos
+
+        List<MediaListItemDto> mediaList();
+        Task<bool> insertMedia(MediaDto model);
         #endregion
 
     }

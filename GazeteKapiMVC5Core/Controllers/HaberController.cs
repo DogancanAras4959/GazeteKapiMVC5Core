@@ -3,6 +3,7 @@ using CORE.ApplicationCommon.DTOS.AccountDTO;
 using CORE.ApplicationCommon.DTOS.CategoryDTO;
 using CORE.ApplicationCommon.DTOS.NewsDTO;
 using CORE.ApplicationCommon.DTOS.NewsDTO.GuestDTO;
+using CORE.ApplicationCommon.DTOS.NewsDTO.MediaDTO;
 using CORE.ApplicationCommon.DTOS.NewsDTO.PublishTypeDTO;
 using CORE.ApplicationCommon.DTOS.NewsDTO.TagDTO;
 using CORE.ApplicationCommon.DTOS.NewsDTO.TagNewsDTO;
@@ -15,6 +16,7 @@ using GazeteKapiMVC5Core.Core.Models.ConfigTTS;
 using GazeteKapiMVC5Core.Models.Account;
 using GazeteKapiMVC5Core.Models.Category;
 using GazeteKapiMVC5Core.Models.News.GuestModel;
+using GazeteKapiMVC5Core.Models.News.MediaModel;
 using GazeteKapiMVC5Core.Models.News.NewsModel;
 using GazeteKapiMVC5Core.Models.News.PublishTypeModel;
 using GazeteKapiMVC5Core.Models.News.TagModel;
@@ -1101,8 +1103,32 @@ namespace GazeteKapiMVC5Core.Controllers
         #endregion
 
         #region OrtamMedyası
-        public IActionResult OrtamMedyasi()
+        public IActionResult OrtamMedyasi(int? pagenumber)
         {
+            int pageSize = 50;
+            List<MediaListViewModel> mediaList = null;
+
+            mediaList = _mapper.Map<List<MediaListItemDto>, List<MediaListViewModel>>(_newService.mediaList());
+            return View(PaginationList<MediaListViewModel>.Create(mediaList.ToList(), pagenumber ?? 1, pageSize));
+
+        }
+
+        public async Task<IActionResult> MedyaEkle(IFormFile fileupload)
+        {
+            if (fileupload != null)
+            {
+                AccountEditViewModel yoneticiGetir = SessionExtensionMethod.GetObject<AccountEditViewModel>(HttpContext.Session, "user");
+
+                MediaCreateViewModel model = new MediaCreateViewModel
+                {
+                    UserId = yoneticiGetir.Id,
+                    Slug = SaveImageProcess.VideoInsert(fileupload, "Videos"),
+                    Title = fileupload.FileName,
+                };
+
+                int resultId = Convert.ToInt32(await _newService.insertMedia(_mapper.Map<MediaCreateViewModel, MediaDto>(model)));
+
+            }
             return View();
         }
         #endregion

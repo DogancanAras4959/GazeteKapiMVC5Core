@@ -23,6 +23,12 @@ namespace CORE.ApplicationCommon.Helpers
                     ftpInfo.Password = "QE3Ltrpvs1!ek7r";
                     break;
 
+                case "Videos":
+                    ftpInfo.Url = "ftp://uploads.gazetekapi.com//uploads/videos";
+                    ftpInfo.UserName = "gazeteka_719";
+                    ftpInfo.Password = "QE3Ltrpvs1!ek7r";
+                    break;
+
                 default:
                     break;
             }
@@ -64,7 +70,43 @@ namespace CORE.ApplicationCommon.Helpers
                 return null;
             }
         }
-      
+
+        public static string VideoInsert(IFormFile _file, string _admin)
+        {
+
+            try
+            {
+
+                FTPInformation fTPInformation = GetFTPInformation(_admin);
+                var uploadurl = fTPInformation.Url;
+                var username = fTPInformation.UserName;
+                var password = fTPInformation.Password;
+
+                string uploadfilename = Path.GetFileNameWithoutExtension(_file.FileName);
+                //string extension = Path.GetExtension(_file.FileName);
+                uploadfilename = uploadfilename + DateTime.Now.ToString("yymmssfff") + ".mp4"; /* + extension;*/
+                Stream streamObj = _file.OpenReadStream();
+                byte[] buffer = new byte[_file.Length];
+                streamObj.Read(buffer, 0, buffer.Length);
+                streamObj.Close();
+                string ftpurl = string.Format("{0}/{1}", uploadurl, uploadfilename);
+                var requestObj = WebRequest.Create(ftpurl) as FtpWebRequest;
+                requestObj.Method = WebRequestMethods.Ftp.UploadFile;
+                requestObj.Credentials = new NetworkCredential(username, password);
+                Stream requestStream = requestObj.GetRequestStream();
+                requestStream.Write(buffer, 0, buffer.Length);
+                requestStream.Flush();
+                requestStream.Close();
+
+                return "https://uploads.gazetekapi.com/videos/" + uploadfilename;
+            }
+            catch (WebException ex)
+            {
+                String status = ((FtpWebResponse)ex.Response).StatusDescription;
+                return null;
+            }
+        }
+
     }
 
     public class FTPInformation
