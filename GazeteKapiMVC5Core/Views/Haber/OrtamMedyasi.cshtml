@@ -39,6 +39,33 @@
     p {
         margin-bottom: 0;
     }
+    .input-group > :not(:first-child):not(.dropdown-menu):not(.valid-tooltip):not(.valid-feedback):not(.invalid-tooltip):not(.invalid-feedback) {
+        margin-left: 0;
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+        float: right;
+        top: -7px;
+        position: relative;
+    }
+
+    .input-group:not(.has-validation) > .dropdown-toggle:nth-last-child(n+3), .input-group:not(.has-validation) > :not(:last-child):not(.dropdown-toggle):not(.dropdown-menu) {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+        position: fixed;
+    }
+
+    .input-group {
+        position: relative;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: block;
+        float: right;
+        -ms-flex-wrap: wrap;
+        -webkit-box-align: stretch;
+        -ms-flex-align: stretch;
+        align-items: self-end;
+        width: 100%;
+    }
 </style>
 
 <div class="container-fluid">
@@ -117,14 +144,14 @@
                 <div class="card">
                     <div class="card-body">
 
-                        <h4 class="card-title">@item.Title
+                        <h4 class="card-title">@item.Slug
                         </h4>
-                        <p class="card-title-desc" style="margin-bottom:10px;">@item.Slug </p>
 
                         <!-- 16:9 aspect ratio -->
                         <div class="ratio ratio-16x9">
-                            <iframe src="@item.Slug" frameborder="0" 
-                allowfullscreen></iframe>
+                            <video width="320" height="240" controls>
+                                <source src="https://uploadslemonde.ikifikir.net/videos/@item.Slug" type="video/mp4">
+                            </video>
                         </div>
                     </div>
                 </div>

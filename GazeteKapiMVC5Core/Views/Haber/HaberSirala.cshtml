@@ -11,24 +11,28 @@
         background-color: #0094ff;
         color: #fff;
     }
+
+    .taskSingleInline > a:hover {
+        color: #fff;
+    }
 </style>
 
-<link href="https://uploads.gazetekapi.com/admin/wwwroot/assets/css/pageline.css" rel="stylesheet" />
+<link href="~/assets/css/pageline.css" rel="stylesheet" />
 
 <div class="row">
     <div class="col-12">
         <div class="card">
             <div class="card-body">
-                <div class="row mb-3">
-                    <div class="col-sm-12">
-                        <h4 class="card-title">Manşet Haberleri Sırala</h4>
-                        <p class="card-title-desc">Ana Sayfanızdaki manşet bölümünüz için haberlerinizi sıralayın</p>
+                <div class="row mt-3 mb-3">
+                    <div class="col-sm-6" style="margin:0 auto;">
+                        <h4 class="card-title text-center">Slider Haberleri Sırala</h4>
+                        <p class="card-title-desc text-center">Ana Sayfanızdaki slider bölümünüz için haberlerinizi sıralayın</p>
                     </div>
 
                 </div>
                 <div class="table-rep-plugin">
                     <div class="table-responsive mb-0" data-bs-pattern="priority-columns">
-                        <table class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing:0; width: 50%;">
+                        <table class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing:0; width: 70%; margin:0 auto;">
                             <thead>
                                 <tr>
                                     <th style="text-align:center;">Sıra</th>
@@ -50,15 +54,16 @@
                         </table>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row mt-3 mb-3">
                     <div class="col-sm-12">
-                        <a class="btn btn-primary" href="@Url.Action("HaberSirala","Haber")">Sayfayı Güncelle</a>
+                        <a class="btn btn-primary" style="margin: 0 auto; display: block; width: 70%;" href="@Url.Action("HaberSirala","Haber")">Sayfayı Yenile</a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
 
 <script type="text/javascript">
     var sirala = function (Id) {
@@ -74,14 +79,13 @@
             url: "/Haber/siraDegistir",
             data: { id: id, sira: sira },
             success: function (response) {
-                window.location.href = '@Url.Action("HaberSirala","Haber")';
-
+                if (response == true) {
+                                    window.location.href = '@Url.Action("HaberSirala","Haber")';
+                }
             }
         });
     }
 </script>
-
-
 
 <script>
 
@@ -99,7 +103,9 @@
                     data: { itemIds: itemIds },
                     type: 'POST',
                     succcess: function (data) {
-                        window.location.href = '@Url.Action("HaberSirala","Haber")';
+                        if (data == true) {
+                             window.location.href = '@Url.Action("HaberSirala","Haber")';
+                        }
                     },
                     error: function (xhr, status, error) {
                         window.location.href = '@Url.Action("HaberSirala","Haber")';

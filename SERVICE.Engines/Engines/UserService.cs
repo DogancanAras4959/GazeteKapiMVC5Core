@@ -1,4 +1,5 @@
-﻿using CORE.ApplicationCommon.DTOS.AccountDTO;
+﻿using Core.ApplicationCore.BackEndExceptionHandler;
+using CORE.ApplicationCommon.DTOS.AccountDTO;
 using CORE.ApplicationCommon.Helpers.Cyrptography;
 using CORE.ApplicationCore.BackEndExceptionHandler;
 using CORE.ApplicationCore.UnitOfWork;
@@ -94,27 +95,27 @@ namespace SERVICES.Engine.Engines
 
         public UserBaseDto GetUserByName(string name)
         {
-            Users userGet = _unitOfWork.GetRepository<Users>().FindAsync(x => x.UserName == name).Result;
-            string passwordDeCrypto = new Cyrpto().TryDecrypt(userGet.Password);
+                Users userGet = _unitOfWork.GetRepository<Users>().FindAsync(x => x.UserName == name).Result;
+                string passwordDeCrypto = new Cyrpto().TryDecrypt(userGet.Password);
 
-            if (userGet == null)
-            {
-                return new UserDto();
-            }
+                if (userGet == null)
+                {
+                    return new UserDto();
+                }
 
-            return new UserDto
-            {
-                UserName = userGet.UserName,
-                DisplayName = userGet.DisplayName,
-                Id = userGet.Id,
-                CreatedTime = userGet.CreatedTime,
-                UpdatedTime = userGet.UpdatedTime,
-                IsActive = userGet.IsActive,
-                Password = passwordDeCrypto,
-                EmailAdress = userGet.EmailAdress,
-                ProfileImage = userGet.ProfileImage,
-                role = userGet.roles,
-            };
+                return new UserDto
+                {
+                    UserName = userGet.UserName,
+                    DisplayName = userGet.DisplayName,
+                    Id = userGet.Id,
+                    CreatedTime = userGet.CreatedTime,
+                    UpdatedTime = userGet.UpdatedTime,
+                    IsActive = userGet.IsActive,
+                    Password = passwordDeCrypto,
+                    EmailAdress = userGet.EmailAdress,
+                    ProfileImage = userGet.ProfileImage,
+                    role = userGet.roles,
+                };
         }
 
         public async Task<bool> Login(string userName, string password)

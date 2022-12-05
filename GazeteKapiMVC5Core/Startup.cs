@@ -37,8 +37,7 @@ namespace GazeteKapiMVC5Core
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            try
-            {
+
                 services.AddDbContextDI(_configuration, Environment);
                 services.AddInjections();
                 services.AddControllersWithViews().SetCompatibilityVersion(CompatibilityVersion.Latest);
@@ -61,13 +60,7 @@ namespace GazeteKapiMVC5Core
                     options.LoginPath = new PathString("/Yonetici/GirisYap/");
                     options.SlidingExpiration = true;
                 });
-            }
-            catch (Exception ex)
-            {
-
-                throw new Exception(ex.ToString());
-            }
-          
+                      
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

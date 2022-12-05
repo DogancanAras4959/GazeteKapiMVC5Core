@@ -18,15 +18,15 @@ namespace CORE.ApplicationCommon.Helpers
             switch (_admin)
             {
                 case "Admin":
-                    ftpInfo.Url = "ftp://uploads.gazetekapi.com//uploads/images";
-                    ftpInfo.UserName = "gazeteka_719";
-                    ftpInfo.Password = "QE3Ltrpvs1!ek7r";
+                    ftpInfo.Url = "ftp://uploadslemonde.ikifikir.net//uploadslemonde/images";
+                    ftpInfo.UserName = "ikifikir_sjiyalxtvog";
+                    ftpInfo.Password = "Ax491rr?6";
                     break;
 
                 case "Videos":
-                    ftpInfo.Url = "ftp://uploads.gazetekapi.com//uploads/videos";
-                    ftpInfo.UserName = "gazeteka_719";
-                    ftpInfo.Password = "QE3Ltrpvs1!ek7r";
+                    ftpInfo.Url = "ftp://uploadslemonde.ikifikir.net//uploadslemonde/videos";
+                    ftpInfo.UserName = "ikifikir_sjiyalxtvog";
+                    ftpInfo.Password = "Ax491rr?6";
                     break;
 
                 default:
@@ -98,7 +98,7 @@ namespace CORE.ApplicationCommon.Helpers
                 requestStream.Flush();
                 requestStream.Close();
 
-                return "https://uploads.gazetekapi.com/videos/" + uploadfilename;
+                return uploadfilename;
             }
             catch (WebException ex)
             {

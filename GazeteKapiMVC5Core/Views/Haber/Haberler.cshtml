@@ -1,46 +1,25 @@
-﻿@model PaginationList<GazeteKapiMVC5Core.Models.News.NewsModel.NewsLıstItemModel>
-@using CORE.ApplicationCommon.Helpers;
+﻿@model IEnumerable<GazeteKapiMVC5Core.Models.News.NewsModel.NewsLıstItemModel>
 
 @{
     ViewData["Title"] = "Kategoriler";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@{
-    var prevDisabled = !Model.HasPrevious ? "disabled" : "";
-    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
-}
-
-<link href="https://uploads.gazetekapi.com/admin/wwwroot/assets/css/pageline.css" rel="stylesheet" />
+<link href="~/assets/css/pageline.css" rel="stylesheet" />
 
 <div class="row">
     <div class="col-12">
         <div class="card">
             <div class="card-body">
-                <div class="row">
-                    <div class="col-sm-4">
+                <div class="row mb-3">
+                    <div class="col-sm-12">
                         <h4 class="card-title">Haberler</h4>
                         <p class="card-title-desc">Haberler ile tüm işlemlerinizi gerçekleştirin</p>
-                    </div>
-                    <div class="col-sm-8">
-                        <nav aria-label="Page navigation example">
-                            <ul class="pagination" style="float:right">
-                                <li class="page-item">
-                                    <a asp-action="Haberler" class="btn btn-link">Başa Dön</a>
-                                </li>
-                                <li class="page-item">
-                                    <a asp-action="Haberler" asp-route-pageNumber="@(Model.PageIndex-1)" class="btn btn-link @prevDisabled">Önceki</a>
-                                </li>
-                                <li class="page-item">
-                                    <a asp-action="Haberler" asp-route-pageNumber="@(Model.PageIndex+1)" class="btn btn-link @nextDisabled">Sonraki</a>
-                                </li>
-                            </ul>
-                        </nav>
-                    </div>
+                    </div>                 
                 </div>
                 <div class="table-rep-plugin">
                     <div class="table-responsive mb-0" data-bs-pattern="priority-columns">
-                        <table class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                        <table id="datatable" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                             <thead>
                                 <tr>
                                     <th style="text-align:center;">#</th>
@@ -52,36 +31,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td><a class="btn btn-primary" asp-controller="Haber" asp-action="Haberler" style="top: 7px; margin: auto 0; display: block; position: relative;"><i class="mdi mdi-refresh"></i></a></td>
-                                    <td>
-                                        <form asp-controller="Haber" asp-action="Haberler" method="get">
-                                            <div class="btn btn-group-sm" style="width: 100%;">
-                                                <div class="btn-group" style="width: 91%;">
-                                                    <input type="text" class="form-control" name="searchstring">
-                                                </div>
-                                                <div class="btn-group" style="position:relative; left:-38px; width: 7%;">
-                                                    <button type="submit" class="btn btn-primary btn-sm" style="float:right;"><i class="fas fa-search"></i></button>
-                                                </div>
-                                            </div>
-
-                                        </form>
-                                    </td>
-                                    <td></td>
-                                    <td>
-                                        <form asp-controller="Haber" asp-action="Haberler" method="get">
-                                            @Html.DropDownList("CategoryId", (SelectList)ViewBag.Categories, ("Kategori Seçiniz"), new { @class = "has-arrow form-control", @style = "position:relative; top:8px;", onchange = "this.form.submit();", name = "CategoryId" })
-                                        </form>
-                                    </td>
-                                    <td>
-                                        <form asp-controller="Haber" asp-action="Haberler" method="get">
-                                            @Html.DropDownList("UserId", (SelectList)ViewBag.Users, ("Kullanıcı Seçiniz"), new { @class = "has-arrow form-control", @style = "position:relative; top:8px;", onchange = "this.form.submit();", name = "UserId" })
-                                        </form>
-                                    </td>
-                                    <td>
-                                        <a asp-controller="Haber" asp-action="HaberOlustur" style=" position: relative; top: 12px;" class="btn btn-primary btn-sm">Haber Ekle <i class="fas fa-plus fa-sm"></i></a>
-                                    </td>
-                                </tr>
+                               
                                 @foreach (var item in Model)
                                 {
                                     <tr class="button-items" id="tooltip-container">
@@ -149,6 +99,9 @@
                                                    data-bs-toggle="tooltip" data-bs-placement="top"
                                                    title="Bildirimleri Aç" asp-action="BildirimleriAc" asp-route-id="@item.Id" class="ml-1"><i class="mdi mdi-wifi-off text-danger mdi-24px"></i></a>
                                             }
+                                            <a style="padding:3px;" data-bs-container="#tooltip-container"
+                                               data-bs-toggle="tooltip" data-bs-placement="top"
+                                               title="Haberi Çoğalt" asp-action="HaberCogalt" asp-route-id="@item.Id"><i class="mdi mdi-plus mdi-24px"></i></a>
                                         </td>
                                     </tr>
                                 }

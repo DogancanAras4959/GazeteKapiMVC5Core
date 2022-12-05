@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿
+<!DOCTYPE html>
+
 <html lang="en">
 <head>
 
@@ -8,14 +10,22 @@
     <meta content="Gazete Kapı Yönetim Paneliyle tüm haberlerinizi yönetin" name="description">
     <meta content="GKapı" name="author">
 
-    <link rel="shortcut icon" href="https://uploads.gazetekapi.com/admin/wwwroot/favicon.ico">
+    <link rel="shortcut icon" href="~/assets/favicon.ico">
 
-    <link href="https://uploads.gazetekapi.com/admin/wwwroot/assets/libs/c3/c3.min.css" rel="stylesheet" type="text/css">
-    <link href="https://uploads.gazetekapi.com/admin/wwwroot/assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css">
-    <link href="https://uploads.gazetekapi.com/admin/wwwroot/assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css">
+    <link href="~/assets/libs/c3/c3.min.css" rel="stylesheet" type="text/css">
+    <link href="~/assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css">
+    <link href="~/assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css">
+    
+    <link href="~/assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css">
+    <link href="~/assets/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css">
+
+    <!-- Responsive datatable examples -->
+    <link href="~/assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css">
     <link href="~/assets/css/icons.min.css" rel="stylesheet" type="text/css">
+
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
+
 </head>
 
 <body data-sidebar="dark">
@@ -39,16 +49,34 @@
     <div class="rightbar-overlay"></div>
 
     <!-- JAVASCRIPT -->
- 
-    @*<script src="https://uploads.gazetekapi.com/admin/wwwroot/assets/libs/jquery/jquery.min.js"></script>*@
-    <script src="https://uploads.gazetekapi.com/admin/wwwroot/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="https://uploads.gazetekapi.com/admin/wwwroot/assets/libs/metismenu/metisMenu.min.js"></script>
-    <script src="https://uploads.gazetekapi.com/admin/wwwroot/assets/libs/simplebar/simplebar.min.js"></script>
-    <script src="https://uploads.gazetekapi.com/admin/wwwroot/assets/libs/node-waves/waves.min.js"></script>
-    <script src="https://uploads.gazetekapi.com/admin/wwwroot/assets/libs/jquery-knob/jquery.knob.min.js"></script>
-    <script src="https://uploads.gazetekapi.com/admin/wwwroot/assets/js/pages/dashboard.init.js"></script>
-    <script src="https://uploads.gazetekapi.com/admin/wwwroot/assets/js/app.js"></script>
-    <script src="https://uploads.gazetekapi.com/admin/wwwroot/assets/libs/admin-resources/bootstrap-filestyle/bootstrap-filestyle.min.js"></script>
+    @*<script src="~/assets/libs/jquery/jquery.min.js"></script>*@
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+
+    <script src="~/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/assets/libs/metismenu/metisMenu.min.js"></script>
+    <script src="~/assets/libs/simplebar/simplebar.min.js"></script>
+    <script src="~/assets/libs/node-waves/waves.min.js"></script>
+    <script src="~/assets/libs/jquery-knob/jquery.knob.min.js"></script>
+    <!-- Required datatable js -->
+    <script src="~/assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="~/assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <!-- Buttons examples -->
+    <script src="~/assets/libs/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="~/assets/libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js"></script>
+    <script src="~/assets/libs/jszip/jszip.min.js"></script>
+    <script src="~/assets/libs/pdfmake/build/pdfmake.min.js"></script>
+    <script src="~/assets/libs/pdfmake/build/vfs_fonts.js"></script>
+    <script src="~/assets/libs/datatables.net-buttons/js/buttons.html5.min.js"></script>
+    <script src="~/assets/libs/datatables.net-buttons/js/buttons.print.min.js"></script>
+    <script src="~/assets/libs/datatables.net-buttons/js/buttons.colVis.min.js"></script>
+    <!-- Responsive examples -->
+    <script src="~/assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="~/assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
+
+    <!-- Datatable init js -->
+    <script src="~/assets/js/pages/datatables.init.js"></script>
+    <script src="~/assets/js/app.js"></script>
+    <script src="~/assets/libs/admin-resources/bootstrap-filestyle/bootstrap-filestyle.min.js"></script>
 
     <script type="text/javascript">
         function preventBack() { window.history.forward(); }

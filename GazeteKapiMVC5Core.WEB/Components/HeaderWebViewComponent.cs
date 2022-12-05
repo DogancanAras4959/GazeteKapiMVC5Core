@@ -81,7 +81,11 @@ namespace GazeteKapiMVC5Core.WEB.Components
                         model.CrossRateOther = cn.ChildNodes[7].InnerXml;
                         model.CrossRateUSD = cn.ChildNodes[8].InnerXml;
 
-                        await _siteSetting.createCurrencyList(_mapper.Map<CurrencyCreateViewModelWeb, CurrencyDto>(model));
+                        var code = _mapper.Map<CurrencyDto, CurrencyEditViewModelWeb>(_siteSetting.getCurrency(model.code));
+                        if(code == null)
+                        {
+                            await _siteSetting.createCurrencyList(_mapper.Map<CurrencyCreateViewModelWeb, CurrencyDto>(model));
+                        }
                     }
 
                     getSiteSettings.IsCurrencyService = true;

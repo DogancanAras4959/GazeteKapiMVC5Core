@@ -1,4 +1,5 @@
-﻿using CORE.ApplicationCore.BackEndExceptionHandler;
+﻿using Core.ApplicationCore.BackEndExceptionHandler;
+using CORE.ApplicationCore.BackEndExceptionHandler;
 using CORE.ApplicationCore.UnitOfWork;
 using GazeteKapiMVC5Core.DataAccessLayer;
 using GazeteKapiMVC5Core.WEB.Models.ConfigreCaptcha;
@@ -47,6 +48,7 @@ namespace GazeteKapiMVC5Core.WEB.CoreInjection
 
             //services.AddTransient(typeof(IPagedList), typeof(PagedList));
             services.AddScoped(typeof(IUnitOfWork<>), typeof(UnitOfWork<>));
+
             services.AddScoped<IViewRenderService, ViewRenderService>();
 
         }

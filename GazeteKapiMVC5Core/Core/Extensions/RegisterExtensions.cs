@@ -1,4 +1,5 @@
-﻿using CORE.ApplicationCore.BackEndExceptionHandler;
+﻿using Core.ApplicationCore.BackEndExceptionHandler;
+using CORE.ApplicationCore.BackEndExceptionHandler;
 using CORE.ApplicationCore.UnitOfWork;
 using GazeteKapiMVC5Core.DataAccessLayer;
 using Microsoft.AspNetCore.Hosting;

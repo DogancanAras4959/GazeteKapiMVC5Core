@@ -16,10 +16,8 @@ namespace SERVICES.Engine.Interfaces
         UserDto GetUserById(int Id);
         List<UserListItemDto> GetAllUsers();
         Task<bool> UpdateUser(UserDto userDto);
-
         Task<bool> EditIsActive(int id);
         bool DeleteUserById(int id);
-
         UserBaseDto GetUserByName(string name);
     }
 }

@@ -20,14 +20,14 @@
         z-index: 500;
     }
 
-    .dots h2{
-        color:#fff;
-        font-weight:800;
-        font-size:35px;
-    }
+        .dots h2 {
+            color: #fff;
+            font-weight: 800;
+            font-size: 35px;
+        }
 </style>
 
-<link href="https://uploads.gazetekapi.com/front/css/base/slider.css" rel="stylesheet" />
+<link href="~/assets/css/slider.css" rel="stylesheet" />
 
 <div class="col-md-8 slide-width">
     <div class="slideshow-container" style="margin-top:3px;">
@@ -39,29 +39,29 @@
                         <h2>@item.RowNo</h2>
                     </div>
                     <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
-                        <img src="https://uploads.gazetekapi.com/images/@item.Image" alt="@item.Image" class="img-slide" />
+                        <img src="https://uploadslemonde.ikifikir.net/images/@item.Image" alt="@item.Image" class="img-slide" />
                     </a>
 
                     <div class="text">
                         <div class="title-word-big-right">
-                            <a class="next" onclick="plusSlides(1)"><img src="https://uploads.gazetekapi.com/images/chevron_next.png" title="chevron-next" alt="chevron-next" width="20" /></a>
+                            <a class="next" onclick="plusSlides(1)"><img src="~/assets/images/chevron_next.png" title="chevron-next" alt="chevron-next" width="20" /></a>
                         </div>
                         @if (item.IsTitle == true)
                         {
-                            <h2 class="title-slide">
-                                @if (item.Title.Length > 70)
+                            <h3 class="title-slide">
+                                @if (item.Title.Length > 55)
                                 {
-                                    <a href="@Url.Action("haber", "anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">@item.Title.Substring(0, 70)<span>...</span> </a>
+                                    <a href="@Url.Action("haber", "anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">@item.Title.Substring(0, 50)<span>...</span> </a>
                                 }
                                 else
                                 {
                                     <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">@item.Title</a>
                                 }
-                            </h2>
+                            </h3>
                         }
 
                         <div class="title-word-big">
-                            <a class="next" onclick="plusSlides(-1)"><img src="https://uploads.gazetekapi.com/images/chevron_prev.png" title="chevron-prev" alt="chevron-prev" width="20" /></a>
+                            <a class="next" onclick="plusSlides(-1)"><img src="~/assets/images/chevron_prev.png" title="chevron-prev" alt="chevron-prev" width="20" /></a>
                         </div>
                     </div>
                 </div>
@@ -73,18 +73,18 @@
 
 <div class="col-md-4">
     <div class="popular__news-right">
-        <!-- Post Article -->
+
         @foreach (var item in haberlerManset.OrderByDescending(x => x.Id).Where(x => x.IsActive == true && x.IsLock == false).ToList())
         {
 
-            @if (item.IsSlide == false)
+            @if (item.IsSlide == false && item.RowNo > 10 && item.RowNo < 13)
             {
                 count++;
 
-                <div class="card__post" style="margin-top:2px;">
-                    <div class="card__post__body card__post__transition">    
+                <div class="card__post card-mobile-type" style="margin-top:2px;">
+                    <div class="card__post__body card__post__transition card-mobile-type-content">
                         <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
-                            <img src="https://uploads.gazetekapi.com/images/@item.Image" title="@item.Image" class="img-fluid" alt="@item.Image" />
+                            <img src="https://uploadslemonde.ikifikir.net/images/@item.Image" title="@item.Image" class="img-fluid card-mobile-image" alt="@item.Image" />
                         </a>
                         <div class="text-sm">
                             <div class="title-word-big-sm">
@@ -125,7 +125,7 @@
     function showSlides(n) {
         var i;
         var slides = document.getElementsByClassName("mySlides");
-        var dots = document.getElementsByClassName("dot");
+        var dots = document.getElementsByClassName("dots");
         if (n > slides.length) {
             slideIndex = 1
         }

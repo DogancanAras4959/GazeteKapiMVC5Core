@@ -12,7 +12,8 @@ using System.Threading.Tasks;
 
 namespace GazeteKapiMVC5Core.Core.Models.ConfigTTS
 {
-    public static class GoogleTTS
+    public static class 
+        GoogleTTS
     {
 
         public static FTPInformation GetFTPInformation(string _admin)

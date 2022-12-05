@@ -47,7 +47,5 @@ namespace GazeteKapiMVC5Core.WEB.Models.ConfigreCaptcha
         public DateTime challange_ts { get; set; }
         public string hostname { get; set; }
 
-
-
     }
 }

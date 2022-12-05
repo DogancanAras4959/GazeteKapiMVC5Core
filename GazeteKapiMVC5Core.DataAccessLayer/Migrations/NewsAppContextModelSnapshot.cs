@@ -457,6 +457,9 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Migrations
                     b.Property<string>("VideoSlug")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("VideoUploaded")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("Views")
                         .HasColumnType("int");
 

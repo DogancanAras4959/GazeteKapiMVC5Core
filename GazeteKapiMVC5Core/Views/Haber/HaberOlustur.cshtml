@@ -13,7 +13,7 @@
     }
 }
 
-<link href="https://uploads.gazetekapi.com/admin/wwwroot/assets/css/pageline.css" rel="stylesheet" />
+<link href="~/assets/css/pageline.css" rel="stylesheet" />
 
 <form method="post" asp-action="HaberOlustur" asp-controller="Haber" enctype="multipart/form-data">
     <div class="row">
@@ -22,9 +22,10 @@
                 <div class="card-body">
 
                     <div class="mb-3">
+                        <label for="example-text-input" class="col-sm-12 col-form-label">SEO Başlık</label>
 
                         <input asp-for="MetaTitle" autocomplete="off" data-toggle="tooltip"
-                               maxlength="65" id="defaultconfig"
+                               maxlength="160" id="defaultconfig"
                                data-placement="bottom" class="form-control" type="text"
                                placeholder="Haber için ana başlık giriniz (*SEO için önerilir)">
 
@@ -33,9 +34,10 @@
                     </div>
 
                     <div class="mb-3">
+                        <label for="example-text-input" class="col-sm-12 col-form-label">Başlık</label>
 
                         <input asp-for="Title" autocomplete="off" data-toggle="tooltip"
-                               maxlength="95" id="defaultconfig"
+                               maxlength="160" id="defaultconfig"
                                data-placement="bottom" class="form-control" type="text"
                                placeholder="Haber için manşet başlık giriniz">
 
@@ -44,8 +46,8 @@
                     </div>
 
                     <div class="mb-3">
-
-                        <textarea asp-for="Spot" autocomplete="off" rows="4" cols="50" maxlength="320"
+                        <label for="example-text-input" class="col-sm-12 col-form-label">Spot</label>
+                        <textarea asp-for="Spot" autocomplete="off" rows="4" cols="50" maxlength="500"
                                   id="defaultconfig" data-toggle="tooltip" data-placement="bottom"
                                   class="form-control" type="text" placeholder="Haber için spot giriniz"></textarea>
 
@@ -54,14 +56,24 @@
                     </div>
 
                     <div class="mb-3">
-                        @*<textarea asp-for="NewsContent" rows="3" cols="150" class="ckeditor"></textarea>*@
-                        <textarea asp-for="NewsContent" rows="3" cols="150" id="editor"></textarea>
+                        <label for="example-text-input" class="col-sm-12 col-form-label">İçerik</label>
+                        <textarea asp-for="NewsContent" rows="3" cols="150" class="ckeditor"></textarea>
+                        @*<textarea asp-for="NewsContent" rows="3" cols="150" id="editor"></textarea>*@
 
                         <span asp-validation-for="NewsContent" class="text-danger"></span>
                     </div>
+
                     <div class="mb-3">
-                        <label for="example-text-input" class="col-sm-12 col-form-label">Video Linkini Ekleyin</label>
-                        <textarea asp-for="VideoSlug" autocomplete="off" rows="4" cols="50" data-toggle="tooltip" data-placement="bottom" class="form-control" type="text" placeholder="Haber için spot giriniz" id="example-text-input"></textarea>
+                        <label for="example-text-input" class="col-sm-12 col-form-label">Video</label>
+                        <input asp-for="VideoUploaded" autocomplete="off" data-toggle="tooltip"
+                               maxlength="160" id="defaultconfig"
+                               data-placement="bottom" class="form-control" type="text"
+                               placeholder="Haber için video giriniz">
+
+                    </div>
+                    <div class="mb-3">
+                        <label for="example-text-input" class="col-sm-12 col-form-label">Video Kodu</label>
+                        <textarea asp-for="VideoSlug" autocomplete="off" rows="4" cols="50" data-toggle="tooltip" data-placement="bottom" class="form-control" type="text" placeholder="Video için iframe kodu giriniz" id="example-text-input"></textarea>
                         <span asp-validation-for="VideoSlug" class="text-danger"></span>
                     </div>
                     <div class="mb-3">
@@ -109,7 +121,7 @@
                 <div class="col-sm-12">
                     <div class="card">
                         <div class="card-body">
-                            <img id="img" style="width:100%" src="https://uploads.gazetekapi.com/images/imgdefault.jpg" />
+                            <img id="img" style="width:100%" src="~/assets/images/imgdefault.jpg" />
                             <label style="margin-top:10px;" class="col-sm-12 text-center">*(835x510 dosya boyutu)</label>
                             <label for="example-text-input" class="col-sm-12 col-form-label text-center">Öne Çıkan Görsel Belirle</label>
                             <input type="file" class="filestyle" id="upload" data-input="false" name="file" data-buttonname="btn-secondary">
@@ -194,8 +206,8 @@
     </div>
 </form>
 
-<script src="https://uploads.gazetekapi.com/admin/wwwroot/assets/css/ckeditor/ckeditor.js"></script>
-<script src="https://uploads.gazetekapi.com/admin/wwwroot/assets/libs/jquery/jquery.min.js"></script>
+<script src="~/assets/ckeditor/ckeditor.js"></script>
+<script src="~/assets/libs/jquery/jquery.min.js"></script>
 
 <script>
     $(function () {
@@ -212,7 +224,7 @@
                 reader.readAsDataURL(input.files[0]);
             }
             else {
-                $('#img').attr('src', '~/assets/Files/user.png');
+                $('#img').attr('src', '~/assets/images/user.png');
             }
         });
 

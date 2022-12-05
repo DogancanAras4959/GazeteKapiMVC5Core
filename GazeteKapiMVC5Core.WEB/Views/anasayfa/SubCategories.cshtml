@@ -7,13 +7,13 @@
     <div class="container boxed">
         <div class="row row-banners">
             <div class="col-3 col-sm-3 banner-3">
-                <img style="width:100%" src="https://uploads.gazetekapi.com/images/lemonde.jpg" title="lemonde-but" alt="lemonde-but" />
+                <img style="width:100%" src="~/assets/images/lemonde.jpg" title="lemonde-but" alt="lemonde-but" />
             </div>
             <div class="col-9 col-sm-9 banner-9">
                 @foreach (var item in categories.Where(x => x.Position == 1))
                 {
                     <a asp-controller="anasayfa" asp-action="kategori" asp-route-id="@item.Id">
-                        <img class="img-subcat" src="https://uploads.gazetekapi.com/images/@item.Image" title="@item.Image" alt="@item.Image" />
+                        <img class="img-subcat" src="https://uploadslemonde.ikifikir.net/images/@item.Image" title="@item.Image" alt="@item.Image" />
                     </a>
                 }
             </div>

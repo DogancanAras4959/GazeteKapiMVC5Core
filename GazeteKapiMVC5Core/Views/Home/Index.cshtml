@@ -4,10 +4,9 @@
     ViewData["Title"] = "Home Page";
     List<NewsLıstItemModel> listNews = ViewBag.NewsLastFive as List<NewsLıstItemModel>;
     List<NewsLıstItemModel> popularNews = ViewBag.PopularList as List<NewsLıstItemModel>;
-
 }
 
-<link href="https://uploads.gazetekapi.com/admin/wwwroot/assets/css/pageline.css" rel="stylesheet" />
+<link href="~/assets/css/pageline.css" rel="stylesheet" />
 
 <div class="row">
     <div class="col-md-6 col-xl-3">
@@ -174,7 +173,7 @@
         @foreach (var item in popularNews)
         {
             <div class="card">
-                <img class="card-img-top img-fluid" src="https://uploads.gazetekapi.com/images/@item.Image" alt="Card image cap">
+                <img class="card-img-top img-fluid" src="https://uploadslemonde.ikifikir.net/images/@item.Image" alt="Card image cap">
                 <div class="card-body">
                     <h4 class="card-title">@item.Title</h4>
                     <p class="card-text">

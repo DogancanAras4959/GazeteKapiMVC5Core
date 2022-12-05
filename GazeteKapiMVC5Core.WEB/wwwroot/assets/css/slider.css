@@ -1,0 +1,27 @@
+﻿.title-slide a {
+    color: #fff;
+}
+
+    .title-slide a:hover {
+        color: #fff;
+        text-decoration: none;
+    }
+
+.title-slide-sm a {
+    color: #fff;
+}
+
+    .title-slide-sm a:hover {
+        color: #fff;
+        text-decoration: none;
+    }
+
+.team-member .member figcaption ul.list-inline li.list-inline-item a {
+    float: left;
+    color: #515d5e;
+    font-size: 13px;
+    height: 30px;
+    width: 30px;
+    background-color: #f4c625;
+    padding: 5px;
+}

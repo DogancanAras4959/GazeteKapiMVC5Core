@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <AspNetCoreHostingModel>OutOfProcess</AspNetCoreHostingModel>
   </PropertyGroup>
 
   <ItemGroup>
@@ -14,6 +15,10 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="11.0.1" />
     <PackageReference Include="log4net" Version="2.0.14" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.17">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.5" />
     <PackageReference Include="System.ServiceModel.Syndication" Version="6.0.0" />
     <PackageReference Include="System.Text.Json" Version="6.0.3" />
@@ -31,7 +36,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="wwwroot\manifest.json" />
+    <None Include="wwwroot\assets\images\social-media\chevron-down.svg" />
+    <None Include="wwwroot\assets\images\social-media\chevron-up.svg" />
+    <None Include="wwwroot\assets\images\social-media\facebook.svg" />
+    <None Include="wwwroot\assets\images\social-media\instagram.svg" />
+    <None Include="wwwroot\assets\images\social-media\mail.svg" />
+    <None Include="wwwroot\assets\images\social-media\rss.svg" />
+    <None Include="wwwroot\assets\images\social-media\telegram.svg" />
+    <None Include="wwwroot\assets\images\social-media\twitter.svg" />
+    <None Include="wwwroot\assets\images\social-media\youtube.svg" />
+    <None Include="wwwroot\assets\manifest.json" />
   </ItemGroup>
 
 </Project>

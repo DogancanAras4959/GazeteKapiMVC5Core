@@ -22,7 +22,7 @@
     }
 </style>
 
-<link href="https://uploads.gazetekapi.com/front/css/base/pagelinewebcard.css" type="text/css" rel="stylesheet" />
+<link href="~/assets/css/pagelinewebcard.css" type="text/css" rel="stylesheet" />
 
 <div class="row" style="padding-bottom:5px;">
     <div class="col-sm-12">
@@ -54,9 +54,9 @@
                     <div class="card__post ">
                         <div class="card__post__body">
                             <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
-                                <img src="https://uploads.gazetekapi.com/images/@item.Image" class="img-fluid" title="@item.Image" alt="@item.Image" />
+                                <img src="https://uploadslemonde.ikifikir.net/images/@item.Image" class="img-fluid" title="@item.Image" alt="@item.Image" />
                             </a>
-                            <div style="margin-top:15px;">
+                            <div style="margin-top: 15px; overflow-wrap: anywhere;">
                                 <h6>
                                     @if (item.Title.Length > 80)
                                     {
@@ -120,7 +120,7 @@
                             <div class="card__post card__post-list">
                                 <div class="image-sm">
                                     <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
-                                        <img style="height:65px;" src="https://uploads.gazetekapi.com/images/@item.Image" class="img-fluid" title="@item.Image" alt="@item.Image" />
+                                        <img style="height:65px;" src="https://uploadslemonde.ikifikir.net/images/@item.Image" class="img-fluid" title="@item.Image" alt="@item.Image" />
                                     </a>
                                 </div>
                                 <div class="card__post__body ">

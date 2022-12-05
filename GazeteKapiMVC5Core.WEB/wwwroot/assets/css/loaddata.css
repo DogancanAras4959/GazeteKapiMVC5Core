@@ -1,0 +1,44 @@
+﻿.rect-content-box-title {
+    background-color: #f4c625;
+    width: 30px;
+    height: 30px;
+    float: left;
+}
+
+.content-box-title {
+    position: relative;
+    left: 7px;
+    top: 2px;
+    color: #515d5e;
+}
+
+.rect-title {
+    font-weight: 800;
+    position: relative;
+    top: 1px;
+    left: 7px;
+    font-size: 20px;
+    color: #515d5e;
+}
+
+.wrapper__list__article {
+    margin-bottom: 15px;
+}
+
+    .wrapper__list__article .border_section {
+        position: relative;
+        padding-bottom: 16px;
+        margin-bottom: 14px;
+    }
+
+.card__post-list .card__post__content .card__post__title h6 a {
+    color: #515d5e;
+    text-shadow: none;
+    font-weight: 700 !important;
+    font-size: 14px;
+}
+
+    .card__post-list .card__post__content .card__post__title h6 a:hover {
+        color: #3c4445;
+        text-decoration: none;
+    }

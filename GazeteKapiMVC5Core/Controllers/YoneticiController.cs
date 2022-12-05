@@ -53,7 +53,7 @@ namespace GazeteKapiMVC5Core.Controllers
 
         public IActionResult GirisYap(string message)
         {
-            if (message == null)
+            if (message == null)    
             {
                 ViewBag.LTD = Request.Cookies["LastLoggedInTime"];
                 return View();
@@ -73,7 +73,7 @@ namespace GazeteKapiMVC5Core.Controllers
 
         [ValidateAntiForgeryToken]
         [HttpPost]
-        public async Task<IActionResult> GirisYap(LoginViewModel model, string returnUrl)
+        public async Task<IActionResult> GirisYap(LoginViewModel model)
         {
             try
             {
@@ -87,7 +87,7 @@ namespace GazeteKapiMVC5Core.Controllers
                         TempData["HataMesaji"] = "Kullanıcı adı veya şifre yanlış. Kullanıcının giriş işlemi başarısız oldu!";
                         return RedirectToAction("GirisYap", "Yonetici");
                     }
-
+                        
                     AccountEditViewModel getUser = _mapper.Map<UserBaseDto, AccountEditViewModel>(_userService.GetUserByName(model.UserName));
 
                     if (getUser.IsActive != false)

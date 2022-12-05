@@ -47,6 +47,7 @@ namespace GazeteKapiMVC5Core.WEB
             services.AddControllersWithViews().SetCompatibilityVersion(CompatibilityVersion.Latest);
             services.AddDistributedMemoryCache();
             services.Configure<reCaptchaSettings>(_configuration.GetSection("Google"));
+          
             var mappingConfig = new MapperConfiguration(mc =>
             {
                 mc.AddProfile(new NewsProfileWeb());
@@ -54,6 +55,7 @@ namespace GazeteKapiMVC5Core.WEB
             });
 
             IMapper mapper = mappingConfig.CreateMapper();
+
             services.AddSingleton(mapper);
 
             services.Configure<CookiePolicyOptions>(options =>

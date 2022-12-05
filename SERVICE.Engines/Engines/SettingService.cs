@@ -43,7 +43,7 @@ namespace SERVICE.Engine.Engines
                 unit = currencyDto.unit,
                 currencyCode = currencyDto.currencyCode,
                 currencyName = currencyDto.currencyName,
-                
+
             });
 
             return newCurrency != null && newCurrency.Id != 0;
@@ -71,7 +71,7 @@ namespace SERVICE.Engine.Engines
                     ForexSelling = x.ForexSelling,
                     unit = x.unit,
                     isRateOrDown = x.isRateOrDown,
-                    
+
                 }).ToList();
             }
             else
@@ -217,26 +217,30 @@ namespace SERVICE.Engine.Engines
 
             if (getCurrency == null)
             {
-                return new CurrencyDto();
+                return null;
             }
 
-            return new CurrencyDto
+            else
             {
-               Id = getCurrency.Id,
-               code = getCurrency.code,
-               BanknoteBuying = getCurrency.BanknoteBuying,
-               BanknoteSelling = getCurrency.BanknoteSelling,
-               crossorder = getCurrency.crossorder,
-               CrossRateOther = getCurrency.CrossRateOther,
-               currencyCode = getCurrency.currencyCode,
-               CrossRateUSD = getCurrency.CrossRateUSD,
-               currencyName = getCurrency.currencyName,
-               ForexBuying = getCurrency.ForexBuying,
-               ForexSelling = getCurrency.ForexSelling,
-               isRateOrDown = getCurrency.isRateOrDown,
-               name = getCurrency.name,
-               unit = getCurrency.unit,
-            };
+
+                return new CurrencyDto
+                {
+                    Id = getCurrency.Id,
+                    code = getCurrency.code,
+                    BanknoteBuying = getCurrency.BanknoteBuying,
+                    BanknoteSelling = getCurrency.BanknoteSelling,
+                    crossorder = getCurrency.crossorder,
+                    CrossRateOther = getCurrency.CrossRateOther,
+                    currencyCode = getCurrency.currencyCode,
+                    CrossRateUSD = getCurrency.CrossRateUSD,
+                    currencyName = getCurrency.currencyName,
+                    ForexBuying = getCurrency.ForexBuying,
+                    ForexSelling = getCurrency.ForexSelling,
+                    isRateOrDown = getCurrency.isRateOrDown,
+                    name = getCurrency.name,
+                    unit = getCurrency.unit,
+                };
+            }
         }
 
         public PrivacyDto getPrivacy(int id)

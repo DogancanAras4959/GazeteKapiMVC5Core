@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace CORE.ApplicationCore.BackEndExceptionHandler
+namespace Core.ApplicationCore.BackEndExceptionHandler
 {
     public interface IBackEndExceptionHandler
     {

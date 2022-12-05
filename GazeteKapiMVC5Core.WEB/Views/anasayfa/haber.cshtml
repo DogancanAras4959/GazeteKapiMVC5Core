@@ -29,6 +29,7 @@
         position: relative;
         bottom: 3px;
     }
+
     .article__entry .article__content ul.list-inline li.list-inline-item span {
         font-size: 14px;
         font-weight: 700;
@@ -63,18 +64,19 @@
         float: right;
     }
 
-    .guest-content{
-        float:right;
-        position:relative;
-        bottom:30px;
+    .guest-content {
+        float: right;
+        position: relative;
+        bottom: 30px;
     }
 
-    .guest-content a{
-        text-decoration:none;
-        font-weight:600;
-        color:#292d2f;
-        font-size:15px;
-    }
+        .guest-content a {
+            text-decoration: none;
+            font-weight: 600;
+            color: #292d2f;
+            font-size: 15px;
+        }
+
     .frame {
         position: relative;
         width: 100%;
@@ -91,8 +93,8 @@
     }
 </style>
 
-<link href="https://uploads.gazetekapi.com/front/css/loading.css" rel="stylesheet" />
-<link href="https://uploads.gazetekapi.com/front/css/base/pagelinenews.css" type="text/css" rel="stylesheet" />
+<link href="~/assets/css/loading.css" rel="stylesheet" />
+<link href="~/assets/css/pagelinenews.css" type="text/css" rel="stylesheet" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
 
 <section class="bg-white pb-60" id="newSection">
@@ -101,7 +103,7 @@
 
             <div class="col-md-8" id="newLoadSection">
                 <div class="wrap__article-detail">
-                    <div class="wrap__article-detail-title">
+                    <div class="wrap__article-detail-title" style="overflow-wrap: anywhere;">
                         <h1>
                             @Model.Title
                         </h1>
@@ -122,7 +124,7 @@
                             <li class="list-inline-item" style="float:right;">
                                 @if (Model.Sound != null || Model.Sound == "")
                                 {
-                                    <audio id="player" src="https://uploads.gazetekapi.com/sounds/@Model.Sound" type="audio/ogg">
+                                    <audio id="player" src="https://uploadlemonde.ikifikir.net/sounds/@Model.Sound" type="audio/ogg">
                                     </audio>
                                     <img src="https://uploads.gazetekapi.com/images/headphone.svg" alt="headphone" class="headphone-cs" />
                                     <a class="btn-sound" onclick="document.getElementById('player').playbackRate=2" style="padding:5px; font-weight:900; font-size:17px;">2x</a>
@@ -149,7 +151,17 @@
                             </a>
                         </div>
                         <figure>
-                            <img src="https://uploads.gazetekapi.com/images/@Model.Image" title="@Model.Image" alt="@Model.Image" class="img-fluid" />
+                            @if (Model.VideoUploaded != "")
+                            {
+                                <video controls>
+                                    <source src="@Model.VideoUploaded" type="video/mp4">
+                                </video>
+                            }
+                            else
+                            {
+                                <img src="https://uploadslemonde.ikifikir.net/images/@Model.Image" title="@Model.Image" alt="@Model.Image" class="img-fluid" />
+                            }
+
                         </figure>
                     </div>
                 </div>
@@ -178,7 +190,7 @@
                         </div>
                     }
 
-                    @if (Model.VideoSlug != null || Model.VideoSlug != "")
+                    @if (Model.VideoSlug != null)
                     {
                         <div class="ratio ratio-16x9 frame" style="margin-top:15px;">
                             <iframe src="@Model.VideoSlug" class="video" frameborder="0"
@@ -221,7 +233,7 @@
                                     <div class="article__entry">
                                         <div class="article__image">
                                             <a href="@Url.Action("haber", "anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
-                                                <img src="https://uploads.gazetekapi.com/images/@item.Image" alt="@item.Image" title="@item.Image" class="img-fluid">
+                                                <img src="https://uploadslemonde.ikifikir.net/images/@item.Image" alt="@item.Image" title="@item.Image" class="img-fluid">
                                             </a>
                                         </div>
                                         <div class="article__content">
@@ -266,7 +278,7 @@
                 <!-- SONSUZ SAYFA -->
                 <div class="wrapper__list__article mt-4" id="anyTable">
                 </div>
-                <div class="loadingProgress" style="display:none;"><i class="fa fa-spinner fa-spin" style="font-size:18px"></i></div>
+                <div class="loadingProgress"><i class="fa fa-spinner fa-spin" style="font-size:18px"></i></div>
             </div>
 
             <div class="col-md-4">
@@ -296,7 +308,7 @@
                                 <div class="card__post card__post-list">
                                     <div class="image-sm">
                                         <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
-                                            <img src="https://uploads.gazetekapi.com/images/@item.Image" class="img-fluid" title="@item.Image" alt="@item.Image">
+                                            <img src="https://uploadslemonde.ikifikir.net/images/@item.Image" class="img-fluid" title="@item.Image" alt="@item.Image">
                                         </a>
                                     </div>
 
@@ -351,7 +363,7 @@
 
                         <a href="#">
                             <figure>
-                                <img src="https://uploads.gazetekapi.com/images/banner.jpg" alt="banner-down" title="banner-down" class="img-fluid" />
+                                <img src="~/assets/images/banner.jpg" alt="banner-down" title="banner-down" class="img-fluid" />
                             </figure>
                         </a>
 
@@ -369,7 +381,7 @@
                                 <div class="card__post card__post-list">
                                     <div class="image-sm">
                                         <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
-                                            <img src="https://uploads.gazetekapi.com/images/@item.Image" title="@item.Image" class="img-fluid" alt="@item.Image" />
+                                            <img src="https://uploadslemonde.ikifikir.net/images/@item.Image" title="@item.Image" class="img-fluid" alt="@item.Image" />
                                         </a>
                                     </div>
 
@@ -430,8 +442,8 @@
 
 @section scripts{
 
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script src="http://responsivevoice.org/responsivevoice/responsivevoice.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    @*<script src="https://responsivevoice.org/responsivevoice/responsivevoice.js"></script>*@
 
     <script>
         $(document).ready(function () {

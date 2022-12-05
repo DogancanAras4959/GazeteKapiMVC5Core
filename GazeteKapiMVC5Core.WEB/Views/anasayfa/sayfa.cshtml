@@ -18,7 +18,7 @@
     }
 </style>
 
-<link href="https://uploads.gazetekapi.com/front/css/base/base.css" rel="stylesheet" />
+<link href="~/assets/css/base/base.css" rel="stylesheet" />
 
 <!-- Popular news -->
 <section style="padding:0px;">
@@ -75,7 +75,7 @@
     <div class="container boxed">
         <div class="row">
             <div class="col-sm-12">
-                <img src="https://uploads.gazetekapi.com/images/banner-clock.jpg" title="banner-clock" alt="banner-clock" />
+                <img src="~/assets/images/banner-clock.jpg" title="banner-clock" alt="banner-clock" />
             </div>
         </div>
     </div>
@@ -102,7 +102,7 @@
                             <div class="article__entry">
                                 <div class="article__image">
                                     <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
-                                        <img src="https://uploads.gazetekapi.com/images/@item.Image" title="@item.Image" alt="@item.Image" class="img-fluid" />
+                                        <img src="https://uploadslemonde.ikifikir.net/images/@item.Image" title="@item.Image" alt="@item.Image" class="img-fluid" />
                                     </a>
                                 </div>
                                 <div class="article__content">
@@ -159,7 +159,7 @@
                             <div class="card__post ">
                                 <div class="card__post__body">
                                     <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
-                                        <img src="https://uploads.gazetekapi.com/images/@item.Image" title="@item.Image" class="img-fluid" alt="@item.Image" />
+                                        <img src="https://uploadslemonde.ikifikir.net/images/@item.Image" title="@item.Image" class="img-fluid" alt="@item.Image" />
                                     </a>
                                     <div style=" margin-top: 0px; background-color: #fff; padding: 15px;">
                                         <h6>
@@ -228,7 +228,7 @@
                                 <div class="card__post ">
                                     <div class="card__post__body">
                                         <a href="@Url.Action("haber", "anasayfa", new { Id = item.Id, Title = item2.GenerateSlug() })">
-                                            <img src="https://uploads.gazetekapi.com/images/@item2.Image" class="img-fluid" title="@item2.Image" alt="@item2.Image" />
+                                            <img src="https://uploadslemonde.ikifikir.net/images/@item2.Image" class="img-fluid" title="@item2.Image" alt="@item2.Image" />
                                         </a>
                                         <div style="margin-top:15px;">
                                             <h6>
@@ -285,7 +285,7 @@
                                         <div class="col-md-5">
                                             <div class="card__post__transition">
                                                 <a href="@Url.Action("haber", "anasayfa", new { Id = item.Id, Title = item2.GenerateSlug() })">
-                                                    <img src="https://uploads.gazetekapi.com/images/@item2.Image" class="img-fluid w-100" alt="">
+                                                    <img src="https://uploadslemonde.ikifikir.net/images/@item2.Image" class="img-fluid w-100" alt="">
                                                 </a>
                                             </div>
                                         </div>
@@ -365,7 +365,7 @@
         <div class="container boxed">
             <div class="row">
                 <div class="col-sm-12">
-                    <img src="https://uploads.gazetekapi.com/images/banner-bottom.jpg" title="banner-bottom" alt="banner-bottom" />
+                    <img src="~/assets/images/banner-bottom.jpg" title="banner-bottom" alt="banner-bottom" />
                 </div>
             </div>
         </div>

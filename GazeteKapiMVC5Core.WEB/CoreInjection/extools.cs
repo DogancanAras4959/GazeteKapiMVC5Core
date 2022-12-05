@@ -20,8 +20,6 @@ namespace GazeteKapiMVC5Core.WEB.CoreInjection
             deger = deger.ToLower();
             deger = deger.Trim();
             deger = deger.Replace("ş", "s");
-
-
             deger = deger.Replace("ğ", "g");
             deger = deger.Replace("  ", "-");
             deger = deger.Replace("ü", "u");

@@ -24,12 +24,12 @@
     }
 
     .dropdown-toggle[data-toggle="dropdown"]:after {
-         font-family: "FontAwesome"; 
-         font-weight: 900; 
-         content: "\f107"; 
-         width: 100%; 
-         text-align: right; 
-         display:none;
+        font-family: "FontAwesome";
+        font-weight: 900;
+        content: "\f107";
+        width: 100%;
+        text-align: right;
+        display: none;
     }
 
     .navigation-wrap .navbar-nav .nav-item .dropdown-menu {
@@ -41,10 +41,23 @@
         z-index: 1022;
     }
 
+    .hamburger-dark {
+        display: none;
+        height: 20px;
+        position: relative;
+        bottom: 2px;
+    }
+
+    .hamburger-light {
+        display: block;
+        height: 20px;
+        position: relative;
+        bottom: 2px;
+    }
 </style>
 
-<link href="https://uploads.gazetekapi.com/front/css/base/pagelineweb.css" rel="stylesheet" />
-<link href="~/hamburger.css" rel="stylesheet" />
+<link href="~/assets/css/pagelineweb.css" rel="stylesheet" />
+<link href="~/assets/css/hamburger.css" rel="stylesheet" />
 
 <header class="bg-light">
     <!-- Navbar  Top-->
@@ -55,7 +68,7 @@
                     <div class="topbar-left">
                         <ul class="navbar-nav ">
                             <li class="nav-item search">
-                                <a class="nav-link nav-link-search" href="#" style="float:left;">
+                                <a class="nav-link nav-link-search" href="#" style="float: left; position: relative; top: 6px;">
                                     <i class="fa fa-search"></i>
                                 </a>
                                 <label id="switch" class="switch">
@@ -71,25 +84,25 @@
                         <ul class="topbar-sosmed">
 
                             <li>
-                                <a class="sm-link" rel="nofollow" target="_blank" href="https://twitter.com/gztkapi"><img style="height:25px;" title="twitter" alt="twitter" src="https://uploads.gazetekapi.com/images/social-media/twitter.svg" /></a>
+                                <a class="sm-link" rel="nofollow" target="_blank" href="https://twitter.com/gztkapi"><img style="height:25px;" title="twitter" alt="twitter" src="~/assets/images/social-media/twitter.svg" /></a>
                             </li>
                             <li>
-                                <a class="sm-link" rel="nofollow" target="_blank" href="https://www.facebook.com/"><img style="height:25px;" title="facebook" alt="facebook" src="https://uploads.gazetekapi.com/images/social-media/facebook.svg" /></a>
+                                <a class="sm-link" rel="nofollow" target="_blank" href="https://www.facebook.com/"><img style="height:25px;" title="facebook" alt="facebook" src="~/assets/images/social-media/facebook.svg" /></a>
                             </li>
                             <li>
-                                <a class="sm-link" rel="nofollow" target="_blank" href="https://www.youtube.com/"><img style="height:25px;" title="youtube" alt="youtube" src="https://uploads.gazetekapi.com/images/social-media/youtube.svg" /></a>
+                                <a class="sm-link" rel="nofollow" target="_blank" href="https://www.youtube.com/"><img style="height:25px;" title="youtube" alt="youtube" src="~/assets/images/social-media/youtube.svg" /></a>
                             </li>
                             <li>
-                                <a class="sm-link" rel="nofollow" target="_blank" href="https://www.instagram.com/gzt4kapi/"><img style="height:25px;" title="instagram" alt="instagram" src="https://uploads.gazetekapi.com/images/social-media/instagram.svg" /></a>
+                                <a class="sm-link" rel="nofollow" target="_blank" href="https://www.instagram.com/gzt4kapi/"><img style="height:25px;" title="instagram" alt="instagram" src="~/assets/images/social-media/instagram.svg" /></a>
                             </li>
                             @*<li>
                                     <a class="sm-link" target="_blank" href="https://web.telegram.org/"><img style="height:25px;" src="https://uploads.gazetekapi.com/images/social-media/telegram.svg" /></a>
                                 </li>*@
                             <li>
-                                <a class="sm-link" rel="nofollow" target="_blank" href="https://www.google.com.tr/"><img style="height:25px;" title="gmail" alt="gmail" src="https://uploads.gazetekapi.com/images/social-media/mail.svg" /></a>
+                                <a class="sm-link" rel="nofollow" target="_blank" href="https://www.google.com.tr/"><img style="height:25px;" title="gmail" alt="gmail" src="~/assets/images/social-media/mail.svg" /></a>
                             </li>
-                            <li style="padding:0px; margin-left:4px;">
-                                <a class="sm-link" target="_blank" href="@Url.Action("Rss","anasayfa")"><img style="height:25px;" title="rss" alt="rss" src="https://uploads.gazetekapi.com/images/social-media/rss.svg" /></a>
+                            <li>
+                                <a class="sm-link" target="_blank" href="@Url.Action("Rss", "anasayfa")"><img style="height:25px;" title="rss" alt="rss" src="~/assets/images/social-media/rss.svg" /></a>
                             </li>
                         </ul>
                     </div>
@@ -105,9 +118,8 @@
             <div class="container boxed">
                 <figure class="mb-0">
                     <a asp-action="sayfa" asp-controller="anasayfa">
-                        <img src="https://uploads.gazetekapi.com/images/@Model.Logo" alt="@Model.Logo" title="@Model.Logo" id="img-shrink" class="logo logo-img logo-light" />
-                        <img src="https://uploads.gazetekapi.com/images/@Model.FooterLogo" style="display:none;" title="@Model.FooterLogo" alt="@Model.FooterLogo" id="img-shrink" class="logo logo-img logo-dark" />
-
+                        <img src="~/assets/images/placeholder/kapi-logo.png" alt="gkapi_logo" title="gkapi_logo" id="img-shrink" class="logo logo-img logo-light" />
+                        <img src="~/assets/images/logo-footer-son223354760.webp" style="display:none;" title="gkapi_footer" alt="gkapi_footer" id="img-shrink" class="logo logo-img logo-dark" />
                     </a>
                 </figure>
                 <div class="offcanvas-header">
@@ -144,13 +156,20 @@
                                                         if (item.isRateOrDown == "down")
                                                         {
                                                             <li class="nav-item" id="down-currency" style="font-size: 14px; margin-left:10px; color: #54626b">
-                                                                <span style="font-weight:500;"><img src="https://uploads.gazetekapi.com/images/social-media/chevron-down.svg" title="chevron-down" alt="chevron-down" width="15" height="15" /> @d.CurrencyCode</span> @d.ForexBuying
+                                                                <span style="font-weight:500;"><img src="~/assets/images/social-media/chevron-down.svg" title="chevron-down" alt="chevron-down" width="15" height="15" /> @d.CurrencyCode</span> @d.ForexBuying
                                                             </li>
                                                         }
                                                         else if (item.isRateOrDown == "increase")
                                                         {
                                                             <li class="nav-item" id="inc-currency" style="font-size: 14px; margin-left: 10px; color: #54626b">
-                                                                <span style="font-weight:500;"><img src="https://uploads.gazetekapi.com/images/social-media/chevron-up.svg" alt="chevron-up" title="chevron-up" width="15" height="15" /> @d.CurrencyCode</span> @d.ForexBuying
+                                                                <span style="font-weight:500;"><img src="~/assets/images/social-media/chevron-up.svg" alt="chevron-up" title="chevron-up" width="15" height="15" /> @d.CurrencyCode</span> @d.ForexBuying
+                                                            </li>
+                                                        }
+
+                                                        else
+                                                        {
+                                                            <li class="nav-item" style="font-size: 14px; margin-left: 10px; color: #54626b">
+                                                                <span style="font-weight:500;">@d.CurrencyCode</span> <span style="font-weight:800;">@d.ForexBuying</span>
                                                             </li>
                                                         }
                                                     }
@@ -172,18 +191,21 @@
                                         <a asp-action="kategori" asp-controller="anasayfa" asp-route-id="@item.Id" class="menu-link"> @item.CategoryName.ToUpper() </a> <div class="menu-rect"></div>
                                     </li>
                                 }
-                            <li class="nav-item dropdown has-megamenu" style="margin-left:13px; margin-right:0px; margin-top:3px; cursor:pointer;">
-                                <a class="menu-link dropdown-toggle" data-toggle="dropdown"> <img alt="hamburger_icon" title="hamburger-menu" src="https://uploads.gazetekapi.com/images/hamburger-icon.png" /> </a>
-                                <div class="dropdown-menu animate fade-down megamenu mx-auto" role="menu">
-                                    <div class="container wrap__mobile-megamenu">
-                                        <div class="col-megamenu">
-                                            <h5 class="title">Recent news</h5>
-                                            <hr>
-                                            <!-- Popular news carousel -->
-                                        </div> <!-- col-megamenu.// -->
+
+                                <li class="nav-item dropdown has-megamenu" style="margin-left:13px; margin-right:0px; margin-top:3px; cursor:pointer;">
+                                    <a class="menu-link dropdown-toggle" data-toggle="dropdown">
+                                        <img alt="hamburger_icon" title="hamburger-menu" class="hamburger-light" src="~/assets/images/hamburgerMenu.png" />
+                                        <img alt="hamburger_icon_dark" class="hamburger-dark" title="hamburger-menu-dark" src="~/assets/images/hamburgerMenuWhite.png" />
+                                    </a>
+                                    <div class="dropdown-menu animate fade-down megamenu mx-auto" role="menu">
+                                        <div class="container wrap__mobile-megamenu">
+                                            <div class="col-megamenu">
+                                                @{ await Html.RenderPartialAsync("HamburgerMenuContent");}
+
+                                            </div>
+                                        </div>
                                     </div>
-                                </div> <!-- dropdown-mega-menu.// -->
-                            </li>
+                                </li>
                             </ul>
                         </div>
 
@@ -285,34 +307,34 @@
     <div class="banner-cs" id="bnr" style="max-width:1367px;">
         <div class="row" style="width:100%; margin:0;">
             <div class="col-sm-6">
-                <img class="banner-cs-img" style="float:left;" title="banner" alt="banner" src="https://uploads.gazetekapi.com/images/banner-anasayfa.jpg" />
+                <img class="banner-cs-img" style="float:left;" title="banner" alt="banner" src="~/assets/images/banner-anasayfa.jpg" />
             </div>
             <div class="col-sm-6">
-                <img class="banner-cs-img" style="float:right;" title="banner-2" alt="banner-2" src="https://uploads.gazetekapi.com/images/banner-anasayfa.jpg" />
+                <img class="banner-cs-img" style="float:right;" title="banner-2" alt="banner-2" src="~/assets/images/banner-anasayfa.jpg" />
             </div>
         </div>
     </div>
     <div class="container" style="max-width:1030px; padding-top:20px;">
         <div class="row row-banners">
             <div class="col-3 col-sm-3 banner-3">
-                <a href="@Url.Action("aboneol","anasayfa")">
-                    <img style="width:100%" alt="lemonde" title="lemonde" src="https://uploads.gazetekapi.com/images/ust-menu-lemonde-son.svg" />
-                </a>
+                @*<a href="@Url.Action("aboneol","anasayfa")">*@
+                <img style="width:100%" alt="lemonde" title="lemonde" src="~/assets/images/ust-menu-lemonde-son.svg" />
+                @*</a>*@
             </div>
             <div class="col-9 col-sm-9 banner-9">
-                @foreach (var item in categories.Where(x => x.Position == 1))
-                {
-                    <a asp-controller="anasayfa" asp-action="kategori" asp-route-id="@item.Id">
-                        <img class="img-subcat" title="@item.Image" alt="@item.Image" src="https://uploads.gazetekapi.com/images/@item.Image" />
-                    </a>
-                }
+                @*@foreach (var item in categories.Where(x => x.Position == 1))
+                    {*@
+                <a asp-controller="anasayfa" asp-action="kategori" asp-route-id="1">
+                    <img class="img-subcat" title="manset" alt="manset" src="~/assets/images/manset.jpg" />
+                </a>
+                @*}*@
             </div>
         </div>
     </div>
     <div class="container" id="banner-header" style="max-width:1030px; padding-top:15px;">
         <div class="row">
             <div class="col-sm-12">
-                <img style="width:100%" title="masterhead" alt="masterhead" src="https://uploads.gazetekapi.com/images/masterhead.jpg" />
+                <img style="width:100%" title="masterhead" alt="masterhead" src="~/assets/images/masterhead.jpg" />
             </div>
         </div>
     </div>

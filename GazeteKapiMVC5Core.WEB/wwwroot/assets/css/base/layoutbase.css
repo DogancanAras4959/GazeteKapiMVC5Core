@@ -1,0 +1,81 @@
+﻿body {
+    font: normal 100%/1.4 "Montserrat",sans-serif;
+}
+
+.sm-background {
+    border-radius: 100%;
+    background-color: #000;
+    width: 2em;
+    height: 2em;
+    position: relative;
+    top: 5px;
+    margin-left: 10px;
+}
+
+.sm-link {
+    top: 0px;
+    right: 2px;
+    position: relative;
+}
+
+.menu-rect {
+    width: 13px;
+    height: 13px;
+    background-color: #f4c625;
+    float: right;
+    position: relative;
+    top: 4px;
+    left: 5px;
+}
+
+.navbar-soft .navbar-nav .nav-item {
+    margin-left: 18px;
+    margin-right: 5px;
+}
+
+.nav-link-search {
+    position: relative;
+    top: 6px;
+    color: #000;
+}
+
+.navbar a:hover {
+    color: #000;
+    text-decoration: none;
+}
+
+.logo-img {
+    height: 120px;
+    padding: 15px 0px;
+}
+
+.menu-link {
+    font-weight: 700;
+    font-size: 17px;
+    color: #515d5e;
+}
+
+.navbar a {
+    color: #515d5e;
+}
+
+.topbar .topbar-right .topbar-sosmed li a {
+    color: #f4c625;
+    font-size: 16px;
+}
+
+.topbar .topbar-right .topbar-sosmed li {
+    list-style: none;
+    float: left;
+    font-size: 14px;
+    padding: 0 5px;
+}
+
+.topbar .topbar-right .topbar-sosmed {
+    display: inline-table;
+    padding: 0px;
+    padding-left: 0;
+    margin: 0;
+    position: relative;
+    top: 10px;
+}

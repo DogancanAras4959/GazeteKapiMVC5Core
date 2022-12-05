@@ -6,7 +6,7 @@
 }
 <style>
     .popular__news-header-carousel {
-        margin-top: 20px;
+        margin-top: 35px;
     }
     .top__news__slider .slick-slide {
         margin-left: 16px;
@@ -22,34 +22,38 @@
     {
         if (item.IsSlide == false)
         {
-            count++;
+            if (item.RowNo > 13)
+            {
+                count++;
 
-            <div class="item">
-                <!-- Post Article -->
-                <div class="article__entry">
-                    <div class="article__image">
-                        <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
-                            <img src="https://uploads.gazetekapi.com/images/@item.Image" alt="@item.Image" title="@item.Image" class="img-fluid" />
-                        </a>
-                    </div>
-                    <div class="article__content">
-                        <h5 style="font-size:15px;">
-                            @if (item.Title.Length > 50)
-                            {<a href="@Url.Action("haber", "anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">@item.Title.Substring(0, 50)<span>...</span> </a>}
-                        else
-                        {
-                            <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">@item.Title</a>
-                        }
-                        </h5>
+                <div class="item">
+                    <!-- Post Article -->
+                    <div class="article__entry">
+                        <div class="article__image">
+                            <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
+                                <img src="https://uploadslemonde.ikifikir.net/images/@item.Image" alt="@item.Image" title="@item.Image" class="img-fluid" />
+                            </a>
+                        </div>
+                        <div class="article__content" style="overflow-wrap: anywhere;">
+                            <h5 style="font-size:15px;">
+                                @if (item.Title.Length > 50)
+                                {<a href="@Url.Action("haber", "anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">@item.Title.Substring(0, 50)<span>...</span> </a>}
+                            else
+                            {
+                                <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">@item.Title</a>
+                            }
+                            </h5>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            if (count == 4)
-            {
-                count = 0;
-                break;
+                if (count == 4)
+                {
+                    count = 0;
+                    break;
+                }
             }
+
         }
     }
 

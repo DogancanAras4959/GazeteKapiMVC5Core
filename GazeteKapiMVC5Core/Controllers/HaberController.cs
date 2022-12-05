@@ -128,7 +128,7 @@ namespace GazeteKapiMVC5Core.Controllers
                     {
                         if (file != null)
                         {
-                          
+
                             category.Image = SaveImageProcess.ImageInsert(file, "Admin");
                         }
                         else
@@ -191,7 +191,7 @@ namespace GazeteKapiMVC5Core.Controllers
             try
             {
                 var categories = _mapper.Map<CategoryDto, CategoryEditViewModel>(_categoryService.GetCategoryById(id));
-                
+
                 var list = _mapper.Map<List<CategoryListItemDto>, List<CategoryListViewModel>>(_categoryService.GetParentCategoryList());
 
                 var listStyleType = _mapper.Map<List<StylePageListItemDto>, List<StyleTypeListViewModel>>(_categoryService.GetAllStyleTypes());
@@ -510,39 +510,12 @@ namespace GazeteKapiMVC5Core.Controllers
         //[RoleAuthorize("Haberler")]
         [HttpGet]
         [CheckRoleAuthorize]
-        public IActionResult Haberler(int? pageNumber, string searchstring, int? CategoryId, int? UserId)
+        public IActionResult Haberler()
         {
             try
             {
-                int pageSize = 50;
-                List<NewsLıstItemModel> haberlist = null;
-
-                var categories = _mapper.Map<List<CategoryListItemDto>, List<CategoryListViewModel>>(_categoryService.GetAllCategory());
-                ViewBag.Categories = new SelectList(categories.ToList(), "Id", "CategoryName");
-
-                var users = _mapper.Map<List<UserListItemDto>, List<UserListViewModel>>(_userService.GetAllUsers());
-                ViewBag.Users = new SelectList(users.ToList(), "Id", "DisplayName");
-
-                if (searchstring != "" && searchstring != null)
-                {
-                    haberlist = _mapper.Map<List<NewsListItemDto>, List<NewsLıstItemModel>>(_newService.searchDataInNews(searchstring));
-                    return View(PaginationList<NewsLıstItemModel>.Create(haberlist.ToList(), pageNumber ?? 1, pageSize));
-                }
-
-                if (CategoryId != 0 && CategoryId != null)
-                {
-                    haberlist = _mapper.Map<List<NewsListItemDto>, List<NewsLıstItemModel>>(_newService.newsListByCategoryId(CategoryId));
-                    return View(PaginationList<NewsLıstItemModel>.Create(haberlist.ToList(), pageNumber ?? 1, pageSize));
-                }
-
-                if (UserId != 0 && UserId != null)
-                {
-                    haberlist = _mapper.Map<List<NewsListItemDto>, List<NewsLıstItemModel>>(_newService.newsListByUserIdInAll(UserId));
-                    return View(PaginationList<NewsLıstItemModel>.Create(haberlist.ToList(), pageNumber ?? 1, pageSize));
-                }
-
-                haberlist = _mapper.Map<List<NewsListItemDto>, List<NewsLıstItemModel>>(_newService.newsList());
-                return View(PaginationList<NewsLıstItemModel>.Create(haberlist.ToList(), pageNumber ?? 1, pageSize));
+                List<NewsLıstItemModel> haberlist = _mapper.Map<List<NewsListItemDto>, List<NewsLıstItemModel>>(_newService.newsList());
+                return View(haberlist);
             }
             catch (Exception ex)
             {
@@ -598,7 +571,9 @@ namespace GazeteKapiMVC5Core.Controllers
                                     {
                                         return View(model);
                                     }
-
+                                    model.RowNo = 9;
+                                    model.VideoUploaded = "https://uploadslemonde.ikifikir.net/videos/" + model.VideoUploaded;
+                                    model.Sorted = 9;
                                     model.Image = SaveImageProcess.ImageInsert(file, "Admin");
                                     model.UserId = yoneticiGetir.Id;
                                     int resultId = Convert.ToInt32(await _newService.createNews(_mapper.Map<NewsCreateViewModel, NewsDto>(model)));
@@ -772,6 +747,16 @@ namespace GazeteKapiMVC5Core.Controllers
 
                                 model.Image = SaveImageProcess.ImageInsert(file, "Admin");
 
+                                if(model.IsSlide == true)
+                                {
+                                    if(model.RowNo != 9)
+                                    {
+                                        model.RowNo = 9;
+                                    }
+                                }
+
+                                model.VideoUploaded = "https://uploadslemonde.ikifikir.net/videos/" + model.VideoUploaded;
+
                                 int resultId = Convert.ToInt32(await _newService.editNews(_mapper.Map<NewsEditViewModel, NewsDto>(model)));
 
                                 if (resultId > 0)
@@ -793,6 +778,7 @@ namespace GazeteKapiMVC5Core.Controllers
                             }
                             else
                             {
+                                model.VideoUploaded = "https://uploadslemonde.ikifikir.net/videos/" + model.VideoUploaded;
 
                                 int resultId = Convert.ToInt32(await _newService.editNews(_mapper.Map<NewsEditViewModel, NewsDto>(model)));
 
@@ -826,6 +812,55 @@ namespace GazeteKapiMVC5Core.Controllers
                     LoadData();
                     return View(model);
                 }
+            }
+            catch (Exception ex)
+            {
+                TempData["HataMesaji"] = ex.ToString();
+                return RedirectToAction("ErrorPage", "Home");
+            }
+        }
+
+        public async Task<IActionResult> HaberCogalt(int Id)
+        {
+            try
+            {
+
+                var news = _mapper.Map<NewsDto, NewsEditViewModel>(_newService.getNews(Id));
+
+                AccountEditViewModel yoneticiGetir = SessionExtensionMethod.GetObject<AccountEditViewModel>(HttpContext.Session, "user");
+                news.UserId = yoneticiGetir.Id;
+
+                NewsCreateViewModel model = new NewsCreateViewModel();
+                model.CategoryId = news.CategoryId;
+                model.ColNo = news.ColNo;
+                model.GuestId = news.GuestId;
+                model.IsActive = news.IsActive;
+                model.IsCommentActive = news.IsCommentActive;
+                model.IsLock = news.IsLock;
+                model.IsOpenNotifications = news.IsOpenNotifications;
+                model.IsSlide = news.IsSlide;
+                model.IsTitle = news.IsTitle;
+                model.Title = news.Title;
+                model.Spot = news.Spot;
+                model.NewsContent = news.NewsContent;
+                model.MetaTitle = news.MetaTitle;
+                model.Image = news.Image;
+                model.ParentNewsId = news.ParentNewsId;
+                model.PublishedTime = news.PublishedTime;
+                model.PublishTypeId = news.PublishTypeId;
+                model.Sound = news.Sound;
+                model.Sorted = news.Sorted;
+                model.Tag = news.Tag;
+                model.VideoSlug = news.VideoSlug;
+                model.Views = news.Views;
+                model.RowNo = news.RowNo;
+                model.UserId = news.UserId;
+
+                int resultId = Convert.ToInt32(await _newService.createNews(_mapper.Map<NewsCreateViewModel, NewsDto>(model)));
+
+                LoadData();
+                return RedirectToAction("Haberler", "Haber");
+
             }
             catch (Exception ex)
             {
@@ -953,24 +988,16 @@ namespace GazeteKapiMVC5Core.Controllers
 
         [HttpGet]
         [CheckRoleAuthorize]
-        public IActionResult Etiketler(int? pageNumber, string tagNameSearch)
+        public IActionResult Etiketler()
         {
             try
             {
                 var etiketlerHaberler = _mapper.Map<List<TagNewsListItemDto>, List<TagNewsListViewModel>>(_newService.tagsListWithNews());
                 ViewBag.EtiketHaberler = etiketlerHaberler;
+           
+                List<TagListViewModel> tags = _mapper.Map<List<TagListItemDto>, List<TagListViewModel>>(_newService.tagList());
+                return View(tags);
 
-                int pageSize = 20;
-                List<TagListViewModel> tags = null;
-
-                if (tagNameSearch != null && tagNameSearch != "")
-                {
-                    tags = _mapper.Map<List<TagListItemDto>, List<TagListViewModel>>(_newService.tagListWithSearch(tagNameSearch));
-                    return View(PaginationList<TagListViewModel>.Create(tags.ToList(), pageNumber ?? 1, pageSize));
-                }
-
-                tags = _mapper.Map<List<TagListItemDto>, List<TagListViewModel>>(_newService.tagList());
-                return View(PaginationList<TagListViewModel>.Create(tags.ToList(), pageNumber ?? 1, pageSize));
             }
             catch (Exception ex)
             {
@@ -1117,6 +1144,7 @@ namespace GazeteKapiMVC5Core.Controllers
         #endregion
 
         #region OrtamMedyası
+
         public IActionResult OrtamMedyasi(int? pagenumber)
         {
             int pageSize = 50;
@@ -1143,8 +1171,9 @@ namespace GazeteKapiMVC5Core.Controllers
                 int resultId = Convert.ToInt32(await _newService.insertMedia(_mapper.Map<MediaCreateViewModel, MediaDto>(model)));
 
             }
-            return View();
+            return RedirectToAction("OrtamMedyasi","Haber");
         }
+
         #endregion
 
         #region Extend Methods

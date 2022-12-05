@@ -28,7 +28,7 @@
     <meta name="google-site-verification" content="PEFfAU7AcnEUeP0fmuas2H4GcsRXcZxf5apJq_huNow" />
     <meta name="twitter:card" content="summary_larg_image" />
     <meta name="twitter:title" content="@meta.Title" />
-    <meta name="twitter:site" content="@meta.Url" /> 
+    <meta name="twitter:site" content="@meta.Url" />
     <meta name="twitter:description" content="@meta.Description" />
     <meta name="twitter:image" content="@meta.Image" />
     <meta name="description" content="@meta.Description" />
@@ -43,18 +43,18 @@
     <meta property="og:image" content="@meta.ogImage" />
     <meta property="og:url" content="@meta.Url" />
 
-    <link rel="icon" type="image/x-icon" href="https://uploads.gazetekapi.com/front/kapi-logo.ico" />
+    <link rel="icon" type="image/x-icon" href="~/assets/kapi-logo.ico" />
     <link rel="apple-touch-icon" href="icon.png" />
     <link rel="canonical" href="https://www.gazetekapi.com" />
 
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,500;0,700;1,300;1,500&family=Poppins:ital,wght@0,300;0,500;0,700;1,300;1,400&display=swap"
           rel="stylesheet" />
     @*<link href="./css/styles.css?537a1bbd0e5129401d28" rel="stylesheet">*@
-    <link href="https://uploads.gazetekapi.com/front/css/styles.css" rel="stylesheet" />
-    <link href="https://uploads.gazetekapi.com/front/css/base/layoutbase.css" rel="stylesheet" />
-    <link href="~/modeservicestyle.css" rel="stylesheet" />
-    <link href="~/mobile-resp.css" rel="stylesheet" />
-    <link rel="manifest" href="~/manifest.json" crossorigin="use-credentials" />
+    <link href="~/assets/css/styles.css" rel="stylesheet" />
+    <link href="~/assets/css/base/layoutbase.css" rel="stylesheet" />
+    <link href="~/assets/css/modeservicestyle.css" rel="stylesheet" />
+    <link href="~/assets/css/mobile-resp.css" rel="stylesheet" />
+    <link rel="manifest" href="~/assets/manifest.json" crossorigin="use-credentials" />
 
     <title>@meta.Title</title>
 
@@ -156,18 +156,18 @@
 <body>
 
     @await Component.InvokeAsync("HeaderWeb")
-
+ 
     @RenderBody()
 
     @await Component.InvokeAsync("FooterWeb")
 
     <a href="javascript:" id="return-to-top"><i class="fa fa-chevron-up"></i></a>
 
-    @*<script type="text/javascript" src="./js/index.bundle.js?537a1bbd0e5129401d28"></script>*@
-    <script src="https://uploads.gazetekapi.com/front/js/index.bundle.js"></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-    <script src="~/InfinitiySroll.js"></script>
-    <script src="~/modeservice.js"></script>
+    <script type="text/javascript" src="~/assets/js/index.bundle.js?537a1bbd0e5129401d28"></script>
+    <script src="~/assets/js/index.bundle.js"></script>
+    @*<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>*@
+    <script src="~/assets/js/InfinitiySroll.js"></script>
+    <script src="~/assets/js/modeservice.js"></script>
 
     <script>
         window.onscroll = function () { onScroll() };
@@ -198,13 +198,13 @@
 
             }     
 
-            var myArray = @Html.Raw(ViewData["Data"]);
+            var myArray = '@Html.Raw(ViewData["Data"])';
 
             $.each(myArray, function (i, val)
             {
                 if (val.IsOpenNotifications == true) {
                     var notification = new Notification(val.Title, {
-                        icon: 'https://uploads.gazetekapi.com/images/' + val.Image,
+                        icon: '~/assets/images/' + val.Image,
                         body: "Haberi okumak için tıklayın!",
                     });
 

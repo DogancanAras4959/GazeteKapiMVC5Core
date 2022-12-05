@@ -91,9 +91,9 @@
     }
 </style>
 
-<link href="https://uploads.gazetekapi.com/admin/wwwroot/assets/css/pageline.css" rel="stylesheet" />
-<link href="https://uploads.gazetekapi.com/admin/wwwroot/assets/libs/select2/css/select2.min.css" rel="stylesheet" type="text/css">
-<link href="https://uploads.gazetekapi.com/admin/wwwroot/assets/libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css" rel="stylesheet">
+<link href="~/assets/css/pageline.css" rel="stylesheet" />
+<link href="~/assets/libs/select2/css/select2.min.css" rel="stylesheet" type="text/css">
+<link href="~/assets/libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css" rel="stylesheet">
 
 <form method="post" asp-action="HaberDuzenle" asp-controller="Haber" enctype="multipart/form-data">
 
@@ -152,27 +152,35 @@
                 <div class="card-body">
                     <div class="mb-3">
                         <label for="example-text-input" class="col-sm-12 col-form-label">Meta Başlık</label>
-                        <input asp-for="MetaTitle" autocomplete="off" data-toggle="tooltip" data-placement="bottom" class="form-control" type="text" placeholder="Haber için ana başlık giriniz (*SEO için önerilir)" id="example-text-input">
+                        <input asp-for="MetaTitle" autocomplete="off" maxlength="160" data-toggle="tooltip" data-placement="bottom" class="form-control" type="text" placeholder="Haber için ana başlık giriniz (*SEO için önerilir)" id="example-text-input">
                         <span asp-validation-for="MetaTitle" class="text-danger"></span>
                     </div>
                     <div class="mb-3">
                         <label for="example-text-input" class="col-sm-12 col-form-label">Manşet Başlık</label>
-                        <input asp-for="Title" autocomplete="off" data-toggle="tooltip" data-placement="bottom" class="form-control" type="text" placeholder="Haber için manşet başlık giriniz" id="example-text-input">
+                        <input asp-for="Title" autocomplete="off" data-toggle="tooltip" maxlength="160" data-placement="bottom" class="form-control" type="text" placeholder="Haber için manşet başlık giriniz" id="example-text-input">
                         <span asp-validation-for="Title" class="text-danger"></span>
                     </div>
                     <div class="mb-3">
                         <label for="example-text-input" class="col-sm-12 col-form-label">Spot</label>
-                        <textarea asp-for="Spot" autocomplete="off" rows="4" cols="50" data-toggle="tooltip" data-placement="bottom" class="form-control" type="text" placeholder="Haber için spot giriniz" id="example-text-input"></textarea>
+                        <textarea asp-for="Spot" autocomplete="off" maxlength="500" rows="4" cols="50" data-toggle="tooltip" data-placement="bottom" class="form-control" type="text" placeholder="Haber için spot giriniz" id="example-text-input"></textarea>
                         <span asp-validation-for="Spot" class="text-danger"></span>
                     </div>
                     <div class="mb-3">
                         <label for="example-text-input" class="col-sm-12 col-form-label">Haber İçerik</label>
-                        <textarea asp-for="NewsContent" rows="75" cols="150" id="editor"></textarea>
+                        <textarea asp-for="NewsContent" rows="3" cols="150" class="ckeditor"></textarea>
                         <span asp-validation-for="NewsContent" class="text-danger"></span>
                     </div>
                     <div class="mb-3">
-                        <label for="example-text-input" class="col-sm-12 col-form-label">Video Linkini Ekleyin</label>
-                        <textarea asp-for="VideoSlug" autocomplete="off" rows="4" cols="50" data-toggle="tooltip" data-placement="bottom" class="form-control" type="text" placeholder="Haber için spot giriniz" id="example-text-input"></textarea>
+                        <label for="example-text-input" class="col-sm-12 col-form-label">Video</label>
+                        <input asp-for="VideoUploaded" autocomplete="off" data-toggle="tooltip"
+                               maxlength="160" id="defaultconfig"
+                               data-placement="bottom" class="form-control" type="text"
+                               placeholder="Haber için video giriniz">
+
+                    </div>
+                    <div class="mb-3">
+                        <label for="example-text-input" class="col-sm-12 col-form-label">Video</label>
+                        <textarea asp-for="VideoSlug" autocomplete="off" rows="4" cols="50" data-toggle="tooltip" data-placement="bottom" class="form-control" type="text" placeholder="Video için iframe kodu giriniz" id="example-text-input"></textarea>
                         <span asp-validation-for="VideoSlug" class="text-danger"></span>
                     </div>
                     <div class="mb-3">
@@ -283,11 +291,11 @@
                         <div class="card-body">
                             @if (Model.Image != null)
                             {
-                                <img id="img" style="width:100%" src="https://uploads.gazetekapi.com/images/@Model.Image" />
+                                <img id="img" style="width:100%" src="https://uploadslemonde.ikifikir.net/images/@Model.Image" />
                             }
                             else
                             {
-                                <img id="img" style="width:100%" src="https://uploads.gazetekapi.com/images/imgdefault.jpg" />
+                                <img id="img" style="width:100%" src="~/assets/images/imgdefault.jpg" />
                             }
                             <label style="margin-top:10px;" class="col-sm-12 text-center">*(835x510 dosya boyutu)</label>
                             <label for="example-text-input" class="col-sm-12 col-form-label text-center" style="margin-top:10px;">Öne Çıkan Görseli Güncelle</label>
@@ -415,10 +423,10 @@
     </div><!-- /.modal-dialog -->
 </div>
 
-<script src="https://uploads.gazetekapi.com/admin/wwwroot/assets/css/ckeditor/ckeditor.js"></script>
-<script src="https://uploads.gazetekapi.com/admin/wwwroot/assets/libs/jquery/jquery.min.js"></script>
-<script src="https://uploads.gazetekapi.com/admin/wwwroot/assets/libs/select2/js/select2.min.js"></script>
-<script src="https://uploads.gazetekapi.com/admin/wwwroot/assets/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+<script src="~/assets/ckeditor/ckeditor.js"></script>
+<script src="~/assets/libs/jquery/jquery.min.js"></script>
+<script src="~/assets/libs/select2/js/select2.min.js"></script>
+<script src="~/assets/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
 
 <script type="text/javascript">
 
@@ -452,7 +460,7 @@
                 reader.readAsDataURL(input.files[0]);
             }
             else {
-                $('#img').attr('src', 'https://uploads.gazetekapi.com/images/user.png');
+                $('#img').attr('src', '~/images/user.png');
             }
         });
 
