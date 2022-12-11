@@ -34,8 +34,8 @@
                                 <img src="https://uploadslemonde.ikifikir.net/images/@item.Image" alt="@item.Image" title="@item.Image" class="img-fluid" />
                             </a>
                         </div>
-                        <div class="article__content" style="overflow-wrap: anywhere;">
-                            <h5 style="font-size:15px;">
+                        <div class="article__content">
+                            <h5 style="font-size:15px;" class="article_title-mobile">
                                 @if (item.Title.Length > 50)
                                 {<a href="@Url.Action("haber", "anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">@item.Title.Substring(0, 50)<span>...</span> </a>}
                             else

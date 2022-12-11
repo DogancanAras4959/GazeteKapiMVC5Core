@@ -1,0 +1,27 @@
+﻿body {
+}
+
+.image-banner-magazine {
+    width: 160px;
+    -webkit-transform: rotate(180deg);
+    -moz-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+    -o-transform: rotate(180deg);
+    transform: rotate(348deg);
+    position: relative;
+    left: 0;
+    top: 40px;
+}
+
+.image-container {
+    width: 100%;
+    border: 0;
+    height: 180px;
+    background-image: linear-gradient(to right, #5ca6ff, #4e8dd8);
+    padding: 20px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: nowrap;
+}

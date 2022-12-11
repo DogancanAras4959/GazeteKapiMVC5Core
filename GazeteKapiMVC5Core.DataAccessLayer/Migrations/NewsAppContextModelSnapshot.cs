@@ -71,6 +71,46 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Migrations
                     b.ToTable("authorize");
                 });
 
+            modelBuilder.Entity("GazeteKapiMVC5Core.DataAccessLayer.Models.Banners", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("BannerFrame")
+                        .HasMaxLength(800)
+                        .HasColumnType("nvarchar(800)");
+
+                    b.Property<string>("BannerImage")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("BannerName")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<DateTime>("CreatedTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Link")
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)");
+
+                    b.Property<string>("Rotate")
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)");
+
+                    b.Property<DateTime>("UpdatedTime")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("banners");
+                });
+
             modelBuilder.Entity("GazeteKapiMVC5Core.DataAccessLayer.Models.BrandPolicy", b =>
                 {
                     b.Property<int>("Id")
@@ -333,6 +373,35 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("guest");
+                });
+
+            modelBuilder.Entity("GazeteKapiMVC5Core.DataAccessLayer.Models.Magazinebanner", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("BannerImage")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<DateTime>("CreatedTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Link")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<DateTime>("UpdatedTime")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("magazinebanner");
                 });
 
             modelBuilder.Entity("GazeteKapiMVC5Core.DataAccessLayer.Models.Media", b =>

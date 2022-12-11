@@ -1,0 +1,90 @@
+﻿@model IEnumerable<GazeteKapiMVC5Core.Models.MagazineBanner.MagazineBannerListViewModel>
+
+@{
+    ViewData["Title"] = "Kategoriler";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/assets/css/pageline.css" rel="stylesheet" />
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row mb-3">
+                    <div class="col-sm-4">
+                        <h4 class="card-title">Le Monde Diplomatique Banner</h4>
+                        <p class="card-title-desc">Banner ile tüm işlemlerinizi gerçekleştirin</p>
+                    </div>
+                    <div class="col-sm-8">
+                        <a style="float:right;" href="@Url.Action("DergiBannerOlustur","Banner")" class="btn btn-info">Banner Ekle <i class="fa fa-plus"></i></a>
+                    </div>
+                </div>
+                <div class="table-rep-plugin">
+                    <div class="table-responsive mb-0" data-bs-pattern="priority-columns">
+                        <table id="datatable" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                            <thead>
+                                <tr>
+                                    <th style="text-align:center;">#</th>
+                                    <th>Oluşturma</th>
+                                    <th>Güncelleme</th>
+                                    <th>Durum</th>
+                                    <th>İşlem</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                @foreach (var item in Model)
+                                {
+                                    <tr class="button-items" id="tooltip-container">
+                                        <td style="text-align: center; width: 1%; white-space: nowrap;">
+                                            <a data-bs-container="#tooltip-container"
+                                               data-bs-toggle="tooltip"
+                                               data-bs-placement="top" title="Banner Düzenle"
+                                               asp-action="DergiBannerGuncelle" asp-controller="Banner" asp-route-id="@item.Id">
+                                                <img src="https://uploadslemonde.ikifikir.net/images/@item.BannerImage" style="width:200px" />
+                                            </a>
+                                        </td>
+
+                                        <td>@Html.DisplayFor(model => item.UpdatedTime)</td>
+                                        <td>@Html.DisplayFor(model => item.CreatedTime)</td>
+                                        @if (item.IsActive == true)
+                                        {
+                                            <td>
+                                                <span class="text-success">Aktif</span>
+                                            </td>
+                                        }
+                                        else
+                                        {
+                                            <td><span class="text-danger">Pasif</span></td>
+                                        }
+                                        <td>
+
+                                            @if (item.IsActive == false)
+                                            {
+                                                <a style="padding:3px;" data-bs-container="#tooltip-container"
+                                                   data-bs-toggle="tooltip" data-bs-placement="top"
+                                                   title="Banner Aktifleştir" asp-action="DergiBannerAktifEt" asp-route-id="@item.Id"><i class="mdi mdi-publish mdi-24px"></i></a>
+                                            }
+                                            else
+                                            {
+                                                <a style="padding:3px;" data-bs-container="#tooltip-container"
+                                                   data-bs-toggle="tooltip" data-bs-placement="top"
+                                                   title="Banner Pasifleştir" asp-action="DergiBannerAktifEt" asp-route-id="@item.Id"><i class="mdi mdi-earth-remove text-danger mdi-24px"></i></a>
+                                            }
+
+                                            <a style="padding:3px;" data-bs-container="#tooltip-container"
+                                               data-bs-toggle="tooltip" data-bs-placement="top"
+                                               title="Banner Sil" asp-action="DergiBannerSil" asp-route-id="@item.Id" onclick="return confirm('Bu dergiyi silmek istiyor musunuz?')"><i class="mdi mdi-delete-circle mdi-24px"></i></a>
+
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -39,7 +39,7 @@
 
     .card__post .card__post__body .card__post__content .card__post__author-info .list-inline .list-inline-item span {
         color: #fff;
-        font-weight: 700;
+        font-weight: 500;
         font-size: 13px;
     }
 
@@ -151,9 +151,9 @@
                             </a>
                         </div>
                         <figure>
-                            @if (Model.VideoUploaded != "")
+                            @if (Model.VideoUploaded != null)
                             {
-                                <video controls>
+                                <video controls class="video-full-width">
                                     <source src="@Model.VideoUploaded" type="video/mp4">
                                 </video>
                             }

@@ -10,7 +10,7 @@ function InfinitiySroll(iTable, iAction, iParams) {
 
         this.loading = true;
         this.params.firstItem = firstItem;
-       
+
         $.ajax({
             type: 'POST',
             url: self.action,
@@ -22,7 +22,7 @@ function InfinitiySroll(iTable, iAction, iParams) {
                     $("#" + self.table).append(result);
                     self.loading = false;
                 }
-              
+
             })
             .fail(function (xhr, ajaxOptions, thrownError) {
                 console.log("Error in AddTableLines:", thrownError);
@@ -44,15 +44,25 @@ function InfinitiySroll(iTable, iAction, iParams) {
     //    return ((elemBottom <= docViewBottom) && (elemTop >= docViewTop));
     //}
 
-    $(window).scroll(function () {
-        if ($(window).scrollTop() == $(document).height() - $(window).height()) {
-            //User is currently at the bottom of the page
+    //$(window).scroll(function () {
+    //    if ($(window).scrollTop() == $(document).height() - $(window).height()) {
+    //        //User is currently at the bottom of the page
+    //        if (!self.loading) {
+    //            var itemCount = $('#' + self.table + ' tr').length - 1;
+    //            self.AddTableLines(itemCount);
+    //        }
+    //    }
+    //});
+
+    window.onscroll = function () { onScroll() };
+    function onScroll() {
+        if (document.body.scrollTop > 50 || document.documentElement.scrollTop > 50) {
             if (!self.loading) {
                 var itemCount = $('#' + self.table + ' tr').length - 1;
                 self.AddTableLines(itemCount);
             }
         }
-    });
+    }
 
     //var footerHeight = 0, footerTop = 0, $footer = $("#myFooter");
     //positionFooter();

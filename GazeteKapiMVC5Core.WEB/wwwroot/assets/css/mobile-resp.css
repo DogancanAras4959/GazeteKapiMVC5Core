@@ -5,6 +5,34 @@
         max-height: 125px;
         padding-right: 5px;
     }
+    .image-banner-magazine {
+        top: 20px !important;
+        width: 80px !important;
+    }
+    .image-parent-container {
+        width: 72% !important;
+        padding-left: 10px !important;
+        padding-top: 5px !important;
+    }
+    .magazine-desc{
+        font-size:12px !important;
+    }
+    .magazine-title{
+        font-size:12px !important;
+    }
+    .image-container{
+        height:90px !important;
+    }
+    .article_title-mobile {
+        font-size: 13px !important;
+        line-height: 15px !important;
+    }
+    .search-icon-pos{
+        top:3px !important;
+    }
+    .content-box-title {
+        top: 0px !important;
+    }
     .img-cat {
         position: relative;
         top: 40px !important;
@@ -148,12 +176,12 @@
         height: 70px !important;
         color: #ffffff;
         font-size: 0px !important;
-        padding: 25px 36px 18px 27px !important;
+        padding: 15px 36px 18px 27px !important;
         line-height: 0px !important;
         position: absolute;
-        left: 38px !important;
+        left: 22px !important;
         bottom: 0px;
-        width: 84% !important;
+        width: 88% !important;
         font-weight: 600;
         font-family: Montserrat;
         text-align: start;
@@ -167,7 +195,56 @@
         top: 16px !important;
         right: 2px !important;
         position: absolute;
-        right: -15px !important;
+        right: -8px !important;
+    }
+
+    .title-word-big-sm {
+        left: -8px !important;
+    }
+
+    .prev, .next-sm {
+        top: 35% !important;
+    }
+
+    .title-word-big-sm {
+        background-color: #f4c625;
+        position: absolute;
+        width: 25px !important;
+        height: 25px !important;
+        left: -13px;
+        top: 20%;
+    }
+    .video-full-width {
+        width: 100% !important;
+    }
+    .prev, .next-sm {
+        margin-top: 0px !important;
+        font-size: 15px !important;
+        align-items: center;
+        vertical-align: middle;
+        position: initial !important;
+        display: flex;
+        justify-content: center;
+        align-content: center;
+        flex-wrap: nowrap;
+    }
+
+    .text-sm {
+        color: #ffffff;
+        font-size: 8px !important;
+        padding: 11px 8px 9px 14px !important;
+        line-height: 9px !important;
+        position: absolute;
+        left: 14px !important;
+        bottom: 0px;
+        width: 86%;
+        font-weight: 600;
+        font-family: Montserrat;
+        text-align: start;
+        background-color: #515d5e94;
+        align-items: center;
+        display: flex;
+        overflow-wrap: anywhere;
     }
 
     .title-word-big {
@@ -175,16 +252,24 @@
         position: absolute;
         width: 35px !important;
         height: 35px !important;
-        left: -16px;
+        left: -10px !important;
         top: 15px !important;
+    }
+
+    .title-word-big-right > a > img{
+        width:15px;
+    }
+
+    .title-word-big > a > img {
+        width: 15px;
     }
 
     .prev, .next {
         cursor: pointer;
         position: relative;
-        top: 27% !important;
+        top: 32% !important;
         width: auto;
-        padding: 11px !important;
+        padding: 10px !important;
         margin-top: -22px;
         color: white;
         font-weight: bold;

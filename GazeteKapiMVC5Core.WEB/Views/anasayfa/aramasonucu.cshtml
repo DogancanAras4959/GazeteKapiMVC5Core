@@ -1,17 +1,13 @@
 ﻿@using CORE.ApplicationCommon.Helpers;
-@model PaginationList<GazeteKapiMVC5Core.WEB.ViewModels.News.NewListViewModelWeb>
+@model IEnumerable<GazeteKapiMVC5Core.WEB.ViewModels.News.NewListViewModelWeb>
 @using GazeteKapiMVC5Core.WEB.ViewModels.Categories;
 @{
     ViewData["Title"] = "aramasunucu";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    List<CategoryListViewModelWeb> categories = ViewBag.Categories as List<CategoryListViewModelWeb>;
+    List<CategoryListViewModelWeb> categories = ViewBag.CategoryList as List<CategoryListViewModelWeb>;
     string name = "";
 }
 
-@{
-    var prevDisabled = !Model.HasPrevious ? "disabled" : "";
-    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
-}
 
 <link href="~/assets/css/pagelineweb.css" type="text/css" rel="stylesheet" />
 
@@ -32,7 +28,7 @@
                         </div>
                     </div>
 
-                    @foreach (var item in Model.Where(x => x.IsActive == true && x.IsLock == false).OrderByDescending(x=> x.Id))
+                    @foreach (var item in Model)
                     {
                         <div class="card__post card__post-list card__post__transition mt-30">
                             <div class="row ">
@@ -92,18 +88,7 @@
 
                             </div>
                         </div>
-                    }
-                    <div class="mt-4">
-                        <div class="pagination-area">
-                            <div class="pagination wow fadeIn animated" data-wow-duration="2s" data-wow-delay="0.5s"
-                                 style="visibility: visible; animation-duration: 2s; animation-delay: 0.5s; animation-name: fadeIn;">
-                                <a asp-action="aramasonucu" class="btn btn-link">Başa Dön</a>
-                                <a asp-action="aramasonucu" asp-route-pageNumber="@(Model.PageIndex-1)" class="btn btn-link @prevDisabled">Önceki</a>
-                                <a asp-action="aramasonucu" asp-route-pageNumber="@(Model.PageIndex+1)" class="btn btn-link @nextDisabled">Sonraki</a>
-                            </div>
-                        </div>
-                        <!-- End pagination -->
-                    </div>
+                    }    
                 </div>
             </div>
         </div>

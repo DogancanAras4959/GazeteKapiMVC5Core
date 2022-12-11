@@ -584,7 +584,7 @@ namespace SERVICE.Engine.Engines
                     GuestId = model.GuestId,
                     PublishTypeId = model.PublishTypeId,
                     publishtype = model.publishtype,
-                    PublishedTime = DateTime.Now,
+                    PublishedTime = model.PublishedTime,
                     Sound = model.Sound,
                 });
 

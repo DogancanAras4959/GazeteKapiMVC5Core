@@ -44,6 +44,8 @@ namespace GazeteKapiMVC5Core.WEB.CoreInjection
             services.AddTransient(typeof(INewsService), typeof(NewsService));
             services.AddTransient(typeof(ISettingService), typeof(SettingService));
             services.AddTransient(typeof(ICountService), typeof(CountService));
+            services.AddTransient(typeof(IBannerService), typeof(BannerService));
+            services.AddTransient(typeof(IMagazineBannerService), typeof(MagazineBannerService));
             services.AddTransient<reCaptchaService>();
 
             //services.AddTransient(typeof(IPagedList), typeof(PagedList));

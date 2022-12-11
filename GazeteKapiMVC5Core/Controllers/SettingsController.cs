@@ -182,7 +182,7 @@ namespace GazeteKapiMVC5Core.Controllers
         [CheckRoleAuthorize]
         public IActionResult YayinIlkeleri()
         {
-            var getSiteSettings = _mapper.Map<StreamPolicyDto, StreamEditModel>(_settingService.getStreamPrivacy(2));
+            var getSiteSettings = _mapper.Map<StreamPolicyDto, StreamEditModel>(_settingService.getStreamPrivacy(1));
             return View(getSiteSettings);
         }
 

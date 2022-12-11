@@ -1,0 +1,71 @@
+﻿@model GazeteKapiMVC5Core.Models.MagazineBanner.MagazineBannerCreateViewModel
+
+@{
+    ViewData["Title"] = "Dergi Banner Güncelle";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/assets/css/pageline.css" rel="stylesheet" />
+
+
+<div class="row">
+    <div class="col-8" style="display:block; margin:0 auto;">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h4 class="card-title text-center">Dergi Banner Oluştur</h4>
+                        <p class="card-title-desc text-center">Dergi oluşturun ve derginizi yönetmeye başlayın</p>
+                    </div>
+                </div>
+                @using (Html.BeginForm("DergiBannerEkle", "Banner", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+                {
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <img id="img" style="width:100%" src="~/assets/images/categorydefault.jpg" />
+                                    <label for="example-text-input" style="margin-top:10px;" class="col-sm-12 col-form-label text-center">Öne Çıkan Görsel Belirle</label>
+                                    <input type="file" class="filestyle" id="upload" data-input="false" name="file" data-buttonname="btn-secondary">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="example-text-input" class="col-sm-12 col-form-label">Banner Link</label>
+                        <input asp-for="Link" autocomplete="off" data-toggle="tooltip" data-placement="bottom" class="form-control" type="text" placeholder="Link Giriniz" id="example-text-input">
+                        <span asp-validation-for="Link" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <input type="submit" class="btn btn-primary btn-sm" style="min-width: 215px; font-size: 18px; display: block; margin: 0 auto;" value="BANNER OLUŞTUR" />
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/assets/libs/jquery/jquery.min.js"></script>
+
+<script>
+    $(function () {
+        $('#upload').change(function () {
+            var input = this;
+            var url = $(this).val();
+            var ext = url.substring(url.lastIndexOf('.') + 1).toLowerCase();
+            if (input.files && input.files[0] && (ext == "gif" || ext == "png" || ext == "jpeg" || ext == "jpg")) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#img').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+            else {
+                $('#img').attr('src', '~/assets/Files/categorydefault.jpg');
+            }
+        });
+
+    });
+</script>

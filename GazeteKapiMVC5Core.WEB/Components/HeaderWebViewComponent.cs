@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
 using CORE.ApplicationCommon.DTOS.CategoryDTO;
 using CORE.ApplicationCommon.DTOS.CurrencyDTO;
+using CORE.ApplicationCommon.DTOS.MagazineBannerDTO;
 using CORE.ApplicationCommon.DTOS.SetingsDTO;
 using GazeteKapiMVC5Core.WEB.Models;
 using GazeteKapiMVC5Core.WEB.ViewModels.Categories;
 using GazeteKapiMVC5Core.WEB.ViewModels.Currencies;
+using GazeteKapiMVC5Core.WEB.ViewModels.MagazineBanner;
 using GazeteKapiMVC5Core.WEB.ViewModels.Settings;
 using Microsoft.AspNetCore.Mvc;
 using SERVICE.Engine.Interfaces;
@@ -20,11 +22,13 @@ namespace GazeteKapiMVC5Core.WEB.Components
     {
         private readonly ICategoryService _categoryService;
         private readonly ISettingService _siteSetting;
+        private readonly IMagazineBannerService _magazineBannerService;
         private readonly IMapper _mapper;
 
-        public HeaderWebViewComponent(ICategoryService categoryService, IMapper mapper, ISettingService siteSetting)
+        public HeaderWebViewComponent(ICategoryService categoryService, IMapper mapper, ISettingService siteSetting, IMagazineBannerService magazineBannerService)
         {
             _categoryService = categoryService;
+            _magazineBannerService = magazineBannerService;
             _siteSetting = siteSetting;
             _mapper = mapper;
         }
@@ -33,6 +37,10 @@ namespace GazeteKapiMVC5Core.WEB.Components
         {
             List<CategoryListViewModelWeb> categoryList = _mapper.Map<List<CategoryListItemDto>, List<CategoryListViewModelWeb>>(_categoryService.GetAllCategory());
             ViewBag.CategoryList = categoryList;
+
+            List<MagazineBannerListViewModelWeb> getMagazineBanner = _mapper.Map<List<MagazineBannerListItemDto>, List<MagazineBannerListViewModelWeb>>(_magazineBannerService.magazineListTakeOneToWeb(1));
+
+            ViewBag.Magazine = getMagazineBanner;
 
             await GetCurrencyServiceAsync();
             var siteSetting = _mapper.Map<SettingsDto, SettingsBaseViewModelWeb>(_siteSetting.getSettings(1));

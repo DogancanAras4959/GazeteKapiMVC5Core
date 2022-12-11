@@ -167,7 +167,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="example-text-input" class="col-sm-12 col-form-label">Haber İçerik</label>
-                        <textarea asp-for="NewsContent" rows="3" cols="150" class="ckeditor"></textarea>
+                        <textarea asp-for="NewsContent" rows="3" cols="150" id="editor"></textarea>
                         <span asp-validation-for="NewsContent" class="text-danger"></span>
                     </div>
                     <div class="mb-3">
@@ -268,17 +268,11 @@
                                 <button type="button" style="width:25%" class="btn btn-indigo dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <i class="mdi mdi-chevron-down"></i>
                                 </button>
-                                <div class="dropdown-menu">
+                                <div class="dropdown-menu" style="padding: 0 20px;">
                                     <label style="padding:15px;">Zamana göre yayınla</label>
-                                    <div class="input-group" style="padding-right:10px; padding-left:10px; padding-bottom:5px;" id="datepicker2">
-                                        <input type="text" asp-for="PublishedTime" class="form-control" placeholder="01 Jan, 2020"
-                                               data-date-format="dd M, yyyy" data-date-container='#datepicker2' data-provide="datepicker"
-                                               data-date-autoclose="true">
-
-                                        <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
-                                    </div>
+                                    <input type="datetime-local" name="PublishedTime" class="form-control">
                                     <hr />
-                                    <a style="padding:15px;" asp-controller="Haber" asp-action="HaberSil" asp-route-id="@Model.Id" class="btn btn-link"><span style="color:red;">Haberi Sil</span></a>
+                                    <a style="padding: 0px 0px 10px 0px;" asp-controller="Haber" asp-action="HaberSil" asp-route-id="@Model.Id" class="btn btn-link"><span style="color:red;">Haberi Sil</span></a>
                                 </div>
                             </div><!-- /btn-group -->
                         </div>

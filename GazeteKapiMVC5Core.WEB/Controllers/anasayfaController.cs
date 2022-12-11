@@ -59,8 +59,6 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
 
         #endregion
 
-
-
         #region Pages
         [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
         public IActionResult sayfa()
@@ -111,6 +109,10 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
             List<NewListViewModelWeb> modelNew = new List<NewListViewModelWeb>();
             MetaViewModel meta = new MetaViewModel();
 
+            var haberlistHaber = _mapper.Map<List<NewsListItemDto>, List<NewListViewModelWeb>>(_newService.newsListWithWeb());
+          
+            ViewBag.HaberlerManset = haberlistHaber;
+
             if (searchnews != null && searchnews != "")
             {
                 haberlist = _mapper.Map<List<NewsListItemDto>, List<NewListViewModelWeb>>(_newService.searchDataInNews(searchnews));
@@ -153,7 +155,7 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
 
                 categoryList = _mapper.Map<List<CategoryListItemDto>, List<CategoryListViewModelWeb>>(_categoryService.GetAllCategory());
 
-                ViewBag.Categories = categoryList;
+                ViewBag.CategoryList = categoryList;
 
                 NewListViewModelWeb[] tagsList = modelNew.GroupBy(o => new { o.Title }).Select(x => x.FirstOrDefault()).ToArray();
 
@@ -171,7 +173,8 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
 
                 #endregion
 
-                return View(PaginationList<NewListViewModelWeb>.Create(tagsList.ToList(), pageNumber ?? 1, pageSize));
+                return View(tagsList.ToList());
+
             }
 
             if (TagId != null && TagId > 0)
@@ -202,7 +205,7 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
 
                 categoryList = _mapper.Map<List<CategoryListItemDto>, List<CategoryListViewModelWeb>>(_categoryService.GetAllCategory());
 
-                ViewBag.Categories = categoryList;
+                ViewBag.CategoryList = categoryList;
 
                 NewListViewModelWeb[] tagsList = modelNew.GroupBy(o => new { o.Title }).Select(x => x.FirstOrDefault()).ToArray();
 
@@ -220,7 +223,7 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
 
                 #endregion
 
-                return View(PaginationList<NewListViewModelWeb>.Create(tagsList.ToList(), pageNumber ?? 1, pageSize));
+                return View(tagsList.ToList());
             }
 
             #region Meta
@@ -278,10 +281,13 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
             int pageSize = 20;
             var guest = _mapper.Map<GuestDto, GuestEditViewModelWeb>(_newService.getGuest(id));
             ViewBag.Guest = guest;
+
             List<CategoryListViewModelWeb> categoryList = _mapper.Map<List<CategoryListItemDto>, List<CategoryListViewModelWeb>>(_categoryService.GetAllCategory());
+            ViewBag.CategoryList = categoryList;
             ViewBag.Categories = categoryList;
 
             List<NewListViewModelWeb> newList = _mapper.Map<List<NewsListItemDto>, List<NewListViewModelWeb>>(_newService.newsListWithGuest(guest.Id));
+            ViewBag.HaberlerManset = newList;
 
             #region Meta
 

@@ -68,7 +68,7 @@
 }
 
 .fixed-top {
-    position: fixed
+    position: fixed;
     top: 0;
     right: 0;
     left: 0;
@@ -79,12 +79,14 @@
     display: flex;
     flex-wrap: wrap;
     margin-right: 0px;
-    margin-left: -14px;
+    margin-left: 0;
+    justify-content: center;
+    align-items: center;
 }
 
 .banner-3 {
     padding-left: 15px;
-    padding-right: 17px;
+    padding-right: 0px;
 }
 
 .banner-9 {

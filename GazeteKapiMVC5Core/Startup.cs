@@ -49,6 +49,8 @@ namespace GazeteKapiMVC5Core
                     mc.AddProfile(new NewsProfile());
                     mc.AddProfile(new SiteProfile());
                     mc.AddProfile(new SeoProfiles());
+                    mc.AddProfile(new MagazineBannerProfile());
+                    mc.AddProfile(new BannersProfile());
                 });
                 IMapper mapper = mappingConfig.CreateMapper();
                 services.AddSingleton(mapper);

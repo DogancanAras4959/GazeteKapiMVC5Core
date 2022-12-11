@@ -243,7 +243,7 @@ namespace SERVICES.Engine.Engines
                 UserId = model.UserId,
             });
 
-            return categoryGet != null;
+            return getCategory != null;
         }
 
     }

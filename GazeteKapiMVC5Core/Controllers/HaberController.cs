@@ -1054,7 +1054,7 @@ namespace GazeteKapiMVC5Core.Controllers
             {
                 filePath = SaveImageProcess.ImageInsert(photo, "Admin");
             }
-            return Json(new { url = "https://uploads.gazetekapi.com/images/" + filePath });
+            return Json(new { url = "https://uploadslemonde.ikifikir.net/images/" + filePath });
         }
 
         [HttpPost]
