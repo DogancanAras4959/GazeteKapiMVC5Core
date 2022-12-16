@@ -92,6 +92,7 @@
 </style>
 
 <link href="~/assets/css/pageline.css" rel="stylesheet" />
+<link href="~/assets/css/bootstrap.min.css" rel="stylesheet" />
 <link href="~/assets/libs/select2/css/select2.min.css" rel="stylesheet" type="text/css">
 <link href="~/assets/libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css" rel="stylesheet">
 
@@ -370,17 +371,17 @@
                             <tbody id="newList">
                                 @foreach (var item in newsList.Where(x => x.ParentNewsId == 0).ToList())
                                 {
-                                <tr>
-                                    @if (item.Title.Length > 40)
-                                    {
-                                        <td>@item.Title.Substring(0, 40)<span>...</span></td>
-                                    }
-                                    else
-                                    {
-                                        <td>@item.Title</td>
-                                    }
-                                    <td><input type="checkbox" id="check_@item.Id" /></td>
-                                </tr>
+                                    <tr>
+                                        @if (item.Title.Length > 40)
+                                        {
+                                            <td>@item.Title.Substring(0, 40)<span>...</span></td>
+                                        }
+                                        else
+                                        {
+                                            <td>@item.Title</td>
+                                        }
+                                        <td><input type="checkbox" id="check_@item.Id" /></td>
+                                    </tr>
                                 }
                             </tbody>
                         </table>
@@ -413,17 +414,17 @@
                     <tbody id="newList">
                         @foreach (var item in newsList.Where(x => x.ParentNewsId == Model.Id).ToList())
                         {
-                        <tr>
-                            @if (item.Title.Length > 40)
-                            {
-                                <td>@item.Title.Substring(0, 40)<span>...</span></td>
-                            }
-                            else
-                            {
-                                <td>@item.Title</td>
-                            }
-                            <td><a href="@Url.Action("IliskiliHaberiKaldir","Haber", new { Id = item.Id })" class="btn btn-warning">İlişkili Haberi Kaldır</a></td>
-                        </tr>
+                            <tr>
+                                @if (item.Title.Length > 40)
+                                {
+                                    <td>@item.Title.Substring(0, 40)<span>...</span></td>
+                                }
+                                else
+                                {
+                                    <td>@item.Title</td>
+                                }
+                                <td><a href="@Url.Action("IliskiliHaberiKaldir","Haber", new { Id = item.Id })" class="btn btn-warning">İlişkili Haberi Kaldır</a></td>
+                            </tr>
                         }
                     </tbody>
                 </table>
@@ -433,10 +434,10 @@
     </div><!-- /.modal-dialog -->
 </div>
 
-<script src="~/assets/ckeditor/ckeditor.js"></script>
 <script src="~/assets/libs/jquery/jquery.min.js"></script>
 <script src="~/assets/libs/select2/js/select2.min.js"></script>
 <script src="~/assets/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+<script src="~/assets/ckeditor5-build-classic/ckeditor.js"></script>
 
 <script type="text/javascript">
 
@@ -453,6 +454,7 @@
             document.getElementById("newsBtn").innerHTML = "Haber Yayınlanıyor...";
         })
     })
+
 </script>
 
 <script>
@@ -475,6 +477,45 @@
         });
 
     });
+</script>
+
+<script>
+    var UpdateParentProduct = function (id, e) {
+        e.preventDefault();
+        $("#btn_bagla").attr("disabled", true);
+        var arrItem = [];
+        var commaSeparatedIds = "";
+        var haberId = id;
+        $("#newList tr td input[type=checkbox]").each(function (index, val) {
+
+            var checkId = $(val).attr("Id");
+            var arr = checkId.split('_');
+            var currentCheckboxId = arr[1];
+            var Ischecked = $("#" + checkId).is(":checked", true);
+
+            if (Ischecked) {
+                arrItem.push(currentCheckboxId);
+            }
+
+        })
+
+        if (arrItem.length != 0) {
+            commaSeparatedIds = arrItem.toString();
+            $.ajax({
+                url: "/Haber/HaberIliskilendir",
+                type: "POST",
+                data: { haberlist: commaSeparatedIds, haberId },
+                success: function (response) {
+                    //toastr['success']('Haberleri bağlama işlemi başarıyla gerçekleşti!', 'Ürün Düzenleme');
+                    window.location = "/Haber/HaberDuzenle/" + haberId;
+                }
+            });
+        }
+        else {
+            //toastr['warning']('Lütfen bağlanacak ürün seçiniz!', 'Ürün Düzenleme');
+            $("#btn_bagla").attr("disabled", false);
+        }
+    }
 </script>
 
 <script>
@@ -562,43 +603,4 @@
             console.error(error);
         });
 
-</script>
-
-<script>
-    var UpdateParentProduct = function (id, e) {
-        e.preventDefault();
-        $("#btn_bagla").attr("disabled", true);
-        var arrItem = [];
-        var commaSeparatedIds = "";
-        var haberId = id;
-        $("#newList tr td input[type=checkbox]").each(function (index, val) {
-
-            var checkId = $(val).attr("Id");
-            var arr = checkId.split('_');
-            var currentCheckboxId = arr[1];
-            var Ischecked = $("#" + checkId).is(":checked", true);
-
-            if (Ischecked) {
-                arrItem.push(currentCheckboxId);
-            }
-
-        })
-
-        if (arrItem.length != 0) {
-            commaSeparatedIds = arrItem.toString();
-            $.ajax({
-                url: "/Haber/HaberIliskilendir",
-                type: "POST",
-                data: { haberlist: commaSeparatedIds, haberId },
-                success: function (response) {
-                    //toastr['success']('Haberleri bağlama işlemi başarıyla gerçekleşti!', 'Ürün Düzenleme');
-                    window.location = "/Haber/HaberDuzenle/" + haberId;
-                }
-            });
-        }
-        else {
-            //toastr['warning']('Lütfen bağlanacak ürün seçiniz!', 'Ürün Düzenleme');
-            $("#btn_bagla").attr("disabled", false);
-        }
-    }
 </script>

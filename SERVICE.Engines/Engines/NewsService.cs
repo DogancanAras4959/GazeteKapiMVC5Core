@@ -1508,7 +1508,7 @@ namespace SERVICE.Engine.Engines
         }
         public List<NewsListItemDto> newsListJsonData()
         {
-            IEnumerable<News> newsList = _unitOfWork.GetRepository<News>().Filter(x => x.IsActive == true, x => x.OrderBy(y => y.Id), "", null, null);
+            IEnumerable<News> newsList = _unitOfWork.GetRepository<News>().Filter(x => x.IsOpenNotifications == true, x => x.OrderBy(y => y.Id), "", null, null);
 
             if (newsList != null)
             {
@@ -1516,34 +1516,33 @@ namespace SERVICE.Engine.Engines
                 {
 
                     Id = x.Id,
-                    Title = x.Title,
-                    Spot = x.Spot,
                     Image = x.Image,
-                    IsTitle = x.IsTitle,
+                    Title = x.Title,
+                    VideoSlug = x.VideoSlug,
+                    VideoUploaded = x.VideoUploaded,
                     RowNo = x.RowNo,
+                    Sorted = x.Sorted,
+                    ColNo = x.ColNo,
+                    IsCommentActive = x.IsCommentActive,
+                    IsOpenNotifications = x.IsOpenNotifications,
+                    IsSlide = x.IsSlide,
+                    Views = x.Views,
+                    IsTitle = x.IsTitle,
                     doublePlace = x.doublePlace,
                     fourthPlace = x.fourthPlace,
                     isArchive = x.isArchive,
-
-                    VideoSlug = x.VideoSlug,
-                    VideoUploaded = x.VideoUploaded,
-                    ColNo = x.ColNo,
-                    NewsContent = x.NewsContent,
-                    IsSlide = x.IsSlide,
-                    IsOpenNotifications = x.IsOpenNotifications,
-                    IsLock = x.IsLock,
-                    ParentNewsId = x.ParentNewsId,
+                    MetaTitle = x.MetaTitle,
                     IsActive = x.IsActive,
-                    Views = x.Views,
-                    UpdatedTime = x.UpdatedTime,
+                    IsLock = x.IsLock,
+                    UpdatedTime = DateTime.Now,
                     CreatedTime = x.CreatedTime,
-                    CategoryId = x.CategoryId,
                     UserId = x.UserId,
+                    CategoryId = x.CategoryId,
+                    ParentNewsId = x.ParentNewsId,
                     GuestId = x.GuestId,
                     PublishTypeId = x.PublishTypeId,
                     PublishedTime = x.PublishedTime,
-                    IsCommentActive = x.IsCommentActive,
-                    Sorted = x.Sorted,  
+                    Sound = x.Sound,
 
                 }).ToList();
             }

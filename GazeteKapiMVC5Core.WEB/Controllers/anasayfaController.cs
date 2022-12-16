@@ -917,7 +917,7 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
         {
             var listNewsJsonData = _mapper.Map<List<NewsListItemDto>, List<NewListViewModelWeb>>(_newService.newsListJsonData());
             string data = JsonConvert.SerializeObject(listNewsJsonData);
-            ViewData["Data"] = data;
+            ViewData["data"] = data;
         }
 
         #endregion

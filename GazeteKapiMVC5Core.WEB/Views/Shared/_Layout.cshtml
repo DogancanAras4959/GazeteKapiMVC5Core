@@ -1,7 +1,7 @@
-﻿@using GazeteKapiMVC5Core.WEB.Models.MetaConfig 
+﻿@using GazeteKapiMVC5Core.WEB.Models.MetaConfig
 @using GazeteKapiMVC5Core.WEB.ViewModels.News
- 
-@{ 
+
+@{
     MetaViewModel meta = ViewBag.Meta as MetaViewModel;
     List<NewListViewModelWeb> newsList = ViewBag.HaberlerManset as List<NewListViewModelWeb>;
 }
@@ -156,7 +156,7 @@
 <body>
 
     @await Component.InvokeAsync("HeaderWeb")
- 
+
     @RenderBody()
 
     @await Component.InvokeAsync("FooterWeb")
@@ -169,6 +169,7 @@
     <script src="~/assets/js/modeservice.js"></script>
 
     <script>
+
         window.onscroll = function () { onScroll() };
         function onScroll() {
             if (document.body.scrollTop > 50 || document.documentElement.scrollTop > 50) {
@@ -190,20 +191,19 @@
                 return;
             }
 
-            if (Notification.permission !== "granted")
+            if (Notification.permission === "granted")
                 Notification.requestPermission();
 
             else {
 
-            }     
+            }
 
-            var myArray = '@Html.Raw(ViewData["Data"])';
-
-            $.each(myArray, function (i, val)
+            var myArray = '@Html.Raw(ViewData["data"])';
+            $.each(JSON.parse(myArray), function (i, val)
             {
                 if (val.IsOpenNotifications == true) {
                     var notification = new Notification(val.Title, {
-                        icon: '~/assets/images/' + val.Image,
+                        icon: 'https://uploadslemonde.ikifikir.net/images/' + val.Image,
                         body: "Haberi okumak için tıklayın!",
                     });
 
@@ -213,11 +213,11 @@
 
                     setTimeout(notification.close, 10000);
 
-                }       
+                }
             });
-               
+
         }
-        
+
         window.onload = notifyMe;
 
         $("#hamburger-button").on("click", function () {

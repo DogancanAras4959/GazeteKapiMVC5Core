@@ -781,7 +781,7 @@ namespace GazeteKapiMVC5Core.Controllers
                                     }
                                 }
 
-                                model.VideoUploaded = "https://uploadslemonde.ikifikir.net/videos/" + model.VideoUploaded;
+                                model.VideoUploaded = model.VideoUploaded;
 
                                 int resultId = Convert.ToInt32(await _newService.editNews(_mapper.Map<NewsEditViewModel, NewsDto>(model)));
 
@@ -1145,6 +1145,17 @@ namespace GazeteKapiMVC5Core.Controllers
             return Json(new { url = "https://uploadslemonde.ikifikir.net/images/" + filePath });
         }
 
+        [Route("upload_editor")]
+        [HttpPost]
+        public IActionResult UploadEditor(IFormFile file)
+        {
+            var fileName = DateTime.Now.ToString("yyyyMMddHHmmss") + file.FileName;
+            var path = Path.Combine(Directory.GetCurrentDirectory(), _webHostEnvironment.WebRootPath,"upload");
+            var stream = new FileStream(path, FileMode.Create);
+            file.CopyToAsync(stream);
+            return new JsonResult(new { parh = "/upload" + fileName });
+        }
+
         [HttpPost]
         public async Task HaberIliskilendir(string haberlist, int haberId)
         {
@@ -1228,7 +1239,6 @@ namespace GazeteKapiMVC5Core.Controllers
                 return Json(false);
             }
         }
-
 
         #endregion
 
