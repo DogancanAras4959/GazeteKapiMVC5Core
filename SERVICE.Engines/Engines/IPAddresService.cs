@@ -19,7 +19,7 @@ namespace SERVICE.Engine.Engines
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<bool> createIpAddressInDatabase(IpAdressDto model)
+        public async Task<int> createIpAddressInDatabase(IpAdressDto model)
         {
 
             IpAddresCount newIp = await _unitOfWork.GetRepository<IpAddresCount>().AddAsync(new IpAddresCount
@@ -27,7 +27,7 @@ namespace SERVICE.Engine.Engines
                 ipAddress = model.ipAddress
             });
 
-            return newIp != null && newIp.Id != 0;
+            return newIp.Id;
         }
 
         public IpAdressDto getIpAdress(string ip)
@@ -36,7 +36,7 @@ namespace SERVICE.Engine.Engines
 
             if (getIp == null)
             {
-                return new IpAdressDto();
+                return null;
             }
 
             return new IpAdressDto

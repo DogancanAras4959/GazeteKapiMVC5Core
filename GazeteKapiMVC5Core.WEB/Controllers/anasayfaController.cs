@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using CORE.ApplicationCommon.DTOS.CategoryDTO;
+using CORE.ApplicationCommon.DTOS.IpAddressDTO;
 using CORE.ApplicationCommon.DTOS.NewsDTO;
 using CORE.ApplicationCommon.DTOS.NewsDTO.GuestDTO;
+using CORE.ApplicationCommon.DTOS.NewsDTO.IpNewsDTO;
 using CORE.ApplicationCommon.DTOS.NewsDTO.TagNewsDTO;
 using CORE.ApplicationCommon.DTOS.PrivacyDTO.PolicyDto;
 using CORE.ApplicationCommon.DTOS.PrivacyDTO.PrivacyDto;
@@ -14,6 +16,7 @@ using GazeteKapiMVC5Core.WEB.ViewModels.Categories;
 using GazeteKapiMVC5Core.WEB.ViewModels.Guests;
 using GazeteKapiMVC5Core.WEB.ViewModels.Members;
 using GazeteKapiMVC5Core.WEB.ViewModels.News;
+using GazeteKapiMVC5Core.WEB.ViewModels.NewsIp;
 using GazeteKapiMVC5Core.WEB.ViewModels.Policy;
 using GazeteKapiMVC5Core.WEB.ViewModels.TagsNews;
 using Microsoft.AspNetCore.Cors;
@@ -44,12 +47,13 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
         private readonly ICategoryService _categoryService;
         private readonly ISettingService _settingService;
         private readonly IViewRenderService _viewRender;
-        private readonly IIPAddresService ıPAddresService;
+        private readonly IIPAddresService _ipAddressService;
+        private readonly INewsIpService _newsIpService;
         private readonly reCaptchaService _repService;
         private int BATCH_SIZE = 1;
 
         [Obsolete]
-        public anasayfaController(INewsService newService, ICategoryService categoryService, IMapper mapper, ISettingService settingService, IViewRenderService viewRender, reCaptchaService repService)
+        public anasayfaController(INewsService newService, ICategoryService categoryService, IMapper mapper, ISettingService settingService, IViewRenderService viewRender, reCaptchaService repService, IIPAddresService ipAddressService, INewsIpService newsIpService)
         {
             _newService = newService;
             _categoryService = categoryService;
@@ -57,6 +61,8 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
             _settingService = settingService;
             _viewRender = viewRender;
             _repService = repService;
+            _ipAddressService = ipAddressService;
+            _newsIpService = newsIpService;
         }
 
         #endregion
@@ -374,7 +380,7 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
 
         [HttpGet("haber/{Id}/{Title}", Name = "haber")]
         [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
-        public IActionResult haber(int Id, string Title)
+        public async Task<IActionResult> haberAsync(int Id, string Title)
         {
             List<CategoryListViewModelWeb> categoryList = _mapper.Map<List<CategoryListItemDto>, List<CategoryListViewModelWeb>>(_categoryService.GetAllCategory());
             ViewBag.CategoryList = categoryList;
@@ -388,7 +394,47 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
             var guest = _mapper.Map<GuestDto, GuestEditViewModelWeb>(_newService.getGuest(newsGet.GuestId));
             ViewBag.Guest = guest;
 
+            #region Calculate View Count
+
             string ipAddress = getUserIp();
+            var ip = _ipAddressService.getIpAdress(ipAddress);
+
+            if (ip != null)
+            {
+                var ipAdressExistsInNews = _newsIpService.listIpByNewsId(newsGet.Id, ip.Id);
+                if (ipAdressExistsInNews == null)
+                {
+                    IpNewsDto model = new IpNewsDto
+                    {
+                        IpAdressId = ip.Id,
+                        NewsId = newsGet.Id
+                    };
+                    await _newsIpService.createNewsIp(model);
+
+                    newsGet.Views += 1;
+                    int resultId = Convert.ToInt32(await _newService.editNews(_mapper.Map<NewsEditViewModelWeb, NewsDto>(newsGet)));
+                }
+            }
+            else
+            {
+                IpAdressDto newIp = new IpAdressDto
+                {
+                    ipAddress = ipAddress
+                };
+                int resultId = Convert.ToInt32(await _ipAddressService.createIpAddressInDatabase(_mapper.Map<IpAdressBaseDto, IpAdressDto>(newIp)));
+
+                IpNewsDto model = new IpNewsDto
+                {
+                    IpAdressId = resultId,
+                    NewsId = newsGet.Id
+                };
+                await _newsIpService.createNewsIp(model);
+
+                newsGet.Views += 1;
+                int resultNewsId = Convert.ToInt32(await _newService.editNews(_mapper.Map<NewsEditViewModelWeb, NewsDto>(newsGet)));
+            }
+
+            #endregion
 
             #region Datas
 

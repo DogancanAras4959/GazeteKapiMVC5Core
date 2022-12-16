@@ -6,5 +6,6 @@ namespace CORE.ApplicationCommon.DTOS.NewsDTO.IpNewsDTO
 {
     public class IpNewsListItemDto : IpNewsBaseDto
     {
+        public int Id { get; set; }
     }
 }

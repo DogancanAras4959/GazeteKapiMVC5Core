@@ -9,6 +9,6 @@ namespace SERVICE.Engine.Interfaces
     public interface IIPAddresService 
     {
         IpAdressDto getIpAdress(string ip);
-        Task<bool> createIpAddressInDatabase(IpAdressDto model);
+        Task<int> createIpAddressInDatabase(IpAdressDto model);
     }
 }
