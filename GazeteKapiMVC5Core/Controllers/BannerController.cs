@@ -1,10 +1,13 @@
 ﻿using AutoMapper;
+using CORE.ApplicationCommon.DTOS.BannersDTO;
 using CORE.ApplicationCommon.DTOS.MagazineBannerDTO;
 using CORE.ApplicationCommon.Helpers;
 using GazeteKapiMVC5Core.Core.Extensions;
+using GazeteKapiMVC5Core.Models.Banners;
 using GazeteKapiMVC5Core.Models.MagazineBanner;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using SERVICE.Engine.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -17,10 +20,12 @@ namespace GazeteKapiMVC5Core.Controllers
     {
         private readonly IMagazineBannerService _magazineBannerService;
         private readonly IBannerService _bannerService;
+        private readonly IBannerRotateService _bannerRotateService;
         private readonly IMapper _mapper;
-        public BannerController(IMagazineBannerService magazineBannerService, IMapper mapper, IBannerService bannerService)
+        public BannerController(IMagazineBannerService magazineBannerService, IBannerRotateService bannerRotateService, IMapper mapper, IBannerService bannerService)
         {
             _magazineBannerService = magazineBannerService;
+            _bannerRotateService = bannerRotateService;
             _bannerService = bannerService;
             _mapper = mapper;
         }
@@ -187,31 +192,41 @@ namespace GazeteKapiMVC5Core.Controllers
         [CheckRoleAuthorize]
         public IActionResult reklamlar()
         {
-            return View();
+            var listBanner = _mapper.Map<List<BannerListItemDto>, List<BannerListViewModel>>(_bannerService.BannerList());
+            return View(listBanner);
         }
 
         [HttpGet]
         [CheckRoleAuthorize]
         public IActionResult reklamEkle()
         {
+            ViewBag.BannersRotate = new SelectList(_bannerRotateService.bannersRotateList(),"Id","RotateName");
             return View();
         }
 
         [HttpPost]
-        public IActionResult reklamolustur()
+        public IActionResult reklamolustur(BannerDto model, IFormFile file)
         {
-            return View();
+            if(file != null)
+            {
+                return View();
+            }
+            else
+            {
+                return View();
+            }
         }
 
         [HttpGet]
         [CheckRoleAuthorize]
         public IActionResult reklamDuzenle(int Id)
         {
+            ViewBag.BannersRotate = new SelectList(_bannerRotateService.bannersRotateList(), "Id", "RotateName");
             return View();
         }
 
         [HttpPost]
-        public IActionResult reklamGuncelle()
+        public IActionResult reklamGuncelle(BannerDto model, IFormFile file)
         {
             return View();
         }

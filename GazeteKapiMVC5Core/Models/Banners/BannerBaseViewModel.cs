@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GazeteKapiMVC5Core.DataAccessLayer.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,7 +8,7 @@ namespace GazeteKapiMVC5Core.Models.Banners
 {
     public class BannerBaseViewModel
     {
-        public string Rotate { get; set; }
+        public int RotateId { get; set; }
         public string BannerImage { get; set; }
         public DateTime CreatedTime { get; set; }
         public DateTime UpdatedTime { get; set; }
@@ -15,5 +16,6 @@ namespace GazeteKapiMVC5Core.Models.Banners
         public bool IsActive { get; set; }
         public string Link { get; set; }
         public string BannerName { get; set; }
+        public BannersRotate bannerRotate { get; set; } 
     }
 }

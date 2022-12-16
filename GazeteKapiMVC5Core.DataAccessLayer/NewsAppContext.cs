@@ -43,6 +43,7 @@ namespace GazeteKapiMVC5Core.DataAccessLayer
         public virtual DbSet<Magazinebanner> magazinebanner { get; set; }
         public virtual DbSet<IpAddresCount> ipaddresscount { get; set; }
         public virtual DbSet<NewsIp> newsIps { get; set; }
+        public virtual DbSet<BannersRotate> bannerRotate { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new UserMapping());
@@ -72,6 +73,7 @@ namespace GazeteKapiMVC5Core.DataAccessLayer
             modelBuilder.ApplyConfiguration(new BannerMapping());
             modelBuilder.ApplyConfiguration(new MagazineBannerMapping());
             modelBuilder.ApplyConfiguration(new NewsIpMapping());
+            modelBuilder.ApplyConfiguration(new BannerRotateMapping());
             base.OnModelCreating(modelBuilder);
         }
     }

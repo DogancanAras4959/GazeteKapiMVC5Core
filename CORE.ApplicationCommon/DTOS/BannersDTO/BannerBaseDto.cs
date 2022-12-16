@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GazeteKapiMVC5Core.DataAccessLayer.Models;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -6,7 +7,7 @@ namespace CORE.ApplicationCommon.DTOS.BannersDTO
 {
     public class BannerBaseDto
     {
-        public string Rotate { get; set; }
+        public int RotateId { get; set; }
         public string BannerImage { get; set; }
         public DateTime CreatedTime { get; set; }
         public DateTime UpdatedTime { get; set; }
@@ -14,5 +15,6 @@ namespace CORE.ApplicationCommon.DTOS.BannersDTO
         public bool IsActive { get; set; }
         public string Link { get; set; }
         public string BannerName { get; set; }
+        public BannersRotate bannerRotate { get; set; }
     }
 }

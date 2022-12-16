@@ -21,7 +21,7 @@ namespace SERVICE.Engine.Engines
 
         public List<BannerListItemDto> BannerList()
         {
-            IEnumerable<Banners> magazineList = _unitOfWork.GetRepository<Banners>().Filter(null, x=> x.OrderBy(y=> y.Id),null,null, null);
+            IEnumerable<Banners> magazineList = _unitOfWork.GetRepository<Banners>().Filter(null, x=> x.OrderBy(y=> y.Id),"bannerRotate",null, null);
             return magazineList.Select(x => new BannerListItemDto
             {
 
@@ -31,7 +31,7 @@ namespace SERVICE.Engine.Engines
                 IsActive = x.IsActive,
                 UpdatedTime = x.UpdatedTime,
                 CreatedTime = x.CreatedTime,
-                Rotate =x.Rotate,
+                RotateId = x.RotateId,
                 BannerFrame = x.BannerFrame,
                 BannerName = x.BannerName,
 
@@ -40,7 +40,7 @@ namespace SERVICE.Engine.Engines
 
         public List<BannerListItemDto> bannerListTakeOneToWeb(int count)
         {
-            IEnumerable<Banners> magazineList = _unitOfWork.GetRepository<Banners>().Filter(x=> x.IsActive == true, x=> x.OrderBy(y=> y.Id),null,null, null);
+            IEnumerable<Banners> magazineList = _unitOfWork.GetRepository<Banners>().Filter(x=> x.IsActive == true, x=> x.OrderBy(y=> y.Id),"bannerRotate",null, null);
             return magazineList.Select(x => new BannerListItemDto
             {
 
@@ -52,8 +52,7 @@ namespace SERVICE.Engine.Engines
                 CreatedTime = x.CreatedTime,
                 BannerName = x.BannerName,
                 BannerFrame = x.BannerFrame,
-                Rotate = x.Rotate,
-                
+                RotateId = x.RotateId,
 
             }).Take(count).ToList();
         }
@@ -69,7 +68,8 @@ namespace SERVICE.Engine.Engines
                 UpdatedTime = DateTime.Now,
                 BannerFrame = model.BannerFrame,
                 BannerName = model.BannerName,
-                Rotate = model.Rotate,
+                RotateId = model.RotateId,
+
             });
 
             return newMagazine != null && newMagazine.Id != 0;
@@ -96,7 +96,7 @@ namespace SERVICE.Engine.Engines
                 BannerImage = model.BannerImage,
                 BannerName = model.BannerName,
                 BannerFrame = model.BannerFrame,
-                Rotate = model.Rotate,
+                RotateId = model.RotateId,
                 Link = model.Link,
                 UpdatedTime = DateTime.Now,
                 IsActive = model.IsActive,
@@ -122,7 +122,7 @@ namespace SERVICE.Engine.Engines
                 UpdatedTime = getMagazine.UpdatedTime,
                 BannerFrame = getMagazine.BannerFrame,
                 BannerName = getMagazine.BannerName,
-                Rotate = getMagazine.Rotate,
+                RotateId = getMagazine.RotateId,
                 IsActive = getMagazine.IsActive,
                 Link = getMagazine.Link,
             };
