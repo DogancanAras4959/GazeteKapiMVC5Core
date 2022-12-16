@@ -25,6 +25,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.ServiceModel.Syndication;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -43,6 +44,7 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
         private readonly ICategoryService _categoryService;
         private readonly ISettingService _settingService;
         private readonly IViewRenderService _viewRender;
+        private readonly IIPAddresService ıPAddresService;
         private readonly reCaptchaService _repService;
         private int BATCH_SIZE = 1;
 
@@ -59,11 +61,50 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
 
         #endregion
 
-        #region Pages
         [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
         public IActionResult sayfa()
         {
 
+            #region Data
+
+            var haberlist = _mapper.Map<List<NewsListItemDto>, List<NewListViewModelWeb>>(_newService.newsListWithWeb());
+
+            List<GuestListViewModelWeb> guestList = _mapper.Map<List<GuestListItemDto>, List<GuestListViewModelWeb>>(_newService.guestList());
+
+            List<TagNewsListViewModelWeb> tagNewList = _mapper.Map<List<TagNewsListItemDto>, List<TagNewsListViewModelWeb>>(_newService.tagsListWithNewsWeb());
+
+            List<CategoryListViewModelWeb> categoryList = _mapper.Map<List<CategoryListItemDto>, List<CategoryListViewModelWeb>>(_categoryService.GetAllCategory());
+
+            ViewBag.CategoryList = categoryList;
+            ViewBag.TagNews = tagNewList;
+            ViewBag.HaberlerManset = haberlist;
+            ViewBag.GuestList = guestList;
+
+            LoadJsonData();
+
+            #endregion
+
+            #region Meta
+
+            MetaViewModel meta = new MetaViewModel();
+            meta.Title = "Gazetekapı | Le Monde diplomatique Türkiye";
+            meta.Keywords = "Gazetekapı, Lemonde, Yaşam, Kültür, Sanat, Seçim, Ekonomi, Siyaset";
+            meta.Description = "Gazetekapı yeni haberciliğiyle yola çıktı! Gazetekapı ile bilim teknoloji, yaşam, siyaset, ekonomiye dair bütün haberleri sizlerle buluşturacağız!";
+            meta.Image = "https://uploads.gazetekapi.com/images/placeholder/kapi-logo.png";
+            meta.ogDescription = "Gazetekapı yeni haberciliğiyle yola çıktı! Gazetekapı ile bilim teknoloji, yaşam, siyaset, ekonomiye dair bütün haberleri sizlerle buluşturacağız!";
+            meta.ogTitle = "Gazetekapı | Le Monde diplomatique Türkiye";
+            meta.ogImage = "https://uploads.gazetekapi.com/images/placeholder/kapi-logo.png";
+            meta.Url = "https://www.gazetekapi.com/";
+            ViewBag.Meta = meta;
+
+            #endregion
+
+            return View();
+        }
+
+        [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
+        public IActionResult testreklam()
+        {
             #region Data
 
             var haberlist = _mapper.Map<List<NewsListItemDto>, List<NewListViewModelWeb>>(_newService.newsListWithWeb());
@@ -110,7 +151,7 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
             MetaViewModel meta = new MetaViewModel();
 
             var haberlistHaber = _mapper.Map<List<NewsListItemDto>, List<NewListViewModelWeb>>(_newService.newsListWithWeb());
-          
+
             ViewBag.HaberlerManset = haberlistHaber;
 
             if (searchnews != null && searchnews != "")
@@ -298,7 +339,7 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
             meta.Image = "https://uploads.gazetekapi.com/images/" + guest.GuestImage;
             meta.ogDescription = guest.Biography;
             meta.ogTitle = guest.GuestName;
-            meta.ogImage = "https://uploads.gazetekapi.com/images/" +guest.GuestImage;
+            meta.ogImage = "https://uploads.gazetekapi.com/images/" + guest.GuestImage;
             meta.Url = "https://www.gazetekapi.com/anasayfa/yazaryazilari/" + guest.Id;
             ViewBag.Meta = meta;
 
@@ -346,6 +387,8 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
 
             var guest = _mapper.Map<GuestDto, GuestEditViewModelWeb>(_newService.getGuest(newsGet.GuestId));
             ViewBag.Guest = guest;
+
+            string ipAddress = getUserIp();
 
             #region Datas
 
@@ -413,6 +456,23 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
 
             return View(newsGet);
         }
+        private string getUserIp()
+        {
+            IPAddress remoteIpAddress = Request.HttpContext.Connection.RemoteIpAddress;
+            string result = "";
+            if (remoteIpAddress != null)
+            {
+                // If we got an IPV6 address, then we need to ask the network for the IPV4 address 
+                // This usually only happens when the browser is on the same machine as the server.
+                if (remoteIpAddress.AddressFamily == System.Net.Sockets.AddressFamily.InterNetworkV6)
+                {
+                    remoteIpAddress = System.Net.Dns.GetHostEntry(remoteIpAddress).AddressList
+            .First(x => x.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork);
+                }
+                result = remoteIpAddress.ToString();
+            }
+            return result;
+        }
         public IActionResult gizlilikpolitikasi()
         {
             List<CategoryListViewModelWeb> categoryList = _mapper.Map<List<CategoryListItemDto>, List<CategoryListViewModelWeb>>(_categoryService.GetAllCategory());
@@ -439,7 +499,7 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
             #endregion
 
             return View(getPrivacy);
-        }   
+        }
         public IActionResult cerezpolitikasi()
         {
             List<CategoryListViewModelWeb> categoryList = _mapper.Map<List<CategoryListItemDto>, List<CategoryListViewModelWeb>>(_categoryService.GetAllCategory());
@@ -509,7 +569,7 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
 
             MetaViewModel meta = new MetaViewModel();
             meta.Title = "Gazetekapı | Le Monde diplomatique Türkiye";
-            meta.Keywords = "Gazetekapı, Lemonde, Yaşam, Kültür, Sanat, Seçim, Ekonomi, Siyaset"; 
+            meta.Keywords = "Gazetekapı, Lemonde, Yaşam, Kültür, Sanat, Seçim, Ekonomi, Siyaset";
             meta.Description = "Gazetekapı yeni haberciliğiyle yola çıktı! Gazetekapı ile bilim teknoloji, yaşam, siyaset, ekonomiye dair bütün haberleri sizlerle buluşturacağız!";
             meta.Image = "https://uploads.gazetekapi.com/images/placeholder/kapi-logo.png";
             meta.ogDescription = "Gazetekapı yeni haberciliğiyle yola çıktı! Gazetekapı ile bilim teknoloji, yaşam, siyaset, ekonomiye dair bütün haberleri sizlerle buluşturacağız!";
@@ -536,7 +596,7 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
 
             MetaViewModel meta = new MetaViewModel();
             meta.Title = "Gazetekapı | Le Monde diplomatique Türkiye";
-            meta.Keywords = "Gazetekapı, Lemonde, Yaşam, Kültür, Sanat, Seçim, Ekonomi, Siyaset"; 
+            meta.Keywords = "Gazetekapı, Lemonde, Yaşam, Kültür, Sanat, Seçim, Ekonomi, Siyaset";
             meta.Description = "Gazetekapı yeni haberciliğiyle yola çıktı! Gazetekapı ile bilim teknoloji, yaşam, siyaset, ekonomiye dair bütün haberleri sizlerle buluşturacağız!";
             meta.Image = "https://uploads.gazetekapi.com/images/placeholder/kapi-logo.png";
             meta.ogDescription = "Gazetekapı yeni haberciliğiyle yola çıktı! Gazetekapı ile bilim teknoloji, yaşam, siyaset, ekonomiye dair bütün haberleri sizlerle buluşturacağız!";
@@ -549,7 +609,7 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
 
             return View(getStreamPolicy);
         }
-        public IActionResult arsiv()
+        public IActionResult arsiv(int? pageNumber)
         {
 
             List<CategoryListViewModelWeb> categoryList = _mapper.Map<List<CategoryListItemDto>, List<CategoryListViewModelWeb>>(_categoryService.GetAllCategory());
@@ -573,7 +633,11 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
 
             #endregion
 
-            return View();
+            int pageSize = 18;
+
+            List<NewListViewModelWeb> newList = _mapper.Map<List<NewsListItemDto>, List<NewListViewModelWeb>>(_newService.newsListWithWeb());
+
+            return View(PaginationList<NewListViewModelWeb>.Create(newList.ToList(), pageNumber ?? 1, pageSize));
         }
 
         [Route("/anasayfa/hata/{code:int}")]
@@ -600,7 +664,6 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
             return View("~/Views/anasayfa/hata.cshtml");
         }
 
-        #endregion
 
         #region Partial Views
         public IActionResult Slider()
@@ -742,7 +805,7 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
                 else
                 {
                     //BATCH_SIZE = rnd.Next(1, 5);
-                    CategoryNumber = rnd.Next(1,100);
+                    CategoryNumber = rnd.Next(1, 100);
 
                     category = _mapper.Map<CategoryDto, CategoryEditViewModelWeb>(_categoryService.GetCategoryById(CategoryNumber));
 
@@ -803,14 +866,14 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
         #endregion
 
         #region Extends Method
-        
+
         public void LoadJsonData()
         {
             var listNewsJsonData = _mapper.Map<List<NewsListItemDto>, List<NewListViewModelWeb>>(_newService.newsListJsonData());
             string data = JsonConvert.SerializeObject(listNewsJsonData);
             ViewData["Data"] = data;
         }
-        
+
         #endregion
 
     }

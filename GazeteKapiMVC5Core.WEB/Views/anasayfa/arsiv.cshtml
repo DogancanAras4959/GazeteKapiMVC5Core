@@ -1,9 +1,80 @@
-﻿@model GazeteKapiMVC5Core.WEB.ViewModels.Policy.TermsOfUsBaseViewModel
+﻿@using CORE.ApplicationCommon.Helpers;
+@using GazeteKapiMVC5Core.WEB.Models.MetaConfig
+@model PaginationList<GazeteKapiMVC5Core.WEB.ViewModels.News.NewListViewModelWeb>
 
 @{
     ViewData["Title"] = "arsiv";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h4 class="border_section mb-3"> Arşiv </h4>
+@{
+    var prevDisabled = !Model.HasPrevious ? "disabled" : "";
+    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
 
+}
+
+<section class="wrap__section bg-light" style="padding-top:5px;">
+    <div class="container boxed">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="container">
+
+                    <div class="row">
+                        @foreach (var item in Model.OrderByDescending(x => x.Id).Where(x => x.IsActive == true && x.isArchive))
+                        {
+                            <div class="col-lg-4">
+                                <!-- Post Article -->
+                                <div class="article__entry-new">
+                                    @*<div class="article__category">
+
+                                            @item.categories.CategoryName
+                                        </div>*@
+                                    <div class="article__image articel__image__transition">
+                                        <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
+                                            <img src="https://uploadslemonde.ikifikir.net/images/@item.Image" alt="@item.Image" title="@item.Image" class="img-fluid" style="height: 180px; object-fit:cover;" />
+                                        </a>
+                                    </div>
+                                    <div class="text-cat">
+                                        <h5>
+                                            @if (item.Title.Length > 40)
+                                            {
+                                                <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
+                                                    @item.Title.Substring(0, 40)<span>...</span>
+                                                </a>
+                                            }
+                                            else
+                                            {
+                                                <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
+                                                    @item.Title
+                                                </a>
+                                            }
+
+                                        </h5>
+                                    </div>
+
+                                </div>
+                            </div>
+                        }
+                        <div class="clerfix"></div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="mt-4">
+                    <div class="pagination-area">
+                        <div class="pagination wow fadeIn animated" data-wow-duration="2s" data-wow-delay="0.5s"
+                             style="visibility: visible; animation-duration: 2s; animation-delay: 0.5s; animation-name: fadeIn;">
+                            <a asp-action="arsiv" class="btn btn-link">Başa Dön</a>
+                            <a asp-action="arsiv" asp-route-pageNumber="@(Model.PageIndex-1)" class="btn btn-link @prevDisabled">Önceki</a>
+                            <a asp-action="arsiv" asp-route-pageNumber="@(Model.PageIndex+1)" class="btn btn-link @nextDisabled">Sonraki</a>
+                        </div>
+                    </div>
+                    <!-- End pagination -->
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -358,25 +358,34 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body scroller">
-
-                <table class="table table-responsive">
-                    <thead>
-                        <tr>
-                            <th>Haber</th>
-                            <th>İşlem</th>
-                        </tr>
-                    </thead>
-                    <tbody id="newList">
-                        @foreach (var item in newsList.Where(x => x.ParentNewsId == 0).ToList())
-                        {
-                            <tr>
-                                <td>@item.Title</td>
-                                <td><input type="checkbox" id="check_@item.Id" /></td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-
+                <div class="table-rep-plugin">
+                    <div class="table-responsive mb-0" data-bs-pattern="priority-columns">
+                        <table id="datatable" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                            <thead>
+                                <tr>
+                                    <th>Haber</th>
+                                    <th>İşlem</th>
+                                </tr>
+                            </thead>
+                            <tbody id="newList">
+                                @foreach (var item in newsList.Where(x => x.ParentNewsId == 0).ToList())
+                                {
+                                <tr>
+                                    @if (item.Title.Length > 40)
+                                    {
+                                        <td>@item.Title.Substring(0, 40)<span>...</span></td>
+                                    }
+                                    else
+                                    {
+                                        <td>@item.Title</td>
+                                    }
+                                    <td><input type="checkbox" id="check_@item.Id" /></td>
+                                </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" id="btn_bagla" onclick="UpdateParentProduct(@Model.Id,event);" class="btn btn-block btn-primary">Haberleri İlişkilendir</button>
@@ -404,10 +413,17 @@
                     <tbody id="newList">
                         @foreach (var item in newsList.Where(x => x.ParentNewsId == Model.Id).ToList())
                         {
-                            <tr>
+                        <tr>
+                            @if (item.Title.Length > 40)
+                            {
+                                <td>@item.Title.Substring(0, 40)<span>...</span></td>
+                            }
+                            else
+                            {
                                 <td>@item.Title</td>
-                                <td><a href="@Url.Action("IliskiliHaberiKaldir","Haber", new { Id = item.Id })" class="btn btn-warning">İlişkili Haberi Kaldır</a></td>
-                            </tr>
+                            }
+                            <td><a href="@Url.Action("IliskiliHaberiKaldir","Haber", new { Id = item.Id })" class="btn btn-warning">İlişkili Haberi Kaldır</a></td>
+                        </tr>
                         }
                     </tbody>
                 </table>

@@ -205,7 +205,7 @@
                                     </li>
                                 }
 
-                                <li class="nav-item dropdown has-megamenu" style="margin-left:13px; margin-right:0px; margin-top:3px; cursor:pointer;">
+                                @*<li class="nav-item dropdown has-megamenu" style="margin-left:13px; margin-right:0px; margin-top:3px; cursor:pointer;">
                                     <a class="menu-link dropdown-toggle" data-toggle="dropdown">
                                         <img alt="hamburger_icon" title="hamburger-menu" class="hamburger-light" src="~/assets/images/hamburgerMenu.png" />
                                         <img alt="hamburger_icon_dark" class="hamburger-dark" title="hamburger-menu-dark" src="~/assets/images/hamburgerMenuWhite.png" />
@@ -218,7 +218,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                </li>
+                                </li>*@
                             </ul>
                         </div>
 
@@ -317,26 +317,10 @@
     <!-- End Navbar  -->
 </header>
 <section style="padding:0px 0 15px 0; max-width:1367px; margin:0 auto;">
-    <div class="banner-cs" id="bnr" style="max-width:1367px;">
-        <div class="row" style="width:100%; margin:0;">
-            <div class="col-sm-6">
-                <img class="banner-cs-img" style="float:left;" title="banner" alt="banner" src="~/assets/images/banner-anasayfa.jpg" />
-            </div>
-            <div class="col-sm-6">
-                <img class="banner-cs-img" style="float:right;" title="banner-2" alt="banner-2" src="~/assets/images/banner-anasayfa.jpg" />
-            </div>
-        </div>
-    </div>
+  
     <div class="container" style="max-width:1030px; padding-top:20px;">
         <div class="row row-banners">
-            <!--<div class="col-7 col-sm-7 banner-9">-->
-                @*@foreach (var item in categories.Where(x => x.Position == 1))
-            {*@
-                <!--<a asp-controller="anasayfa" asp-action="kategori" asp-route-id="1">
-                    <img class="img-subcat" title="manset" alt="manset" src="~/assets/images/manset.jpg" />
-                </a>-->
-                @*}*@
-            <!--</div>-->
+
             <div class="col-12 col-sm-12 banner-3 image-container">
                 @foreach (var item in banner)
                 {
@@ -346,17 +330,9 @@
                         <h4 class="magazine-desc" style="color:#fff; font-weight:300;">Dijital Abonelik gerçekleştirerek düzenli okumak için burayı <a target="_blank" href="@item.Link" style="text-decoration:underline; color:#fff;">tıklayın..</a></h4>
                     </div>
                 }
-                @*<a href="@Url.Action("aboneol","anasayfa")">*@
-                <!--<img style="width:100%" alt="lemonde" title="lemonde" src="~/assets/images/ust-menu-lemonde-son.svg" />-->
-                @*</a>*@
+
             </div>
         </div>
     </div>
-    <div class="container" id="banner-header" style="max-width:1030px; padding-top:15px;">
-        <div class="row">
-            <div class="col-sm-12">
-                <img style="width:100%" title="masterhead" alt="masterhead" src="~/assets/images/masterhead.jpg" />
-            </div>
-        </div>
-    </div>
+  
 </section>

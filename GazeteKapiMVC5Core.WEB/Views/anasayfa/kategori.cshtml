@@ -1,5 +1,6 @@
 ﻿@using CORE.ApplicationCommon.Helpers;
 @using GazeteKapiMVC5Core.WEB.Models.MetaConfig
+@using GazeteKapiMVC5Core.WEB.ViewModels.News
 @model PaginationList<GazeteKapiMVC5Core.WEB.ViewModels.News.NewListViewModelWeb>
 
 @{
@@ -7,6 +8,9 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 
     string category = TempData["kategori"].ToString();
+    List<NewListViewModelWeb> allNewList = ViewBag.HaberlerManset as List<NewListViewModelWeb>;
+    int categoryId = Convert.ToInt32(ViewData["id"]);
+
 }
 
 @{
@@ -74,41 +78,83 @@
                     </div>
 
                     <div class="row mt-2">
-                        @foreach (var item in Model.OrderByDescending(x => x.Id).Where(x => x.IsActive == true && x.IsLock == false))
+                        @if (categoryId == 25)
                         {
-                            <div class="col-lg-4" style="margin-top:30px;">
-                                <!-- Post Article -->
-                                <div class="article__entry-new">
-                                    @*<div class="article__category">
+                            @foreach (var item in allNewList.OrderByDescending(x => x.Views).Where(x => x.IsActive == true && x.IsLock == false))
+                            {
+                                <div class="col-lg-4" style="margin-top:30px;">
+                                    <!-- Post Article -->
+                                    <div class="article__entry-new">
+                                        @*<div class="article__category">
 
-                                            @item.categories.CategoryName
-                                        </div>*@
-                                    <div class="article__image articel__image__transition">
-                                        <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
-                                            <img src="https://uploadslemonde.ikifikir.net/images/@item.Image" alt="@item.Image" title="@item.Image" class="img-fluid" style="height: 190px" />
-                                        </a>
+                                                @item.categories.CategoryName
+                                            </div>*@
+                                        <div class="article__image articel__image__transition">
+                                            <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
+                                                <img src="https://uploadslemonde.ikifikir.net/images/@item.Image" alt="@item.Image" title="@item.Image" class="img-fluid" style="height: 180px; object-fit:cover;" />
+                                            </a>
+                                        </div>
+                                        <div class="text-cat">
+                                            <h5>
+                                                @if (item.Title.Length > 40)
+                                                {
+                                                    <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
+                                                        @item.Title.Substring(0, 40)<span>...</span>
+                                                    </a>
+                                                }
+                                                else
+                                                {
+                                                    <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
+                                                        @item.Title
+                                                    </a>
+                                                }
+
+                                            </h5>
+                                        </div>
+
                                     </div>
-                                    <div class="text-cat">
-                                        <h5>
-                                            @if (item.Title.Length > 40)
-                                            {
-                                                <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
-                                                    @item.Title.Substring(0, 40)<span>...</span>
-                                                </a>
-                                            }
-                                            else
-                                            {
-                                                <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
-                                                    @item.Title
-                                                </a>
-                                            }
-
-                                        </h5>
-                                    </div>
-
                                 </div>
-                            </div>
+                            }
                         }
+                        else
+                        {
+                            @foreach (var item in Model.OrderByDescending(x => x.Id).Where(x => x.IsActive == true && x.IsLock == false))
+                            {
+                                <div class="col-lg-4" style="margin-top:30px;">
+                                    <!-- Post Article -->
+                                    <div class="article__entry-new">
+                                        @*<div class="article__category">
+
+                                                @item.categories.CategoryName
+                                            </div>*@
+                                        <div class="article__image articel__image__transition">
+                                            <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
+                                                <img src="https://uploadslemonde.ikifikir.net/images/@item.Image" alt="@item.Image" title="@item.Image" class="img-fluid" style="height: 180px; object-fit:cover;" />
+                                            </a>
+                                        </div>
+                                        <div class="text-cat">
+                                            <h5>
+                                                @if (item.Title.Length > 40)
+                                                {
+                                                    <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
+                                                        @item.Title.Substring(0, 40)<span>...</span>
+                                                    </a>
+                                                }
+                                                else
+                                                {
+                                                    <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
+                                                        @item.Title
+                                                    </a>
+                                                }
+
+                                            </h5>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            }
+                        }
+
                         <div class="clerfix"></div>
                     </div>
 

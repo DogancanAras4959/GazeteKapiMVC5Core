@@ -395,7 +395,10 @@ namespace SERVICE.Engine.Engines
                     Spot = x.Spot,
                     RowNo = x.RowNo,
                     ColNo = x.ColNo,
+                    doublePlace = x.doublePlace,
                     Image = x.Image,
+                    isArchive = x.isArchive,
+                    fourthPlace = x.fourthPlace,
                     NewsContent = x.NewsContent,
                     IsSlide = x.IsSlide,
                     IsOpenNotifications = x.IsOpenNotifications,
@@ -501,6 +504,7 @@ namespace SERVICE.Engine.Engines
                     Id = getNews.Id,
                     Title = getNews.Title,
                     Spot = getNews.Spot,
+                    doublePlace = getNews.doublePlace,
                     RowNo = getNews.RowNo,
                     ColNo = getNews.ColNo,
                     IsSlide = getNews.IsSlide,
@@ -678,6 +682,9 @@ namespace SERVICE.Engine.Engines
                     Spot = x.Spot,
                     VideoSlug = x.VideoSlug,
                     Image = x.Image,
+                    doublePlace = x.doublePlace,
+                    isArchive = x.isArchive,
+
                     NewsContent = x.NewsContent,
                     IsSlide = x.IsSlide,
                     IsOpenNotifications = x.IsOpenNotifications,
@@ -733,6 +740,10 @@ namespace SERVICE.Engine.Engines
                     MetaTitle = x.MetaTitle,
                     ColNo = x.ColNo,
                     Image = x.Image,
+                    doublePlace = x.doublePlace,
+                    fourthPlace = x.fourthPlace,
+                    isArchive = x.isArchive,
+
                     NewsContent = x.NewsContent,
                     IsSlide = x.IsSlide,
                     IsOpenNotifications = x.IsOpenNotifications,
@@ -776,6 +787,10 @@ namespace SERVICE.Engine.Engines
                     Spot = x.Spot,
                     RowNo = x.RowNo,
                     ColNo = x.ColNo,
+                    doublePlace = x.doublePlace,
+                    fourthPlace = x.fourthPlace,
+                    isArchive = x.isArchive,
+
                     VideoSlug = x.VideoSlug,
                     VideoUploaded = x.VideoUploaded,
                     IsTitle = x.IsTitle,
@@ -818,6 +833,10 @@ namespace SERVICE.Engine.Engines
                 {
                     Id = x.Id,
                     Title = x.Title,
+                    doublePlace = x.doublePlace,
+                    fourthPlace = x.fourthPlace,
+                    isArchive = x.isArchive,
+
                     Spot = x.Spot,
                     Image = x.Image,
                     IsTitle = x.IsTitle,
@@ -886,6 +905,10 @@ namespace SERVICE.Engine.Engines
                     Title = x.Title,
                     Spot = x.Spot,
                     RowNo = x.RowNo,
+                    doublePlace = x.doublePlace,
+                    fourthPlace = x.fourthPlace,
+                    isArchive = x.isArchive,
+
                     ColNo = x.ColNo,
                     Image = x.Image,
                     VideoSlug = x.VideoSlug,
@@ -932,6 +955,10 @@ namespace SERVICE.Engine.Engines
                     Title = x.Title,
                     Spot = x.Spot,
                     Image = x.Image,
+                    doublePlace = x.doublePlace,
+                    fourthPlace = x.fourthPlace,
+                    isArchive = x.isArchive,
+
                     RowNo = x.RowNo,
                     VideoSlug = x.VideoSlug,
                     VideoUploaded = x.VideoUploaded,
@@ -978,6 +1005,10 @@ namespace SERVICE.Engine.Engines
                     Id = x.Id,
                     Title = x.Title,
                     Spot = x.Spot,
+                    doublePlace = x.doublePlace,
+                    fourthPlace = x.fourthPlace,
+                    isArchive = x.isArchive,
+
                     Image = x.Image,
                     RowNo = x.RowNo,
                     ColNo = x.ColNo,
@@ -1026,6 +1057,10 @@ namespace SERVICE.Engine.Engines
                     Id = x.Id,
                     IsTitle = x.IsTitle,
                     Title = x.Title,
+                    doublePlace = x.doublePlace,
+                    fourthPlace = x.fourthPlace,
+                    isArchive = x.isArchive,
+
                     Spot = x.Spot,
                     Image = x.Image,
                     VideoSlug = x.VideoSlug,
@@ -1075,6 +1110,10 @@ namespace SERVICE.Engine.Engines
                     IsTitle = x.IsTitle,
                     RowNo = x.RowNo,
                     ColNo = x.ColNo,
+                    doublePlace = x.doublePlace,
+                    fourthPlace = x.fourthPlace,
+                    isArchive = x.isArchive,
+
                     VideoSlug = x.VideoSlug,
                     VideoUploaded = x.VideoUploaded,
                     Image = x.Image,
@@ -1120,6 +1159,10 @@ namespace SERVICE.Engine.Engines
                     VideoSlug = x.VideoSlug,
                     VideoUploaded = x.VideoUploaded,
                     IsTitle = x.IsTitle,
+                    doublePlace = x.doublePlace,
+                    fourthPlace = x.fourthPlace,
+                    isArchive = x.isArchive,
+
                     RowNo = x.RowNo,
                     ColNo = x.ColNo,
                     Image = x.Image,
@@ -1167,6 +1210,10 @@ namespace SERVICE.Engine.Engines
                     VideoUploaded = x.VideoUploaded,
                     RowNo = x.RowNo,
                     ColNo = x.ColNo,
+                    doublePlace = x.doublePlace,
+                    fourthPlace = x.fourthPlace,
+                    isArchive = x.isArchive,
+
                     NewsContent = x.NewsContent,
                     IsSlide = x.IsSlide,
                     IsTitle = x.IsTitle,
@@ -1212,6 +1259,10 @@ namespace SERVICE.Engine.Engines
                     IsTitle = x.IsTitle,
                     RowNo = x.RowNo,
                     ColNo = x.ColNo,
+                    doublePlace = x.doublePlace,
+                    fourthPlace = x.fourthPlace,
+                    isArchive = x.isArchive,
+
                     Image = x.Image,
                     NewsContent = x.NewsContent,
                     IsSlide = x.IsSlide,
@@ -1255,6 +1306,10 @@ namespace SERVICE.Engine.Engines
                     ColNo = x.ColNo,
                     Spot = x.Spot,
                     Image = x.Image,
+                    doublePlace = x.doublePlace,
+                    fourthPlace = x.fourthPlace,
+                    isArchive = x.isArchive,
+
                     NewsContent = x.NewsContent,
                     IsSlide = x.IsSlide,
                     VideoSlug = x.VideoSlug,
@@ -1307,6 +1362,10 @@ namespace SERVICE.Engine.Engines
                     IsOpenNotifications = x.IsOpenNotifications,
                     IsLock = x.IsLock,
                     IsActive = x.IsActive,
+                    doublePlace = x.doublePlace,
+                    fourthPlace = x.fourthPlace,
+                    isArchive = x.isArchive,
+
                     Views = x.Views,
                     IsTitle = x.IsTitle,
                     UpdatedTime = x.UpdatedTime,
@@ -1346,6 +1405,10 @@ namespace SERVICE.Engine.Engines
                     IsTitle = x.IsTitle,
                     VideoSlug = x.VideoSlug,
                     RowNo = x.RowNo,
+                    doublePlace = x.doublePlace,
+                    fourthPlace = x.fourthPlace,
+                    isArchive = x.isArchive,
+
                     ColNo = x.ColNo,
                     NewsContent = x.NewsContent,
                     IsSlide = x.IsSlide,
@@ -1454,6 +1517,10 @@ namespace SERVICE.Engine.Engines
                     Image = x.Image,
                     IsTitle = x.IsTitle,
                     RowNo = x.RowNo,
+                    doublePlace = x.doublePlace,
+                    fourthPlace = x.fourthPlace,
+                    isArchive = x.isArchive,
+
                     VideoSlug = x.VideoSlug,
                     VideoUploaded = x.VideoUploaded,
                     ColNo = x.ColNo,
@@ -1523,6 +1590,65 @@ namespace SERVICE.Engine.Engines
             });
 
             return true;
+        }
+
+        public async Task<bool> placeDoubleHolder(int Id)
+        {
+            News getNews = _unitOfWork.GetRepository<News>().FindAsync(x => x.Id == Id).Result;
+            if (getNews.doublePlace == false)
+            {
+                getNews.doublePlace = true;
+                News model = await _unitOfWork.GetRepository<News>().UpdateAsync(getNews);
+                return getNews != null;
+            }
+            else
+            {
+                getNews.doublePlace = false;
+                News model = await _unitOfWork.GetRepository<News>().UpdateAsync(getNews);
+                return getNews != null;
+            }
+        }
+
+        public async Task<bool> placeFourthHolder(int Id)
+        {
+            News getNews = _unitOfWork.GetRepository<News>().FindAsync(x => x.Id == Id).Result;
+            if (getNews.fourthPlace == false)
+            {
+                getNews.fourthPlace = true;
+                News model = await _unitOfWork.GetRepository<News>().UpdateAsync(getNews);
+                return getNews != null;
+            }
+            else
+            {
+                getNews.fourthPlace = false;
+                News model = await _unitOfWork.GetRepository<News>().UpdateAsync(getNews);
+                return getNews != null;
+            }
+        }
+
+        public async Task<bool> setArchiveNews(int Id)
+        {
+            News getNews = _unitOfWork.GetRepository<News>().FindAsync(x => x.Id == Id).Result;
+            if (getNews.isArchive == false)
+            {
+                getNews.isArchive = true;
+                getNews.IsCommentActive = false;
+                getNews.IsSlide = false;
+                getNews.IsLock = false;
+                getNews.IsTitle = false;
+                getNews.IsOpenNotifications = false;
+                getNews.doublePlace = false;
+                getNews.fourthPlace = false;
+
+                News model = await _unitOfWork.GetRepository<News>().UpdateAsync(getNews);
+                return getNews != null;
+            }
+            else
+            {
+                getNews.isArchive = false;
+                News model = await _unitOfWork.GetRepository<News>().UpdateAsync(getNews);
+                return getNews != null;
+            }
         }
 
         #endregion

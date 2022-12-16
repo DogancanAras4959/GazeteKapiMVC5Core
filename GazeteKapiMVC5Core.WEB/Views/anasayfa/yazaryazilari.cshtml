@@ -39,6 +39,7 @@
         height: 134px;
         position: relative;
     }
+
     .wrapper__list__article .border_section:before {
         content: "";
         position: absolute;
@@ -49,6 +50,7 @@
         background: #f4c625;
         z-index: 1;
     }
+
     .wrapper__list__article .border_section:after {
         content: "";
         position: absolute;
@@ -58,7 +60,6 @@
         height: 2px;
         background: #eee;
     }
-
 </style>
 
 <link href="~/assets/css/pagelineweb.css" type="text/css" rel="stylesheet" />
@@ -113,39 +114,32 @@
                             </div>
                             <div class="row">
 
-                                @foreach (var item in Model.OrderByDescending(x => x.Id).Where(x=> x.IsActive == true && x.IsLock == false))
+                                @foreach (var item in Model.OrderByDescending(x => x.Id).Where(x => x.IsActive == true && x.IsLock == false))
                                 {
-                                    <div class="col-lg-4">
-                                            <div class="card__post ">
-                                                <div class="card__post__body">
-                                                    <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
+                                    <div class="col-lg-12" style="margin-right:30px;">
+                                        <div class="card__post ">
+                                            <div class="card__post__body">
+                                                @*<a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
                                                         <img src="https://uploadslemonde.ikifikir.net/images/@item.Image" title="@item.Image" alt="@item.Image" class="img-fluid" />
-                                                    </a>
-                                                    <div style="margin-top:15px;">
-                                                        <h6>
-                                                            @if (item.Title.Length > 40)
-                                                            {
-                                                                <a id="btn-article" style="color:#515d5e;" href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
-                                                                    @item.Title.Substring(0, 40)<span>...</span>
-                                                                </a>
-                                                            }
-                                                            else
-                                                            {
-                                                                <a id="btn-article" style="color:#515d5e;" href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
-                                                                    @item.Title
-                                                                </a>
-                                                            }
+                                                    </a>*@
+                                                <div>
+                                                    <h6>
 
-                                                        </h6>
-                                                        <ul class="list-inline article__post__author">
-                                                            <li class="list-inline-item">
-                                                                <span style="font-size:14px;">@item.PublishedTime.Value.ToString("dd/MM/yyyy HH:mm")</span>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
+                                                        <a id="btn-article" style="color:#515d5e;" href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
+                                                            @item.Title
+                                                        </a>
+
+
+                                                    </h6>
+                                                    <ul class="list-inline article__post__author">
+                                                        <li class="list-inline-item">
+                                                            <span style="font-size:14px;">@item.PublishedTime.Value.ToString("dd/MM/yyyy HH:mm")</span>
+                                                        </li>
+                                                    </ul>
                                                 </div>
-
                                             </div>
+
+                                        </div>
                                     </div>
                                 }
 

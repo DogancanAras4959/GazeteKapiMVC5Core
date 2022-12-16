@@ -41,6 +41,8 @@ namespace GazeteKapiMVC5Core.DataAccessLayer
         public virtual DbSet<FooterType> footerTypes { get; set; }
         public virtual DbSet<StylePosts> stylePosts { get; set; }
         public virtual DbSet<Magazinebanner> magazinebanner { get; set; }
+        public virtual DbSet<IpAddresCount> ipaddresscount { get; set; }
+        public virtual DbSet<NewsIp> newsIps { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new UserMapping());
@@ -58,6 +60,7 @@ namespace GazeteKapiMVC5Core.DataAccessLayer
             modelBuilder.ApplyConfiguration(new AboutUsMapping());
             modelBuilder.ApplyConfiguration(new TermsOfUseMapping());
             modelBuilder.ApplyConfiguration(new CurrencyMapping());
+            modelBuilder.ApplyConfiguration(new IpAddressMapping());
             modelBuilder.ApplyConfiguration(new BrandMapping());
             modelBuilder.ApplyConfiguration(new CookieMapping());
             modelBuilder.ApplyConfiguration(new StreamMapping());
@@ -68,6 +71,7 @@ namespace GazeteKapiMVC5Core.DataAccessLayer
             modelBuilder.ApplyConfiguration(new StylePostsMapping());
             modelBuilder.ApplyConfiguration(new BannerMapping());
             modelBuilder.ApplyConfiguration(new MagazineBannerMapping());
+            modelBuilder.ApplyConfiguration(new NewsIpMapping());
             base.OnModelCreating(modelBuilder);
         }
     }

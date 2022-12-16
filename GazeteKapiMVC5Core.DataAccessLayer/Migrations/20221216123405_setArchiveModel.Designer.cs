@@ -4,27 +4,29 @@ using GazeteKapiMVC5Core.DataAccessLayer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GazeteKapiMVC5Core.DataAccessLayer.Migrations
 {
     [DbContext(typeof(NewsAppContext))]
-    partial class NewsAppContextModelSnapshot : ModelSnapshot
+    [Migration("20221216123405_setArchiveModel")]
+    partial class setArchiveModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
+                .UseIdentityColumns()
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.17")
-                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                .HasAnnotation("ProductVersion", "5.0.0");
 
             modelBuilder.Entity("GazeteKapiMVC5Core.DataAccessLayer.Models.AboutUs", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<string>("Content")
                         .IsRequired()
@@ -56,7 +58,7 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<string>("AuthorizeCode")
                         .HasMaxLength(70)
@@ -76,7 +78,7 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<string>("BannerFrame")
                         .HasMaxLength(800)
@@ -116,7 +118,7 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<string>("Content")
                         .IsRequired()
@@ -148,7 +150,7 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<string>("CategoryName")
                         .HasMaxLength(90)
@@ -204,7 +206,7 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<string>("Content")
                         .IsRequired()
@@ -236,7 +238,7 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<string>("BanknoteBuying")
                         .HasMaxLength(50)
@@ -299,7 +301,7 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
@@ -317,7 +319,7 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<string>("Biography")
                         .HasMaxLength(700)
@@ -375,27 +377,12 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Migrations
                     b.ToTable("guest");
                 });
 
-            modelBuilder.Entity("GazeteKapiMVC5Core.DataAccessLayer.Models.IpAddresCount", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("ipAddress")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ipaddresscount");
-                });
-
             modelBuilder.Entity("GazeteKapiMVC5Core.DataAccessLayer.Models.Magazinebanner", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<string>("BannerImage")
                         .HasMaxLength(50)
@@ -424,7 +411,7 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<DateTime>("CreatedTime")
                         .HasColumnType("datetime2");
@@ -459,7 +446,7 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
@@ -569,34 +556,12 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Migrations
                     b.ToTable("news");
                 });
 
-            modelBuilder.Entity("GazeteKapiMVC5Core.DataAccessLayer.Models.NewsIp", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("IpAdressId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("NewsId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("IpAdressId");
-
-                    b.HasIndex("NewsId");
-
-                    b.ToTable("newsIps");
-                });
-
             modelBuilder.Entity("GazeteKapiMVC5Core.DataAccessLayer.Models.Privacy", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<string>("Content")
                         .IsRequired()
@@ -628,7 +593,7 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<string>("TypeName")
                         .IsRequired()
@@ -650,7 +615,7 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<int>("AuthorizeId")
                         .HasColumnType("int");
@@ -675,7 +640,7 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<DateTime?>("CreatedTime")
                         .HasColumnType("datetime2");
@@ -701,7 +666,7 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<bool>("IsDone")
                         .HasColumnType("bit");
@@ -736,7 +701,7 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<int>("Amount")
                         .HasColumnType("int");
@@ -771,7 +736,7 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<string>("CopyrightText")
                         .HasColumnType("nvarchar(max)");
@@ -826,7 +791,7 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<string>("Content")
                         .IsRequired()
@@ -858,7 +823,7 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
@@ -877,7 +842,7 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<int>("NewsId")
                         .HasColumnType("int");
@@ -899,7 +864,7 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<string>("TagName")
                         .HasMaxLength(70)
@@ -915,7 +880,7 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<string>("Content")
                         .IsRequired()
@@ -947,7 +912,7 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<DateTime?>("CreatedTime")
                         .HasColumnType("datetime2");
@@ -996,7 +961,7 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<string>("description")
                         .HasMaxLength(500)
@@ -1137,25 +1102,6 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Migrations
                     b.Navigation("publishtype");
 
                     b.Navigation("users");
-                });
-
-            modelBuilder.Entity("GazeteKapiMVC5Core.DataAccessLayer.Models.NewsIp", b =>
-                {
-                    b.HasOne("GazeteKapiMVC5Core.DataAccessLayer.Models.IpAddresCount", "ip")
-                        .WithMany("newsIpListIp")
-                        .HasForeignKey("IpAdressId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("GazeteKapiMVC5Core.DataAccessLayer.Models.News", "news")
-                        .WithMany("newsIpList")
-                        .HasForeignKey("NewsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ip");
-
-                    b.Navigation("news");
                 });
 
             modelBuilder.Entity("GazeteKapiMVC5Core.DataAccessLayer.Models.Privacy", b =>
@@ -1304,15 +1250,8 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Migrations
                     b.Navigation("newList");
                 });
 
-            modelBuilder.Entity("GazeteKapiMVC5Core.DataAccessLayer.Models.IpAddresCount", b =>
-                {
-                    b.Navigation("newsIpListIp");
-                });
-
             modelBuilder.Entity("GazeteKapiMVC5Core.DataAccessLayer.Models.News", b =>
                 {
-                    b.Navigation("newsIpList");
-
                     b.Navigation("seoScoreNews");
 
                     b.Navigation("tagNewsListForNews");

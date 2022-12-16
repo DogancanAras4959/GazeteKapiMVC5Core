@@ -15,7 +15,7 @@
                     <div class="col-sm-12">
                         <h4 class="card-title">Haberler</h4>
                         <p class="card-title-desc">Haberler ile tüm işlemlerinizi gerçekleştirin</p>
-                    </div>                 
+                    </div>
                 </div>
                 <div class="table-rep-plugin">
                     <div class="table-responsive mb-0" data-bs-pattern="priority-columns">
@@ -25,13 +25,15 @@
                                     <th style="text-align:center;">#</th>
                                     <th>Başlık</th>
                                     <th>Yayın Tarihi</th>
+                                    <th>Okunma</th>
                                     <th>Haber Tipi</th>
                                     <th>Oluşturan</th>
+                                    <th>Etiketler</th>
                                     <th>İşlem</th>
                                 </tr>
                             </thead>
                             <tbody>
-                               
+
                                 @foreach (var item in Model)
                                 {
                                     <tr class="button-items" id="tooltip-container">
@@ -57,8 +59,10 @@
                                         }
 
                                         <td>@Html.DisplayFor(model => item.PublishedTime)</td>
+                                        <td>@Html.DisplayFor(model => item.Views)</td>
                                         <td>@Html.DisplayFor(model => item.categories.CategoryName)</td>
                                         <td>@Html.DisplayFor(model => item.users.DisplayName)</td>
+                                        <td>@Html.DisplayFor(model => item.Tag)</td>
                                         <td>
                                             @if (item.IsLock == true)
                                             {
@@ -99,6 +103,47 @@
                                                    data-bs-toggle="tooltip" data-bs-placement="top"
                                                    title="Bildirimleri Aç" asp-action="BildirimleriAc" asp-route-id="@item.Id" class="ml-1"><i class="mdi mdi-wifi-off text-danger mdi-24px"></i></a>
                                             }
+
+                                            @if (item.doublePlace == false)
+                                            {
+                                                <a style="padding:3px;" data-bs-container="#tooltip-container"
+                                                   data-bs-toggle="tooltip" data-bs-placement="top"
+                                                   title="İkiliye Yerleştir" asp-action="ikiliyeyerlestir" asp-route-id="@item.Id" class="ml-1"><i class="mdi mdi-chevron-double-up mdi-24px"></i></a>
+                                            }
+
+                                            else
+                                            {
+                                                <a style="padding:3px;" data-bs-container="#tooltip-container"
+                                                   data-bs-toggle="tooltip" data-bs-placement="top"
+                                                   title="İkiliden Yerleştir" asp-action="ikiliyeyerlestir" asp-route-id="@item.Id" class="ml-1"><i class="mdi mdi-chevron-double-up text-danger mdi-24px"></i></a>
+                                            }
+                                            @if (item.fourthPlace == false)
+                                            {
+                                                <a style="padding:3px;" data-bs-container="#tooltip-container"
+                                                   data-bs-toggle="tooltip" data-bs-placement="top"
+                                                   title="Dörtlüye Yerleştir" asp-action="dortluyeyerlestir" asp-route-id="@item.Id" class="ml-1"><i class="mdi mdi-application mdi-24px"></i></a>
+                                            }
+
+                                            else
+                                            {
+                                                <a style="padding:3px;" data-bs-container="#tooltip-container"
+                                                   data-bs-toggle="tooltip" data-bs-placement="top"
+                                                   title="Dörtlüye Yerleştir" asp-action="dortluyeyerlestir" asp-route-id="@item.Id" class="ml-1"><i class="mdi mdi-application text-danger mdi-24px"></i></a>
+                                            }
+                                            @if (item.isArchive == false)
+                                            {
+                                                <a style="padding:3px;" data-bs-container="#tooltip-container"
+                                                   data-bs-toggle="tooltip" data-bs-placement="top"
+                                                   title="Haberi Arşivle" asp-action="haberiarsivle" asp-route-id="@item.Id" class="ml-1"><i class="mdi mdi-archive mdi-24px"></i></a>
+                                            }
+
+                                            else
+                                            {
+                                                <a style="padding:3px;" data-bs-container="#tooltip-container"
+                                                   data-bs-toggle="tooltip" data-bs-placement="top"
+                                                   title="Haberi Arşivden Çıkar" asp-action="haberiarsivle" asp-route-id="@item.Id" class="ml-1"><i class="mdi mdi-archive text-danger mdi-24px"></i></a>
+                                            }
+
                                             <a style="padding:3px;" data-bs-container="#tooltip-container"
                                                data-bs-toggle="tooltip" data-bs-placement="top"
                                                title="Haberi Çoğalt" asp-action="HaberCogalt" asp-route-id="@item.Id"><i class="mdi mdi-plus mdi-24px"></i></a>

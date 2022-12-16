@@ -4,14 +4,16 @@ using GazeteKapiMVC5Core.DataAccessLayer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GazeteKapiMVC5Core.DataAccessLayer.Migrations
 {
     [DbContext(typeof(NewsAppContext))]
-    partial class NewsAppContextModelSnapshot : ModelSnapshot
+    [Migration("20221216141634_newsIpCreateDb")]
+    partial class newsIpCreateDb
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

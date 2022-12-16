@@ -1,14 +1,18 @@
 ﻿using AutoMapper;
 using CORE.ApplicationCommon.DTOS.CategoryDTO;
 using CORE.ApplicationCommon.DTOS.CurrencyDTO;
+using CORE.ApplicationCommon.DTOS.IpAddressDTO;
 using CORE.ApplicationCommon.DTOS.NewsDTO;
 using CORE.ApplicationCommon.DTOS.NewsDTO.GuestDTO;
+using CORE.ApplicationCommon.DTOS.NewsDTO.IpNewsDTO;
 using CORE.ApplicationCommon.DTOS.NewsDTO.TagNewsDTO;
 using CORE.ApplicationCommon.DTOS.SetingsDTO;
 using GazeteKapiMVC5Core.WEB.ViewModels.Categories;
 using GazeteKapiMVC5Core.WEB.ViewModels.Currencies;
 using GazeteKapiMVC5Core.WEB.ViewModels.Guests;
+using GazeteKapiMVC5Core.WEB.ViewModels.Ip;
 using GazeteKapiMVC5Core.WEB.ViewModels.News;
+using GazeteKapiMVC5Core.WEB.ViewModels.NewsIp;
 using GazeteKapiMVC5Core.WEB.ViewModels.Settings;
 using GazeteKapiMVC5Core.WEB.ViewModels.TagsNews;
 
@@ -46,6 +50,14 @@ namespace GazeteKapiMVC5Core.WEB.Profiles.WEB
             CreateMap<SettingsEditViewModelWeb, SettingsDto>();
             CreateMap<SettingsDto, SettingsEditViewModelWeb>();
             CreateMap<SettingsDto, SettingsBaseViewModelWeb>();
+
+            CreateMap<IpEditViewModel, IpAdressDto>();
+            CreateMap<IpAdressDto, IpEditViewModel>();
+            CreateMap<IpAdressDto, IpBaseViewModel>();
+
+            CreateMap<NewsIpEditViewModel, IpNewsDto>();
+            CreateMap<IpNewsDto, NewsIpEditViewModel>();
+            CreateMap<IpNewsDto, NewsIpBaseViewModel>();
         }
     }
 }

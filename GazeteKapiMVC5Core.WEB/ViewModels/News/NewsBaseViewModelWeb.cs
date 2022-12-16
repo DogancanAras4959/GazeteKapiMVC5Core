@@ -13,7 +13,9 @@ namespace GazeteKapiMVC5Core.WEB.ViewModels.News
         public int RowNo { get; set; }
         public string VideoSlug { get; set; }
         public string VideoUploaded { get; set; }
-
+        public bool doublePlace { get; set; }
+        public bool fourthPlace { get; set; }
+        public bool isArchive { get; set; }
         public int Sorted { get; set; }
         public string Image { get; set; }
         public string Tag { get; set; }

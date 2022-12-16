@@ -15,6 +15,9 @@ namespace CORE.ApplicationCommon.DTOS.NewsDTO
         public string VideoSlug { get; set; }
         public string Image { get; set; }
         public int Sorted { get; set; }
+        public bool isArchive { get; set; }
+        public bool doublePlace { get; set; }
+        public bool fourthPlace { get; set; }
         public string VideoUploaded { get; set; }
         public DateTime? UpdatedTime { get; set; }
         public DateTime? CreatedTime { get; set; }

@@ -515,6 +515,32 @@ namespace GazeteKapiMVC5Core.Controllers
             try
             {
                 List<NewsLıstItemModel> haberlist = _mapper.Map<List<NewsListItemDto>, List<NewsLıstItemModel>>(_newService.newsList());
+                foreach (var item in haberlist)
+                {
+                    var tags = _mapper.Map<List<TagNewsListItemDto>, List<TagNewsListViewModel>>(_newService.tagsListWithNewsByNewsId(item.Id));
+
+                    List<string> list = new List<string>();
+
+                    foreach (var item2 in tags)
+                    {
+                        list.Add(item2.tag.TagName);
+                    }
+
+                    string[] tagsList = list.ToArray();
+
+                    for (int i = 0; i < tagsList.Count(); i++)
+                    {
+                        if (item.Tag != null)
+                        {
+                            item.Tag = item.Tag + "," + tagsList[i];
+                        }
+                        else
+                        {
+                            item.Tag = tagsList[i];
+                        }
+                    }
+
+                }
                 return View(haberlist);
             }
             catch (Exception ex)
@@ -751,7 +777,7 @@ namespace GazeteKapiMVC5Core.Controllers
                                 {
                                     if(model.RowNo != 9)
                                     {
-                                        model.RowNo = 9;
+                                        model.RowNo = news.RowNo;
                                     }
                                 }
 
@@ -778,6 +804,14 @@ namespace GazeteKapiMVC5Core.Controllers
                             }
                             else
                             {
+                                if (model.IsSlide == true)
+                                {
+                                    if (model.RowNo != 9)
+                                    {
+                                        model.RowNo = news.RowNo;
+                                    }
+                                }
+
                                 model.VideoUploaded = "https://uploadslemonde.ikifikir.net/videos/" + model.VideoUploaded;
 
                                 int resultId = Convert.ToInt32(await _newService.editNews(_mapper.Map<NewsEditViewModel, NewsDto>(model)));
@@ -939,6 +973,60 @@ namespace GazeteKapiMVC5Core.Controllers
             try
             {
                 if (await _newService.IsOpenNotificationSet(id))
+                {
+                    return RedirectToAction(nameof(Haberler));
+                }
+                return View(nameof(Haberler));
+            }
+            catch (Exception ex)
+            {
+                TempData["HataMesaji"] = ex.ToString();
+                return RedirectToAction("ErrorPage", "Home");
+            }
+        }
+        
+        [CheckRoleAuthorize]
+        public async Task<IActionResult> ikiliyeyerlestir(int id)
+        {
+            try
+            {
+                if (await _newService.placeDoubleHolder(id))
+                {
+                    return RedirectToAction(nameof(Haberler));
+                }
+                return View(nameof(Haberler));
+            }
+            catch (Exception ex)
+            {
+                TempData["HataMesaji"] = ex.ToString();
+                return RedirectToAction("ErrorPage", "Home");
+            }
+        }
+
+        [CheckRoleAuthorize]
+        public async Task<IActionResult> dortluyeyerlestir(int id)
+        {
+            try
+            {
+                if (await _newService.placeFourthHolder(id))
+                {
+                    return RedirectToAction(nameof(Haberler));
+                }
+                return View(nameof(Haberler));
+            }
+            catch (Exception ex)
+            {
+                TempData["HataMesaji"] = ex.ToString();
+                return RedirectToAction("ErrorPage", "Home");
+            }
+        }
+
+        [CheckRoleAuthorize]
+        public async Task<IActionResult> haberiarsivle(int id)
+        {
+            try
+            {
+                if (await _newService.setArchiveNews(id))
                 {
                     return RedirectToAction(nameof(Haberler));
                 }
@@ -1140,6 +1228,7 @@ namespace GazeteKapiMVC5Core.Controllers
                 return Json(false);
             }
         }
+
 
         #endregion
 

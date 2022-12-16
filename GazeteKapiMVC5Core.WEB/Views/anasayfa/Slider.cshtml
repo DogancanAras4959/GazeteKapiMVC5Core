@@ -35,9 +35,9 @@
         {
             <div class="mySlides">
                 <div class="card__post__body card__post__transition">
-                    <div class="dots">
-                        <h2>@item.RowNo</h2>
-                    </div>
+                    @*<div class="dots">
+                            <h2>@item.RowNo</h2>
+                        </div>*@
                     <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
                         <img src="https://uploadslemonde.ikifikir.net/images/@item.Image" alt="@item.Image" class="img-slide" />
                     </a>
@@ -67,6 +67,12 @@
                 </div>
             </div>
         }
+        <div style="display: flex; margin: 0 auto; flex-wrap: nowrap; justify-content: space-between;">
+            @foreach (var item in haberlerManset.OrderBy(x => x.RowNo).Where(x => x.IsActive == true && x.IsSlide == true && x.IsLock == false).Take(10))
+            {
+                <button style="margin-top:3px; padding: 0.75rem 1.6rem;" class="btn btn-dark" onclick="currentSlide(@item.RowNo)">@item.RowNo</button>
+            }
+        </div>
 
     </div>
 </div>
@@ -77,7 +83,7 @@
         @foreach (var item in haberlerManset.OrderByDescending(x => x.Id).Where(x => x.IsActive == true && x.IsLock == false).ToList())
         {
 
-            @if (item.IsSlide == false && item.RowNo > 10 && item.RowNo < 13)
+            @if (item.IsSlide == false && item.doublePlace == true)
             {
                 count++;
 

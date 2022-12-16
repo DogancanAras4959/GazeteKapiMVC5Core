@@ -4,14 +4,16 @@ using GazeteKapiMVC5Core.DataAccessLayer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GazeteKapiMVC5Core.DataAccessLayer.Migrations
 {
     [DbContext(typeof(NewsAppContext))]
-    partial class NewsAppContextModelSnapshot : ModelSnapshot
+    [Migration("20221216133335_v5")]
+    partial class v5
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -569,28 +571,6 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Migrations
                     b.ToTable("news");
                 });
 
-            modelBuilder.Entity("GazeteKapiMVC5Core.DataAccessLayer.Models.NewsIp", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("IpAdressId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("NewsId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("IpAdressId");
-
-                    b.HasIndex("NewsId");
-
-                    b.ToTable("newsIps");
-                });
-
             modelBuilder.Entity("GazeteKapiMVC5Core.DataAccessLayer.Models.Privacy", b =>
                 {
                     b.Property<int>("Id")
@@ -1139,25 +1119,6 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Migrations
                     b.Navigation("users");
                 });
 
-            modelBuilder.Entity("GazeteKapiMVC5Core.DataAccessLayer.Models.NewsIp", b =>
-                {
-                    b.HasOne("GazeteKapiMVC5Core.DataAccessLayer.Models.IpAddresCount", "ip")
-                        .WithMany("newsIpListIp")
-                        .HasForeignKey("IpAdressId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("GazeteKapiMVC5Core.DataAccessLayer.Models.News", "news")
-                        .WithMany("newsIpList")
-                        .HasForeignKey("NewsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ip");
-
-                    b.Navigation("news");
-                });
-
             modelBuilder.Entity("GazeteKapiMVC5Core.DataAccessLayer.Models.Privacy", b =>
                 {
                     b.HasOne("GazeteKapiMVC5Core.DataAccessLayer.Models.Users", "user")
@@ -1304,15 +1265,8 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Migrations
                     b.Navigation("newList");
                 });
 
-            modelBuilder.Entity("GazeteKapiMVC5Core.DataAccessLayer.Models.IpAddresCount", b =>
-                {
-                    b.Navigation("newsIpListIp");
-                });
-
             modelBuilder.Entity("GazeteKapiMVC5Core.DataAccessLayer.Models.News", b =>
                 {
-                    b.Navigation("newsIpList");
-
                     b.Navigation("seoScoreNews");
 
                     b.Navigation("tagNewsListForNews");

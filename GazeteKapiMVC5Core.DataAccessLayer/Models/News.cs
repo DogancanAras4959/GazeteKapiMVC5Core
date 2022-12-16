@@ -13,6 +13,7 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Models
         {
             tagNewsListForNews = new List<TagNews>();
             seoScoreNews = new List<SeoScore>();
+            newsIpList = new List<NewsIp>();
         }
 
         public int Id { get; set; }
@@ -23,12 +24,15 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Models
         public int Sorted { get; set; }
         public string Image { get; set; }
         public string VideoSlug { get; set; }
+        public bool doublePlace { get; set; }
+        public bool fourthPlace { get; set; }
         public string VideoUploaded { get; set; }
         public DateTime? CreatedTime { get; set; }
         public DateTime? UpdatedTime { get; set; }
         public DateTime? PublishedTime { get; set; }
         public bool IsActive { get; set; }
         public bool IsTitle { get; set; }
+        public bool isArchive { get; set; }
         public bool IsLock { get; set; }
         public bool IsOpenNotifications { get; set; }
         public bool IsCommentActive { get; set; }
@@ -58,5 +62,6 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Models
 
         public virtual ICollection<TagNews> tagNewsListForNews { get; set; }
         public virtual ICollection<SeoScore> seoScoreNews { get; set; }
+        public virtual ICollection<NewsIp> newsIpList { get; set; }
     }
 }

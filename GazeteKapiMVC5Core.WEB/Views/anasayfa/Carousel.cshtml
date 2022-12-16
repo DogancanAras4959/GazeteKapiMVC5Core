@@ -20,10 +20,9 @@
 
     @foreach (var item in haberlerManset.OrderByDescending(x => x.Id).Where(x => x.IsActive == true && x.IsLock == false).ToList())
     {
-        if (item.IsSlide == false)
+        if (item.IsSlide == false && item.fourthPlace == true)
         {
-            if (item.RowNo > 13)
-            {
+
                 count++;
 
                 <div class="item">
@@ -31,7 +30,7 @@
                     <div class="article__entry">
                         <div class="article__image">
                             <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
-                                <img src="https://uploadslemonde.ikifikir.net/images/@item.Image" alt="@item.Image" title="@item.Image" class="img-fluid" />
+                                <img src="https://uploadslemonde.ikifikir.net/images/@item.Image" alt="@item.Image" title="@item.Image" style=" height: 140px;" class="img-fluid" />
                             </a>
                         </div>
                         <div class="article__content">
@@ -52,7 +51,7 @@
                     count = 0;
                     break;
                 }
-            }
+            
 
         }
     }

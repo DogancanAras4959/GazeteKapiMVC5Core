@@ -48,6 +48,9 @@ namespace SERVICE.Engine.Interfaces
         bool newsDelete(int id);
         Task<bool> SetYourNewsToUp(int id);
         Task<bool> IsOpenNotificationSet(int id);
+        Task<bool> placeDoubleHolder(int Id);
+        Task<bool> setArchiveNews(int Id);
+        Task<bool> placeFourthHolder(int Id);
         Task<bool> IsLockNews(int id);
         Task<bool> ChangeSorted(int id, int sira);
         Task<bool> IsActiveEnabled(int id);

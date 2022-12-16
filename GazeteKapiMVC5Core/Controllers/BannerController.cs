@@ -16,10 +16,12 @@ namespace GazeteKapiMVC5Core.Controllers
     public class BannerController : Controller
     {
         private readonly IMagazineBannerService _magazineBannerService;
+        private readonly IBannerService _bannerService;
         private readonly IMapper _mapper;
-        public BannerController(IMagazineBannerService magazineBannerService, IMapper mapper)
+        public BannerController(IMagazineBannerService magazineBannerService, IMapper mapper, IBannerService bannerService)
         {
             _magazineBannerService = magazineBannerService;
+            _bannerService = bannerService;
             _mapper = mapper;
         }
 
@@ -181,7 +183,49 @@ namespace GazeteKapiMVC5Core.Controllers
 
         #region Reklamlar
 
+        [HttpGet]
+        [CheckRoleAuthorize]
         public IActionResult reklamlar()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        [CheckRoleAuthorize]
+        public IActionResult reklamEkle()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult reklamolustur()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        [CheckRoleAuthorize]
+        public IActionResult reklamDuzenle(int Id)
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult reklamGuncelle()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        [CheckRoleAuthorize]
+        public IActionResult reklamSil(int Id)
+        {
+            return View();
+        }
+
+        [HttpGet]
+        [CheckRoleAuthorize]
+        public IActionResult reklamDurumDuzenle(int Id)
         {
             return View();
         }
