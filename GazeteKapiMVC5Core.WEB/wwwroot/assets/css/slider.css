@@ -25,3 +25,26 @@
     background-color: #f4c625;
     padding: 5px;
 }
+
+.popular__news-header-carousel {
+    margin-top: 35px;
+}
+
+.top__news__slider .slick-slide {
+    margin-left: 16px;
+    width: 237px !important;
+}
+
+.top__news__slider .slick-list {
+    margin-left: -15px !important;
+}
+
+
+@media only screen and (max-width:768px) {
+    .slider-button-m {
+        padding: 0.75rem 0.90rem !important;
+    }
+    .carousel-img-m{
+        height:80px !important;
+    }
+}

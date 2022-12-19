@@ -45,6 +45,7 @@ namespace SERVICES.Engine.Engines
                 UpdatedTime = DateTime.Now,
                 StyleId = model.StyleId,
                 TypeId = model.TypeId,
+                isMenu = model.isMenu,
                 Sorted = model.Sorted,
                 UserId = model.UserId,
                 Position = model.Position,
@@ -64,18 +65,27 @@ namespace SERVICES.Engine.Engines
         public async Task<bool> EditIsActiveById(int id)
         {
             Categories getCategories = _unitOfWork.GetRepository<Categories>().FindAsync(x => x.Id == id).Result;
+           
             if (getCategories.IsActive == false)
-            {
                 getCategories.IsActive = true;
-                Categories model = await _unitOfWork.GetRepository<Categories>().UpdateAsync(getCategories);
-                return getCategories != null;
-            }
             else
-            {
                 getCategories.IsActive = false;
-                Categories model = await _unitOfWork.GetRepository<Categories>().UpdateAsync(getCategories);
-                return getCategories != null;
-            }
+
+            Categories model = await _unitOfWork.GetRepository<Categories>().UpdateAsync(getCategories);
+            return getCategories != null;
+        }
+
+        public async Task<bool> EditIsMenuById(int id)
+        {
+            Categories getCategories = _unitOfWork.GetRepository<Categories>().FindAsync(x => x.Id == id).Result;
+
+            if (getCategories.isMenu == false)
+                getCategories.isMenu = true;
+            else
+                getCategories.isMenu = false;
+
+            Categories model = await _unitOfWork.GetRepository<Categories>().UpdateAsync(getCategories);
+            return getCategories != null;
         }
 
         public List<CategoryListItemDto> GetAllCategory()
@@ -92,6 +102,7 @@ namespace SERVICES.Engine.Engines
                 UpdatedTime = x.UpdatedTime,
                 CreatedTime = x.CreatedTime,
                 StyleId = x.StyleId,
+                isMenu = x.isMenu,
                 Sorted = x.Sorted,
                 TypeId = x.TypeId,
                 Position = x.Position,
@@ -147,6 +158,7 @@ namespace SERVICES.Engine.Engines
                 IsActive = getCategory.IsActive,
                 UpdatedTime = getCategory.UpdatedTime,
                 CreatedTime = getCategory.CreatedTime,
+                isMenu = getCategory.isMenu,
                 Image = getCategory.Image,
                 TypeId = getCategory.TypeId,
                 StyleId = getCategory.StyleId,
@@ -172,6 +184,7 @@ namespace SERVICES.Engine.Engines
                 Description = getCategory.Description,
                 ParentCategoryId = getCategory.ParentCategoryId,
                 IsActive = getCategory.IsActive,
+                isMenu = getCategory.isMenu,
                 UpdatedTime = getCategory.UpdatedTime,
                 Sorted = getCategory.Sorted,
                 styles = getCategory.stylePosts,
@@ -198,6 +211,7 @@ namespace SERVICES.Engine.Engines
                 ParentCategoryId = x.ParentCategoryId,
                 IsActive = x.IsActive,
                 UpdatedTime = x.UpdatedTime,
+                isMenu = x.isMenu,
                 CreatedTime = x.CreatedTime,
                 TypeId = x.TypeId,
                 Sorted = x.Sorted,
@@ -230,6 +244,7 @@ namespace SERVICES.Engine.Engines
                 Description = model.Description,
                 ParentCategoryId = model.ParentCategoryId,
                 IsActive = categoryGet.IsActive,
+                isMenu = model.isMenu,
                 UpdatedTime = DateTime.Now,
                 TypeId = model.TypeId,
                 Sorted = categoryGet.Sorted,

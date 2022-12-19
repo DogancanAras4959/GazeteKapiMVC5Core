@@ -52,10 +52,10 @@
         <div class="card">
             <div class="card-body">
                 <div class="mini-stat">
-                    <span class="mini-stat-icon bg-teal me-0 float-end"><i class="mdi mdi-server"></i></span>
+                    <span class="mini-stat-icon bg-teal me-0 float-end"><i class="mdi mdi-counter"></i></span>
                     <div class="mini-stat-info">
-                        <span class="counter text-teal">3569</span>
-                        Ajans Haberleri
+                        <span class="counter text-teal">@ViewBag.ClickCount</span>
+                        Site Tıklanması
                     </div>
                 </div>
             </div>
@@ -68,10 +68,10 @@
         <div class="card">
             <div class="card-body">
                 <div class="mini-stat">
-                    <span class="mini-stat-icon bg-purple me-0 float-end"><i class="mdi mdi-alert"></i></span>
+                    <span class="mini-stat-icon bg-purple me-0 float-end"><i class="mdi mdi-video"></i></span>
                     <div class="mini-stat-info">
-                        <span class="counter text-purple">@ViewBag.ErrorCount</span>
-                        Sistem Hataları
+                        <span class="counter text-purple">@ViewBag.MediaCount</span>
+                        Videolar
                     </div>
                 </div>
             </div>
@@ -148,7 +148,7 @@
                                 {
                                     <tr>
                                         <td>@Html.DisplayFor(modelItem => item.Id)</td>
-                                        <td>@Html.DisplayFor(modelItem => item.Title)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.MetaTitle)</td>
                                         <td>@Html.DisplayFor(modelItem => item.CreatedTime)</td>
                                         <td>@Html.DisplayFor(modelItem => item.UpdatedTime)</td>
                                         @if (item.IsActive == true)

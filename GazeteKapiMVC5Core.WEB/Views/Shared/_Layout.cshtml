@@ -14,9 +14,8 @@
     <meta charset="utf-8" />
     <meta http-equiv="content-language" content="tr" />
     <meta http-equiv="refresh" content="180, url='@Url.Action("sayfa","anasayfa")'" />
-    <script async src="https://cdn.ampproject.org/v0.js"></script>
     <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1" />
-    <link rel="canonical" href="https://amp.dev/documentation/guides-and-tutorials/start/create/basic_markup/" />
+    <link rel="canonical" href="https://gazetekapi.com" />
     <meta name="rating" content="general" />
     <meta name="abstract" content="security" />
     <meta name="googlebot" content="Index, Follow" />
@@ -54,6 +53,7 @@
     <link href="~/assets/css/base/layoutbase.css" rel="stylesheet" />
     <link href="~/assets/css/modeservicestyle.css" rel="stylesheet" />
     <link href="~/assets/css/mobile-resp.css" rel="stylesheet" />
+    <link href="~/assets/css/base/home.css" rel="stylesheet" />
     <link rel="manifest" href="~/assets/manifest.json" crossorigin="use-credentials" />
 
     <title>@meta.Title</title>
@@ -68,89 +68,6 @@
         gtag('config', 'G-LCQHBQ4BXX');
     </script>
 
-    <style>
-        .img-category {
-            min-height: 186px;
-        }
-
-        .boxed {
-            max-width: 1030px;
-        }
-
-        #footer-col-1 {
-            width: 153px;
-        }
-
-        #img-shrink.sticky {
-            height: 100px;
-            padding: 15px 0px;
-            -webkit-transition: height 0.2s;
-            -moz-transition: height 0.2s;
-            -ms-transition: height 0.2s;
-            -o-transition: height 0.2s;
-        }
-
-        .img-subcat {
-            width: 100%;
-            height: auto;
-        }
-
-        .img-slide {
-            width: 100%;
-            height: 411px;
-        }
-
-        .text-cat {
-            background-color: #515d5e;
-            padding: 15px;
-        }
-
-            .text-cat a {
-                color: #ffffff;
-                font-size: 18px;
-                line-height: 20px;
-                font-weight: 600;
-                font-family: Montserrat;
-                text-align: start;
-                text-decoration: none;
-            }
-
-        .slide-width {
-            max-width: 66.35667%;
-            margin-right: 2px;
-        }
-
-        .seperate-menu {
-            height: 1px;
-            background-color: #343a40;
-            width: 92%;
-            margin: 5px 0px;
-        }
-
-        .banner-cs {
-            position: fixed;
-            vertical-align: top;
-            display: flex;
-            width: 100%;
-            padding-top: 21px;
-            z-index: 0;
-        }
-
-        #bnr.increase {
-            position: fixed;
-            vertical-align: top;
-            display: flex;
-            width: 100%;
-            padding-top: 65px;
-            z-index: 0;
-        }
-
-        .banner-cs-img {
-            height: 435px;
-            border: 1px solid #515d5e;
-        }
-    </style>
-
 </head>
 
 <body>
@@ -164,25 +81,12 @@
     <a href="javascript:" id="return-to-top"><i class="fa fa-chevron-up"></i></a>
 
     <script type="text/javascript" src="~/assets/js/index.bundle.js?537a1bbd0e5129401d28"></script>
-    <script src="~/assets/js/index.bundle.js"></script>
+    @*<script src="~/assets/js/index.bundle.js"></script>*@
     <script src="~/assets/js/InfinitiySroll.js"></script>
     <script src="~/assets/js/modeservice.js"></script>
+    <script src="~/assets/js/home.js"></script>
 
-    <script>
-
-        window.onscroll = function () { onScroll() };
-        function onScroll() {
-            if (document.body.scrollTop > 50 || document.documentElement.scrollTop > 50) {
-                document.getElementById("img-shrink").classList.add("sticky");
-                document.getElementById("bnr").classList.add("increase");
-                document.getElementById("main_nav99").classList.add("removeCurrency");
-            } else {
-                document.getElementById("img-shrink").classList.remove("sticky");
-                document.getElementById("bnr").classList.remove("increase");
-                document.getElementById("main_nav99").classList.remove("removeCurrency");
-
-            }
-        }
+    <script>  
 
         function notifyMe() {
 
@@ -199,31 +103,28 @@
             }
 
             var myArray = '@Html.Raw(ViewData["data"])';
-            $.each(JSON.parse(myArray), function (i, val)
-            {
-                if (val.IsOpenNotifications == true) {
-                    var notification = new Notification(val.Title, {
-                        icon: 'https://uploadslemonde.ikifikir.net/images/' + val.Image,
-                        body: "Haberi okumak için tıklayın!",
-                    });
 
-                    notification.onclick = function () {
-                        window.open("https://www.gazetekapi.com/haber/" + val.CategoryId + "/" + val.Title);
+            if (myArray != '') {
+                $.each(JSON.parse(myArray), function (i, val) {
+                    if (val.IsOpenNotifications == true) {
+                        var notification = new Notification(val.Title, {
+                            icon: 'https://uploadslemonde.ikifikir.net/images/' + val.Image,
+                            body: "Haberi okumak için tıklayın!",
+                        });
+
+                        notification.onclick = function () {
+                            window.open("https://www.gazetekapi.com/haber/" + val.CategoryId + "/" + val.Title);
+                        }
+
+                        setTimeout(notification.close, 10000);
+
                     }
-
-                    setTimeout(notification.close, 10000);
-
-                }
-            });
+                });
+            }
 
         }
 
         window.onload = notifyMe;
-
-        $("#hamburger-button").on("click", function () {
-            $('#menu-hamburger-label ul').css('display', 'block');
-            $('#menu-hamburger-label ul').css('z-index', '200');
-        });
 
     </script>
 

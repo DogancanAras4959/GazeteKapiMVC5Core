@@ -45,6 +45,15 @@ namespace SERVICE.Engine.Engines
             return count;
         }
 
+        public int CountSiteClick()
+        {
+            IEnumerable<NewsIp> clickCount = _unitOfWork.GetRepository<NewsIp>().Filter(null, x => x.OrderBy(y => y.Id), "", null, null);
+
+            int count = clickCount.Count();
+
+            return count;
+        }
+
         public int CountTags()
         {
             IEnumerable<Tags> tagsCount = _unitOfWork.GetRepository<Tags>().Filter(null, x => x.OrderBy(y => y.Id), "", null, null);
@@ -59,6 +68,15 @@ namespace SERVICE.Engine.Engines
             IEnumerable<Users> usersCount = _unitOfWork.GetRepository<Users>().Filter(null, x => x.OrderBy(y => y.Id), "", null, null);
 
             int count = usersCount.Count();
+
+            return count;
+        }
+
+        public int CountVideo()
+        {
+            IEnumerable<Media> mediaCount = _unitOfWork.GetRepository<Media>().Filter(null, x => x.OrderBy(y => y.Id), "", null, null);
+
+            int count = mediaCount.Count();
 
             return count;
         }

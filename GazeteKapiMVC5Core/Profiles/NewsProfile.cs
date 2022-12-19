@@ -4,6 +4,7 @@ using CORE.ApplicationCommon.DTOS.CategoryDTO.FooterTypeDTO;
 using CORE.ApplicationCommon.DTOS.CategoryDTO.StylePageDTO;
 using CORE.ApplicationCommon.DTOS.NewsDTO;
 using CORE.ApplicationCommon.DTOS.NewsDTO.GuestDTO;
+using CORE.ApplicationCommon.DTOS.NewsDTO.MediaDTO;
 using CORE.ApplicationCommon.DTOS.NewsDTO.PublishTypeDTO;
 using CORE.ApplicationCommon.DTOS.NewsDTO.TagDTO;
 using CORE.ApplicationCommon.DTOS.NewsDTO.TagNewsDTO;
@@ -11,6 +12,7 @@ using GazeteKapiMVC5Core.Models.Category;
 using GazeteKapiMVC5Core.Models.Category.FooterTypeModel;
 using GazeteKapiMVC5Core.Models.Category.StyleTypeModel;
 using GazeteKapiMVC5Core.Models.News.GuestModel;
+using GazeteKapiMVC5Core.Models.News.MediaModel;
 using GazeteKapiMVC5Core.Models.News.NewsModel;
 using GazeteKapiMVC5Core.Models.News.PublishTypeModel;
 using GazeteKapiMVC5Core.Models.News.TagModel;
@@ -57,6 +59,10 @@ namespace GazeteKapiMVC5Core.Profiles
             CreateMap<NewsCreateViewModel, NewsDto>();
             CreateMap<NewsEditViewModel, NewsDto>();
             CreateMap<NewsDto, NewsEditViewModel>();
+
+            CreateMap<MediaCreateViewModel, MediaDto>();
+            CreateMap<MediaEditViewModel, MediaDto>();
+            CreateMap<MediaDto, MediaEditViewModel>();
 
             CreateMap<PublishTypeListItem, PublishTypeListViewModel>();
 

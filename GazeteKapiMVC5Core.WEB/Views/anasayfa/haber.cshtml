@@ -4,6 +4,8 @@
 @using GazeteKapiMVC5Core.WEB.ViewModels.Guests
 @using GazeteKapiMVC5Core.WEB.Models.MetaConfig
 @using Microsoft.AspNetCore.Http.Extensions;
+@using GazeteKapiMVC5Core.WEB.ViewModels.Banner;
+
 @using System.Web;
 @using System.Globalization;
 
@@ -15,87 +17,17 @@
     List<CategoryListViewModelWeb> categories = ViewBag.CategotyList as List<CategoryListViewModelWeb>;
     List<NewListViewModelWeb> newListAll = ViewBag.AllNewsList as List<NewListViewModelWeb>;
     GuestEditViewModelWeb guest = ViewBag.Guest as GuestEditViewModelWeb;
+    BannerEditViewModelWeb bannerSagAlt = ViewBag.BannerSagAlt as BannerEditViewModelWeb;
 
     string name = "";
     int count = 0;
 
 }
 
-<style>
-    .headphone-cs {
-        padding: 5px;
-        height: 35px;
-        width: 35px;
-        position: relative;
-        bottom: 3px;
-    }
-
-    .article__entry .article__content ul.list-inline li.list-inline-item span {
-        font-size: 14px;
-        font-weight: 700;
-        text-transform: capitalize;
-        font-family: "Montserrat",sans-serif;
-    }
-
-    .card__post .card__post__body .card__post__content .card__post__author-info .list-inline .list-inline-item span {
-        color: #fff;
-        font-weight: 500;
-        font-size: 13px;
-    }
-
-    .card__post .card__post__body {
-        padding-top: 8px;
-        display: flex;
-        align-items: center;
-    }
-
-    .text-rect-hot-news {
-        background-color: #f4c625;
-        padding: 5px;
-        font-size: 11px !important;
-        color: #54626b !important;
-        font-weight: 700;
-        text-transform: uppercase;
-    }
-
-    .wrap__article-detail-content .total-views .list-inline {
-        padding-bottom: 15px !important;
-        padding-top: 0px !important;
-        float: right;
-    }
-
-    .guest-content {
-        float: right;
-        position: relative;
-        bottom: 30px;
-    }
-
-        .guest-content a {
-            text-decoration: none;
-            font-weight: 600;
-            color: #292d2f;
-            font-size: 15px;
-        }
-
-    .frame {
-        position: relative;
-        width: 100%;
-        height: 0;
-        padding-bottom: 56.25%;
-    }
-
-    .video {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-    }
-</style>
-
 <link href="~/assets/css/loading.css" rel="stylesheet" />
 <link href="~/assets/css/pagelinenews.css" type="text/css" rel="stylesheet" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+<link href="~/assets/css/detail.css" rel="stylesheet" />
 
 <section class="bg-white pb-60" id="newSection">
     <div class="container boxed">
@@ -137,19 +69,26 @@
                     </div>
 
                     <div class="wrap__article-detail-image">
-                        <div class="img-cat">
-                            @foreach (var category in categories)
-                            {
-                                if (category.Id == Model.CategoryId)
+                        @if (Model.GuestId > 0 && Model.guest.GuestName != "Yazar Yok")
+                        {
+
+                        }
+                        else
+                        {
+                            <div class="img-cat">
+                                @foreach (var category in categories)
                                 {
-                                    name = category.CategoryName;
-                                    break;
+                                    if (category.Id == Model.CategoryId)
+                                    {
+                                        name = category.CategoryName;
+                                        break;
+                                    }
                                 }
-                            }
-                            <a asp-action="kategori" asp-controller="anasayfa" asp-route-id="@Model.CategoryId">
-                                <span class="text-rect">@name.Substring(0, 1).ToUpper()</span>
-                            </a>
-                        </div>
+                                <a asp-action="kategori" asp-controller="anasayfa" asp-route-id="@Model.CategoryId">
+                                    <span class="text-rect">@name.Substring(0, 1).ToUpper()</span>
+                                </a>
+                            </div>
+                        }
                         <figure>
                             @if (Model.VideoUploaded != null)
                             {
@@ -159,7 +98,14 @@
                             }
                             else
                             {
-                                <img src="https://uploadslemonde.ikifikir.net/images/@Model.Image" title="@Model.Image" alt="@Model.Image" class="img-fluid" />
+                                @if (Model.GuestId > 0 && Model.guest.GuestName != "Yazar Yok")
+                                {
+
+                                }
+                                else
+                                {
+                                    <img src="https://uploadslemonde.ikifikir.net/images/@Model.Image" title="@Model.Image" alt="@Model.Image" class="img-fluid" />
+                                }
                             }
 
                         </figure>
@@ -183,11 +129,15 @@
 
                     </div>
 
-                    @if (guest.Id != 0 || guest.GuestName != "Yazar Yok")
+                    @if (guest.Id != 0 && guest.GuestName != "Yazar Yok")
                     {
                         <div class="guest-content">
                             <span class="fa fa-user"></span> <a href="@Url.Action("yazaryazilari","anasayfa", new { Id = guest.Id })">@guest.GuestName</a>
                         </div>
+                    }
+                    else
+                    {
+
                     }
 
                     @if (Model.VideoSlug != null)
@@ -223,7 +173,7 @@
 
                 <div class="related-article">
                     <div class="article__entry-carousel-three">
-                        @foreach (var item in newListAll.Where(x => x.ParentNewsId == Model.Id))
+                        @foreach (var item in newListAll.Where(x => x.ParentNewsId == Model.Id && x.IsActive == true && x.GuestId == 8))
                         {
                             if (item.Id != Model.Id)
                             {
@@ -276,9 +226,9 @@
                 </div>
 
                 <!-- SONSUZ SAYFA -->
-                <div class="wrapper__list__article mt-4" id="anyTable">
-                </div>
-                <div class="loadingProgress"><i class="fa fa-spinner fa-spin" style="font-size:18px"></i></div>
+                @*<div class="wrapper__list__article mt-4" id="anyTable">
+                    </div>
+                    <div class="loadingProgress"><i class="fa fa-spinner fa-spin" style="font-size:18px"></i></div>*@
             </div>
 
             <div class="col-md-4">
@@ -301,7 +251,7 @@
                     <h4 class="border_section"> Tüm Haberler </h4>
                     <div class="wrapper__list__article-small">
 
-                        @foreach (var item in newListAll.OrderByDescending(x => x.PublishedTime).Take(10))
+                        @foreach (var item in newListAll.Where(x => x.IsActive == true && x.Id != Model.Id && x.GuestId == 8).OrderByDescending(x => x.PublishedTime).Take(10))
                         {
                             <div class="mb-3">
                                 <!-- Post Article -->
@@ -361,9 +311,9 @@
                     <h4 class="border_section"> </h4>
                     <div class="wrapper__list__article-small">
 
-                        <a href="#">
+                        <a href="@bannerSagAlt.Link">
                             <figure>
-                                <img src="~/assets/images/banner.jpg" alt="banner-down" title="banner-down" class="img-fluid" />
+                                <img src="https://uploadslemonde.ikifikir.net/images/@bannerSagAlt.BannerImage" alt="@bannerSagAlt.BannerName" title="@bannerSagAlt.BannerName" loading="lazy" class="img-fluid" />
                             </figure>
                         </a>
 
@@ -374,7 +324,7 @@
                     <h4 class="border_section"> Öne Çıkan Haberler </h4>
                     <div class="wrapper__list__article-small">
 
-                        @foreach (var item in newListAll.OrderByDescending(x => x.Views).Take(5))
+                        @foreach (var item in newListAll.Where(x => x.IsActive == true && x.Id != Model.Id && x.GuestId == 8).OrderByDescending(x => x.Views).Take(5))
                         {
                             <div class="mb-3">
                                 <!-- Post Article -->
@@ -440,25 +390,24 @@
         @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     }*@
 
-@section scripts{
+@*@section scripts{*@
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    @*<script src="https://responsivevoice.org/responsivevoice/responsivevoice.js"></script>*@
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>-->
+@*<script src="https://responsivevoice.org/responsivevoice/responsivevoice.js"></script>*@
 
-    <script>
-        $(document).ready(function () {
+<!--<script>
+    $(document).ready(function () {
 
-            $("audio").on("play", function () {
-                $("audio").not(this).each(function (index, audio) {
-                    audio.pause();
-                });
-
+        $("audio").on("play", function () {
+            $("audio").not(this).each(function (index, audio) {
+                audio.pause();
             });
+
         });
-    </script>
+    });
+</script>
 
-    <script>
-        var infinityScroll = new InfinitiySroll("anyTable", "/anasayfa/_loadNews", { sortOrder: "ascending", searchString: "3" });
-    </script>
-
-}
+<script>
+    var infinityScroll = new InfinitiySroll("anyTable", "/anasayfa/_loadNews", { sortOrder: "ascending", searchString: "3" });
+</script>-->
+@*}*@

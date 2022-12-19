@@ -1,6 +1,7 @@
 ﻿@using GazeteKapiMVC5Core.WEB.ViewModels.Categories;
 @using GazeteKapiMVC5Core.WEB.ViewModels.Currencies;
 @using GazeteKapiMVC5Core.WEB.ViewModels.MagazineBanner;
+@using GazeteKapiMVC5Core.WEB.ViewModels.Banner;
 @model GazeteKapiMVC5Core.WEB.ViewModels.Settings.SettingsBaseViewModelWeb;
 
 @{
@@ -10,67 +11,17 @@
     List<doviz> dovizlist = ViewBag.dovizler as List<doviz>;
 }
 
-<style>
-    .menu-rect-pop {
-        width: 13px;
-        height: 13px;
-        background-color: #f4c625;
-        float: left;
-        position: relative;
-        top: 4px;
-        left: 0px;
-    }
+@{
+    BannerEditViewModelWeb bannerSol = ViewBag.BannerSol as BannerEditViewModelWeb;
+    BannerEditViewModelWeb bannerSag = ViewBag.BannerSag as BannerEditViewModelWeb;
+    BannerEditViewModelWeb bannerUst = ViewBag.BannerUst as BannerEditViewModelWeb;
+}
 
-    #menu-hamburger-opened {
-        z-index: 0;
-    }
-
-    .dropdown-toggle[data-toggle="dropdown"]:after {
-        font-family: "FontAwesome";
-        font-weight: 900;
-        content: "\f107";
-        width: 100%;
-        text-align: right;
-        display: none;
-    }
-
-    .navigation-wrap .navbar-nav .nav-item .dropdown-menu {
-        border: 0;
-        margin-top: 15px;
-        padding-top: 10px;
-        padding-bottom: 0px;
-        box-shadow: 0 5px 10px 0 rgb(138 155 165 / 15%);
-        z-index: 1022;
-    }
-
-    .hamburger-dark {
-        display: none;
-        height: 15px;
-        position: relative;
-        bottom: 0px;
-    }
-
-    .hamburger-light {
-        display: block;
-        height: 15px;
-        position: relative;
-        bottom: 0px;
-    }
-
-    .navbar .megamenu {
-        left: -33%;
-        right: 0;
-        width: 100%;
-        padding: 20px;
-    }
-    .navigation-wrap .navbar-nav .nav-item .dropdown-menu {       
-        width: 1000px;
-    }
-</style>
 
 <link href="~/assets/css/pagelineweb.css" rel="stylesheet" />
 <link href="~/assets/css/hamburger.css" rel="stylesheet" />
 <link href="~/assets/css/bannerImage.css" rel="stylesheet" />
+<link href="~/assets/css/header.css" rel="stylesheet" />
 
 <header class="bg-light">
     <!-- Navbar  Top-->
@@ -198,27 +149,27 @@
                         <div class="col-sm-12">
                             <ul class="navbar-nav ml-auto">
 
-                                @foreach (var item in categories.Where(x => x.Position == 0 && x.IsActive == true))
+                                @foreach (var item in categories.Where(x=> x.isMenu == true))
                                 {
                                     <li class="nav-item">
-                                        <a asp-action="kategori" asp-controller="anasayfa" asp-route-id="@item.Id" class="menu-link"> @item.CategoryName.ToUpper() </a> <div class="menu-rect"></div>
+                                        <a asp-action="kategori" style="font-size:16px;" asp-controller="anasayfa" asp-route-id="@item.Id" class="menu-link"> @item.CategoryName.ToUpper() </a> <div class="menu-rect"></div>
                                     </li>
                                 }
 
                                 @*<li class="nav-item dropdown has-megamenu" style="margin-left:13px; margin-right:0px; margin-top:3px; cursor:pointer;">
-                                    <a class="menu-link dropdown-toggle" data-toggle="dropdown">
-                                        <img alt="hamburger_icon" title="hamburger-menu" class="hamburger-light" src="~/assets/images/hamburgerMenu.png" />
-                                        <img alt="hamburger_icon_dark" class="hamburger-dark" title="hamburger-menu-dark" src="~/assets/images/hamburgerMenuWhite.png" />
-                                    </a>
-                                    <div class="dropdown-menu animate fade-down megamenu mx-auto" role="menu">
-                                        <div class="container wrap__mobile-megamenu">
-                                            <div class="col-megamenu">
-                                                @{ await Html.RenderPartialAsync("HamburgerMenuContent");}
+                                        <a class="menu-link dropdown-toggle" data-toggle="dropdown">
+                                            <img alt="hamburger_icon" title="hamburger-menu" class="hamburger-light" src="~/assets/images/hamburgerMenu.png" />
+                                            <img alt="hamburger_icon_dark" class="hamburger-dark" title="hamburger-menu-dark" src="~/assets/images/hamburgerMenuWhite.png" />
+                                        </a>
+                                        <div class="dropdown-menu animate fade-down megamenu mx-auto" role="menu">
+                                            <div class="container wrap__mobile-megamenu">
+                                                <div class="col-megamenu">
+                                                    @{ await Html.RenderPartialAsync("HamburgerMenuContent");}
 
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </li>*@
+                                    </li>*@
                             </ul>
                         </div>
 
@@ -320,10 +271,14 @@
     <div class="banner-cs" id="bnr" style="max-width:1367px;">
         <div class="row" style="width:100%; margin:0;">
             <div class="col-sm-6">
-                <img class="banner-cs-img" style="float:left;" title="banner" alt="banner" src="~/assets/images/banner-anasayfa.jpg" />
+                <a href="@bannerUst.Link">
+                    <img class="banner-cs-img" style="float:left;" title="@bannerSol.BannerName" alt="@bannerSol.BannerName" loading="lazy" src="https://uploadslemonde.ikifikir.net/images/@bannerSol.BannerImage" />
+                </a>
             </div>
             <div class="col-sm-6">
-                <img class="banner-cs-img" style="float:right;" title="banner-2" alt="banner-2" src="~/assets/images/banner-anasayfa.jpg" />
+                <a href="@bannerUst.Link">
+                    <img class="banner-cs-img" style="float:right;" title="@bannerSag.BannerName" alt="@bannerSag.BannerName" loading="lazy" src="https://uploadslemonde.ikifikir.net/images/@bannerSag.BannerImage" />
+                </a>
             </div>
         </div>
     </div>
@@ -333,7 +288,7 @@
             <div class="col-12 col-sm-12 banner-3 image-container">
                 @foreach (var item in banner)
                 {
-                    <img alt="banner-dergi" class="magazine image-banner-magazine" title="banner-dergi" src="https://uploadslemonde.ikifikir.net/images/@item.BannerImage" />
+                    <img alt="banner-dergi" class="magazine image-banner-magazine" title="banner-dergi" loading="lazy" src="https://uploadslemonde.ikifikir.net/images/@item.BannerImage" />
                     <div class="image-parent-container" style="width: 60%; padding-left: 40px; padding-top: 15px; ">
                         <h4 class="magazine-title" style="font-weight:bold; color:#fff;">Le Monde diplomatique Türkçe</h4>
                         <h4 class="magazine-desc" style="color:#fff; font-weight:300;">Dijital Abonelik gerçekleştirerek düzenli okumak için burayı <a target="_blank" href="@item.Link" style="text-decoration:underline; color:#fff;">tıklayın..</a></h4>
@@ -346,7 +301,9 @@
     <div class="container" id="banner-header" style="max-width:1030px; padding-top:15px;">
         <div class="row">
             <div class="col-sm-12">
-                <img style="width:100%" title="masterhead" alt="masterhead" src="~/assets/images/masterhead.jpg" />
+                <a href="@bannerUst.Link">
+                    <img style="width:100%" title="@bannerUst.BannerName" alt="@bannerUst.BannerName" loading="lazy" src="https://uploadslemonde.ikifikir.net/images/@bannerUst.BannerImage" />
+                </a>
             </div>
         </div>
     </div>

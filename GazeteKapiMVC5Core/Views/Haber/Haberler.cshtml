@@ -45,7 +45,7 @@
                                                 <a data-bs-container="#tooltip-container"
                                                    data-bs-toggle="tooltip"
                                                    data-bs-placement="top" title="Haberi Düzenle"
-                                                   asp-action="HaberDuzenle" asp-controller="Haber" asp-route-id="@item.Id">@item.Title.Substring(0, 40)<span>...</span></a>
+                                                   asp-action="HaberDuzenle" asp-controller="Haber" asp-route-id="@item.Id">@item.MetaTitle.Substring(0, 40)<span>...</span></a>
                                             </td>
                                         }
                                         else
@@ -54,7 +54,7 @@
                                                 <a data-bs-container="#tooltip-container"
                                                    data-bs-toggle="tooltip"
                                                    data-bs-placement="top" title="Haberi Düzenle"
-                                                   asp-action="HaberDuzenle" asp-controller="Haber" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.Title)</a>
+                                                   asp-action="HaberDuzenle" asp-controller="Haber" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.MetaTitle)</a>
                                             </td>
                                         }
 
@@ -68,26 +68,26 @@
                                             {
                                                 <a style="padding:3px;" data-bs-container="#tooltip-container"
                                                    data-bs-toggle="tooltip" data-bs-placement="top"
-                                                   title="Haber Erişimini Aç" asp-action="HaberiKilitle" asp-route-id="@item.Id"><i class="mdi mdi-lock-open mdi-24px text-success"></i></a>
+                                                   title="Haber Erişimini Aç" class="btn btn-primary" asp-action="HaberiKilitle" asp-route-id="@item.Id">Kilidi Aç</a>
                                             }
                                             else
                                             {
                                                 <a style="padding:3px;" data-bs-container="#tooltip-container"
                                                    data-bs-toggle="tooltip" data-bs-placement="top"
-                                                   title="Haberi Kilitle" asp-action="HaberiKilitle" asp-route-id="@item.Id"><i class="mdi mdi-lock mdi-24px text-danger"></i></a>
+                                                   title="Haberi Kilitle" class="btn btn-danger" asp-action="HaberiKilitle" asp-route-id="@item.Id">Kilitle</a>
                                             }
 
                                             @if (item.IsActive == false)
                                             {
                                                 <a style="padding:3px;" data-bs-container="#tooltip-container"
-                                                   data-bs-toggle="tooltip" data-bs-placement="top"
-                                                   title="Haberi Aktifleştir" asp-action="HaberiAktifEt" asp-route-id="@item.Id"><i class="mdi mdi-publish mdi-24px"></i></a>
+                                                   data-bs-toggle="tooltip" data-bs-placement="top" class="btn btn-primary"
+                                                   title="Haberi Aktifleştir" asp-action="HaberiAktifEt" asp-route-id="@item.Id">Aktifleştir</a>
                                             }
                                             else
                                             {
-                                                <a style="padding:3px;" data-bs-container="#tooltip-container"
+                                                <a style="padding:3px;" class="btn btn-danger" data-bs-container="#tooltip-container"
                                                    data-bs-toggle="tooltip" data-bs-placement="top"
-                                                   title="Haberi Pasifleştir" asp-action="HaberiAktifEt" asp-route-id="@item.Id"><i class="mdi mdi-earth-remove text-danger mdi-24px"></i></a>
+                                                   title="Haberi Pasifleştir" asp-action="HaberiAktifEt" asp-route-id="@item.Id">Pasifleştir</a>
 
                                             }
 
@@ -95,58 +95,58 @@
                                             {
                                                 <a style="padding:3px;" data-bs-container="#tooltip-container"
                                                    data-bs-toggle="tooltip" data-bs-placement="top"
-                                                   title="Bildirimleri Kapat" asp-action="BildirimleriAc" asp-route-id="@item.Id" class="ml-1"><i class="mdi mdi-wifi mdi-24px"></i></a>
+                                                   title="Bildirimleri Kapat" asp-action="BildirimleriAc" asp-route-id="@item.Id" class="ml-1 btn btn-primary">Bildirim Aç</a>
                                             }
                                             else
                                             {
                                                 <a style="padding:3px;" data-bs-container="#tooltip-container"
                                                    data-bs-toggle="tooltip" data-bs-placement="top"
-                                                   title="Bildirimleri Aç" asp-action="BildirimleriAc" asp-route-id="@item.Id" class="ml-1"><i class="mdi mdi-wifi-off text-danger mdi-24px"></i></a>
+                                                   title="Bildirimleri Aç" asp-action="BildirimleriAc" asp-route-id="@item.Id" class="ml-1 btn btn-danger">Bildirim Kapat</a>
                                             }
 
                                             @if (item.doublePlace == false)
                                             {
                                                 <a style="padding:3px;" data-bs-container="#tooltip-container"
                                                    data-bs-toggle="tooltip" data-bs-placement="top"
-                                                   title="İkiliye Yerleştir" asp-action="ikiliyeyerlestir" asp-route-id="@item.Id" class="ml-1"><i class="mdi mdi-chevron-double-up mdi-24px"></i></a>
+                                                   title="İkiliye Yerleştir" asp-action="ikiliyeyerlestir" asp-route-id="@item.Id" class="ml-1 btn btn-primary">İkili</a>
                                             }
 
                                             else
                                             {
                                                 <a style="padding:3px;" data-bs-container="#tooltip-container"
                                                    data-bs-toggle="tooltip" data-bs-placement="top"
-                                                   title="İkiliden Yerleştir" asp-action="ikiliyeyerlestir" asp-route-id="@item.Id" class="ml-1"><i class="mdi mdi-chevron-double-up text-danger mdi-24px"></i></a>
+                                                   title="İkiliden kaldır" asp-action="ikiliyeyerlestir" asp-route-id="@item.Id" class="ml-1 btn btn-danger">İkili Kaldır</a>
                                             }
                                             @if (item.fourthPlace == false)
                                             {
                                                 <a style="padding:3px;" data-bs-container="#tooltip-container"
                                                    data-bs-toggle="tooltip" data-bs-placement="top"
-                                                   title="Dörtlüye Yerleştir" asp-action="dortluyeyerlestir" asp-route-id="@item.Id" class="ml-1"><i class="mdi mdi-application mdi-24px"></i></a>
+                                                   title="Dörtlüye Yerleştir" asp-action="dortluyeyerlestir" asp-route-id="@item.Id" class="ml-1 btn btn-primary">Dörtlü</a>
                                             }
 
                                             else
                                             {
                                                 <a style="padding:3px;" data-bs-container="#tooltip-container"
                                                    data-bs-toggle="tooltip" data-bs-placement="top"
-                                                   title="Dörtlüye Yerleştir" asp-action="dortluyeyerlestir" asp-route-id="@item.Id" class="ml-1"><i class="mdi mdi-application text-danger mdi-24px"></i></a>
+                                                   title="Dörtlüden kaldır" asp-action="dortluyeyerlestir" asp-route-id="@item.Id" class="ml-1 btn btn-danger">Dörtlü Kaldır</a>
                                             }
                                             @if (item.isArchive == false)
                                             {
                                                 <a style="padding:3px;" data-bs-container="#tooltip-container"
                                                    data-bs-toggle="tooltip" data-bs-placement="top"
-                                                   title="Haberi Arşivle" asp-action="haberiarsivle" asp-route-id="@item.Id" class="ml-1"><i class="mdi mdi-archive mdi-24px"></i></a>
+                                                   title="Haberi Arşivle" asp-action="haberiarsivle" asp-route-id="@item.Id" class="ml-1 btn btn-primary">Arşivle</a>
                                             }
 
                                             else
                                             {
                                                 <a style="padding:3px;" data-bs-container="#tooltip-container"
                                                    data-bs-toggle="tooltip" data-bs-placement="top"
-                                                   title="Haberi Arşivden Çıkar" asp-action="haberiarsivle" asp-route-id="@item.Id" class="ml-1"><i class="mdi mdi-archive text-danger mdi-24px"></i></a>
+                                                   title="Haberi Arşivden Çıkar" asp-action="haberiarsivle" asp-route-id="@item.Id" class="ml-1 btn btn-danger">Arşivden Çıkar</a>
                                             }
 
                                             <a style="padding:3px;" data-bs-container="#tooltip-container"
-                                               data-bs-toggle="tooltip" data-bs-placement="top"
-                                               title="Haberi Çoğalt" asp-action="HaberCogalt" asp-route-id="@item.Id"><i class="mdi mdi-plus mdi-24px"></i></a>
+                                               data-bs-toggle="tooltip" data-bs-placement="top" class="btn btn-primary"
+                                               title="Haberi Çoğalt" asp-action="HaberCogalt" asp-route-id="@item.Id">Çoğalt</a>
                                         </td>
                                     </tr>
                                 }
@@ -158,3 +158,10 @@
         </div>
     </div>
 </div>
+<script>
+    $(document).ready(function () {
+        $('#datatable').DataTable({
+            order: [[0, 'desc']],
+        });
+    });
+</script>

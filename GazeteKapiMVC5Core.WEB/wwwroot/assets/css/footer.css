@@ -1,0 +1,40 @@
+﻿.wrapper__footer .widget__footer p {
+    color: #fff;
+    font-size: 14px;
+    line-height: 16px;
+    margin-bottom: 0;
+}
+
+.reference-cs {
+    font-size: 11px;
+    font-weight: 500;
+    color: #f4c625;
+    text-align: center;
+    position: relative;
+    top: 7px;
+}
+
+    .reference-cs #link-reference {
+        line-height: 0;
+        padding: 0;
+        font-size: 11px;
+        font-weight: 500;
+        color: #f4c625;
+    }
+
+.wrapper__footer .widget__footer span {
+    float: none;
+}
+
+.base-ref {
+    color: #fff;
+    margin-top: 10px;
+    line-height: 7px;
+    font-size: 12px;
+}
+
+.cookie-background {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    background-color: transparent;
+}

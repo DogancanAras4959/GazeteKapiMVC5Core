@@ -20,6 +20,7 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Models
         public int? ParentCategoryId { get; set; }
         public bool IsActive { get; set; }
         public string Image { get; set; }
+        public bool isMenu { get; set; }
         public int Sorted { get; set; }
         public int Position { get; set; }
 

@@ -34,7 +34,7 @@ namespace SERVICE.Engine.Engines
                 RotateId = x.RotateId,
                 BannerFrame = x.BannerFrame,
                 BannerName = x.BannerName,
-
+                bannerRotate = x.bannerRotate,
             }).ToList();
         }
 
@@ -53,6 +53,7 @@ namespace SERVICE.Engine.Engines
                 BannerName = x.BannerName,
                 BannerFrame = x.BannerFrame,
                 RotateId = x.RotateId,
+                bannerRotate = x.bannerRotate,
 
             }).Take(count).ToList();
         }

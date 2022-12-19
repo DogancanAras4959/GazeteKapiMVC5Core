@@ -13,6 +13,8 @@ namespace SERVICE.Engine.Interfaces
         int CountGuests();
         //Task<int> CountAgencyNews();
         int CountUsers();
+        int CountSiteClick();
+        int CountVideo();
 
     }
 }

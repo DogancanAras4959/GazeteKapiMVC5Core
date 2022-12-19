@@ -171,16 +171,46 @@
                         <textarea asp-for="NewsContent" rows="3" cols="150" id="editor"></textarea>
                         <span asp-validation-for="NewsContent" class="text-danger"></span>
                     </div>
-                    <div class="mb-3">
-                        <label for="example-text-input" class="col-sm-12 col-form-label">Video</label>
-                        <input asp-for="VideoUploaded" autocomplete="off" data-toggle="tooltip"
-                               maxlength="160" id="defaultconfig"
-                               data-placement="bottom" class="form-control" type="text"
-                               placeholder="Haber için video giriniz">
+                    @*<div class="mb-3">
+                            <label for="example-text-input" class="col-sm-12 col-form-label">Video</label>
+                            <input asp-for="VideoUploaded" autocomplete="off" data-toggle="tooltip"
+                                   maxlength="160" id="defaultconfig"
+                                   data-placement="bottom" class="form-control" type="text"
+                                   placeholder="Haber için video giriniz">
 
-                    </div>
+                        </div>*@
+                    @if (Model.VideoUploaded != null)
+                    {
+                        <div class="mb-3">
+                            <label for="example-text-input" class="col-sm-12 col-form-label">Video Yükleyin (.mp4 formatında yükleyiniz)</label>
+                            <button type="button" class="btn btn-info rounded-0" data-bs-toggle="modal" data-bs-target="#UploadVideo">
+                                <i class="fa fa-plus-circle"></i> Videoyu Değiştir
+                            </button>
+                            <a href="@Url.Action("deleteVideoFromNews","Haber", new { Id = Model.Id })" class="btn btn-danger rounded-0"><i class="fa fa-trash"></i> Videoyu Sil</a>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="mb-3">
+                            <label for="example-text-input" class="col-sm-12 col-form-label">Video Yükleyin (.mp4 formatında yükleyiniz)</label>
+                            <button type="button" class="btn btn-info rounded-0" data-bs-toggle="modal" data-bs-target="#UploadVideo">
+                                <i class="fa fa-plus-circle"></i> Yeni Video
+                            </button>
+                        </div>
+                    }
+
+
+                    @if (Model.VideoUploaded != null)
+                    {
+                        <div class="mb-3">
+                            <video width="520" height="340" controls>
+                                <source src="https://uploadslemonde.ikifikir.net/videos/@Model.VideoUploaded" type="video/mp4">
+                            </video>
+                        </div>
+                    }
+
                     <div class="mb-3">
-                        <label for="example-text-input" class="col-sm-12 col-form-label">Video</label>
+                        <label for="example-text-input" class="col-sm-12 col-form-label">Video Gömme Kodu</label>
                         <textarea asp-for="VideoSlug" autocomplete="off" rows="4" cols="50" data-toggle="tooltip" data-placement="bottom" class="form-control" type="text" placeholder="Video için iframe kodu giriniz" id="example-text-input"></textarea>
                         <span asp-validation-for="VideoSlug" class="text-danger"></span>
                     </div>
@@ -265,7 +295,7 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="btn-group me-1" style="width:100%">
-                                <button type="submit" style="width:75%" class="btn btn-primary" id="newsBtn">Haberi Yayınla</button>
+                                <button type="submit" style="width:75%" class="btn btn-primary" id="newsBtn">Haberi Güncelle</button>
                                 <button type="button" style="width:25%" class="btn btn-indigo dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <i class="mdi mdi-chevron-down"></i>
                                 </button>
@@ -295,6 +325,22 @@
                             <label style="margin-top:10px;" class="col-sm-12 text-center">*(835x510 dosya boyutu)</label>
                             <label for="example-text-input" class="col-sm-12 col-form-label text-center" style="margin-top:10px;">Öne Çıkan Görseli Güncelle</label>
                             <input type="file" class="filestyle" id="upload" data-input="false" name="file" data-buttonname="btn-secondary">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-1">
+                                    <input type="checkbox" asp-for="IsActive" />
+                                </div>
+                                <div class="col-sm-11">
+                                    <label class="col-sm-11">Haber Yayında mı? </label>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -423,7 +469,7 @@
                                 {
                                     <td>@item.Title</td>
                                 }
-                                <td><a href="@Url.Action("IliskiliHaberiKaldir","Haber", new { Id = item.Id })" class="btn btn-warning">İlişkili Haberi Kaldır</a></td>
+                                <td><a href="@Url.Action("IliskiliHaberiKaldir","Haber", new { Id = item.Id, newsId = Model.Id })" class="btn btn-warning">İlişkili Haberi Kaldır</a></td>
                             </tr>
                         }
                     </tbody>
@@ -432,6 +478,29 @@
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
+</div>
+
+<div class="modal fade" id="UploadVideo" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Yeni bir video ekleyin</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Video Seçin:</label>
+                    <div class="input-group" style=" margin-top: 15px; display: flex; max-width: 100%; width: 100%; justify-content: space-between;">
+                        <div class="custom-file">
+                            <input type="file" id="fileupload" name="fileupload" class="custom-file-input" />
+                            <label class="custom-file-label"></label>
+                        </div>
+                        <button type="submit" id="btnUpload" class="btn btn-secondary">Yükle</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script src="~/assets/libs/jquery/jquery.min.js"></script>
@@ -603,4 +672,45 @@
             console.error(error);
         });
 
+</script>
+
+<script>
+    $("#btnUpload").on("click", function ()
+    {
+        var newsId = @Model.Id;
+        var myfile = document.getElementById("fileupload");
+        var formdata = new FormData();
+
+        var buttonUpload = document.getElementById("btnUpload");
+        buttonUpload.innerText = "Yükleniyor, bekleyiniz...";
+        buttonUpload.innerHTML = "Yükleniyor, bekleyiniz...";
+      
+        if (myfile.files.length > 0) {
+           formdata.append("file", myfile.files[0]);
+        }
+
+        formdata.append("haberId", newsId);
+
+        $.ajax({
+            url: "/Haber/uploadVideoForNews",
+            type: "POST",
+            dataType: "json",
+            data: formdata,
+            contentType: false,
+            cache: false,
+            processData: false,
+            success: function (data) {
+                if (data != false) {
+                    alert("Video yüklendi")
+                    window.location.href = "/Haber/HaberDuzenle?Id=" + newsId;
+                }
+            },
+            error: function (data) {
+                if (data == false) {
+                    alert("Video yüklenemedi!");
+                    window.location.href = "/Haber/HaberDuzenle?Id=" + newsId;
+                }
+            }
+        })
+    })
 </script>

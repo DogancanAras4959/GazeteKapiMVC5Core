@@ -394,6 +394,7 @@ namespace SERVICE.Engine.Engines
                     Title = x.Title,
                     Spot = x.Spot,
                     RowNo = x.RowNo,
+                    MetaTitle = x.MetaTitle,
                     ColNo = x.ColNo,
                     doublePlace = x.doublePlace,
                     Image = x.Image,
@@ -422,6 +423,53 @@ namespace SERVICE.Engine.Engines
                     publishtype = x.publishtype,
                     users = x.users,
                     categories = x.categories,
+                    Sound = x.Sound,
+
+                }).ToList();
+            }
+            else
+            {
+                return null;
+            }
+        }
+        public List<NewsListItemDto> newsListByDatetimeBigNow()
+        {
+            IEnumerable<News> newsList = _unitOfWork.GetRepository<News>().Filter(x=> x.IsActive == false && x.PublishedTime > DateTime.Now, x => x.OrderBy(y => y.Id), null, null, null);
+
+            if (newsList != null)
+            {
+                return newsList.Select(x => new NewsListItemDto
+                {
+
+                    Id = x.Id,
+                    Title = x.Title,
+                    Spot = x.Spot,
+                    MetaTitle = x.MetaTitle,
+                    RowNo = x.RowNo,
+                    ColNo = x.ColNo,
+                    doublePlace = x.doublePlace,
+                    Image = x.Image,
+                    isArchive = x.isArchive,
+                    fourthPlace = x.fourthPlace,
+                    NewsContent = x.NewsContent,
+                    IsSlide = x.IsSlide,
+                    IsOpenNotifications = x.IsOpenNotifications,
+                    IsLock = x.IsLock,
+                    IsActive = x.IsActive,
+                    VideoSlug = x.VideoSlug,
+                    VideoUploaded = x.VideoUploaded,
+                    Views = x.Views,
+                    IsTitle = x.IsTitle,
+                    UpdatedTime = x.UpdatedTime,
+                    CreatedTime = x.CreatedTime,
+                    CategoryId = x.CategoryId,
+                    UserId = x.UserId,
+                    GuestId = x.GuestId,
+                    ParentNewsId = x.ParentNewsId,
+                    PublishTypeId = x.PublishTypeId,
+                    PublishedTime = x.PublishedTime,
+                    IsCommentActive = x.IsCommentActive,
+                    Sorted = x.Sorted,
                     Sound = x.Sound,
 
                 }).ToList();
@@ -473,6 +521,7 @@ namespace SERVICE.Engine.Engines
                     MetaTitle = model.MetaTitle,
                     CreatedTime = DateTime.Now,
                     IsTitle = model.IsTitle,
+                    
                     Views = 0,
                     VideoUploaded = model.VideoUploaded,
                     CategoryId = model.CategoryId,
@@ -481,7 +530,7 @@ namespace SERVICE.Engine.Engines
                     PublishTypeId = model.PublishTypeId,
                     NewsContent = model.NewsContent,
                     Image = model.Image,
-                    Sorted = 0,
+                    Sorted = model.Sorted,
                 });
 
                 return createNews.Id;
@@ -495,7 +544,7 @@ namespace SERVICE.Engine.Engines
         public NewsDto getNews(int id)
         {
 
-            News getNews = _unitOfWork.GetRepository<News>().FindAsync(x => x.Id == id).Result;
+            News getNews = _unitOfWork.GetRepository<News>().Filter(x => x.Id == id, null, "guest", null, null).SingleOrDefault();
 
             if (getNews != null)
             {
@@ -507,6 +556,7 @@ namespace SERVICE.Engine.Engines
                     doublePlace = getNews.doublePlace,
                     RowNo = getNews.RowNo,
                     ColNo = getNews.ColNo,
+                    guest = getNews.guest,
                     IsSlide = getNews.IsSlide,
                     IsActive = getNews.IsActive,
                     VideoSlug = getNews.VideoSlug,
@@ -558,6 +608,11 @@ namespace SERVICE.Engine.Engines
                     model.CreatedTime = getNews.CreatedTime;
                 }
 
+                if(model.PublishedTime == null)
+                {
+                    model.PublishedTime = getNews.PublishedTime;
+                }
+
                 News newsGet = await _unitOfWork.GetRepository<News>().UpdateAsync(new News
                 {
                     Id = model.Id,
@@ -579,12 +634,13 @@ namespace SERVICE.Engine.Engines
                     fourthPlace = model.fourthPlace,
                     isArchive = model.isArchive,
                     MetaTitle = model.MetaTitle,
-                    IsActive = getNews.IsActive,
+                    IsActive = model.IsActive,
                     IsLock = getNews.IsLock,
                     UpdatedTime = DateTime.Now,
                     CreatedTime = getNews.CreatedTime,
                     users = model.users,
                     UserId = model.UserId,
+                   
                     CategoryId = model.CategoryId,
                     ParentNewsId = model.ParentNewsId,
                     categories = model.categories,
@@ -688,13 +744,12 @@ namespace SERVICE.Engine.Engines
                     Image = x.Image,
                     doublePlace = x.doublePlace,
                     isArchive = x.isArchive,
-
+                    MetaTitle = x.MetaTitle,
                     NewsContent = x.NewsContent,
                     IsSlide = x.IsSlide,
                     IsOpenNotifications = x.IsOpenNotifications,
                     VideoUploaded = x.VideoUploaded,
                     ColNo = x.ColNo,
-                    MetaTitle = x.MetaTitle,
                     RowNo = x.RowNo,
                     IsLock = x.IsLock,
                     IsTitle = x.IsTitle,
@@ -747,7 +802,7 @@ namespace SERVICE.Engine.Engines
                     doublePlace = x.doublePlace,
                     fourthPlace = x.fourthPlace,
                     isArchive = x.isArchive,
-
+                    
                     NewsContent = x.NewsContent,
                     IsSlide = x.IsSlide,
                     IsOpenNotifications = x.IsOpenNotifications,
@@ -794,7 +849,7 @@ namespace SERVICE.Engine.Engines
                     doublePlace = x.doublePlace,
                     fourthPlace = x.fourthPlace,
                     isArchive = x.isArchive,
-
+                    MetaTitle = x.MetaTitle,
                     VideoSlug = x.VideoSlug,
                     VideoUploaded = x.VideoUploaded,
                     IsTitle = x.IsTitle,
@@ -840,7 +895,7 @@ namespace SERVICE.Engine.Engines
                     doublePlace = x.doublePlace,
                     fourthPlace = x.fourthPlace,
                     isArchive = x.isArchive,
-
+                    MetaTitle = x.MetaTitle,
                     Spot = x.Spot,
                     Image = x.Image,
                     IsTitle = x.IsTitle,
@@ -912,7 +967,7 @@ namespace SERVICE.Engine.Engines
                     doublePlace = x.doublePlace,
                     fourthPlace = x.fourthPlace,
                     isArchive = x.isArchive,
-
+                    MetaTitle = x.MetaTitle,
                     ColNo = x.ColNo,
                     Image = x.Image,
                     VideoSlug = x.VideoSlug,
@@ -962,7 +1017,7 @@ namespace SERVICE.Engine.Engines
                     doublePlace = x.doublePlace,
                     fourthPlace = x.fourthPlace,
                     isArchive = x.isArchive,
-
+                    MetaTitle = x.MetaTitle,
                     RowNo = x.RowNo,
                     VideoSlug = x.VideoSlug,
                     VideoUploaded = x.VideoUploaded,
@@ -1012,7 +1067,7 @@ namespace SERVICE.Engine.Engines
                     doublePlace = x.doublePlace,
                     fourthPlace = x.fourthPlace,
                     isArchive = x.isArchive,
-
+                    MetaTitle = x.MetaTitle,
                     Image = x.Image,
                     RowNo = x.RowNo,
                     ColNo = x.ColNo,
@@ -1064,7 +1119,7 @@ namespace SERVICE.Engine.Engines
                     doublePlace = x.doublePlace,
                     fourthPlace = x.fourthPlace,
                     isArchive = x.isArchive,
-
+                    MetaTitle = x.MetaTitle,
                     Spot = x.Spot,
                     Image = x.Image,
                     VideoSlug = x.VideoSlug,
@@ -1117,7 +1172,7 @@ namespace SERVICE.Engine.Engines
                     doublePlace = x.doublePlace,
                     fourthPlace = x.fourthPlace,
                     isArchive = x.isArchive,
-
+                    MetaTitle = x.MetaTitle,
                     VideoSlug = x.VideoSlug,
                     VideoUploaded = x.VideoUploaded,
                     Image = x.Image,
@@ -1166,7 +1221,7 @@ namespace SERVICE.Engine.Engines
                     doublePlace = x.doublePlace,
                     fourthPlace = x.fourthPlace,
                     isArchive = x.isArchive,
-
+                    MetaTitle = x.MetaTitle,
                     RowNo = x.RowNo,
                     ColNo = x.ColNo,
                     Image = x.Image,
@@ -1217,7 +1272,7 @@ namespace SERVICE.Engine.Engines
                     doublePlace = x.doublePlace,
                     fourthPlace = x.fourthPlace,
                     isArchive = x.isArchive,
-
+                    MetaTitle = x.MetaTitle,
                     NewsContent = x.NewsContent,
                     IsSlide = x.IsSlide,
                     IsTitle = x.IsTitle,
@@ -1266,7 +1321,7 @@ namespace SERVICE.Engine.Engines
                     doublePlace = x.doublePlace,
                     fourthPlace = x.fourthPlace,
                     isArchive = x.isArchive,
-
+                    MetaTitle = x.MetaTitle,
                     Image = x.Image,
                     NewsContent = x.NewsContent,
                     IsSlide = x.IsSlide,
@@ -1313,7 +1368,7 @@ namespace SERVICE.Engine.Engines
                     doublePlace = x.doublePlace,
                     fourthPlace = x.fourthPlace,
                     isArchive = x.isArchive,
-
+                    MetaTitle = x.MetaTitle,
                     NewsContent = x.NewsContent,
                     IsSlide = x.IsSlide,
                     VideoSlug = x.VideoSlug,
@@ -1369,7 +1424,7 @@ namespace SERVICE.Engine.Engines
                     doublePlace = x.doublePlace,
                     fourthPlace = x.fourthPlace,
                     isArchive = x.isArchive,
-
+                    MetaTitle = x.MetaTitle,
                     Views = x.Views,
                     IsTitle = x.IsTitle,
                     UpdatedTime = x.UpdatedTime,
@@ -1412,7 +1467,7 @@ namespace SERVICE.Engine.Engines
                     doublePlace = x.doublePlace,
                     fourthPlace = x.fourthPlace,
                     isArchive = x.isArchive,
-
+                    MetaTitle = x.MetaTitle,
                     ColNo = x.ColNo,
                     NewsContent = x.NewsContent,
                     IsSlide = x.IsSlide,
@@ -1482,6 +1537,12 @@ namespace SERVICE.Engine.Engines
                     IsActive = x.IsActive,
                     Views = x.Views,
                     IsTitle = x.IsTitle,
+                    MetaTitle = x.MetaTitle,
+                    VideoSlug = x.VideoSlug,
+                    VideoUploaded = x.VideoUploaded,
+                    doublePlace = x.doublePlace,
+                    fourthPlace = x.fourthPlace,
+                    isArchive = x.isArchive,
                     UpdatedTime = x.UpdatedTime,
                     CreatedTime = x.CreatedTime,
                     CategoryId = x.CategoryId,
@@ -1543,13 +1604,61 @@ namespace SERVICE.Engine.Engines
                     PublishTypeId = x.PublishTypeId,
                     PublishedTime = x.PublishedTime,
                     Sound = x.Sound,
-
+                   
                 }).ToList();
             }
             else
             {
                 return null;
             }
+        }
+
+        public async Task<int> insertViewNews(int Id)
+        {
+            News getNews = await _unitOfWork.GetRepository<News>().FindAsync(x => x.Id == Id);
+            getNews.Views += 1;
+            News model = await _unitOfWork.GetRepository<News>().UpdateAsync(getNews);
+            return model.Id;
+        }
+
+        public async Task<bool> editParentId(int haberId, int currentId)
+        {
+            News getNews = await _unitOfWork.GetRepository<News>().FindAsync(x => x.Id == currentId);
+            getNews.ParentNewsId = haberId;
+            News model = await _unitOfWork.GetRepository<News>().UpdateAsync(getNews);
+            return true;
+        }
+
+        public async Task<bool> dropParentRelation(int haberId)
+        {
+            News getNews = await _unitOfWork.GetRepository<News>().FindAsync(x => x.Id == haberId);
+            getNews.ParentNewsId = 0;
+            News model = await _unitOfWork.GetRepository<News>().UpdateAsync(getNews);
+            return true;
+        }
+
+
+        public async Task<bool> changeSortedItem(int itemId, int count)
+        {
+            News getNews = await _unitOfWork.GetRepository<News>().FindAsync(x => x.Id == itemId);
+            getNews.RowNo = count;
+            News model = await _unitOfWork.GetRepository<News>().UpdateAsync(getNews);
+            return true;
+        }
+        public async Task<bool> insertVideoToNews(int haberId, string videoSlug)
+        {
+            News getNews = await _unitOfWork.GetRepository<News>().FindAsync(x => x.Id == haberId);
+            getNews.VideoUploaded = videoSlug;
+            News model = await _unitOfWork.GetRepository<News>().UpdateAsync(getNews);
+            return true;
+        }
+
+        public async Task<bool> deleteVideoFromNews(int Id)
+        {
+            News getNews = await _unitOfWork.GetRepository<News>().FindAsync(x => x.Id == Id);
+            getNews.VideoUploaded = null;
+            News model = await _unitOfWork.GetRepository<News>().UpdateAsync(getNews);
+            return true;
         }
 
         #endregion
@@ -1579,7 +1688,7 @@ namespace SERVICE.Engine.Engines
             }
         }
 
-        public async Task<bool> insertMedia(MediaDto model)
+        public async Task<int> insertMedia(MediaDto model)
         {
             Media newMedia = await _unitOfWork.GetRepository<Media>().AddAsync(new Media
             {
@@ -1592,7 +1701,7 @@ namespace SERVICE.Engine.Engines
 
             });
 
-            return true;
+            return newMedia.Id;
         }
 
         public async Task<bool> placeDoubleHolder(int Id)
@@ -1651,6 +1760,29 @@ namespace SERVICE.Engine.Engines
                 getNews.isArchive = false;
                 News model = await _unitOfWork.GetRepository<News>().UpdateAsync(getNews);
                 return getNews != null;
+            }
+        }
+
+        public MediaDto getMedia(int Id)
+        {
+            Media getMedia = _unitOfWork.GetRepository<Media>().FindAsync(x => x.Id == Id).Result;
+
+            if (getMedia != null)
+            {
+                return new MediaDto
+                {
+                    Id = getMedia.Id,
+                    Extension = getMedia.Extension,
+                    CreatedTime = getMedia.CreatedTime,
+                    Slug = getMedia.Slug,
+                    Title = getMedia.Title,
+                    UpdatedTime = getMedia.UpdatedTime,
+                    UserId = getMedia.userId,
+                };
+            }
+            else
+            {
+                return null;
             }
         }
 

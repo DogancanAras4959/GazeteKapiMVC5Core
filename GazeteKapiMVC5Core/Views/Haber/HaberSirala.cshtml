@@ -32,10 +32,12 @@
                 </div>
                 <div class="table-rep-plugin">
                     <div class="table-responsive mb-0" data-bs-pattern="priority-columns">
-                        <table class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing:0; width: 70%; margin:0 auto;">
+                        <table class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing:0; width: 90%; margin:0 auto;">
                             <thead>
                                 <tr>
                                     <th style="text-align:center;">Sıra</th>
+                                    <th>Id</th>
+                                    <th>Yayın Tarihi</th>
                                     <th>Başlık</th>
                                     @*<th>İşlem</th>*@
                                 </tr>
@@ -43,12 +45,14 @@
                             <tbody id="sortable" style="cursor:pointer;">
                                 @foreach (var item in Model)
                                 {
-                                    <tr>
-                                        <td style="text-align:center;">@Html.DisplayFor(model => item.RowNo)</td>
-                                        <td class="taskSingleInline" id="task@(item.Id)" data-taskid="@(item.Id)">
-                                            <a asp-action="HaberDuzenle" asp-controller="Haber" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.Title)</a>
-                                        </td>
-                                    </tr>
+                                <tr>
+                                    <td style="text-align:center;">@Html.DisplayFor(model => item.RowNo)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.Id)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.PublishedTime)</td>
+                                    <td class="taskSingleInline" id="task@(item.Id)" data-taskid="@(item.Id)">
+                                        <a asp-action="HaberDuzenle" asp-controller="Haber" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.MetaTitle)</a>
+                                    </td>
+                                </tr>
                                 }
                             </tbody>
                         </table>

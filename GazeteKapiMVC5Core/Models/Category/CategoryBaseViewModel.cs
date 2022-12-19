@@ -12,6 +12,7 @@ namespace GazeteKapiMVC5Core.Models.Category
         public string Description { get; set; }
         public int? ParentCategoryId { get; set; }
         public bool IsActive { get; set; }
+        public bool isMenu { get; set; }
         public string Image { get; set; }
         public int? TypeId { get; set; }
         public int? StyleId { get; set; }

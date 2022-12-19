@@ -28,7 +28,7 @@
                                     <th>Oluşturulma</th>
                                     <th>Güncellenme</th>
                                     <th>İşlem Yapan</th>
-                                    <th>Durum</th>
+                                    <th>Ana Sayfa?</th>
                                     <th>İşlem</th>
                                 </tr>
                             </thead>
@@ -45,9 +45,21 @@
                                         {
                                             <td><span class="text-success"><strong>Aktif</strong></span></td>
                                             <td id="tooltip-container" class="button-items">
+                                                @if (item.isMenu == true)
+                                                {
+                                                    <a style="padding:3px;" data-bs-container="#tooltip-container"
+                                                       data-bs-toggle="tooltip" data-bs-placement="top" class="btn btn-danger"
+                                                       title="Menüden Kaldır" asp-action="KategoriMenuYerlestir" asp-route-id="@item.Id">Menüden Kaldır</a>
+                                                }
+                                                else
+                                                {
+                                                    <a style="padding:3px;" data-bs-container="#tooltip-container"
+                                                       data-bs-toggle="tooltip" data-bs-placement="top" class="btn btn-primary"
+                                                       title="Menüye Yerleştir" asp-action="KategoriMenuYerlestir" asp-route-id="@item.Id">Menüye Ekle</a>
+                                                }
                                                 <a style="padding:3px;" data-bs-container="#tooltip-container"
                                                    data-bs-toggle="tooltip" data-bs-placement="top"
-                                                   title="Kategori Pasifleştir" asp-action="KategoriDurumDuzenle" asp-route-id="@item.Id"><i class="mdi mdi-lock-open mdi-24px text-danger"></i></a>
+                                                   title="Ana Sayfa Pasifleştir" asp-action="KategoriDurumDuzenle" asp-route-id="@item.Id"><i class="mdi mdi-lock-open mdi-24px text-danger"></i></a>
                                                 <a style="padding:3px;" data-bs-container="#tooltip-container"
                                                    data-bs-toggle="tooltip" data-bs-placement="top"
                                                    title="Kategori Düzenle" asp-action="KategoriDuzenle" asp-route-id="@item.Id"><i class="mdi mdi-account-edit mdi-24px"></i></a>
@@ -60,9 +72,21 @@
                                         {
                                             <td><span class="text-danger"><strong>Pasif</strong></span></td>
                                             <td id="tooltip-container" class="button-items">
+                                                @if (item.isMenu == true)
+                                                {
+                                                    <a style="padding:3px;" data-bs-container="#tooltip-container"
+                                                       data-bs-toggle="tooltip" data-bs-placement="top" class="btn btn-danger"
+                                                       title="Menüden Kaldır" asp-action="KategoriMenuYerlestir" asp-route-id="@item.Id">Menüden Kaldır</a>
+                                                }
+                                                else
+                                                {
+                                                    <a style="padding:3px;" data-bs-container="#tooltip-container"
+                                                       data-bs-toggle="tooltip" data-bs-placement="top" class="btn btn-primary"
+                                                       title="Menüye Yerleştir" asp-action="KategoriMenuYerlestir" asp-route-id="@item.Id">Menüye Ekle</a>
+                                                }
                                                 <a style="padding:3px;" data-bs-container="#tooltip-container"
                                                    data-bs-toggle="tooltip" data-bs-placement="top"
-                                                   title="Kategori Aktifleştir" asp-action="KategoriDurumDuzenle" asp-route-id="@item.Id"><i class="mdi mdi-lock mdi-24px text-success"></i></a>
+                                                   title="Ana Sayfa Aktifleştir" asp-action="KategoriDurumDuzenle" asp-route-id="@item.Id"><i class="mdi mdi-lock mdi-24px text-success"></i></a>
                                                 <a style="padding:3px;" data-bs-container="#tooltip-container"
                                                    data-bs-toggle="tooltip" data-bs-placement="top"
                                                    title="Kategori Düzenle" asp-action="KategoriDuzenle" class="link-disabled" asp-route-id="@item.Id"><i class="mdi mdi-account-edit mdi-24px"></i></a>

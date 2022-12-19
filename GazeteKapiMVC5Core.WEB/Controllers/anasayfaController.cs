@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using CORE.ApplicationCommon.DTOS.BannersDTO;
 using CORE.ApplicationCommon.DTOS.CategoryDTO;
 using CORE.ApplicationCommon.DTOS.IpAddressDTO;
 using CORE.ApplicationCommon.DTOS.NewsDTO;
@@ -12,6 +13,7 @@ using CORE.ApplicationCommon.Helpers;
 using GazeteKapiMVC5Core.WEB.Models.ConfigreCaptcha;
 using GazeteKapiMVC5Core.WEB.Models.MetaConfig;
 using GazeteKapiMVC5Core.WEB.Models.RenderService;
+using GazeteKapiMVC5Core.WEB.ViewModels.Banner;
 using GazeteKapiMVC5Core.WEB.ViewModels.Categories;
 using GazeteKapiMVC5Core.WEB.ViewModels.Guests;
 using GazeteKapiMVC5Core.WEB.ViewModels.Members;
@@ -49,11 +51,12 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
         private readonly IViewRenderService _viewRender;
         private readonly IIPAddresService _ipAddressService;
         private readonly INewsIpService _newsIpService;
+        private readonly IBannerService _bannerService;
         private readonly reCaptchaService _repService;
         private int BATCH_SIZE = 1;
 
         [Obsolete]
-        public anasayfaController(INewsService newService, ICategoryService categoryService, IMapper mapper, ISettingService settingService, IViewRenderService viewRender, reCaptchaService repService, IIPAddresService ipAddressService, INewsIpService newsIpService)
+        public anasayfaController(INewsService newService, ICategoryService categoryService, IMapper mapper, ISettingService settingService, IViewRenderService viewRender, reCaptchaService repService, IIPAddresService ipAddressService, INewsIpService newsIpService, IBannerService bannerService)
         {
             _newService = newService;
             _categoryService = categoryService;
@@ -63,6 +66,7 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
             _repService = repService;
             _ipAddressService = ipAddressService;
             _newsIpService = newsIpService;
+            _bannerService = bannerService;
         }
 
         #endregion
@@ -73,12 +77,11 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
 
             #region Data
 
+            TimerControl();
             var haberlist = _mapper.Map<List<NewsListItemDto>, List<NewListViewModelWeb>>(_newService.newsListWithWeb());
 
             List<GuestListViewModelWeb> guestList = _mapper.Map<List<GuestListItemDto>, List<GuestListViewModelWeb>>(_newService.guestList());
-
             List<TagNewsListViewModelWeb> tagNewList = _mapper.Map<List<TagNewsListItemDto>, List<TagNewsListViewModelWeb>>(_newService.tagsListWithNewsWeb());
-
             List<CategoryListViewModelWeb> categoryList = _mapper.Map<List<CategoryListItemDto>, List<CategoryListViewModelWeb>>(_categoryService.GetAllCategory());
 
             ViewBag.CategoryList = categoryList;
@@ -105,7 +108,22 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
 
             #endregion
 
+            #region LoadBannerData
+
+            LoadBannerData();
+
+            #endregion
+
             return View();
+        }
+
+        private void LoadBannerData()
+        {
+            var bannerOrta = _mapper.Map<BannerDto, BannerEditViewModelWeb>(_bannerService.getBanner(4));
+            var bannerAlt = _mapper.Map<BannerDto, BannerEditViewModelWeb>(_bannerService.getBanner(5));
+
+            ViewBag.BannerOrta = bannerOrta;
+            ViewBag.BannerAlt = bannerAlt;
         }
 
         [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
@@ -380,8 +398,13 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
 
         [HttpGet("haber/{Id}/{Title}", Name = "haber")]
         [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
-        public async Task<IActionResult> haberAsync(int Id, string Title)
+        public async Task<IActionResult> haber(int Id, string Title)
         {
+            var bannerSagAlt = _mapper.Map<BannerDto, BannerEditViewModelWeb>(_bannerService.getBanner(8));
+            ViewBag.BannerSagAlt = bannerSagAlt;
+
+            //int resultId = Convert.ToInt32(await _newService.insertViewNews(Id));
+
             List<CategoryListViewModelWeb> categoryList = _mapper.Map<List<CategoryListItemDto>, List<CategoryListViewModelWeb>>(_categoryService.GetAllCategory());
             ViewBag.CategoryList = categoryList;
 
@@ -410,9 +433,7 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
                         NewsId = newsGet.Id
                     };
                     await _newsIpService.createNewsIp(model);
-
-                    newsGet.Views += 1;
-                    int resultId = Convert.ToInt32(await _newService.editNews(_mapper.Map<NewsEditViewModelWeb, NewsDto>(newsGet)));
+                    int resultId = Convert.ToInt32(await _newService.insertViewNews(newsGet.Id));
                 }
             }
             else
@@ -430,8 +451,8 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
                 };
                 await _newsIpService.createNewsIp(model);
 
-                newsGet.Views += 1;
-                int resultNewsId = Convert.ToInt32(await _newService.editNews(_mapper.Map<NewsEditViewModelWeb, NewsDto>(newsGet)));
+                int resultNewsId = Convert.ToInt32(await _newService.insertViewNews(newsGet.Id));
+
             }
 
             #endregion
@@ -710,7 +731,6 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
             return View("~/Views/anasayfa/hata.cshtml");
         }
 
-
         #region Partial Views
         public IActionResult Slider()
         {
@@ -851,7 +871,7 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
                 else
                 {
                     //BATCH_SIZE = rnd.Next(1, 5);
-                    CategoryNumber = rnd.Next(1, 100);
+                    CategoryNumber = rnd.Next(1, 30);
 
                     category = _mapper.Map<CategoryDto, CategoryEditViewModelWeb>(_categoryService.GetCategoryById(CategoryNumber));
 
@@ -920,6 +940,22 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
             ViewData["data"] = data;
         }
 
+        public async void TimerControl()
+        {
+            DateTime timeNow = DateTime.Now;
+            var haberlist = _mapper.Map<List<NewsListItemDto>, List<NewListViewModelWeb>>(_newService.newsListByDatetimeBigNow());
+           
+            foreach (var item in haberlist)
+            {
+                var news = _mapper.Map<NewsDto, NewsEditViewModelWeb>(_newService.getNews(item.Id));
+                if(news.PublishedTime == timeNow)
+                {
+                    news.IsActive = true;
+                    int result = Convert.ToInt32(await _newService.editNews(_mapper.Map<NewsEditViewModelWeb, NewsDto>(news)));
+                }
+            }
+
+        }
         #endregion
 
     }

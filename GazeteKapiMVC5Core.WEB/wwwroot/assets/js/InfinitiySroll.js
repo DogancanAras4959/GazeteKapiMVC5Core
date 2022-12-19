@@ -56,7 +56,7 @@ function InfinitiySroll(iTable, iAction, iParams) {
 
     window.onscroll = function () { onScroll() };
     function onScroll() {
-        if (document.body.scrollTop > 50 || document.documentElement.scrollTop > 50) {
+        if (document.body.scrollTop > 250 || document.documentElement.scrollTop > 250) {
             if (!self.loading) {
                 var itemCount = $('#' + self.table + ' tr').length - 1;
                 self.AddTableLines(itemCount);

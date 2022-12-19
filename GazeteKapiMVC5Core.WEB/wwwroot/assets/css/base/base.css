@@ -1,4 +1,5 @@
-﻿.mySlides {
+﻿
+.mySlides {
     display: none
 }
 
@@ -212,8 +213,8 @@
 
 .content-box-title {
     position: relative;
-    left: 7px;
-    top: 2px;
+    left: 9px;
+    top: 0px;
     color: #515d5e;
 }
 
@@ -234,4 +235,10 @@
     position: relative;
     padding-bottom: 25px;
     margin-bottom: 16px;
+}
+
+@media only screen and (max-width:768px) {
+    .news-height-m {
+        height: 230px !important;
+    }
 }

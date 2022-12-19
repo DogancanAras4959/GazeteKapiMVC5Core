@@ -23,7 +23,7 @@
                         <div class="col-sm-12">
                             <div class="card">
                                 <div class="card-body">
-                                    <img id="img" style="width:100%" src="~/images/categorydefault.jpg" />
+                                    <img id="img" style="width:100%" src="~/assets/images/categorydefault.jpg" />
                                     <label for="example-text-input" style="margin-top:10px;" class="col-sm-12 col-form-label text-center">Öne Çıkan Görsel Belirle</label>
                                     <input type="file" class="filestyle" id="upload" data-input="false" name="file" data-buttonname="btn-secondary">
                                 </div>
@@ -66,6 +66,10 @@
                             <option selected="selected" value="0">Pozisyon Yok</option>
                             <option value="1">Gündemin Haberler Kategorisi</option>
                         </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="example-text-input" class="col-sm-12 col-form-label">Menüde Olsun Mu?</label>
+                        <input type="checkbox" asp-for="isMenu" />
                     </div>
                     <div class="mb-3">
                         <input type="submit" class="btn btn-primary btn-sm" style="min-width: 215px; font-size: 18px; display: block; margin: 0 auto;" value="KATEGORİ OLUŞTUR" />

@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
+using CORE.ApplicationCommon.DTOS.BannersDTO;
 using CORE.ApplicationCommon.DTOS.CategoryDTO;
 using CORE.ApplicationCommon.DTOS.CurrencyDTO;
 using CORE.ApplicationCommon.DTOS.MagazineBannerDTO;
 using CORE.ApplicationCommon.DTOS.SetingsDTO;
 using GazeteKapiMVC5Core.WEB.Models;
+using GazeteKapiMVC5Core.WEB.ViewModels.Banner;
 using GazeteKapiMVC5Core.WEB.ViewModels.Categories;
 using GazeteKapiMVC5Core.WEB.ViewModels.Currencies;
 using GazeteKapiMVC5Core.WEB.ViewModels.MagazineBanner;
@@ -23,10 +25,12 @@ namespace GazeteKapiMVC5Core.WEB.Components
         private readonly ICategoryService _categoryService;
         private readonly ISettingService _siteSetting;
         private readonly IMagazineBannerService _magazineBannerService;
+        private readonly IBannerService _bannerService;
         private readonly IMapper _mapper;
 
-        public HeaderWebViewComponent(ICategoryService categoryService, IMapper mapper, ISettingService siteSetting, IMagazineBannerService magazineBannerService)
+        public HeaderWebViewComponent(ICategoryService categoryService, IMapper mapper, ISettingService siteSetting, IMagazineBannerService magazineBannerService, IBannerService bannerService)
         {
+            _bannerService = bannerService;
             _categoryService = categoryService;
             _magazineBannerService = magazineBannerService;
             _siteSetting = siteSetting;
@@ -44,7 +48,21 @@ namespace GazeteKapiMVC5Core.WEB.Components
 
             await GetCurrencyServiceAsync();
             var siteSetting = _mapper.Map<SettingsDto, SettingsBaseViewModelWeb>(_siteSetting.getSettings(1));
+            LoadBannerData();
+
             return View(siteSetting);
+        }
+
+        private void LoadBannerData()
+        {
+            var bannerSag = _mapper.Map<BannerDto, BannerEditViewModelWeb>(_bannerService.getBanner(1));
+            var bannerSol = _mapper.Map<BannerDto, BannerEditViewModelWeb>(_bannerService.getBanner(2));
+            var bannerUst = _mapper.Map<BannerDto, BannerEditViewModelWeb>(_bannerService.getBanner(3));
+
+            ViewBag.BannerSag = bannerSag;
+            ViewBag.BannerSol = bannerSol;
+            ViewBag.BannerUst = bannerUst;
+
         }
 
         public async Task GetCurrencyServiceAsync()

@@ -1,5 +1,7 @@
 ﻿@using GazeteKapiMVC5Core.WEB.ViewModels.News;
 @using GazeteKapiMVC5Core.WEB.ViewModels.Categories;
+@using GazeteKapiMVC5Core.WEB.ViewModels.Banner;
+
 @{
     ViewData["Title"] = "sayfa";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -7,6 +9,11 @@
     List<CategoryListViewModelWeb> categories = ViewBag.CategoryList as List<CategoryListViewModelWeb>;
 
     int count = 0;
+}
+
+@{
+    BannerEditViewModelWeb bannerOrta = ViewBag.BannerOrta as BannerEditViewModelWeb;
+    BannerEditViewModelWeb bannerAlt = ViewBag.BannerAlt as BannerEditViewModelWeb;
 }
 
 <style>
@@ -71,145 +78,35 @@
             </div>
         </div>
     </div>
-
-    <!-- Post news carousel -->
     <div class="container boxed">
-        <div class="wrapper__list__article">
-            <h4 class="border_section"></h4>
-        </div>
         <div class="row">
-            <div class="col-md-12" style="margin-bottom:5px; margin-top:5px;">
-                <div class="rect-content-box-title">
-                    <span class="rect-title">D</span>
-                </div>
-                <h4 class="content-box-title">Dünya</h4>
-            </div>
-            <div class="col-md-12">
-                <div class="article__entry-carousel">
-                    @foreach (var item in haberlerManset.Where(x => x.categories.CategoryName == "DÜNYA" && x.IsLock == false && x.IsActive == true).OrderByDescending(x => x.Id))
-                    {
-                        count++;
-
-                        <div class="item">
-                            <!-- Post Article -->
-                            <div class="article__entry">
-                                <div class="article__image">
-                                    <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
-                                        <img style="height: 145px;" src="https://uploadslemonde.ikifikir.net/images/@item.Image" title="@item.Image" alt="@item.Image" class="img-fluid" />
-                                    </a>
-                                </div>
-                                <div class="article__content">
-                                    <h5 style="font-size:15px;">
-                                        @if (item.Title.Length > 45)
-                                        {
-                                            <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
-                                                @item.Title.Substring(0, 45)<span>...</span>
-                                            </a>
-                                        }
-                                        else
-                                        {
-                                            <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
-                                                @item.Title
-                                            </a>
-                                        }
-
-                                    </h5>
-
-                                </div>
-                            </div>
-                        </div>
-
-                        if (count == 4)
-                        {
-                            count = 0;
-                            break;
-                        }
-                    }
-
-                </div>
+            <div class="col-sm-12">
+                <a href="@bannerOrta.Link">
+                    <img src="https://uploadslemonde.ikifikir.net/images/@bannerOrta.BannerImage" title="@bannerOrta.BannerName" alt="@bannerOrta.BannerName" loading="lazy" />
+                </a>
             </div>
         </div>
     </div>
-    <!-- End Popular news category -->
-    <!-- Popular news category -->
-    <div class="mt-4"></div>
 
-    <div class="container boxed" style="max-width:1000px;">
-        <div class="row">
-            <div class="col-md-12" style="background-color:#515d5e; padding:20px;">
-                <div class="rect-content-box-title">
-                    <span class="rect-title">K</span>
-                </div>
-                <h1 class="content-new-title" style="font-size:24px;">Kültür / Sanat</h1>
-
-                <div class="row" style="margin-top:15px;">
-
-                    @foreach (var item in haberlerManset.OrderByDescending(x => x.Id).Where(x => x.categories.CategoryName == "KÜLTÜR / SANAT" && x.IsLock == false && x.IsActive == true).OrderBy(x => x.Id))
-                    {
-                        count++;
-                        <div class="col-sm-12 col-md-4 mb-1">
-                            <!-- Post Article -->
-                            <div class="card__post ">
-                                <div class="card__post__body">
-                                    <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
-                                        <img style="height: 175px;" src="https://uploadslemonde.ikifikir.net/images/@item.Image" title="@item.Image" class="img-fluid" alt="@item.Image" />
-                                    </a>
-                                    <div style=" margin-top: 0px; background-color: #fff; padding: 15px;">
-                                        <h6>
-                                            @if (item.Title.Length > 55)
-                                            {
-                                                <a style="color:#515d5e;" href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
-                                                    @item.Title.Substring(0, 55)<span>...</span>
-                                                </a>
-                                            }
-                                            else
-                                            {
-                                                <a style="color:#515d5e;" href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
-                                                    @item.Title
-                                                </a>
-                                            }
-
-                                        </h6>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                        if (count == 3)
-                        {
-                            count = 0;
-                            break;
-                        }
-                    }
-
-                </div>
-
-            </div>
-        </div>
-
-    </div>
-
-    <div class="mt-4"></div>
-
-    @foreach (var item in categories.Where(x => x.CategoryName != "DÜNYA" && x.CategoryName != "KÜLTÜR / SANAT" && x.CategoryName != "GÜNDEM").ToList())
+    @foreach (var item in categories.Where(x => x.IsActive == true))
     {
         if (item.StyleId == 1)
         {
-            <div class="container boxed">
+            <div class="container boxed mt-4">
                 <div class="wrapper__list__article">
                     <h4 class="border_section"></h4>
                 </div>
                 <div class="row" style="padding-bottom:5px;">
                     <div class="col-sm-12">
-                        <div class="rect-content-box-title">
+                        <div class="rect-content-box-title" style="left:9px;">
                             <span class="rect-title">@item.CategoryName.Substring(0, 1)</span>
                         </div>
-                        <h3 class="content-box-title">@item.CategoryName</h3>
+                        <h3 class="content-box-title" style="top:0;">@item.CategoryName</h3>
                     </div>
                 </div>
                 <div class="row mb-2">
 
-                    @foreach (var item2 in haberlerManset.OrderByDescending(x => x.Id).Where(x => x.IsActive == true && x.IsLock == false && x.CategoryId == item.Id))
+                    @foreach (var item2 in haberlerManset.OrderByDescending(x => x.Id).Where(x => x.IsActive == true && x.IsLock == false && x.CategoryId == item.Id && x.GuestId == 8))
                     {
 
                         if (item2.IsSlide == false)
@@ -220,8 +117,8 @@
                                 <!-- Post Article -->
                                 <div class="card__post ">
                                     <div class="card__post__body">
-                                        <a href="@Url.Action("haber", "anasayfa", new { Id = item.Id, Title = item2.GenerateSlug() })">
-                                            <img src="https://uploadslemonde.ikifikir.net/images/@item2.Image" class="img-fluid" title="@item2.Image" alt="@item2.Image" />
+                                        <a href="@Url.Action("haber", "anasayfa", new { Id = item2.Id, Title = item2.GenerateSlug() })">
+                                            <img src="https://uploadslemonde.ikifikir.net/images/@item2.Image" class="img-fluid news-height-m" title="@item2.Image" loading="lazy" style="height: 185px;" alt="@item2.Image" />
                                         </a>
                                         <div style="margin-top:15px;">
                                             <h6>
@@ -260,15 +157,15 @@
 
         if (item.StyleId == 2)
         {
-            <div class="container boxed">
+            <div class="container boxed mt-4">
                 <div class="wrapper__list__article">
                     <div class="rect-content-box-title" style="margin-right:5px;">
-                        <span class="rect-title">@item.CategoryName.Substring(0,1)</span>
+                        <span class="rect-title">@item.CategoryName.Substring(0, 1)</span>
                     </div>
                     <h4 class="border_section" style="top:3px; left:5px;">@item.CategoryName</h4>
                     <div class="wrapp__list__article-responsive">
 
-                        @foreach (var item2 in haberlerManset.OrderByDescending(x => x.Id).Where(x => x.IsActive == true && x.IsLock == false && x.CategoryId == item.Id))
+                        @foreach (var item2 in haberlerManset.OrderByDescending(x => x.Id).Where(x => x.IsActive == true && x.IsLock == false && x.CategoryId == item.Id && x.GuestId == 8))
                         {
                             if (item2.IsSlide == false)
                             {
@@ -277,8 +174,8 @@
                                     <div class="row ">
                                         <div class="col-md-5">
                                             <div class="card__post__transition">
-                                                <a href="@Url.Action("haber", "anasayfa", new { Id = item.Id, Title = item2.GenerateSlug() })">
-                                                    <img src="https://uploadslemonde.ikifikir.net/images/@item2.Image" class="img-fluid w-100" alt="">
+                                                <a href="@Url.Action("haber", "anasayfa", new { Id = item2.Id, Title = item2.GenerateSlug() })">
+                                                    <img src="https://uploadslemonde.ikifikir.net/images/@item2.Image" class="img-fluid w-100 news-height-m" alt="@item2.Title" title="@item2.Title" style="height: 230px;" loading="lazy">
                                                 </a>
                                             </div>
                                         </div>
@@ -349,10 +246,74 @@
 
         if (item.StyleId == 3)
         {
+            <div class="container boxed mt-4" style="max-width:1000px;">
+                <div class="row">
+                    <div class="col-md-12" style="background-color:#515d5e; padding:20px;">
+                        <div class="rect-content-box-title">
+                            <span class="rect-title">@item.CategoryName.Substring(0,1)</span>
+                        </div>
+                        <h1 class="content-new-title" style="font-size:24px;">@item.CategoryName</h1>
+
+                        <div class="row" style="margin-top:15px;">
+                            @foreach (var item2 in haberlerManset.OrderByDescending(x => x.Id).Where(x => x.CategoryId == item.Id && x.IsLock == false && x.IsActive == true && x.IsSlide == false && x.isArchive == false && x.GuestId == 8))
+                            {
+
+                                count++;
+                                <div class="col-sm-12 col-md-4 mb-1">
+                                    <!-- Post Article -->
+                                    <div class="card__post ">
+                                        <div class="card__post__body">
+                                            <a href="@Url.Action("haber", "anasayfa", new { Id = item2.Id, Title = item2.GenerateSlug() })">
+                                                <img style="height: 175px;" src="https://uploadslemonde.ikifikir.net/images/@item2.Image" title="@item2.Image" class="img-fluid news-height-m" loading="lazy" alt="@item2.Image" />
+                                            </a>
+                                            <div style=" margin-top: 0px; background-color: #fff; padding: 15px;">
+                                                <h6>
+                                                    @if (item2.Title.Length > 55)
+                                                    {
+                                                        <a style="color:#515d5e;" href="@Url.Action("haber", "anasayfa", new { Id = item2.Id, Title = item2.GenerateSlug() })">
+                                                            @item2.Title.Substring(0, 55)<span>...</span>
+                                                        </a>
+                                                    }
+                                                    else
+                                                    {
+                                                        <a style="color:#515d5e;" href="@Url.Action("haber", "anasayfa", new { Id = item2.Id, Title = item2.GenerateSlug() })">
+                                                            @item2.Title
+                                                        </a>
+                                                    }
+
+                                                </h6>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                @if (count == 3)
+                                {
+                                    count = 0;
+                                    break;
+                                }
+                            }
+                            </div>
+                    </div>
+                </div>
+            </div>
 
         }
 
     }
+
+    <div class="mt-4">
+        <div class="container boxed">
+            <div class="row">
+                <div class="col-sm-12">
+                    <a href="@bannerAlt.Link">
+                        <img src="https://uploadslemonde.ikifikir.net/images/@bannerAlt.BannerImage" title="@bannerAlt.BannerName" alt="@bannerAlt.BannerName" loading="lazy" />
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </div>
 
 </section>
 <!-- End Popular news category -->

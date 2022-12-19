@@ -99,7 +99,7 @@
                                             <td style="display:none"><input type="hidden" id="categoryId_input" value="@item2.CategoryId" /></td>    
                                             <td style="text-align:center;">@Html.DisplayFor(model => item2.Id)</td>
                                             <td class="taskSingleInline" id="task@(item2.Id)" data-taskid="@(item2.CategoryId)">
-                                                <a asp-action="HaberDuzenle" asp-controller="Haber" asp-route-id="@item2.Id">@Html.DisplayFor(modelItem => item2.Title)</a>
+                                                <a asp-action="HaberDuzenle" asp-controller="Haber" asp-route-id="@item2.Id">@Html.DisplayFor(modelItem => item2.MetaTitle)</a>
                                             </td>
                                         </tr>
                                             }

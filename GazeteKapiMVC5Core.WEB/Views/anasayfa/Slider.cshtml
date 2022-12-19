@@ -25,6 +25,11 @@
             font-weight: 800;
             font-size: 35px;
         }
+    .btn-dark:hover {
+        color: #fff;
+        background-color: #ffc107;
+        border-color: #ffc107;
+    }
 </style>
 
 <link href="~/assets/css/slider.css" rel="stylesheet" />
@@ -39,7 +44,7 @@
                             <h2>@item.RowNo</h2>
                         </div>*@
                     <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
-                        <img src="https://uploadslemonde.ikifikir.net/images/@item.Image" alt="@item.Image" class="img-slide" />
+                        <img src="https://uploadslemonde.ikifikir.net/images/@item.Image" loading="lazy" title="@item.Image" alt="@item.Image" class="img-slide" />
                     </a>
 
                     <div class="text">
@@ -70,7 +75,7 @@
         <div style="display: flex; margin: 0 auto; flex-wrap: nowrap; justify-content: space-between;">
             @foreach (var item in haberlerManset.OrderBy(x => x.RowNo).Where(x => x.IsActive == true && x.IsSlide == true && x.IsLock == false).Take(10))
             {
-                <button style="margin-top:3px; padding: 0.75rem 1.6rem;" class="btn btn-dark" onclick="currentSlide(@item.RowNo)">@item.RowNo</button>
+                <button style="margin-top:3px; padding: 0.75rem 1.6rem;" class="btn btn-dark slider-button-m" onclick="currentSlide(@item.RowNo)">@item.RowNo</button>
             }
         </div>
 
@@ -90,7 +95,7 @@
                 <div class="card__post card-mobile-type" style="margin-top:2px;">
                     <div class="card__post__body card__post__transition card-mobile-type-content">
                         <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
-                            <img src="https://uploadslemonde.ikifikir.net/images/@item.Image" title="@item.Image" class="img-fluid card-mobile-image" alt="@item.Image" />
+                            <img src="https://uploadslemonde.ikifikir.net/images/@item.Image" title="@item.Image" class="img-fluid card-mobile-image" alt="@item.Image" loading="lazy" />
                         </a>
                         <div class="text-sm">
                             <div class="title-word-big-sm">
@@ -119,7 +124,9 @@
     </div>
 </div>
 
-<script>
+<script src="~/assets/js/slider.js"></script>
+
+@*<script>
     var slideIndex = 1;
     showSlides(slideIndex);
     function plusSlides(n) {
@@ -147,4 +154,4 @@
         slides[slideIndex - 1].style.display = "block";
     //    dots[slideIndex - 1].className += " active";
     }
-</script>
+</script>*@

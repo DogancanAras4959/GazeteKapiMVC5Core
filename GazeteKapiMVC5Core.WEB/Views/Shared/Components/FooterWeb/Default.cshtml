@@ -4,48 +4,9 @@
 @{
     List<CategoryListViewModelWeb> listCategory = ViewBag.CategoryList as List<CategoryListViewModelWeb>;
 }
-<style>
-    .wrapper__footer .widget__footer p {
-        color: #fff;
-        font-size: 14px;
-        line-height: 16px;
-        margin-bottom: 0;
-    }
 
-    .reference-cs {
-        font-size: 11px;
-        font-weight: 500;
-        color: #f4c625;
-        text-align: center;
-        position: relative;
-        top: 7px;
-    }
+<link href="~/assets/css/footer.css" rel="stylesheet" />
 
-        .reference-cs #link-reference {
-            line-height: 0;
-            padding: 0;
-            font-size: 11px;
-            font-weight: 500;
-            color: #f4c625;
-        }
-
-    .wrapper__footer .widget__footer span {
-        float: none;
-    }
-
-    .base-ref {
-        color: #fff;
-        margin-top: 10px;
-        line-height: 7px;
-        font-size: 12px;
-    }
-
-    .cookie-background {
-        padding-top: 15px;
-        padding-bottom: 15px;
-        background-color: transparent;
-    }
-</style>
 <link href="~/assets/css/pagelineweb.css" type="text/css" rel="stylesheet" />
 <section class="wrapper__section p-0">
     <div class="wrapper__section__components">
@@ -61,13 +22,15 @@
                             <div class="widget__footer">
                                 <ul class="list-unstyled option-content">
                                     <li>
-                                        <a href="#"><img style="height:115px; margin:0 auto; display:flex;" alt="logo-footer" title="logo-footer" src="~/assets/images/logo-footer-son223354760.webp" /></a>
+                                        <a href="@Url.Action("sayfa","anasayfa")"><img style="height:115px; margin:0 auto; display:flex;" alt="logo-footer" title="logo-footer" src="~/assets/images/logo-footer-son223354760.webp" loading="lazy" /></a>
                                     </li>
                                     <li>
                                         <hr style="background-color:#f3c625;" />
                                     </li>
                                     <li>
-                                        <img src="~/assets/images/lemonde-son-footer.svg" alt="lemonde-son-footer" title="lemonde-logo" style="height:73px; margin:0 auto; display:flex;" class="mt-1" />
+                                        <a href="https://www.dijitalbasin.com/Read/3427/le-monde-diplomatique-turkce">
+                                            <img src="~/assets/images/lemonde-son-footer.svg" alt="lemonde-son-footer" loading="lazy" title="lemonde-logo" style="height:73px; margin:0 auto; display:flex;" class="mt-1" />
+                                        </a>
                                     </li>
                                     <li>
                                         <hr style="background-color:#f3c625;" />

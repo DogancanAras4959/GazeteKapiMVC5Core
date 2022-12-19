@@ -16,7 +16,7 @@
     <section class="bg-light">
         <div class="container boxed">
             <div class="row">
-                <div class="col-md-8 mx-auto">
+                <div class="col-md-9 mx-auto">
                     <div class="wrap__search-result">
                         <div class="wrap__search-result-keyword">
                             <h1>
@@ -35,7 +35,7 @@
                                 <div class="col-md-5">
                                     <div class="card__post__transition">
                                         <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
-                                            <img src="https://uploadslemonde.ikifikir.net/images/@item.Image" class="img-fluid w-100" title="@item.Image" alt="@item.Image" />
+                                            <img style="height:180px;" src="https://uploadslemonde.ikifikir.net/images/@item.Image" class="img-fluid w-100" title="@item.Image" alt="@item.Image" />
                                         </a>
                                     </div>
                                 </div>

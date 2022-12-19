@@ -17,6 +17,7 @@ namespace SERVICES.Engine.Interfaces
         List<CategoryListItemDto> GetAllCategory();
         Task<bool> UpdateCategory(CategoryDto model);
         Task<bool> EditIsActiveById(int id);
+        Task<bool> EditIsMenuById(int id);
         bool DeleteCategoryById(int id);
         List<CategoryListItemDto> GetParentCategoryList();
         List<StylePageListItemDto> GetAllStyleTypes();

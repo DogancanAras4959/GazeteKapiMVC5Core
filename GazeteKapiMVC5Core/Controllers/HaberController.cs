@@ -273,6 +273,27 @@ namespace GazeteKapiMVC5Core.Controllers
 
         }
 
+        [CheckRoleAuthorize]
+        public async Task<IActionResult> KategoriMenuYerlestir(int id)
+        {
+            try
+            {
+                if (await _categoryService.EditIsMenuById(id))
+                {
+                    return RedirectToAction(nameof(Kategoriler));
+                }
+                else
+                {
+                    return RedirectToAction(nameof(Kategoriler));
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["HataMesaji"] = ex.ToString();
+                return RedirectToAction("ErrorPage", "Home");
+            }
+
+        }
         #endregion
 
         #region Yazarlar
@@ -579,68 +600,73 @@ namespace GazeteKapiMVC5Core.Controllers
                     {
                         if (file != null && file.Length > 0)
                         {
-                            if (model.PublishTypeId == 999)
+                            string[] allowImageTypes = new string[] { "image/jpeg", "image(png" };
+
+                            if (!allowImageTypes.Contains(file.ContentType.ToLower()))
                             {
-                                ViewBag.Hata = "Haber tipi seçimiyle ilgili bir sorun çıktı. Haber tipi seçiniz"!;
-                                LoadData();
                                 return View(model);
                             }
-                            else
-                            {
-                                if (model.CategoryId != 0)
-                                {
-                                    AccountEditViewModel yoneticiGetir = SessionExtensionMethod.GetObject<AccountEditViewModel>(HttpContext.Session, "user");
+                            model.Image = SaveImageProcess.ImageInsert(file, "Admin");
 
-                                    string[] allowImageTypes = new string[] { "image/jpeg", "image(png" };
-
-                                    if (!allowImageTypes.Contains(file.ContentType.ToLower()))
-                                    {
-                                        return View(model);
-                                    }
-                                    model.RowNo = 9;
-                                    model.VideoUploaded = "https://uploadslemonde.ikifikir.net/videos/" + model.VideoUploaded;
-                                    model.Sorted = 9;
-                                    model.Image = SaveImageProcess.ImageInsert(file, "Admin");
-                                    model.UserId = yoneticiGetir.Id;
-                                    int resultId = Convert.ToInt32(await _newService.createNews(_mapper.Map<NewsCreateViewModel, NewsDto>(model)));
-
-                                    if (resultId > 0)
-                                    {
-
-                                        if (!string.IsNullOrEmpty(model.Tag))
-                                        {
-                                            if (model.Tag[^1] == ',')
-                                            {
-                                                await _newService.InsertTagToProduct(model.Tag[0..^1], resultId);
-                                            }
-                                            else
-                                            {
-                                                await _newService.InsertTagToProduct(model.Tag, resultId);
-                                            }
-                                        }
-
-                                        string durum = "Haber başarıyla oluşturuldu. Son kontrollerinizi yapıp yayınlayın!";
-                                        return RedirectToAction("HaberDuzenle", "Haber", new { Id = resultId, durum = durum });
-                                    }
-                                    else
-                                    {
-
-                                        ViewBag.Hata = "Haberiniz oluşturulurken bir hata meydana geldi! Etiketlerinizi kontrol edin"!;
-                                        LoadData();
-                                        return View(model);
-                                    }
-                                }
-                                else
-                                {
-                                    ViewBag.Hata = "Haber için kategori seçilmelidir. Haber bu yüzden oluşturulamadı!"!;
-                                    LoadData();
-                                    return View(model);
-                                }
-                            }
                         }
                         else
                         {
-                            ViewBag.Hata = "Haber için öne çıkan görsel girilmelidir. Haber bu yüzden oluşturulamadı"!;
+                            model.Image = "imgdefault.jpg";
+                        }
+
+                        if (model.PublishTypeId == 999)
+                        {
+                            ViewBag.Hata = "Haber tipi seçimiyle ilgili bir sorun çıktı. Haber tipi seçiniz"!;
+                            LoadData();
+                            return View(model);
+                        }
+
+                        else
+                        {
+                            if (model.CategoryId != 0)
+                            {
+                                AccountEditViewModel yoneticiGetir = SessionExtensionMethod.GetObject<AccountEditViewModel>(HttpContext.Session, "user");
+
+
+                                model.RowNo = 9;
+                                model.VideoUploaded = "https://uploadslemonde.ikifikir.net/videos/" + model.VideoUploaded;
+                                model.Sorted = 9;
+                                model.UserId = yoneticiGetir.Id;
+                                model.PublishedTime = DateTime.Now;
+
+                            }
+                            else
+                            {
+                                ViewBag.Hata = "Haber için kategori seçilmelidir. Haber bu yüzden oluşturulamadı!"!;
+                                LoadData();
+                                return View(model);
+                            }
+                        }
+
+                        int resultId = Convert.ToInt32(await _newService.createNews(_mapper.Map<NewsCreateViewModel, NewsDto>(model)));
+
+                        if (resultId > 0)
+                        {
+
+                            if (!string.IsNullOrEmpty(model.Tag))
+                            {
+                                if (model.Tag[^1] == ',')
+                                {
+                                    await _newService.InsertTagToProduct(model.Tag[0..^1], resultId);
+                                }
+                                else
+                                {
+                                    await _newService.InsertTagToProduct(model.Tag, resultId);
+                                }
+                            }
+
+                            string durum = "Haber başarıyla oluşturuldu. Son kontrollerinizi yapıp yayınlayın!";
+                            return RedirectToAction("HaberDuzenle", "Haber", new { Id = resultId, durum = durum });
+                        }
+                        else
+                        {
+
+                            ViewBag.Hata = "Haberiniz oluşturulurken bir hata meydana geldi! Etiketlerinizi kontrol edin"!;
                             LoadData();
                             return View(model);
                         }
@@ -746,11 +772,33 @@ namespace GazeteKapiMVC5Core.Controllers
                 {
                     var news = _mapper.Map<NewsDto, NewsEditViewModel>(_newService.getNews(model.Id));
 
+                    if(model.PublishedTime == null)
+                    {
+                        model.PublishedTime = DateTime.Now;
+                    }
+
+                    else
+                    {
+                        if (model.PublishedTime != DateTime.Now)
+                        {
+                            if (model.PublishedTime.Value.Day < DateTime.Now.Day)
+                            {
+                                ViewBag.Hata = "Zamanlayıcı için yayınlanma tarihi bugünden önce olamaz!";
+                                LoadData();
+                                return RedirectToAction("HaberDuzenle", "Haber", new { Id = news.Id });
+                            }
+                            else
+                            {
+                                model.IsActive = false;
+                            }
+                        }
+                    }
+
                     if (model.PublishTypeId == 999)
                     {
                         ViewBag.Hata = "Haber tipi seçimiyle ilgili bir sorun çıktı. Haber tipi seçiniz"!;
                         LoadData();
-                        return View(news);
+                        return RedirectToAction("HaberDuzenle", "Haber", new { Id = news.Id });
                     }
                     else
                     {
@@ -802,6 +850,7 @@ namespace GazeteKapiMVC5Core.Controllers
                                     return RedirectToAction("Haberler", "Haber");
                                 }
                             }
+                            
                             else
                             {
                                 if (model.IsSlide == true)
@@ -812,7 +861,7 @@ namespace GazeteKapiMVC5Core.Controllers
                                     }
                                 }
 
-                                model.VideoUploaded = "https://uploadslemonde.ikifikir.net/videos/" + model.VideoUploaded;
+                                model.VideoUploaded = model.VideoUploaded;
 
                                 int resultId = Convert.ToInt32(await _newService.editNews(_mapper.Map<NewsEditViewModel, NewsDto>(model)));
 
@@ -1163,24 +1212,20 @@ namespace GazeteKapiMVC5Core.Controllers
             foreach (var item in array)
             {
                 int CurrentId = Convert.ToInt32(item);
-                var news = _mapper.Map<NewsDto, NewsEditViewModel>(_newService.getNews(CurrentId));
-                news.ParentNewsId = haberId;
-                int resultId = Convert.ToInt32(await _newService.editNews(_mapper.Map<NewsEditViewModel, NewsDto>(news)));
+                await _newService.editParentId(haberId, CurrentId);
             }
         }
 
-        public async Task<IActionResult> IliskiliHaberiKaldir(int id)
+        public async Task<IActionResult> IliskiliHaberiKaldir(int id, int newsId)
         {
-            var news = _mapper.Map<NewsDto, NewsEditViewModel>(_newService.getNews(id));
             try
             {
-                news.ParentNewsId = 0;
-                int resultId = Convert.ToInt32(await _newService.editNews(_mapper.Map<NewsEditViewModel, NewsDto>(news)));
-                return RedirectToAction("HaberDuzenle", "Haber", new { id = news.ParentNewsId });
+                await _newService.dropParentRelation(id);
+                return RedirectToAction("HaberDuzenle", "Haber", new { id = newsId });
             }
             catch (Exception ex)
             {
-                return RedirectToAction("HaberDuzenle", "Haber", new { id = news.ParentNewsId });
+                return RedirectToAction("HaberDuzenle", "Haber", new { id = newsId });
             }
         }
 
@@ -1195,10 +1240,7 @@ namespace GazeteKapiMVC5Core.Controllers
             {
                 try
                 {
-                    var getNews = _mapper.Map<NewsDto, NewsEditViewModel>(_newService.getNews(itemId));
-                    getNews.RowNo = count;
-
-                    int result = Convert.ToInt32(await _newService.editNews(_mapper.Map<NewsEditViewModel, NewsDto>(getNews)));
+                   await _newService.changeSortedItem(itemId, count);
                 }
                 catch (Exception ex)
                 {
@@ -1271,6 +1313,67 @@ namespace GazeteKapiMVC5Core.Controllers
 
             }
             return RedirectToAction("OrtamMedyasi","Haber");
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> uploadVideoForNews(IFormFile file, int haberId)
+        {
+            try
+            {
+                if (file != null)
+                {
+                    AccountEditViewModel yoneticiGetir = SessionExtensionMethod.GetObject<AccountEditViewModel>(HttpContext.Session, "user");
+
+                    MediaCreateViewModel model = new MediaCreateViewModel
+                    {
+                        UserId = yoneticiGetir.Id,
+                        Slug = SaveImageProcess.VideoInsert(file, "Videos"),
+                        Title = file.FileName,
+                    };
+
+                    int resultId = Convert.ToInt32(await _newService.insertMedia(_mapper.Map<MediaCreateViewModel, MediaDto>(model)));
+
+                    if (resultId > 0)
+                    {
+                        var video = _mapper.Map<MediaDto, MediaEditViewModel>(_newService.getMedia(resultId));
+
+                        if(await _newService.insertVideoToNews(haberId, video.Slug))
+                        {
+                            return Json(true);
+                        }
+                        else
+                        {
+                            return Json(false);
+                        }
+                      
+                    }
+                    else
+                    {
+                        return Json(false);
+                    }
+                }
+                else
+                {
+                    return Json(false);
+                }
+            }
+            catch (Exception ex)
+            {
+                return Json(false);
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> deleteVideoFromNews(int Id)
+        {           
+            if(await _newService.deleteVideoFromNews(Id))
+            {
+                return RedirectToAction("HaberDuzenle", "Haber", new { Id = Id });
+            }
+            else
+            {
+                return RedirectToAction("HaberDuzenle", "Haber", new { Id = Id });
+            }
         }
 
         #endregion

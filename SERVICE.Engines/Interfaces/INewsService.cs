@@ -31,6 +31,7 @@ namespace SERVICE.Engine.Interfaces
 
         #region Haber
         List<NewsListItemDto> newsList();
+        List<NewsListItemDto> newsListByDatetimeBigNow();
         List<NewsListItemDto> newsListOrderRow();
         List<NewsListItemDto> newsListWithWeb();
         List<NewsListItemDto> newsListJsonData();
@@ -46,12 +47,19 @@ namespace SERVICE.Engine.Interfaces
         Task<int> editNews(NewsDto model);
         NewsDto getNews(int id);
         bool newsDelete(int id);
+
+        Task<int> insertViewNews(int Id);
         Task<bool> SetYourNewsToUp(int id);
         Task<bool> IsOpenNotificationSet(int id);
         Task<bool> placeDoubleHolder(int Id);
         Task<bool> setArchiveNews(int Id);
         Task<bool> placeFourthHolder(int Id);
+        Task<bool> insertVideoToNews(int haberId, string videoSlug);
         Task<bool> IsLockNews(int id);
+        Task<bool> editParentId(int haberId, int currentId);
+        Task<bool> changeSortedItem(int itemId, int count);
+        Task<bool> dropParentRelation(int haberId);
+        Task<bool> deleteVideoFromNews(int Id);
         Task<bool> ChangeSorted(int id, int sira);
         Task<bool> IsActiveEnabled(int id);
 
@@ -81,7 +89,9 @@ namespace SERVICE.Engine.Interfaces
         #region Videos
 
         List<MediaListItemDto> mediaList();
-        Task<bool> insertMedia(MediaDto model);
+        Task<int> insertMedia(MediaDto model);
+        MediaDto getMedia(int Id);
+
         #endregion
 
     }

@@ -79,7 +79,7 @@
                                         @foreach (var item in newsListGuestBy)
                                         {
                                             <tr>
-                                                <td>@Html.DisplayFor(modelItem => item.Title)</td>
+                                                <td>@Html.DisplayFor(modelItem => item.MetaTitle)</td>
                                                 <td>@Html.DisplayFor(modelItem => item.CreatedTime)</td>
                                                 <td>@Html.DisplayFor(modelItem => item.UpdatedTime)</td>
                                                 @if (item.IsActive == true)
@@ -93,7 +93,7 @@
                                                 <td id="tooltip-container" class="button-items">
                                                     <a data-bs-container="#tooltip-container"
                                                        data-bs-toggle="tooltip"
-                                                       data-bs-placement="top" title="Yazıyı Düzenle" asp-action="HaberDuzenle" asp-route-id="@item.Id" asp-controller="Haberler"><i class="mdi mdi-notebook-edit mdi-18px"></i></a>
+                                                       data-bs-placement="top" title="Yazıyı Düzenle" asp-action="HaberDuzenle" asp-route-id="@item.Id" asp-controller="Haber"><i class="mdi mdi-notebook-edit mdi-18px"></i></a>
                                                 </td>
                                             </tr>
                                         }

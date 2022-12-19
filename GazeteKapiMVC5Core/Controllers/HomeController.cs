@@ -77,6 +77,8 @@ namespace GazeteKapiMVC5Core.Controllers
             ViewBag.UserCount = _mapper.Map<int>(_countService.CountUsers());
             ViewBag.NewsCount = _mapper.Map<int>(_countService.CountNews());
             ViewBag.TagsCount = _mapper.Map<int>(_countService.CountTags());
+            ViewBag.ClickCount = _mapper.Map<int>(_countService.CountSiteClick());
+            ViewBag.MediaCount = _mapper.Map<int>(_countService.CountVideo());
         }
 
         public void ListData()

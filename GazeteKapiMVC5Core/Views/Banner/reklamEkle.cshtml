@@ -24,7 +24,7 @@
                         <div class="col-sm-12">
                             <div class="card">
                                 <div class="card-body">
-                                    <img id="img" style="width:100%" src="~/images/categorydefault.jpg" />
+                                    <img id="img" style="width:100%" src="~/assets/images/categorydefault.jpg" />
                                     <label for="example-text-input" style="margin-top:10px;" class="col-sm-12 col-form-label text-center">Öne Çıkan Görsel Belirle</label>
                                     <input type="file" class="filestyle" id="upload" data-input="false" name="file" data-buttonname="btn-secondary">
                                 </div>
@@ -32,17 +32,17 @@
                         </div>
                     </div>
                     <div class="mb-3">
-                        <label for="example-text-input" class="col-sm-12 col-form-label">Kategori</label>
+                        <label for="example-text-input" class="col-sm-12 col-form-label">Reklam Adı</label>
                         <input asp-for="BannerName" autocomplete="off" data-toggle="tooltip" data-placement="bottom" class="form-control" type="text" placeholder="Reklam adınızı Giriniz" id="example-text-input">
                         <span asp-validation-for="BannerName" class="text-danger"></span>
                     </div>
                     <div class="mb-3">
-                        <label for="example-text-input" class="col-sm-12 col-form-label">Kategori</label>
+                        <label for="example-text-input" class="col-sm-12 col-form-label">Reklam Linki</label>
                         <input asp-for="Link" autocomplete="off" data-toggle="tooltip" data-placement="bottom" class="form-control" type="text" placeholder="Reklam linki Giriniz" id="example-text-input">
                         <span asp-validation-for="Link" class="text-danger"></span>
                     </div>
                     <div class="mb-3">
-                        <label for="example-text-input" class="col-sm-12 col-form-label">Üst Kategori</label>
+                        <label for="example-text-input" class="col-sm-12 col-form-label">Reklam Yön</label>
                         <select asp-for="RotateId" asp-items="@ViewBag.BannersRotate" class="form-control">
                             <option selected="selected" value="999">Lütfen bir üst yön seçiniz (Zorunlu Değildir)</option>
                         </select>

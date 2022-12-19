@@ -9,6 +9,7 @@ namespace CORE.ApplicationCommon.DTOS.CategoryDTO
     {
         public string CategoryName { get; set; }
         public string Description { get; set; }
+        public bool isMenu { get; set; }
         public int? ParentCategoryId { get; set; }
         public bool IsActive { get; set; }
         public int Sorted { get; set; }

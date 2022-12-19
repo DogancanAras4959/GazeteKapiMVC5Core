@@ -29,12 +29,12 @@
         <div class="rect-content-box-title">
             <span class="rect-title">G</span>
         </div>
-        <h3 class="content-box-title">Gündem</h3>
+        <h3 class="content-box-title">GÜNDEM</h3>
     </div>
 </div>
 <div class="row mb-2">
 
-    @foreach (var item in haberlerManset.OrderByDescending(x => x.Id).ToList().Where(x => x.IsActive == true && x.IsLock == false))
+    @foreach (var item in haberlerManset.OrderByDescending(x => x.Id).ToList().Where(x => x.IsActive == true && x.IsLock == false && x.GuestId == 8))
     {
         if (item.categories.CategoryName.Contains("GÜNDEM"))
         {
@@ -54,7 +54,7 @@
                     <div class="card__post ">
                         <div class="card__post__body">
                             <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
-                                <img style="height: 185px;" src="https://uploadslemonde.ikifikir.net/images/@item.Image" class="img-fluid" title="@item.Image" alt="@item.Image" />
+                                <img style="height: 185px;" src="https://uploadslemonde.ikifikir.net/images/@item.Image" class="img-fluid news-height-m" title="@item.Image" loading="lazy" alt="@item.Image" />
                             </a>
                             <div style="margin-top: 15px; overflow-wrap: anywhere;">
                                 <h6>

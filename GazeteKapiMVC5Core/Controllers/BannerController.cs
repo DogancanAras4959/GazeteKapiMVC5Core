@@ -205,15 +205,31 @@ namespace GazeteKapiMVC5Core.Controllers
         }
 
         [HttpPost]
-        public IActionResult reklamolustur(BannerDto model, IFormFile file)
+        public async Task<IActionResult> reklamolustur(BannerCreateViewModel model, IFormFile file)
         {
-            if(file != null)
+            try
             {
-                return View();
+                if (file != null)
+                {
+                    model.BannerImage = SaveImageProcess.ImageInsert(file, "Admin");
+
+                    if (await _bannerService.createBanner(_mapper.Map<BannerCreateViewModel, BannerDto>(model)))
+                    {
+                        return RedirectToAction(nameof(reklamlar));
+                    }
+                    else
+                    {
+                        return RedirectToAction(nameof(reklamlar));
+                    }
+                }
+                else
+                {
+                    return RedirectToAction(nameof(reklamEkle));
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return View();
+                return RedirectToAction(nameof(reklamEkle));
             }
         }
 
@@ -221,28 +237,99 @@ namespace GazeteKapiMVC5Core.Controllers
         [CheckRoleAuthorize]
         public IActionResult reklamDuzenle(int Id)
         {
+            var getBanner = _mapper.Map<BannerDto, BannerEditViewModel>(_bannerService.getBanner(Id));
             ViewBag.BannersRotate = new SelectList(_bannerRotateService.bannersRotateList(), "Id", "RotateName");
-            return View();
+            return View(getBanner);
         }
 
         [HttpPost]
-        public IActionResult reklamGuncelle(BannerDto model, IFormFile file)
+        public async Task<IActionResult> reklamGuncelle(BannerEditViewModel model, IFormFile file)
         {
-            return View();
+            try
+            {
+                var getBanner = _mapper.Map<BannerDto, BannerEditViewModel>(_bannerService.getBanner(model.Id));
+                getBanner.IsActive = model.IsActive;
+                getBanner.Link = model.Link;
+                getBanner.UpdatedTime = DateTime.Now;
+                getBanner.RotateId = model.RotateId;
+                getBanner.BannerName = model.BannerName;
+
+                if (file != null)
+                {
+                    model.BannerImage = SaveImageProcess.ImageInsert(file, "Admin");
+                    getBanner.BannerImage = model.BannerImage;
+
+                    if (await _bannerService.editBannerDto(_mapper.Map<BannerEditViewModel, BannerDto>(getBanner)))
+                    {
+                        return RedirectToAction("reklamDuzenle", "Banner", new { Id = model.Id });
+                    }
+                    else
+                    {
+                        return RedirectToAction("reklamDuzenle", "Banner", new { Id = model.Id });
+                    }
+                }
+                else
+                {
+                    if (await _bannerService.editBannerDto(_mapper.Map<BannerEditViewModel, BannerDto>(model)))
+                    {
+                        return RedirectToAction("reklamDuzenle", "Banner", new { Id = model.Id });
+                    }
+                    else
+                    {
+                        return RedirectToAction("reklamDuzenle", "Banner", new { Id = model.Id });
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("reklamDuzenle", "Banner", new { Id = model.Id });
+
+            }
         }
 
         [HttpGet]
         [CheckRoleAuthorize]
         public IActionResult reklamSil(int Id)
         {
-            return View();
+            try
+            {
+                if (!_bannerService.DeleteBanner(Id))
+                {
+                    return RedirectToAction(nameof(reklamlar));
+                }
+                else
+                {
+                    return RedirectToAction(nameof(reklamlar));
+                }
+            }
+            catch (Exception ex)
+            {
+
+                TempData["HataMesaji"] = ex.ToString();
+                return RedirectToAction("ErrorPage", "Home");
+            }
         }
 
         [HttpGet]
         [CheckRoleAuthorize]
-        public IActionResult reklamDurumDuzenle(int Id)
+        public async Task<IActionResult> reklamDurumDuzenle(int Id)
         {
-            return View();
+            try
+            {
+                if (await _bannerService.IsActiveEnabledBanner(Id))
+                {
+                    return RedirectToAction(nameof(reklamlar));
+                }
+                else
+                {
+                    return RedirectToAction(nameof(reklamlar));
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["HataMesaji"] = ex.ToString();
+                return RedirectToAction("ErrorPage", "Home");
+            }
         }
 
         #endregion
