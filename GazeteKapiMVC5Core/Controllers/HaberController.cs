@@ -629,7 +629,6 @@ namespace GazeteKapiMVC5Core.Controllers
 
 
                                 model.RowNo = 9;
-                                model.VideoUploaded = "https://uploadslemonde.ikifikir.net/videos/" + model.VideoUploaded;
                                 model.Sorted = 9;
                                 model.UserId = yoneticiGetir.Id;
                                 model.PublishedTime = DateTime.Now;

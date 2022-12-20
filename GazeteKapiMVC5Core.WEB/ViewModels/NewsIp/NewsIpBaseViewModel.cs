@@ -10,6 +10,8 @@ namespace GazeteKapiMVC5Core.WEB.ViewModels.NewsIp
     {
         public int NewsId { get; set; }
         public int IpAdressId { get; set; }
+        public DateTime ClickTime { get; set; }
+
         public GazeteKapiMVC5Core.DataAccessLayer.Models.News news { get; set; }
         public IpAddresCount ip { get; set; }
     }

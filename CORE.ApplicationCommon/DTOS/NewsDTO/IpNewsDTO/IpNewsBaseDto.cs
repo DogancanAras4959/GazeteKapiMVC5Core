@@ -9,7 +9,7 @@ namespace CORE.ApplicationCommon.DTOS.NewsDTO.IpNewsDTO
     {
         public int NewsId { get; set; }
         public int IpAdressId { get; set; }
-
+        public DateTime ClickTime { get; set; }
         public IpAddresCount ipAdress { get; set; }
         public News news { get; set; }
     }

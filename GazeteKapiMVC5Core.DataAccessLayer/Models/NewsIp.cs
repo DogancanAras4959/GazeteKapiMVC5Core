@@ -21,6 +21,8 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Models
         [ForeignKey("ip")]
         public int IpAdressId { get; set; }
 
+        public DateTime ClickTime { get; set; }
+
         public News news { get; set; }
         public IpAddresCount ip { get; set; }
     }

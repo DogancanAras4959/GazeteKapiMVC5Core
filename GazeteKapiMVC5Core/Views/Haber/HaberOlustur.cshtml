@@ -13,6 +13,29 @@
     }
 }
 
+<style>
+    .display-position-parent {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-direction: row;
+        align-content: space-between;
+        flex-wrap: nowrap;
+    }
+    .display-position-child {
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content: space-between;
+        align-items: flex-start;
+        flex-direction: column;
+        align-content: space-between;
+    }
+    .input-group {
+        justify-content: flex-start !important;
+    }
+
+</style>
+
 <link href="~/assets/css/pageline.css" rel="stylesheet" />
 <link href="~/assets/css/bootstrap.min.css" rel="stylesheet" />
 <link href="~/assets/libs/select2/css/select2.min.css" rel="stylesheet" type="text/css">
@@ -58,22 +81,34 @@
 
                     </div>
 
+                    <div class="mb-3 display-position-parent">
+                        <div class="col-sm-4 display-position-child">
+                            <label for="example-text-input" class="col-form-label">Haber içeriği için görsel seçin</label>
+                            <input type="file" class="filestyle" id="fileUploadForContent" data-input="false" name="fileUploadForContent" data-buttonname="btn-secondary">
+                        </div>
+                        <div class="col-sm-8">
+                            <button type="button" class="btn btn-info rounded-0" style="float:right;" id="#UploadImage">
+                                <i class="fa fa-plus-circle"></i> Fotoğraf Seç
+                            </button>
+                        </div>          
+                    </div>
+
                     <div class="mb-3">
                         <label for="example-text-input" class="col-sm-12 col-form-label">İçerik</label>
-                        <textarea asp-for="NewsContent" rows="3" cols="150" id="content"></textarea>
+                        <textarea asp-for="NewsContent" rows="3" cols="150" id="ckeditor" class="ckeditor"></textarea>
                         @*<textarea asp-for="NewsContent" rows="3" cols="150" id="editor"></textarea>*@
 
                         <span asp-validation-for="NewsContent" class="text-danger"></span>
                     </div>
 
-                    <div class="mb-3">
-                        <label for="example-text-input" class="col-sm-12 col-form-label">Video</label>
-                        <input asp-for="VideoUploaded" autocomplete="off" data-toggle="tooltip"
-                               maxlength="160" id="defaultconfig"
-                               data-placement="bottom" class="form-control" type="text"
-                               placeholder="Haber için video giriniz">
+                    @*<div class="mb-3">
+            <label for="example-text-input" class="col-sm-12 col-form-label">Video</label>
+            <input asp-for="VideoUploaded" autocomplete="off" data-toggle="tooltip"
+                   maxlength="160" id="defaultconfig"
+                   data-placement="bottom" class="form-control" type="text"
+                   placeholder="Haber için video giriniz">
 
-                    </div>
+        </div>*@
                     <div class="mb-3">
                         <label for="example-text-input" class="col-sm-12 col-form-label">Video Kodu</label>
                         <textarea asp-for="VideoSlug" autocomplete="off" rows="4" cols="50" data-toggle="tooltip" data-placement="bottom" class="form-control" type="text" placeholder="Video için iframe kodu giriniz" id="example-text-input"></textarea>
@@ -210,11 +245,9 @@
 </form>
 
 <script src="~/assets/libs/jquery/jquery.min.js"></script>
-<script src="~/assets/fckeditor/fckeditor.js"></script>
-<script src="~/assets/fckeditor/fckconfig.js"></script>
 <script src="~/assets/libs/select2/js/select2.min.js"></script>
 <script src="~/assets/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
-@*<script src="~/assets/ckeditor5-build-classic/ckeditor.js"></script>*@
+<script src="~/assets/ckeditor/ckeditor.js"></script>
 
 <script>
     $(function () {
@@ -356,7 +389,7 @@
     });
 </script>*@
 
-<script type="text/javascript">
+@*<script type="text/javascript">
     window.onload = function () {
         var oFCKeditor = new FCKeditor('content');
         oFCKeditor.BasePath = "/assets/fckeditor/";
@@ -379,4 +412,4 @@
         var oEditor = FCKeditorAPI.GetInstance('content');
         oEditor.SetHTML("");
     }
-</script>
+</script>*@

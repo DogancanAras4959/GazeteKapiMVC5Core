@@ -430,7 +430,8 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
                     IpNewsDto model = new IpNewsDto
                     {
                         IpAdressId = ip.Id,
-                        NewsId = newsGet.Id
+                        NewsId = newsGet.Id,
+                        ClickTime = DateTime.Now,
                     };
                     await _newsIpService.createNewsIp(model);
                     int resultId = Convert.ToInt32(await _newService.insertViewNews(newsGet.Id));
@@ -447,7 +448,9 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
                 IpNewsDto model = new IpNewsDto
                 {
                     IpAdressId = resultId,
-                    NewsId = newsGet.Id
+                    NewsId = newsGet.Id,
+                    ClickTime = DateTime.Now,
+
                 };
                 await _newsIpService.createNewsIp(model);
 
