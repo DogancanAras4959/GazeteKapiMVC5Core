@@ -420,10 +420,42 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-sm-1">
-                                    <input type="checkbox" asp-for="IsSlide" />
+                                    <input type="checkbox" id="slideCheck" asp-for="IsSlide" />
                                 </div>
                                 <div class="col-sm-11">
                                     <label class="col-sm-11">Haberi manşete taşı</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-1">
+                                    <input type="checkbox" asp-for="doublePlace" />
+                                </div>
+                                <div class="col-sm-11">
+                                    <label class="col-sm-11">İkilide Göster</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-1">
+                                    <input type="checkbox" asp-for="fourthPlace" />
+                                </div>
+                                <div class="col-sm-11">
+                                    <label class="col-sm-11">Dörtlüde Göster</label>
                                 </div>
                             </div>
                         </div>
@@ -751,8 +783,35 @@
     })
 </script>
 
-<script>
-    $("#btnUpload").on("click", function () {
 
-    }
+<script>
+    $("#slideCheck").on('change', function ()
+    {
+        var _val = $(this).is(':checked') ? 'checked' : 'unchecked';
+
+        if (_val == 'checked') {
+            $.ajax({
+                type: 'GET',
+                url: '/Haber/sirayaEkle?Id=' +@Model.Id,
+                success: function (response) {
+                    alert("Manşete Eklendi!");
+                }
+            });
+        }
+
+        else if (_val == 'unchecked') {
+            $.ajax({
+                type: 'GET',
+                url: '/Haber/siradanCikar?Id=' +@Model.Id,
+                success: function (response) {
+                     alert("Manşetten Çıktı!");
+                }
+            });
+        }
+
+        else {
+
+        }
+
+    })
 </script>

@@ -509,7 +509,7 @@ namespace SERVICE.Engine.Engines
                 {
                     Title = model.Title,
                     Spot = model.Spot,
-                    IsSlide = model.IsSlide,
+                    //IsSlide = model.IsSlide,
                     IsActive = true,
                     RowNo = 0,
                     ColNo = 0,
@@ -627,7 +627,7 @@ namespace SERVICE.Engine.Engines
                     ColNo = model.ColNo,
                     IsCommentActive = model.IsCommentActive,
                     IsOpenNotifications = model.IsOpenNotifications,
-                    IsSlide = model.IsSlide,
+                    //IsSlide = model.IsSlide,
                     Views = model.Views,
                     IsTitle = model.IsTitle,
                     doublePlace = model.doublePlace,
@@ -677,6 +677,7 @@ namespace SERVICE.Engine.Engines
             else
             {
                 getNews.IsSlide = false;
+                getNews.RowNo = 0;
                 News model = await _unitOfWork.GetRepository<News>().UpdateAsync(getNews);
                 return getNews != null;
             }
@@ -1637,7 +1638,6 @@ namespace SERVICE.Engine.Engines
             return true;
         }
 
-
         public async Task<bool> changeSortedItem(int itemId, int count)
         {
             News getNews = await _unitOfWork.GetRepository<News>().FindAsync(x => x.Id == itemId);
@@ -1784,6 +1784,66 @@ namespace SERVICE.Engine.Engines
             {
                 return null;
             }
+        }
+
+        public async Task<int> updateSliderRow(int Id)
+        {
+            News getNews = _unitOfWork.GetRepository<News>().FindAsync(x => x.Id == Id).Result;
+            getNews.IsSlide = false;
+            getNews.RowNo = 0;
+
+            News model = await _unitOfWork.GetRepository<News>().UpdateAsync(getNews);
+            _unitOfWork.Dispose();
+
+            return model.RowNo;
+        }
+
+        public async Task<int> updateAllSliderItemRow(int itemId, int rowNo)
+        {
+            News getNews = _unitOfWork.GetRepository<News>().FindAsync(x => x.Id == itemId).Result;
+            if (getNews.RowNo == 11)
+            {
+                getNews.RowNo = rowNo;
+                getNews.IsSlide = true;
+            }
+            else
+            {
+                getNews.RowNo = rowNo;
+            }
+
+            News model = await _unitOfWork.GetRepository<News>().UpdateAsync(getNews);
+            return model.RowNo;
+        }
+
+        public async Task<int> updateAllSliderItemRowInsert(int itemId, int rowNo)
+        {
+            News getNews = _unitOfWork.GetRepository<News>().FindAsync(x => x.Id == itemId).Result;
+            if (getNews.RowNo == 10)
+            {
+                getNews.RowNo = rowNo;
+                getNews.IsSlide = false;
+            }
+            else
+            {
+                getNews.RowNo = rowNo;
+            }
+
+            News model = await _unitOfWork.GetRepository<News>().UpdateAsync(getNews);
+            return model.RowNo;
+        }
+
+        public async Task<int> updateSliderRowInsert(int Id)
+        {
+            News getNews = _unitOfWork.GetRepository<News>().FindAsync(x => x.Id == Id).Result;
+            getNews.IsSlide = true;
+            getNews.doublePlace = false;
+            getNews.fourthPlace = false;
+            getNews.RowNo = 1;
+
+            News model = await _unitOfWork.GetRepository<News>().UpdateAsync(getNews);
+            _unitOfWork.Dispose();
+
+            return model.RowNo;
         }
 
         #endregion

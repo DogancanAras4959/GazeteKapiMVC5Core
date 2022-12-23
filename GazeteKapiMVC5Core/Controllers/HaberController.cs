@@ -627,9 +627,8 @@ namespace GazeteKapiMVC5Core.Controllers
                             {
                                 AccountEditViewModel yoneticiGetir = SessionExtensionMethod.GetObject<AccountEditViewModel>(HttpContext.Session, "user");
 
-
-                                model.RowNo = 9;
-                                model.Sorted = 9;
+                                model.RowNo = 0;
+                                model.Sorted = 0;
                                 model.UserId = yoneticiGetir.Id;
                                 model.PublishedTime = DateTime.Now;
 
@@ -658,6 +657,8 @@ namespace GazeteKapiMVC5Core.Controllers
                                     await _newService.InsertTagToProduct(model.Tag, resultId);
                                 }
                             }
+                            //if(model.IsActive == true)
+                            //await sirayaEkle(resultId);
 
                             string durum = "Haber başarıyla oluşturuldu. Son kontrollerinizi yapıp yayınlayın!";
                             return RedirectToAction("HaberDuzenle", "Haber", new { Id = resultId, durum = durum });
@@ -771,7 +772,7 @@ namespace GazeteKapiMVC5Core.Controllers
                 {
                     var news = _mapper.Map<NewsDto, NewsEditViewModel>(_newService.getNews(model.Id));
 
-                    if(model.PublishedTime == null)
+                    if (model.PublishedTime == null)
                     {
                         model.PublishedTime = DateTime.Now;
                     }
@@ -820,13 +821,16 @@ namespace GazeteKapiMVC5Core.Controllers
 
                                 model.Image = SaveImageProcess.ImageInsert(file, "Admin");
 
-                                if(model.IsSlide == true)
-                                {
-                                    if(model.RowNo != 9)
-                                    {
-                                        model.RowNo = news.RowNo;
-                                    }
-                                }
+                                //if (model.IsSlide == true)
+                                //{
+                                //    model.doublePlace = false;
+                                //    model.fourthPlace = false;
+                                //    await sirayaEkle(model.Id);
+                                //}
+                                //else
+                                //{
+                                //    await siradanCikar(model.Id);
+                                //}
 
                                 model.VideoUploaded = model.VideoUploaded;
 
@@ -846,19 +850,23 @@ namespace GazeteKapiMVC5Core.Controllers
                                             await _newService.InsertTagToProduct(model.Tag, resultId);
                                         }
                                     }
-                                    return RedirectToAction("Haberler", "Haber");
+                                    return RedirectToAction("HaberDuzenle", "Haber", new { Id = news.Id });
                                 }
                             }
-                            
+
                             else
                             {
-                                if (model.IsSlide == true)
-                                {
-                                    if (model.RowNo != 9)
-                                    {
-                                        model.RowNo = news.RowNo;
-                                    }
-                                }
+                                //if (model.IsSlide == true)
+                                //{
+                                //    if(!(model.RowNo > 0 && model.RowNo < 11))
+                                //    {
+                                //        await sirayaEkle(model.Id);
+                                //    }
+                                //}
+                                //else
+                                //{
+                                //    await siradanCikar(model.Id);
+                                //}
 
                                 model.VideoUploaded = model.VideoUploaded;
 
@@ -878,7 +886,7 @@ namespace GazeteKapiMVC5Core.Controllers
                                             await _newService.InsertTagToProduct(model.Tag, resultId);
                                         }
                                     }
-                                    return RedirectToAction("Haberler", "Haber");
+                                    return RedirectToAction("HaberDuzenle", "Haber", new { Id = news.Id });
 
                                 }
                             }
@@ -887,12 +895,12 @@ namespace GazeteKapiMVC5Core.Controllers
                     }
 
                     LoadData();
-                    return View(news);
+                    return RedirectToAction("HaberDuzenle", "Haber", new { Id = news.Id });
                 }
                 else
                 {
                     LoadData();
-                    return View(model);
+                    return RedirectToAction("HaberDuzenle", "Haber", new { Id = model.Id });
                 }
             }
             catch (Exception ex)
@@ -1032,7 +1040,7 @@ namespace GazeteKapiMVC5Core.Controllers
                 return RedirectToAction("ErrorPage", "Home");
             }
         }
-        
+
         [CheckRoleAuthorize]
         public async Task<IActionResult> ikiliyeyerlestir(int id)
         {
@@ -1130,7 +1138,7 @@ namespace GazeteKapiMVC5Core.Controllers
             {
                 var etiketlerHaberler = _mapper.Map<List<TagNewsListItemDto>, List<TagNewsListViewModel>>(_newService.tagsListWithNews());
                 ViewBag.EtiketHaberler = etiketlerHaberler;
-           
+
                 List<TagListViewModel> tags = _mapper.Map<List<TagListItemDto>, List<TagListViewModel>>(_newService.tagList());
                 return View(tags);
 
@@ -1239,7 +1247,7 @@ namespace GazeteKapiMVC5Core.Controllers
             {
                 try
                 {
-                   await _newService.changeSortedItem(itemId, count);
+                    await _newService.changeSortedItem(itemId, count);
                 }
                 catch (Exception ex)
                 {
@@ -1249,7 +1257,103 @@ namespace GazeteKapiMVC5Core.Controllers
             }
             return Json(true);
         }
+        public async Task<IActionResult> siradanCikar(int Id)
+        {
+            try
+            {
+                int resultRow = await _newService.updateSliderRow(Id);
 
+                if (resultRow == 0)
+                {
+                    List<NewsLıstItemModel> listNews = _mapper.Map<List<NewsListItemDto>,List<NewsLıstItemModel>>(_newService.newsList());
+
+                    int lastIndex = listNews.Select(x=> x.RowNo).Max() + 1;
+
+                    foreach (var item in listNews)
+                    {
+                        int topCount = 0;
+
+                        if (item.RowNo > 1)
+                        {
+                            topCount = item.RowNo - 1;
+                            int resultRowItem = await _newService.updateAllSliderItemRow(item.Id, topCount);
+                        }
+                        else
+                        {
+                            if (item.RowNo == 0 && item.Id != Id)
+                            {
+                                topCount = lastIndex;
+                                int resultRowItem = await _newService.updateAllSliderItemRow(item.Id, topCount);
+                            }
+
+                            else if (item.RowNo == 1 && item.Id != Id)
+                            {
+                                topCount = 1;
+                                int resultRowItem = await _newService.updateAllSliderItemRow(item.Id, topCount);
+                            }
+
+                            else
+                            { }
+                        }
+
+                    }
+                }
+
+                return RedirectToAction("HaberSirala", "Haber");
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("HaberSirala", "Haber");
+            }
+
+        }
+        public async Task<IActionResult> sirayaEkle(int Id)
+        {
+            try
+            {
+                int resultRow = await _newService.updateSliderRowInsert(Id);
+
+                if (resultRow > 0)
+                {
+                    List<NewsLıstItemModel> listNews = _mapper.Map<List<NewsListItemDto>,List<NewsLıstItemModel>>(_newService.newsList());
+
+                    int lastIndex = listNews.Select(x=> x.RowNo).Max() + 1;
+
+                    foreach (var item in listNews)
+                    {
+                        int topCount = 0;
+
+                        if (item.RowNo > 1)
+                        {
+                            topCount = item.RowNo + 1;
+                            int resultRowItem = await _newService.updateAllSliderItemRowInsert(item.Id, topCount);
+                        }
+                        else
+                        {
+                            if (item.RowNo == 0 && item.Id != Id)
+                            {
+                                topCount = lastIndex;
+                                int resultRowItem = await _newService.updateAllSliderItemRowInsert(item.Id, topCount);
+                            }
+
+                            else if (item.RowNo == 1 && item.Id != Id)
+                            {
+                                topCount = 2;
+                                int resultRowItem = await _newService.updateAllSliderItemRowInsert(item.Id, topCount);
+                            }
+                            else
+                            { }
+                        }
+                    }
+                }
+
+                return RedirectToAction("HaberSirala", "Haber");
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("HaberSirala", "Haber");
+            }
+        }
         public IActionResult HaberYerlestirme()
         {
             var categories = _mapper.Map<List<CategoryListItemDto>, List<CategoryListViewModel>>(_categoryService.GetAllCategory());
@@ -1259,7 +1363,6 @@ namespace GazeteKapiMVC5Core.Controllers
 
             return View(categories);
         }
-
         [HttpPost]
         public async Task<IActionResult> KategoriyiDegistir(string itemsId, string categoriesId)
         {
@@ -1311,7 +1414,7 @@ namespace GazeteKapiMVC5Core.Controllers
                 int resultId = Convert.ToInt32(await _newService.insertMedia(_mapper.Map<MediaCreateViewModel, MediaDto>(model)));
 
             }
-            return RedirectToAction("OrtamMedyasi","Haber");
+            return RedirectToAction("OrtamMedyasi", "Haber");
         }
 
         [HttpPost]
@@ -1336,7 +1439,7 @@ namespace GazeteKapiMVC5Core.Controllers
                     {
                         var video = _mapper.Map<MediaDto, MediaEditViewModel>(_newService.getMedia(resultId));
 
-                        if(await _newService.insertVideoToNews(haberId, video.Slug))
+                        if (await _newService.insertVideoToNews(haberId, video.Slug))
                         {
                             return Json(true);
                         }
@@ -1344,7 +1447,7 @@ namespace GazeteKapiMVC5Core.Controllers
                         {
                             return Json(false);
                         }
-                      
+
                     }
                     else
                     {
@@ -1364,8 +1467,8 @@ namespace GazeteKapiMVC5Core.Controllers
 
         [HttpGet]
         public async Task<IActionResult> deleteVideoFromNews(int Id)
-        {           
-            if(await _newService.deleteVideoFromNews(Id))
+        {
+            if (await _newService.deleteVideoFromNews(Id))
             {
                 return RedirectToAction("HaberDuzenle", "Haber", new { Id = Id });
             }

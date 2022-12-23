@@ -24,8 +24,10 @@
                                 <tr>
                                     <th style="text-align:center;">#</th>
                                     <th>Başlık</th>
-                                    <th>Yayın Tarihi</th>
+                                    <th>Yayın</th>
                                     <th>Okunma</th>
+                                    <th>Manşet?</th>
+                                    <th>Sıra</th>
                                     <th>Haber Tipi</th>
                                     <th>Oluşturan</th>
                                     <th>Etiketler</th>
@@ -60,6 +62,15 @@
 
                                         <td>@Html.DisplayFor(model => item.PublishedTime)</td>
                                         <td>@Html.DisplayFor(model => item.Views)</td>
+                                        @if (item.IsSlide == true)
+                                        {
+                                            <td><span class="text-success">Manşette</span></td>
+                                        }
+                                        else 
+                                        {
+                                            <td><span class="text-danger">Değil</span></td>
+                                        }
+                                        <td>@item.RowNo</td>
                                         <td>@Html.DisplayFor(model => item.categories.CategoryName)</td>
                                         <td>@Html.DisplayFor(model => item.users.DisplayName)</td>
                                         <td>@Html.DisplayFor(model => item.Tag)</td>

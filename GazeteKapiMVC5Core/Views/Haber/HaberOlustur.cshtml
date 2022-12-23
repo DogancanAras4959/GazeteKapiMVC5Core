@@ -177,28 +177,28 @@
                 </div>
             </div>
             @*<div class="row">
-                    <div class="col-sm-12">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-sm-1">
-                                        <input type="checkbox" asp-for="IsCommentActive" />
-                                    </div>
-                                    <div class="col-sm-11">
-                                        <label class="col-sm-11">Haberi yorumlara aç</label>
-                                    </div>
-                                </div>
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-1">
+                                <input type="checkbox" asp-for="IsCommentActive" />
+                            </div>
+                            <div class="col-sm-11">
+                                <label class="col-sm-11">Haberi yorumlara aç</label>
                             </div>
                         </div>
                     </div>
-                </div>*@
+                </div>
+            </div>
+        </div>*@
             <div class="row">
                 <div class="col-sm-12">
                     <div class="card">
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-sm-1">
-                                    <input type="checkbox" asp-for="IsTitle" />
+                                    <input type="checkbox" id="slideCheck" asp-for="IsTitle" />
                                 </div>
                                 <div class="col-sm-11">
                                     <label class="col-sm-11">Manşet Başlığı Göster</label>
@@ -224,7 +224,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
+            @*<div class="row">
                 <div class="col-sm-12">
                     <div class="card">
                         <div class="card-body">
@@ -234,6 +234,38 @@
                                 </div>
                                 <div class="col-sm-11">
                                     <label class="col-sm-11">Haberi manşete taşı</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>*@
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-1">
+                                    <input type="checkbox" asp-for="doublePlace" />
+                                </div>
+                                <div class="col-sm-11">
+                                    <label class="col-sm-11">İkilide Göster</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-1">
+                                    <input type="checkbox" asp-for="fourthPlace" />
+                                </div>
+                                <div class="col-sm-11">
+                                    <label class="col-sm-11">Dörtlüde Göster</label>
                                 </div>
                             </div>
                         </div>
@@ -413,3 +445,4 @@
         oEditor.SetHTML("");
     }
 </script>*@
+

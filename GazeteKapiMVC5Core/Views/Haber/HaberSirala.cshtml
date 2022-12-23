@@ -39,20 +39,24 @@
                                     <th>Id</th>
                                     <th>Yayın Tarihi</th>
                                     <th>Başlık</th>
-                                    @*<th>İşlem</th>*@
+                                    <th>İşlem</th>
                                 </tr>
                             </thead>
                             <tbody id="sortable" style="cursor:pointer;">
                                 @foreach (var item in Model)
                                 {
-                                <tr>
-                                    <td style="text-align:center;">@Html.DisplayFor(model => item.RowNo)</td>
-                                    <td>@Html.DisplayFor(modelItem => item.Id)</td>
-                                    <td>@Html.DisplayFor(modelItem => item.PublishedTime)</td>
-                                    <td class="taskSingleInline" id="task@(item.Id)" data-taskid="@(item.Id)">
-                                        <a asp-action="HaberDuzenle" asp-controller="Haber" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.MetaTitle)</a>
-                                    </td>
-                                </tr>
+                                    <tr>
+                                        <td style="text-align:center;">@Html.DisplayFor(model => item.RowNo)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.Id)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.PublishedTime)</td>
+                                        <td class="taskSingleInline" id="task@(item.Id)" data-taskid="@(item.Id)">
+                                            <a asp-action="HaberDuzenle" asp-controller="Haber" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.MetaTitle)</a>
+                                        </td>
+                                        <td>
+                                            <a asp-action="siradanCikar" asp-controller="Haber" asp-route-id="@item.Id" class="text-danger">Çıkart</a>
+                                        </td>
+
+                                    </tr>
                                 }
                             </tbody>
                         </table>

@@ -49,6 +49,10 @@ namespace SERVICE.Engine.Interfaces
         bool newsDelete(int id);
 
         Task<int> insertViewNews(int Id);
+        Task<int> updateSliderRow(int Id);
+        Task<int> updateSliderRowInsert(int Id);
+        Task<int> updateAllSliderItemRow(int itemId, int rowNo);
+        Task<int> updateAllSliderItemRowInsert(int itemId, int rowNo);
         Task<bool> SetYourNewsToUp(int id);
         Task<bool> IsOpenNotificationSet(int id);
         Task<bool> placeDoubleHolder(int Id);
