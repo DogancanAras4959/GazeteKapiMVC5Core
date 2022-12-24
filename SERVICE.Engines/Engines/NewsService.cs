@@ -1789,13 +1789,16 @@ namespace SERVICE.Engine.Engines
         public async Task<int> updateSliderRow(int Id)
         {
             News getNews = _unitOfWork.GetRepository<News>().FindAsync(x => x.Id == Id).Result;
+
+            int currentRowNo = getNews.RowNo;
+
             getNews.IsSlide = false;
             getNews.RowNo = 0;
 
             News model = await _unitOfWork.GetRepository<News>().UpdateAsync(getNews);
             _unitOfWork.Dispose();
 
-            return model.RowNo;
+            return currentRowNo;
         }
 
         public async Task<int> updateAllSliderItemRow(int itemId, int rowNo)
@@ -1844,6 +1847,58 @@ namespace SERVICE.Engine.Engines
             _unitOfWork.Dispose();
 
             return model.RowNo;
+        }
+
+        public List<NewsListItemDto> newsListBySortedOrder(int resultrow)
+        {
+            IEnumerable<News> newsList = _unitOfWork.GetRepository<News>().Filter(x=> x.RowNo > resultrow, x => x.OrderBy(y => y.RowNo), "guest,users,categories,publishtype", null, null);
+
+            if (newsList != null)
+            {
+                return newsList.Select(x => new NewsListItemDto
+                {
+
+                    Id = x.Id,
+                    Title = x.Title,
+                    Spot = x.Spot,
+                    RowNo = x.RowNo,
+                    MetaTitle = x.MetaTitle,
+                    ColNo = x.ColNo,
+                    doublePlace = x.doublePlace,
+                    Image = x.Image,
+                    isArchive = x.isArchive,
+                    fourthPlace = x.fourthPlace,
+                    NewsContent = x.NewsContent,
+                    IsSlide = x.IsSlide,
+                    IsOpenNotifications = x.IsOpenNotifications,
+                    IsLock = x.IsLock,
+                    IsActive = x.IsActive,
+                    VideoSlug = x.VideoSlug,
+                    VideoUploaded = x.VideoUploaded,
+                    Views = x.Views,
+                    IsTitle = x.IsTitle,
+                    UpdatedTime = x.UpdatedTime,
+                    CreatedTime = x.CreatedTime,
+                    CategoryId = x.CategoryId,
+                    UserId = x.UserId,
+                    GuestId = x.GuestId,
+                    ParentNewsId = x.ParentNewsId,
+                    PublishTypeId = x.PublishTypeId,
+                    PublishedTime = x.PublishedTime,
+                    IsCommentActive = x.IsCommentActive,
+                    Sorted = x.Sorted,
+                    guest = x.guest,
+                    publishtype = x.publishtype,
+                    users = x.users,
+                    categories = x.categories,
+                    Sound = x.Sound,
+
+                }).ToList();
+            }
+            else
+            {
+                return null;
+            }
         }
 
         #endregion

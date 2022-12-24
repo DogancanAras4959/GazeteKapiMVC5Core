@@ -34,6 +34,7 @@ namespace SERVICE.Engine.Interfaces
         List<NewsListItemDto> newsListByDatetimeBigNow();
         List<NewsListItemDto> newsListOrderRow();
         List<NewsListItemDto> newsListWithWeb();
+        List<NewsListItemDto> newsListBySortedOrder(int resultRow);
         List<NewsListItemDto> newsListJsonData();
         List<NewsListItemDto> newsListByUserId(int id);
         List<PublishTypeListItem> publishTypeList();

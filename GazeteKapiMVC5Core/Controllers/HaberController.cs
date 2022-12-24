@@ -1263,9 +1263,9 @@ namespace GazeteKapiMVC5Core.Controllers
             {
                 int resultRow = await _newService.updateSliderRow(Id);
 
-                if (resultRow == 0)
+                if (resultRow > 0)
                 {
-                    List<NewsLıstItemModel> listNews = _mapper.Map<List<NewsListItemDto>,List<NewsLıstItemModel>>(_newService.newsList());
+                    List<NewsLıstItemModel> listNews = _mapper.Map<List<NewsListItemDto>,List<NewsLıstItemModel>>(_newService.newsListBySortedOrder(resultRow));
 
                     int lastIndex = listNews.Select(x=> x.RowNo).Max() + 1;
 
@@ -1278,6 +1278,7 @@ namespace GazeteKapiMVC5Core.Controllers
                             topCount = item.RowNo - 1;
                             int resultRowItem = await _newService.updateAllSliderItemRow(item.Id, topCount);
                         }
+
                         else
                         {
                             if (item.RowNo == 0 && item.Id != Id)
