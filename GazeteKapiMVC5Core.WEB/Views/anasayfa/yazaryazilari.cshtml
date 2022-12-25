@@ -1,14 +1,14 @@
 ﻿@using CORE.ApplicationCommon.Helpers;
 @using GazeteKapiMVC5Core.WEB.ViewModels.Guests;
 @model PaginationList<GazeteKapiMVC5Core.WEB.ViewModels.News.NewListViewModelWeb>
-@using GazeteKapiMVC5Core.WEB.ViewModels.Categories;
+@*@using GazeteKapiMVC5Core.WEB.ViewModels.Categories;*@
 
 @{
     ViewData["Title"] = "Yazarlar";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
     GuestBaseViewModelWeb guest = ViewBag.Guest as GuestBaseViewModelWeb;
-    List<CategoryListViewModelWeb> categories = ViewBag.Categories as List<CategoryListViewModelWeb>;
+    //List<CategoryListViewModelWeb> categories = ViewBag.Categories as List<CategoryListViewModelWeb>;
 }
 
 @{

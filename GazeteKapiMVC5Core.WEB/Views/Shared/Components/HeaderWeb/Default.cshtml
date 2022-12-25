@@ -19,7 +19,7 @@
 
 
 <link href="~/assets/css/pagelineweb.css" rel="stylesheet" />
-<link href="~/assets/css/hamburger.css" rel="stylesheet" />
+@*<link href="~/assets/css/hamburger.css" rel="stylesheet" />*@
 <link href="~/assets/css/bannerImage.css" rel="stylesheet" />
 <link href="~/assets/css/header.css" rel="stylesheet" />
 
@@ -285,20 +285,31 @@
     <div class="container" style="max-width:1030px; padding-top:20px;">
         <div class="row row-banners">
 
-            <div class="col-12 col-sm-12 banner-3 image-container">
+            <div class="col-8 col-sm-8" style="padding-right: 0; padding-left: 0;">
                 @foreach (var item in banner)
                 {
+                <a href="@item.Link" class="image-container" style="text-decoration:none; cursor:pointer;">
                     <img alt="banner-dergi" class="magazine image-banner-magazine" title="banner-dergi" loading="lazy" src="https://uploadslemonde.ikifikir.net/images/@item.BannerImage" />
                     <div class="image-parent-container" style="width: 60%; padding-left: 40px; padding-top: 15px; ">
-                        <h4 class="magazine-title" style="font-weight:bold; color:#fff;">Le Monde diplomatique Türkçe</h4>
-                        <h4 class="magazine-desc" style="color:#fff; font-weight:300;">Dijital Abonelik gerçekleştirerek düzenli okumak için burayı <a target="_blank" href="@item.Link" style="text-decoration:underline; color:#fff;">tıklayın..</a></h4>
+                        <h5 class="magazine-title" style="font-weight:bold; color:#fff;">Le Monde diplomatique Türkçe</h5>
+                        <h5 class="magazine-desc" style="color:#fff; font-weight:300;">Dijital Abonelik gerçekleştirerek düzenli okumak için burayı <span style="text-decoration:underline; color:#fff;">tıklayın..</span></h5>
                     </div>
+                </a>
+                    
                 }
 
+                <div class="clip-magazine"></div>
+            </div>
+            <div class="col-4 col-sm-4" style="padding-right: 0;">
+                <div class="wrap-magazine">
+                    <a href="@Url.Action("aboneol","anasayfa")" style="cursor:pointer;">
+                        <img src="~/assets/images/lemonde-son-footer.png" style="padding: 53px 35px;" />
+                    </a>
+                </div>
             </div>
         </div>
     </div>
-    <div class="container" id="banner-header" style="max-width:1030px; padding-top:15px;">
+    <div class="container" id="banner-header" style="max-width:1030px;">
         <div class="row">
             <div class="col-sm-12">
                 <a href="@bannerUst.Link">

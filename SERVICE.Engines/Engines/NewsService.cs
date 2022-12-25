@@ -432,6 +432,53 @@ namespace SERVICE.Engine.Engines
                 return null;
             }
         }
+        public List<NewsListItemDto> newsListWebInfinityNews()
+        {
+            IEnumerable<News> newsList = _unitOfWork.GetRepository<News>().Filter(null, x => x.OrderByDescending(y => y.Id), null, null, null);
+
+            if (newsList != null)
+            {
+                return newsList.Select(x => new NewsListItemDto
+                {
+
+                    Id = x.Id,
+                    Title = x.Title,
+                    Spot = x.Spot,
+                    RowNo = x.RowNo,
+                    MetaTitle = x.MetaTitle,
+                    ColNo = x.ColNo,
+                    doublePlace = x.doublePlace,
+                    Image = x.Image,
+                    isArchive = x.isArchive,
+                    fourthPlace = x.fourthPlace,
+                    NewsContent = x.NewsContent,
+                    IsSlide = x.IsSlide,
+                    IsOpenNotifications = x.IsOpenNotifications,
+                    IsLock = x.IsLock,
+                    IsActive = x.IsActive,
+                    VideoSlug = x.VideoSlug,
+                    VideoUploaded = x.VideoUploaded,
+                    Views = x.Views,
+                    IsTitle = x.IsTitle,
+                    UpdatedTime = x.UpdatedTime,
+                    CreatedTime = x.CreatedTime,
+                    CategoryId = x.CategoryId,
+                    UserId = x.UserId,
+                    GuestId = x.GuestId,
+                    ParentNewsId = x.ParentNewsId,
+                    PublishTypeId = x.PublishTypeId,
+                    PublishedTime = x.PublishedTime,
+                    IsCommentActive = x.IsCommentActive,
+                    Sorted = x.Sorted,
+                    Sound = x.Sound,
+
+                }).ToList();
+            }
+            else
+            {
+                return null;
+            }
+        }
         public List<NewsListItemDto> newsListByDatetimeBigNow()
         {
             IEnumerable<News> newsList = _unitOfWork.GetRepository<News>().Filter(x=> x.IsActive == false && x.PublishedTime > DateTime.Now, x => x.OrderBy(y => y.Id), null, null, null);
@@ -622,12 +669,12 @@ namespace SERVICE.Engine.Engines
                     Spot = model.Spot,
                     VideoUploaded = model.VideoUploaded,
                     NewsContent = model.NewsContent,
-                    RowNo = model.RowNo,
+                    RowNo = getNews.RowNo,
                     Sorted = model.Sorted,
                     ColNo = model.ColNo,
                     IsCommentActive = model.IsCommentActive,
                     IsOpenNotifications = model.IsOpenNotifications,
-                    //IsSlide = model.IsSlide,
+                    IsSlide = getNews.IsSlide,
                     Views = model.Views,
                     IsTitle = model.IsTitle,
                     doublePlace = model.doublePlace,

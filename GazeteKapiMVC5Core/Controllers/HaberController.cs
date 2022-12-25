@@ -821,19 +821,6 @@ namespace GazeteKapiMVC5Core.Controllers
 
                                 model.Image = SaveImageProcess.ImageInsert(file, "Admin");
 
-                                //if (model.IsSlide == true)
-                                //{
-                                //    model.doublePlace = false;
-                                //    model.fourthPlace = false;
-                                //    await sirayaEkle(model.Id);
-                                //}
-                                //else
-                                //{
-                                //    await siradanCikar(model.Id);
-                                //}
-
-                                model.VideoUploaded = model.VideoUploaded;
-
                                 int resultId = Convert.ToInt32(await _newService.editNews(_mapper.Map<NewsEditViewModel, NewsDto>(model)));
 
                                 if (resultId > 0)
@@ -856,19 +843,6 @@ namespace GazeteKapiMVC5Core.Controllers
 
                             else
                             {
-                                //if (model.IsSlide == true)
-                                //{
-                                //    if(!(model.RowNo > 0 && model.RowNo < 11))
-                                //    {
-                                //        await sirayaEkle(model.Id);
-                                //    }
-                                //}
-                                //else
-                                //{
-                                //    await siradanCikar(model.Id);
-                                //}
-
-                                model.VideoUploaded = model.VideoUploaded;
 
                                 int resultId = Convert.ToInt32(await _newService.editNews(_mapper.Map<NewsEditViewModel, NewsDto>(model)));
 
@@ -1454,6 +1428,38 @@ namespace GazeteKapiMVC5Core.Controllers
                     {
                         return Json(false);
                     }
+                }
+                else
+                {
+                    return Json(false);
+                }
+            }
+            catch (Exception ex)
+            {
+                return Json(false);
+            }
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> uploadImageForNews(IFormFile file)
+        {
+            try
+            {
+                if (file != null)
+                {
+                    AccountEditViewModel yoneticiGetir = SessionExtensionMethod.GetObject<AccountEditViewModel>(HttpContext.Session, "user");
+
+                    MediaCreateViewModel model = new MediaCreateViewModel
+                    {
+                        UserId = yoneticiGetir.Id,
+                        Slug = SaveImageProcess.ImageInsert(file, "Admin"),
+                        Title = file.FileName,
+                    };
+
+                    int resultId = Convert.ToInt32(await _newService.insertMedia(_mapper.Map<MediaCreateViewModel, MediaDto>(model)));
+
+                    return Json(true);
+
                 }
                 else
                 {

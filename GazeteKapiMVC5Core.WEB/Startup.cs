@@ -67,6 +67,13 @@ namespace GazeteKapiMVC5Core.WEB
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(30);
+                options.Cookie.IsEssential = true;
+                options.Cookie.HttpOnly = true;
+            });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -92,6 +99,10 @@ namespace GazeteKapiMVC5Core.WEB
             app.UseRouting();
             app.UseAuthentication();
             app.UseCookiePolicy();
+            app.UseSession();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
             app.UseHealthChecks("/hc");
 
             app.UseEndpoints(endpoints =>

@@ -1,9 +1,7 @@
 ﻿@using GazeteKapiMVC5Core.WEB.Models.MetaConfig
-@using GazeteKapiMVC5Core.WEB.ViewModels.News
 
 @{
     MetaViewModel meta = ViewBag.Meta as MetaViewModel;
-    List<NewListViewModelWeb> newsList = ViewBag.HaberlerManset as List<NewListViewModelWeb>;
 }
 
 <!DOCTYPE html>
@@ -86,7 +84,7 @@
     <script src="~/assets/js/modeservice.js"></script>
     <script src="~/assets/js/home.js"></script>
 
-    <script>  
+    @*<script>  
 
         function notifyMe() {
 
@@ -126,7 +124,7 @@
 
         window.onload = notifyMe;
 
-    </script>
+    </script>*@
 
     @RenderSection("scripts", false)
 

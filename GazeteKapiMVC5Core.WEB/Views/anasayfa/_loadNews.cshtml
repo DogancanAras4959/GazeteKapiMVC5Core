@@ -1,18 +1,18 @@
 ﻿@model IEnumerable<GazeteKapiMVC5Core.WEB.ViewModels.News.NewListViewModelWeb>
 
-<h4 class="border_section mb-3"> </h4>
+
 
 @foreach (var item in Model.Where(x => x.IsActive == true && x.IsLock == false))
 {
-
+    <h4 class="border_section mb-3"> </h4>
     <div class="mb-3">
         <!-- Post Article -->
         <div class="card__post card__post-list">
             @*<div class="image-sm">
-                <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
-                    <img style="height:100px;" src="https://uploads.gazetekapi.com/images/@item.Image" class="img-fluid" alt="">
-                </a>
-            </div>*@
+                    <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
+                        <img style="height:100px;" src="https://uploads.gazetekapi.com/images/@item.Image" class="img-fluid" alt="">
+                    </a>
+                </div>*@
             <div class="card__post__body ">
                 <div class="card__post__content">
                     <div class="card__post__title">

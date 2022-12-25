@@ -54,7 +54,7 @@ function InfinitiySroll(iTable, iAction, iParams) {
     //    }
     //});
 
-    window.onscroll = function () { onScroll() };
+    window.onscroll = function () { setTimeout(onScroll(), 2500); };
     function onScroll() {
         if (document.body.scrollTop > 250 || document.documentElement.scrollTop > 250) {
             if (!self.loading) {

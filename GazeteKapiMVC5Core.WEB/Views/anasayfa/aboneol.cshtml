@@ -1,4 +1,4 @@
-﻿@using GazeteKapiMVC5Core.WEB.Models.ConfigreCaptcha 
+﻿@using GazeteKapiMVC5Core.WEB.Models.ConfigreCaptcha
 @using Microsoft.Extensions.Options
 @inject IOptions<reCaptchaSettings> Google
 @{
@@ -13,71 +13,70 @@
 
     <div class="container boxed">
 
-        <div class="row justify-content-center">
-            <div class="col-md-11">
-                @if (ViewBag.Hata != null)
-                {
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div class="alert alert-danger">
-                                @ViewBag.Hata
-                            </div>
-                        </div>
-                    </div>
-                }
-                <div class="row justify-content-center">
-                    <div class="col-md-6">
-
-                        <h3 class="heading mb-4">Abone Olun!</h3>
-                        <p>Le Monde Diplomatiqe yayınlarından anında haberdar olmak için abone olun!</p>
-
-                        <p><img style="width:70%" alt="subscribe" src="https://uploads.gazetekapi.com/images/subscribeimage.svg" title="subscribeimage" class="img-fluid" /></p>
-
-                    </div>
-                    <div class="col-md-6">
-
-                        <form class="mb-5"
-                              asp-controller="anasayfa"
-                              asp-action="aboneOl"
-                              id="contactForm"
-                              name="contactForm">
-                            <div class="row">
-                                <div class="col-md-12 form-group">
-                                    <input type="text" class="form-control" name="nameSurname" id="name" placeholder="Adınız Soyadınız">
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12 form-group">
-                                    <input type="email" class="form-control" name="emailAdress" id="email" placeholder="Email Adresiniz">
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12 form-group">
-                                    <input type="text" class="form-control" name="phoneNumber" id="subject" placeholder="Telefon No">
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12 form-group">
-                                    <textarea class="form-control" name="description" id="description" cols="30" rows="7" placeholder="Mesajınız ve Görüşleriniz"></textarea>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-12">
-                                    <input type="submit" value="Abone Olun" id="btnsubsc" class="btn btn-primary rounded-0 py-2 px-4">
-                                    <span class="submitting"></span>
-                                </div>
-                            </div>
-                            <input type="hidden" name="ReCaptchaToken" id="hdnGoogleRecaptcha" required><br />
-                        </form>
-                        <div id="form-message-warning mt-4"></div>
-                        <div id="form-message-success">
-                            Mesajınız bize ulaştı! En kısa sürede size dönüş sağlayacağız
-                        </div>
+        @if (ViewBag.Hata != null)
+        {
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="alert alert-danger">
+                        @ViewBag.Hata
                     </div>
                 </div>
+            </div>
+        }
 
+        <div class="row justify-content-center">
+            <div class="col-sm-9">
+                <h3 style="font-size:25px;" class="heading mb-2">Abone Olun!</h3>
+                <p style="margin-bottom:5px;">Le Monde Diplomatiqe yayınlarından anında haberdar olmak için abone olun!</p>
+            </div>
+            <div class="col-md-3">
+                <img alt="subscribe" src="~/assets/images/lemonde-son-footer.png" title="subscribeimage" class="img-fluid" />
             </div>
         </div>
+
+        <div class="row justify-content-center mt-4">
+            <div class="col-md-12">
+
+                <form class="mb-5"
+                      asp-controller="anasayfa"
+                      asp-action="aboneOl"
+                      id="contactForm"
+                      name="contactForm">
+                    <div class="row">
+                        <div class="col-md-12 form-group">
+                            <input type="text" style="border:1px solid;" class="form-control" name="nameSurname" id="name" placeholder="Adınız Soyadınız...">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 form-group">
+                            <input style="border:1px solid;" type="email" class="form-control" name="emailAdress" id="email" placeholder="Email Adresiniz...">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 form-group">
+                            <input style="border:1px solid;" type="text" class="form-control" name="phoneNumber" id="subject" placeholder="Telefon No...">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 form-group">
+                            <textarea style="border:1px solid;" class="form-control" name="description" id="description" cols="30" rows="7" placeholder="Açıklama..."></textarea>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <input type="submit" value="Abone Olun" id="btnsubsc" class="btn btn-primary rounded-0 py-2 px-4">
+                            <span class="submitting"></span>
+                        </div>
+                    </div>
+                    <input type="hidden" name="ReCaptchaToken" id="hdnGoogleRecaptcha" required><br />
+                </form>
+                <div id="form-message-warning mt-4"></div>
+                <div id="form-message-success">
+                    Mesajınız bize ulaştı! En kısa sürede size dönüş sağlayacağız
+                </div>
+            </div>
+        </div>
+
 
     </div>
 </section>
@@ -92,7 +91,7 @@
         grecaptcha.ready(function ()
         {
             grecaptcha.execute('@Google.Value.RecaptchaV3SiteKey', { action: 'aboneol' }).then(function (token) {
-                $("#hdnGoogleRecaptcha").val(token); 
+                $("#hdnGoogleRecaptcha").val(token);
             });
         });
     </script>

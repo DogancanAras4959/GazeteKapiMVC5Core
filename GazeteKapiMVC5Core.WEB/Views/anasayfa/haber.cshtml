@@ -2,12 +2,7 @@
 @using GazeteKapiMVC5Core.WEB.ViewModels.TagsNews
 @using GazeteKapiMVC5Core.WEB.ViewModels.Categories
 @using GazeteKapiMVC5Core.WEB.ViewModels.Guests
-@using GazeteKapiMVC5Core.WEB.Models.MetaConfig
-@using Microsoft.AspNetCore.Http.Extensions;
 @using GazeteKapiMVC5Core.WEB.ViewModels.Banner;
-
-@using System.Web;
-@using System.Globalization;
 
 @{
     ViewData["Title"] = "haber";
@@ -22,6 +17,13 @@
     string name = "";
     int count = 0;
 
+    <style>
+        iframe {
+            width: 660px;
+            height: 370px;
+        }
+    </style>
+
 }
 
 <link href="~/assets/css/loading.css" rel="stylesheet" />
@@ -34,6 +36,7 @@
         <div class="row">
 
             <div class="col-md-8" id="newLoadSection">
+
                 <div class="wrap__article-detail">
                     <div class="wrap__article-detail-title" style="overflow-wrap: anywhere;">
                         <h1>
@@ -69,137 +72,224 @@
                     </div>
 
                     <div class="wrap__article-detail-image">
-                        @if (Model.GuestId > 0 && Model.guest.GuestName != "Yazar Yok")
-                        {
-
-                        }
-                        else
-                        {
-                            <div class="img-cat">
-                                @foreach (var category in categories)
-                                {
-                                    if (category.Id == Model.CategoryId)
-                                    {
-                                        name = category.CategoryName;
-                                        break;
-                                    }
-                                }
-                                <a asp-action="kategori" asp-controller="anasayfa" asp-route-id="@Model.CategoryId">
-                                    <span class="text-rect">@name.Substring(0, 1).ToUpper()</span>
-                                </a>
-                            </div>
-                        }
-                        <figure>
-                            @if (Model.VideoUploaded != null)
-                            {
-                                <video controls class="video-full-width">
-                                    <source src="https://uploadslemonde.ikifikir.net/videos/@Model.VideoUploaded" type="video/mp4">
-                                </video>
-                            }
-                            else
-                            {
-                                @if (Model.GuestId > 0 && Model.guest.GuestName != "Yazar Yok")
-                                {
-
-                                }
-                                else
-                                {
-                                    <img src="https://uploadslemonde.ikifikir.net/images/@Model.Image" title="@Model.Image" alt="@Model.Image" class="img-fluid" />
-                                }
-                            }
-
-                        </figure>
-                    </div>
-                </div>
-
-                <div class="wrap__article-detail-content">
-
-                    <div class="share-post">
-                        <div class="a2a_kit a2a_kit_size_32 a2a_default_style">
-                            <a class="a2a_button_facebook a2a_counter"></a>
-                            <a class="a2a_button_twitter"></a>
-                            <a class="a2a_button_telegram"></a>
-                            <a class="a2a_button_whatsapp"></a>
-                            <a class="a2a_button_email"></a>
-                            <a class="a2a_button_google_plus"></a>
-                            <div class="fb-like" data-send="false" data-layout="button_count" data-width="100" data-show-faces="false"></div>
-                            <g:plusone size="large" annotation="bubble" width="90"></g:plusone>
-                        </div>
-                        <script type="text/javascript" src="//static.addtoany.com/menu/page.js"></script>
-
-                    </div>
-
-                    @if (guest.Id != 0 && guest.GuestName != "Yazar Yok")
+                    @if (Model.GuestId > 0 && Model.guest.GuestName != "Yazar Yok")
                     {
-                        <div class="guest-content">
-                            <span class="fa fa-user"></span> <a href="@Url.Action("yazaryazilari","anasayfa", new { Id = guest.Id })">@guest.GuestName</a>
-                        </div>
+
                     }
                     else
                     {
-
-                    }
-
-                    @if (Model.VideoSlug != null)
-                    {
-                        <div class="ratio ratio-16x9 frame" style="margin-top:15px;">
-                            <iframe src="@Model.VideoSlug" class="video" frameborder="0"
-                                    allowfullscreen></iframe>
+                        <div class="img-cat">
+                            @foreach (var category in categories)
+                            {
+                                if (category.Id == Model.CategoryId)
+                                {
+                                    name = category.CategoryName;
+                                    break;
+                                }
+                            }
+                            <a asp-action="kategori" asp-controller="anasayfa" asp-route-id="@Model.CategoryId">
+                                <span class="text-rect">@name.Substring(0, 1).ToUpper()</span>
+                            </a>
                         </div>
                     }
-                    <p @*id="contentnews"*@>
-                        @Html.Raw(Model.NewsContent)
-                    </p>
-
-                    <!-- Blockquote  -->
-                </div>
-
-                <div class="blog-tags">
-                    <ul class="list-inline">
-                        <li class="list-inline-item">
-                            <i class="fa fa-tags">
-                            </i>
-                        </li>
-                        @foreach (var item in tagList)
+                    <figure>
+                        @if (Model.VideoUploaded != null)
                         {
-                            <li class="list-inline-item">
-                                <a href="@Url.Action("aramasonucu", "anasayfa", new { TagId = item.TagId })" class="tag-link">
-                                    @item.tag.TagName
-                                </a>
-                            </li>
+                            @Html.Raw(Model.VideoUploaded)
                         }
-                    </ul>
+                        else
+                        {
+                            @if (Model.GuestId > 0 && Model.guest.GuestName != "Yazar Yok")
+                            {
+
+                            }
+                            else
+                            {
+                                <img src="https://uploadslemonde.ikifikir.net/images/@Model.Image" title="@Model.Image" alt="@Model.Image" class="img-fluid" />
+                            }
+                        }
+
+                    </figure>
+                </div>
+            </div>
+
+            <div class="wrap__article-detail-content">
+
+                <div class="share-post">
+                    <div class="a2a_kit a2a_kit_size_32 a2a_default_style">
+                        <a class="a2a_button_facebook a2a_counter"></a>
+                        <a class="a2a_button_twitter"></a>
+                        <a class="a2a_button_telegram"></a>
+                        <a class="a2a_button_whatsapp"></a>
+                        <a class="a2a_button_email"></a>
+                        <a class="a2a_button_google_plus"></a>
+                        <div class="fb-like" data-send="false" data-layout="button_count" data-width="100" data-show-faces="false"></div>
+                        <g:plusone size="large" annotation="bubble" width="90"></g:plusone>
+                    </div>
+                    <script type="text/javascript" src="//static.addtoany.com/menu/page.js"></script>
+
                 </div>
 
-                <div class="related-article">
-                    <div class="article__entry-carousel-three">
-                        @foreach (var item in newListAll.Where(x => x.ParentNewsId == Model.Id && x.IsActive == true && x.GuestId == 8))
+                @if (guest.Id != 0 && guest.GuestName != "Yazar Yok")
+                {
+                    <div class="guest-content">
+                        <span class="fa fa-user"></span> <a href="@Url.Action("yazaryazilari","anasayfa", new { Id = guest.Id })">@guest.GuestName</a>
+                    </div>
+                }
+                else
+                {
+
+                }
+
+                <p @*id="contentnews"*@>
+                    @Html.Raw(Model.NewsContent)
+                </p>
+
+                @if (Model.VideoSlug != null)
+                {
+                    @Html.Raw(Model.VideoSlug)
+                }
+
+                <!-- Blockquote  -->
+            </div>
+
+            <div class="blog-tags">
+                <ul class="list-inline">
+                    <li class="list-inline-item">
+                        <i class="fa fa-tags">
+                        </i>
+                    </li>
+                    @foreach (var item in tagList)
+                    {
+                        <li class="list-inline-item">
+                            <a href="@Url.Action("aramasonucu", "anasayfa", new { TagId = item.TagId })" class="tag-link">
+                                @item.tag.TagName
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </div>
+
+            <div class="related-article" id="related_article">
+                <div class="wrapper__list__article" style="margin-bottom:0;">
+                    <h4 class="border_section mt-4" style="margin-bottom: 0; margin-top: 50px !important;">İlgili Haberler</h4>
+                </div>
+                <div class="article__entry" style="display: flex; flex-direction: row; flex-wrap: nowrap; justify-content: flex-start; width: 100%; align-items: flex-start;">
+                    @foreach (var item in newListAll.Where(x => x.ParentNewsId == Model.Id && x.IsActive == true && x.GuestId == 8).Take(3))
+                    {
+                        if (item.Id != Model.Id)
                         {
-                            if (item.Id != Model.Id)
+                            count++;
+                            <div class="item" style="width: 33.3333333%;">
+                                <!-- Post Article -->
+                                <div class="article__entry">
+                                    <div class="article__image">
+                                        <a href="@Url.Action("haber", "anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
+                                            <img style="height:135px; width:200px; object-fit:cover;" src="https://uploadslemonde.ikifikir.net/images/@item.Image" alt="@item.Image" title="@item.Image" class="img-fluid">
+                                        </a>
+                                    </div>
+                                    <div class="article__content">
+                                        <ul class="list-inline">
+                                            <li class="list-inline-item">
+                                                <span>
+                                                    @item.PublishedTime.Value.ToString("dd/MM/yyyy HH:mm")
+                                                </span>
+                                            </li>
+
+                                        </ul>
+                                        <h5 style="margin-top:10px;">
+                                            @if (item.Title.Length > 50)
+                                            {
+                                                <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
+                                                    @item.Title.Substring(0, 50)<span>...</span>
+                                                </a>
+                                            }
+                                            else
+                                            {
+                                                <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
+                                                    @item.Title
+                                                </a>
+                                            }
+                                        </h5>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            if (count == 3)
                             {
-                                count++;
-                                <div class="item">
-                                    <!-- Post Article -->
-                                    <div class="article__entry">
-                                        <div class="article__image">
-                                            <a href="@Url.Action("haber", "anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
-                                                <img src="https://uploadslemonde.ikifikir.net/images/@item.Image" alt="@item.Image" title="@item.Image" class="img-fluid">
-                                            </a>
-                                        </div>
-                                        <div class="article__content">
+                                count = 0;
+                                break;
+                            }
+
+                        }
+                    }
+                </div>
+            </div>
+
+            <!-- SONSUZ SAYFA -->
+            @*<div class="wrapper__list__article mt-4" id="anyTable">
+                </div>
+                <div class="loadingProgress"><i class="fa fa-spinner fa-spin" style="font-size:18px"></i></div>*@
+        </div>
+
+        <div class="col-md-4">
+
+            <aside class="wrapper__list__article">
+                <!-- Form Subscribe -->
+                <form asp-action="aramasonucu" asp-controller="anasayfa">
+                    <div class="input-group">
+
+                        <input type="search" class="form-control" name="searchnews" placeholder="Arama yapın...">
+                        <div class="input-group-append">
+                            <button class="btn btn-primary"><i class="fa fa-search"></i></button>
+                        </div>
+
+                    </div>
+                </form>
+            </aside>
+
+            <aside class="wrapper__list__article">
+                <h4 class="border_section"> Tüm Haberler </h4>
+                <div class="wrapper__list__article-small">
+
+                    @foreach (var item in newListAll.Where(x => x.IsActive == true && x.Id != Model.Id && x.GuestId == 8).OrderByDescending(x => x.PublishedTime).Take(10))
+                    {
+                        <div class="mb-3">
+                            <!-- Post Article -->
+                            <div class="card__post card__post-list">
+                                <div class="image-sm">
+                                    <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
+                                        <img src="https://uploadslemonde.ikifikir.net/images/@item.Image" class="img-fluid" title="@item.Image" alt="@item.Image">
+                                    </a>
+                                </div>
+
+                                <div class="card__post__body ">
+                                    <div class="card__post__content">
+
+                                        <div class="card__post__author-info mb-1">
                                             <ul class="list-inline">
                                                 <li class="list-inline-item">
-                                                    <span>
+                                                    <a asp-action="kategori" asp-controller="anasayfa" asp-route-id="@Model.CategoryId">
+                                                        <span class="text-rect-hot-news">@item.categories.CategoryName</span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                            <ul class="list-inline" style="margin-top:15px;">
+                                                <li class="list-inline-item">
+                                                    <i class="fa fa-clock-o"></i>
+                                                    <span class="text-dark text-capitalize">
                                                         @item.PublishedTime.Value.ToString("dd/MM/yyyy HH:mm")
                                                     </span>
                                                 </li>
-
                                             </ul>
-                                            <h5 style="margin-top:10px;">
-                                                @if (item.Title.Length > 50)
+                                        </div>
+                                        <div class="card__post__title">
+                                            <h6>
+                                                @if (item.Title.Length > 40)
                                                 {
                                                     <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
-                                                        @item.Title.Substring(0, 50)<span>...</span>
+                                                        @item.Title.Substring(0, 40)<span>...</span>
                                                     </a>
                                                 }
                                                 else
@@ -208,181 +298,93 @@
                                                         @item.Title
                                                     </a>
                                                 }
-                                            </h5>
-
+                                            </h6>
                                         </div>
                                     </div>
                                 </div>
-
-                                if (count == 3)
-                                {
-                                    count = 0;
-                                    break;
-                                }
-
-                            }
-                        }
-                    </div>
-                </div>
-
-                <!-- SONSUZ SAYFA -->
-                @*<div class="wrapper__list__article mt-4" id="anyTable">
-                    </div>
-                    <div class="loadingProgress"><i class="fa fa-spinner fa-spin" style="font-size:18px"></i></div>*@
-            </div>
-
-            <div class="col-md-4">
-
-                <aside class="wrapper__list__article">
-                    <!-- Form Subscribe -->
-                    <form asp-action="aramasonucu" asp-controller="anasayfa">
-                        <div class="input-group">
-
-                            <input type="search" class="form-control" name="searchnews" placeholder="Arama yapın...">
-                            <div class="input-group-append">
-                                <button class="btn btn-primary"><i class="fa fa-search"></i></button>
                             </div>
-
                         </div>
-                    </form>
-                </aside>
+                    }
 
-                <aside class="wrapper__list__article">
-                    <h4 class="border_section"> Tüm Haberler </h4>
-                    <div class="wrapper__list__article-small">
+                </div>
+            </aside>
 
-                        @foreach (var item in newListAll.Where(x => x.IsActive == true && x.Id != Model.Id && x.GuestId == 8).OrderByDescending(x => x.PublishedTime).Take(10))
-                        {
-                            <div class="mb-3">
-                                <!-- Post Article -->
-                                <div class="card__post card__post-list">
-                                    <div class="image-sm">
-                                        <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
-                                            <img src="https://uploadslemonde.ikifikir.net/images/@item.Image" class="img-fluid" title="@item.Image" alt="@item.Image">
-                                        </a>
-                                    </div>
+            <aside class="wrapper__list__article">
+                <h4 class="border_section"> </h4>
+                <div class="wrapper__list__article-small">
 
-                                    <div class="card__post__body ">
-                                        <div class="card__post__content">
+                    <a href="@bannerSagAlt.Link">
+                        <figure>
+                            <img src="https://uploadslemonde.ikifikir.net/images/@bannerSagAlt.BannerImage" alt="@bannerSagAlt.BannerName" title="@bannerSagAlt.BannerName" loading="lazy" class="img-fluid" />
+                        </figure>
+                    </a>
 
-                                            <div class="card__post__author-info mb-1">
-                                                <ul class="list-inline">
-                                                    <li class="list-inline-item">
-                                                        <a asp-action="kategori" asp-controller="anasayfa" asp-route-id="@Model.CategoryId">
-                                                            <span class="text-rect-hot-news">@item.categories.CategoryName</span>
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                                <ul class="list-inline" style="margin-top:15px;">
-                                                    <li class="list-inline-item">
-                                                        <i class="fa fa-clock-o"></i>
-                                                        <span class="text-dark text-capitalize">
-                                                            @item.PublishedTime.Value.ToString("dd/MM/yyyy HH:mm")
-                                                        </span>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                            <div class="card__post__title">
-                                                <h6>
-                                                    @if (item.Title.Length > 40)
-                                                    {
-                                                        <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
-                                                            @item.Title.Substring(0, 40)<span>...</span>
-                                                        </a>
-                                                    }
-                                                    else
-                                                    {
-                                                        <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
-                                                            @item.Title
-                                                        </a>
-                                                    }
-                                                </h6>
-                                            </div>
+                </div>
+            </aside>
+
+            <aside class="wrapper__list__article">
+                <h4 class="border_section"> Öne Çıkan Haberler </h4>
+                <div class="wrapper__list__article-small">
+
+                    @foreach (var item in newListAll.Where(x => x.IsActive == true && x.Id != Model.Id && x.GuestId == 8).OrderByDescending(x => x.Views).Take(5))
+                    {
+                        <div class="mb-3">
+                            <!-- Post Article -->
+                            <div class="card__post card__post-list">
+                                <div class="image-sm">
+                                    <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
+                                        <img src="https://uploadslemonde.ikifikir.net/images/@item.Image" title="@item.Image" class="img-fluid" alt="@item.Image" />
+                                    </a>
+                                </div>
+
+
+                                <div class="card__post__body ">
+                                    <div class="card__post__content">
+
+                                        <div class="card__post__author-info mb-1">
+                                            <ul class="list-inline">
+                                                <li class="list-inline-item">
+                                                    <a asp-action="kategori" asp-controller="anasayfa" asp-route-id="@Model.CategoryId">
+                                                        <span class="text-rect-hot-news">@item.categories.CategoryName</span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                            <ul class="list-inline" style="margin-top:15px;">
+                                                <li class="list-inline-item">
+                                                    <i class="fa fa-clock-o"></i>
+                                                    <span class="text-dark text-capitalize">
+                                                        @item.PublishedTime.Value.ToString("dd/MM/yyyy HH:mm")
+                                                    </span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="card__post__title">
+                                            <h6>
+                                                @if (item.Title.Length > 40)
+                                                {
+                                                    <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
+                                                        @item.Title.Substring(0, 40)<span>...</span>
+                                                    </a>
+                                                }
+                                                else
+                                                {
+                                                    <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
+                                                        @item.Title
+                                                    </a>
+                                                }
+                                            </h6>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        }
+                        </div>
+                    }
 
-                    </div>
-                </aside>
+                </div>
+            </aside>
 
-                <aside class="wrapper__list__article">
-                    <h4 class="border_section"> </h4>
-                    <div class="wrapper__list__article-small">
-
-                        <a href="@bannerSagAlt.Link">
-                            <figure>
-                                <img src="https://uploadslemonde.ikifikir.net/images/@bannerSagAlt.BannerImage" alt="@bannerSagAlt.BannerName" title="@bannerSagAlt.BannerName" loading="lazy" class="img-fluid" />
-                            </figure>
-                        </a>
-
-                    </div>
-                </aside>
-
-                <aside class="wrapper__list__article">
-                    <h4 class="border_section"> Öne Çıkan Haberler </h4>
-                    <div class="wrapper__list__article-small">
-
-                        @foreach (var item in newListAll.Where(x => x.IsActive == true && x.Id != Model.Id && x.GuestId == 8).OrderByDescending(x => x.Views).Take(5))
-                        {
-                            <div class="mb-3">
-                                <!-- Post Article -->
-                                <div class="card__post card__post-list">
-                                    <div class="image-sm">
-                                        <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
-                                            <img src="https://uploadslemonde.ikifikir.net/images/@item.Image" title="@item.Image" class="img-fluid" alt="@item.Image" />
-                                        </a>
-                                    </div>
-
-
-                                    <div class="card__post__body ">
-                                        <div class="card__post__content">
-
-                                            <div class="card__post__author-info mb-1">
-                                                <ul class="list-inline">
-                                                    <li class="list-inline-item">
-                                                        <a asp-action="kategori" asp-controller="anasayfa" asp-route-id="@Model.CategoryId">
-                                                            <span class="text-rect-hot-news">@item.categories.CategoryName</span>
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                                <ul class="list-inline" style="margin-top:15px;">
-                                                    <li class="list-inline-item">
-                                                        <i class="fa fa-clock-o"></i>
-                                                        <span class="text-dark text-capitalize">
-                                                            @item.PublishedTime.Value.ToString("dd/MM/yyyy HH:mm")
-                                                        </span>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                            <div class="card__post__title">
-                                                <h6>
-                                                    @if (item.Title.Length > 40)
-                                                    {
-                                                        <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
-                                                            @item.Title.Substring(0, 40)<span>...</span>
-                                                        </a>
-                                                    }
-                                                    else
-                                                    {
-                                                        <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
-                                                            @item.Title
-                                                        </a>
-                                                    }
-                                                </h6>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        }
-
-                    </div>
-                </aside>
-
-            </div>
         </div>
+    </div>
     </div>
 </section>
 
@@ -392,22 +394,22 @@
 
 @*@section scripts{*@
 
-<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>-->
-@*<script src="https://responsivevoice.org/responsivevoice/responsivevoice.js"></script>*@
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    @*<script src="https://responsivevoice.org/responsivevoice/responsivevoice.js"></script>
 
-<!--<script>
-    $(document).ready(function () {
+    <script>
+        $(document).ready(function () {
 
-        $("audio").on("play", function () {
-            $("audio").not(this).each(function (index, audio) {
-                audio.pause();
+            $("audio").on("play", function () {
+                $("audio").not(this).each(function (index, audio) {
+                    audio.pause();
+                });
+
             });
-
         });
-    });
-</script>
+    </script>*@
 
-<script>
-    var infinityScroll = new InfinitiySroll("anyTable", "/anasayfa/_loadNews", { sortOrder: "ascending", searchString: "3" });
-</script>-->
+    @*<script>
+            var infinityScroll = new InfinitiySroll("anyTable", "/anasayfa/_loadNews", { sortOrder: "ascending", searchString: "3" });
+        </script>*@
 @*}*@

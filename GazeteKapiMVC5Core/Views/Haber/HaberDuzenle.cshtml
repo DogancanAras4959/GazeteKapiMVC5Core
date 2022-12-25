@@ -115,7 +115,6 @@
     }
 </style>
 
-
 <link href="~/assets/css/pageline.css" rel="stylesheet" />
 <link href="~/assets/css/bootstrap.min.css" rel="stylesheet" />
 <link href="~/assets/libs/select2/css/select2.min.css" rel="stylesheet" type="text/css">
@@ -194,14 +193,18 @@
                     </div>
                     <div class="mb-3 display-position-parent">
                         <div class="col-sm-4 display-position-child">
-                            <label for="example-text-input" class="col-form-label">Haber içeriği için görsel seçin</label>
+                            <label for="example-text-input" class="col-form-label">Haber içeriği için görsel seçin</label> 
                             <input type="file" class="filestyle" id="fileUploadForContent" data-input="false" name="fileUploadForContent" data-buttonname="btn-secondary">
                         </div>
                         <div class="col-sm-8">
-                            <button type="button" class="btn btn-info rounded-0" style="float:right;" id="#UploadImage">
+                            <button type="button" class="btn btn-info rounded-0" style="float:right;" id="UploadImage">
                                 <i class="fa fa-plus-circle"></i> Fotoğraf Seç
                             </button>
                         </div>
+                    </div>
+                    <div class="mb-3" id="image_container">
+                        <p id="image_copy"></p>
+                        <button onclick="copyLink();"><i class="fa fa-copy"></i></button>
                     </div>
                     <div class="mb-3">
                         <label for="example-text-input" class="col-sm-12 col-form-label">Haber İçerik</label>
@@ -216,38 +219,42 @@
                    placeholder="Haber için video giriniz">
 
         </div>*@
-                    @if (Model.VideoUploaded != null)
-                    {
-                        <div class="mb-3">
-                            <label for="example-text-input" class="col-sm-12 col-form-label">Video Yükleyin (.mp4 formatında yükleyiniz)</label>
-                            <button type="button" class="btn btn-info rounded-0" data-bs-toggle="modal" data-bs-target="#UploadVideo">
-                                <i class="fa fa-plus-circle"></i> Videoyu Değiştir
-                            </button>
-                            <a href="@Url.Action("deleteVideoFromNews","Haber", new { Id = Model.Id })" class="btn btn-danger rounded-0"><i class="fa fa-trash"></i> Videoyu Sil</a>
-                        </div>
-                    }
-                    else
-                    {
-                        <div class="mb-3">
-                            <label for="example-text-input" class="col-sm-12 col-form-label">Video Yükleyin (.mp4 formatında yükleyiniz)</label>
-                            <button type="button" class="btn btn-info rounded-0" data-bs-toggle="modal" data-bs-target="#UploadVideo">
-                                <i class="fa fa-plus-circle"></i> Yeni Video
-                            </button>
-                        </div>
-                    }
+                    @*@if (Model.VideoUploaded != null)
+        {
+            <div class="mb-3">
+                <label for="example-text-input" class="col-sm-12 col-form-label">Video Yükleyin (.mp4 formatında yükleyiniz)</label>
+                <button type="button" class="btn btn-info rounded-0" data-bs-toggle="modal" data-bs-target="#UploadVideo">
+                    <i class="fa fa-plus-circle"></i> Videoyu Değiştir
+                </button>
+                <a href="@Url.Action("deleteVideoFromNews","Haber", new { Id = Model.Id })" class="btn btn-danger rounded-0"><i class="fa fa-trash"></i> Videoyu Sil</a>
+            </div>
+        }
+        else
+        {
+            <div class="mb-3">
+                <label for="example-text-input" class="col-sm-12 col-form-label">Video Yükleyin (.mp4 formatında yükleyiniz)</label>
+                <button type="button" class="btn btn-info rounded-0" data-bs-toggle="modal" data-bs-target="#UploadVideo">
+                    <i class="fa fa-plus-circle"></i> Yeni Video
+                </button>
+            </div>
+        }*@
 
 
-                    @if (Model.VideoUploaded != null)
-                    {
-                        <div class="mb-3">
-                            <video width="520" height="340" controls>
-                                <source src="https://uploadslemonde.ikifikir.net/videos/@Model.VideoUploaded" type="video/mp4">
-                            </video>
-                        </div>
-                    }
-
+                    @*@if (Model.VideoUploaded != null)
+        {
+            <div class="mb-3">
+                <video width="520" height="340" controls>
+                    <source src="https://uploadslemonde.ikifikir.net/videos/@Model.VideoUploaded" type="video/mp4">
+                </video>
+            </div>
+        }*@
                     <div class="mb-3">
-                        <label for="example-text-input" class="col-sm-12 col-form-label">Video Gömme Kodu</label>
+                        <label for="example-text-input" class="col-sm-12 col-form-label">Video Haber Kapak IFrame Kodu</label>
+                        <textarea asp-for="VideoUploaded" autocomplete="off" rows="4" cols="50" data-toggle="tooltip" data-placement="bottom" class="form-control" type="text" placeholder="Video Haber kapağı için iframe kodu giriniz" id="example-text-input"></textarea>
+                        <span asp-validation-for="VideoUploaded" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label for="example-text-input" class="col-sm-12 col-form-label">Haber Detay Video IFrame Kodu</label>
                         <textarea asp-for="VideoSlug" autocomplete="off" rows="4" cols="50" data-toggle="tooltip" data-placement="bottom" class="form-control" type="text" placeholder="Video için iframe kodu giriniz" id="example-text-input"></textarea>
                         <span asp-validation-for="VideoSlug" class="text-danger"></span>
                     </div>
@@ -743,13 +750,13 @@
     </script>*@
 
 <script>
-    $("#btnUpload").on("click", function ()
+    $("#UploadImage").on("click", function ()
     {
         var newsId = @Model.Id;
-        var myfile = document.getElementById("fileupload");
+        var myfile = document.getElementById("fileUploadForContent");
         var formdata = new FormData();
 
-        var buttonUpload = document.getElementById("btnUpload");
+        var buttonUpload = document.getElementById("UploadImage");
         buttonUpload.innerText = "Yükleniyor, bekleyiniz...";
         buttonUpload.innerHTML = "Yükleniyor, bekleyiniz...";
 
@@ -757,10 +764,8 @@
            formdata.append("file", myfile.files[0]);
         }
 
-        formdata.append("haberId", newsId);
-
         $.ajax({
-            url: "/Haber/uploadVideoForNews",
+            url: "/Haber/uploadImageForNews",
             type: "POST",
             dataType: "json",
             data: formdata,
@@ -769,14 +774,12 @@
             processData: false,
             success: function (data) {
                 if (data != false) {
-                    alert("Video yüklendi")
-                    window.location.href = "/Haber/HaberDuzenle?Id=" + newsId;
+                    alert("Fotoğraf yüklendi")
                 }
             },
             error: function (data) {
                 if (data == false) {
-                    alert("Video yüklenemedi!");
-                    window.location.href = "/Haber/HaberDuzenle?Id=" + newsId;
+                    alert("Fotoğraf yüklenemedi!");
                 }
             }
         })

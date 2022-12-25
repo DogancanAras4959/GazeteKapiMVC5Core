@@ -22,6 +22,7 @@ using GazeteKapiMVC5Core.WEB.ViewModels.NewsIp;
 using GazeteKapiMVC5Core.WEB.ViewModels.Policy;
 using GazeteKapiMVC5Core.WEB.ViewModels.TagsNews;
 using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using SERVICE.Engine.Interfaces;
@@ -32,6 +33,8 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.ServiceModel.Syndication;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -116,7 +119,6 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
 
             return View();
         }
-
         private void LoadBannerData()
         {
             var bannerOrta = _mapper.Map<BannerDto, BannerEditViewModelWeb>(_bannerService.getBanner(4));
@@ -124,46 +126,6 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
 
             ViewBag.BannerOrta = bannerOrta;
             ViewBag.BannerAlt = bannerAlt;
-        }
-
-        [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
-        public IActionResult testreklam()
-        {
-            #region Data
-
-            var haberlist = _mapper.Map<List<NewsListItemDto>, List<NewListViewModelWeb>>(_newService.newsListWithWeb());
-
-            List<GuestListViewModelWeb> guestList = _mapper.Map<List<GuestListItemDto>, List<GuestListViewModelWeb>>(_newService.guestList());
-
-            List<TagNewsListViewModelWeb> tagNewList = _mapper.Map<List<TagNewsListItemDto>, List<TagNewsListViewModelWeb>>(_newService.tagsListWithNewsWeb());
-
-            List<CategoryListViewModelWeb> categoryList = _mapper.Map<List<CategoryListItemDto>, List<CategoryListViewModelWeb>>(_categoryService.GetAllCategory());
-
-            ViewBag.CategoryList = categoryList;
-            ViewBag.TagNews = tagNewList;
-            ViewBag.HaberlerManset = haberlist;
-            ViewBag.GuestList = guestList;
-
-            LoadJsonData();
-
-            #endregion
-
-            #region Meta
-
-            MetaViewModel meta = new MetaViewModel();
-            meta.Title = "Gazetekapı | Le Monde diplomatique Türkiye";
-            meta.Keywords = "Gazetekapı, Lemonde, Yaşam, Kültür, Sanat, Seçim, Ekonomi, Siyaset";
-            meta.Description = "Gazetekapı yeni haberciliğiyle yola çıktı! Gazetekapı ile bilim teknoloji, yaşam, siyaset, ekonomiye dair bütün haberleri sizlerle buluşturacağız!";
-            meta.Image = "https://uploads.gazetekapi.com/images/placeholder/kapi-logo.png";
-            meta.ogDescription = "Gazetekapı yeni haberciliğiyle yola çıktı! Gazetekapı ile bilim teknoloji, yaşam, siyaset, ekonomiye dair bütün haberleri sizlerle buluşturacağız!";
-            meta.ogTitle = "Gazetekapı | Le Monde diplomatique Türkiye";
-            meta.ogImage = "https://uploads.gazetekapi.com/images/placeholder/kapi-logo.png";
-            meta.Url = "https://www.gazetekapi.com/";
-            ViewBag.Meta = meta;
-
-            #endregion
-
-            return View();
         }
         public IActionResult aramasonucu(int? pageNumber, string searchnews, int? TagId)
         {
@@ -174,9 +136,9 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
             List<NewListViewModelWeb> modelNew = new List<NewListViewModelWeb>();
             MetaViewModel meta = new MetaViewModel();
 
-            var haberlistHaber = _mapper.Map<List<NewsListItemDto>, List<NewListViewModelWeb>>(_newService.newsListWithWeb());
+            //var haberlistHaber = _mapper.Map<List<NewsListItemDto>, List<NewListViewModelWeb>>(_newService.newsListWithWeb());
 
-            ViewBag.HaberlerManset = haberlistHaber;
+            //ViewBag.HaberlerManset = haberlistHaber;
 
             if (searchnews != null && searchnews != "")
             {
@@ -312,8 +274,8 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
             List<CategoryListViewModelWeb> categoryList = _mapper.Map<List<CategoryListItemDto>, List<CategoryListViewModelWeb>>(_categoryService.GetAllCategory());
             ViewBag.CategoryList = categoryList;
 
-            var haberlist = _mapper.Map<List<NewsListItemDto>, List<NewListViewModelWeb>>(_newService.newsListWithWeb());
-            ViewBag.HaberlerManset = haberlist;
+            //var haberlist = _mapper.Map<List<NewsListItemDto>, List<NewListViewModelWeb>>(_newService.newsListWithWeb());
+            //ViewBag.HaberlerManset = haberlist;
 
             var category = _mapper.Map<CategoryDto, CategoryEditViewModelWeb>(_categoryService.GetCategoryById(Id));
 
@@ -347,12 +309,12 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
             var guest = _mapper.Map<GuestDto, GuestEditViewModelWeb>(_newService.getGuest(id));
             ViewBag.Guest = guest;
 
-            List<CategoryListViewModelWeb> categoryList = _mapper.Map<List<CategoryListItemDto>, List<CategoryListViewModelWeb>>(_categoryService.GetAllCategory());
-            ViewBag.CategoryList = categoryList;
-            ViewBag.Categories = categoryList;
+            //List<CategoryListViewModelWeb> categoryList = _mapper.Map<List<CategoryListItemDto>, List<CategoryListViewModelWeb>>(_categoryService.GetAllCategory());
+            //ViewBag.CategoryList = categoryList;
+            //ViewBag.Categories = categoryList;
 
             List<NewListViewModelWeb> newList = _mapper.Map<List<NewsListItemDto>, List<NewListViewModelWeb>>(_newService.newsListWithGuest(guest.Id));
-            ViewBag.HaberlerManset = newList;
+            //ViewBag.HaberlerManset = newList;
 
             #region Meta
 
@@ -375,8 +337,8 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
         {
             List<GuestListViewModelWeb> guestList = _mapper.Map<List<GuestListItemDto>, List<GuestListViewModelWeb>>(_newService.guestList());
 
-            List<CategoryListViewModelWeb> categoryList = _mapper.Map<List<CategoryListItemDto>, List<CategoryListViewModelWeb>>(_categoryService.GetAllCategory());
-            ViewBag.CategoryList = categoryList;
+            //List<CategoryListViewModelWeb> categoryList = _mapper.Map<List<CategoryListItemDto>, List<CategoryListViewModelWeb>>(_categoryService.GetAllCategory());
+            //ViewBag.CategoryList = categoryList;
 
             #region Meta
 
@@ -545,11 +507,11 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
         }
         public IActionResult gizlilikpolitikasi()
         {
-            List<CategoryListViewModelWeb> categoryList = _mapper.Map<List<CategoryListItemDto>, List<CategoryListViewModelWeb>>(_categoryService.GetAllCategory());
-            ViewBag.CategoryList = categoryList;
+            //List<CategoryListViewModelWeb> categoryList = _mapper.Map<List<CategoryListItemDto>, List<CategoryListViewModelWeb>>(_categoryService.GetAllCategory());
+            //ViewBag.CategoryList = categoryList;
 
-            var haberlist = _mapper.Map<List<NewsListItemDto>, List<NewListViewModelWeb>>(_newService.newsListWithWeb());
-            ViewBag.HaberlerManset = haberlist;
+            //var haberlist = _mapper.Map<List<NewsListItemDto>, List<NewListViewModelWeb>>(_newService.newsListWithWeb());
+            //ViewBag.HaberlerManset = haberlist;
 
             var getPrivacy = _mapper.Map<PrivacyDto, PrivacyBaseViewModel>(_settingService.getPrivacy(1));
 
@@ -572,11 +534,11 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
         }
         public IActionResult cerezpolitikasi()
         {
-            List<CategoryListViewModelWeb> categoryList = _mapper.Map<List<CategoryListItemDto>, List<CategoryListViewModelWeb>>(_categoryService.GetAllCategory());
-            ViewBag.CategoryList = categoryList;
+            //List<CategoryListViewModelWeb> categoryList = _mapper.Map<List<CategoryListItemDto>, List<CategoryListViewModelWeb>>(_categoryService.GetAllCategory());
+            //ViewBag.CategoryList = categoryList;
 
-            var haberlist = _mapper.Map<List<NewsListItemDto>, List<NewListViewModelWeb>>(_newService.newsListWithWeb());
-            ViewBag.HaberlerManset = haberlist;
+            //var haberlist = _mapper.Map<List<NewsListItemDto>, List<NewListViewModelWeb>>(_newService.newsListWithWeb());
+            //ViewBag.HaberlerManset = haberlist;
 
             var getCookiesPolicy = _mapper.Map<CookiePolicyDto, CookieBaseViewModel>(_settingService.getCookiePrivacy(1));
 
@@ -599,11 +561,11 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
         }
         public IActionResult kullanimsartlari()
         {
-            List<CategoryListViewModelWeb> categoryList = _mapper.Map<List<CategoryListItemDto>, List<CategoryListViewModelWeb>>(_categoryService.GetAllCategory());
-            ViewBag.CategoryList = categoryList;
+            //List<CategoryListViewModelWeb> categoryList = _mapper.Map<List<CategoryListItemDto>, List<CategoryListViewModelWeb>>(_categoryService.GetAllCategory());
+            //ViewBag.CategoryList = categoryList;
 
-            var haberlist = _mapper.Map<List<NewsListItemDto>, List<NewListViewModelWeb>>(_newService.newsListWithWeb());
-            ViewBag.HaberlerManset = haberlist;
+            //var haberlist = _mapper.Map<List<NewsListItemDto>, List<NewListViewModelWeb>>(_newService.newsListWithWeb());
+            //ViewBag.HaberlerManset = haberlist;
 
             var getTermsOfUs = _mapper.Map<TermsOfUsDto, TermsOfUsBaseViewModel>(_settingService.getTermsOfUs(1));
 
@@ -627,11 +589,11 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
         public IActionResult kunye()
         {
 
-            List<CategoryListViewModelWeb> categoryList = _mapper.Map<List<CategoryListItemDto>, List<CategoryListViewModelWeb>>(_categoryService.GetAllCategory());
-            ViewBag.CategoryList = categoryList;
+            //List<CategoryListViewModelWeb> categoryList = _mapper.Map<List<CategoryListItemDto>, List<CategoryListViewModelWeb>>(_categoryService.GetAllCategory());
+            //ViewBag.CategoryList = categoryList;
 
-            var haberlist = _mapper.Map<List<NewsListItemDto>, List<NewListViewModelWeb>>(_newService.newsListWithWeb());
-            ViewBag.HaberlerManset = haberlist;
+            //var haberlist = _mapper.Map<List<NewsListItemDto>, List<NewListViewModelWeb>>(_newService.newsListWithWeb());
+            //ViewBag.HaberlerManset = haberlist;
 
             var getBrand = _mapper.Map<BrandPolicyDto, BrandBaseViewModel>(_settingService.getBrandPrivacy(1));
 
@@ -654,11 +616,11 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
         }
         public IActionResult yayinilkeleri()
         {
-            List<CategoryListViewModelWeb> categoryList = _mapper.Map<List<CategoryListItemDto>, List<CategoryListViewModelWeb>>(_categoryService.GetAllCategory());
-            ViewBag.CategoryList = categoryList;
+            //List<CategoryListViewModelWeb> categoryList = _mapper.Map<List<CategoryListItemDto>, List<CategoryListViewModelWeb>>(_categoryService.GetAllCategory());
+            //ViewBag.CategoryList = categoryList;
 
-            var haberlist = _mapper.Map<List<NewsListItemDto>, List<NewListViewModelWeb>>(_newService.newsListWithWeb());
-            ViewBag.HaberlerManset = haberlist;
+            //var haberlist = _mapper.Map<List<NewsListItemDto>, List<NewListViewModelWeb>>(_newService.newsListWithWeb());
+            //ViewBag.HaberlerManset = haberlist;
 
             var getStreamPolicy = _mapper.Map<StreamPolicyDto, StreamBaseViewModel>(_settingService.getStreamPrivacy(2));
 
@@ -682,11 +644,11 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
         public IActionResult arsiv(int? pageNumber)
         {
 
-            List<CategoryListViewModelWeb> categoryList = _mapper.Map<List<CategoryListItemDto>, List<CategoryListViewModelWeb>>(_categoryService.GetAllCategory());
-            ViewBag.CategoryList = categoryList;
+            //List<CategoryListViewModelWeb> categoryList = _mapper.Map<List<CategoryListItemDto>, List<CategoryListViewModelWeb>>(_categoryService.GetAllCategory());
+            //ViewBag.CategoryList = categoryList;
 
-            var haberlist = _mapper.Map<List<NewsListItemDto>, List<NewListViewModelWeb>>(_newService.newsListWithWeb());
-            ViewBag.HaberlerManset = haberlist;
+            //var haberlist = _mapper.Map<List<NewsListItemDto>, List<NewListViewModelWeb>>(_newService.newsListWithWeb());
+            //ViewBag.HaberlerManset = haberlist;
 
             #region Meta
 
@@ -713,11 +675,11 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
         [Route("/anasayfa/hata/{code:int}")]
         public IActionResult hata(int code)
         {
-            List<CategoryListViewModelWeb> categoryList = _mapper.Map<List<CategoryListItemDto>, List<CategoryListViewModelWeb>>(_categoryService.GetAllCategory());
-            ViewBag.CategoryList = categoryList;
+            //List<CategoryListViewModelWeb> categoryList = _mapper.Map<List<CategoryListItemDto>, List<CategoryListViewModelWeb>>(_categoryService.GetAllCategory());
+            //ViewBag.CategoryList = categoryList;
 
-            var haberlist = _mapper.Map<List<NewsListItemDto>, List<NewListViewModelWeb>>(_newService.newsListWithWeb());
-            ViewBag.HaberlerManset = haberlist;
+            //var haberlist = _mapper.Map<List<NewsListItemDto>, List<NewListViewModelWeb>>(_newService.newsListWithWeb());
+            //ViewBag.HaberlerManset = haberlist;
 
             MetaViewModel meta = new MetaViewModel();
             meta.Title = "Gazetekapı | Le Monde diplomatique Türkiye";
@@ -857,44 +819,58 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
         [HttpPost]
         public IActionResult _loadNews(string sortOrder, string searchString, int firstItem = 0)
         {
-            var newListAll = _mapper.Map<List<NewsListItemDto>, List<NewListViewModelWeb>>(_newService.newsListWithWeb());
-            List<NewListViewModelWeb> model = null;
-            CategoryEditViewModelWeb category = null;
-            Random rnd = new Random();
             bool ok = false;
-            int CategoryNumber = 0;
-
-            while (ok == false)
+         
+            try
             {
+                var newListAll = _mapper.Map<List<NewsListItemDto>, List<NewListViewModelWeb>>(_newService.newsListWebInfinityNews());
+                List<NewListViewModelWeb> model = null;
+                CategoryEditViewModelWeb category = null;
+                Random rnd = new Random();
 
-                if (ok == true)
+                int CategoryNumber = 0;
+
+                while (ok == false)
                 {
-                    break;
-                }
-                else
-                {
-                    //BATCH_SIZE = rnd.Next(1, 5);
-                    CategoryNumber = rnd.Next(1, 30);
 
-                    category = _mapper.Map<CategoryDto, CategoryEditViewModelWeb>(_categoryService.GetCategoryById(CategoryNumber));
-
-                    ViewBag.Category = category.CategoryName;
-
-                    if (category.CategoryName != null && category.Id > 0)
+                    if (ok == true)
                     {
-                        model = newListAll.Where(x => x.CategoryId == CategoryNumber).Skip(firstItem).Take(BATCH_SIZE).ToList();
-                        ok = true;
-                        return PartialView(model);
+                        break;
                     }
-
                     else
                     {
-                        ok = false;
-                        continue;
+                        //BATCH_SIZE = rnd.Next(1, 5);
+                        CategoryNumber = rnd.Next(1, 30);
+
+                        category = _mapper.Map<CategoryDto, CategoryEditViewModelWeb>(_categoryService.GetCategoryById(CategoryNumber));
+
+                        ViewBag.Category = category.CategoryName;
+
+                        if (category.CategoryName != null && category.Id > 0)
+                        {
+                            model = newListAll.Where(x => x.CategoryId == CategoryNumber).Skip(firstItem).Take(BATCH_SIZE).ToList();
+
+                            ok = true;
+                        }
+
+                        else
+                        {
+                            ok = false;
+                            continue;
+                        }
                     }
                 }
+
+                return PartialView(model);
+
             }
-            return PartialView(model);
+
+            catch (Exception ex)
+            {
+                ok = false;
+                return View();
+            }
+         
         }
 
         #endregion
