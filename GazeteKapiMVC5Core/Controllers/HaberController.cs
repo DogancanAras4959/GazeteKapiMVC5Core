@@ -1457,8 +1457,8 @@ namespace GazeteKapiMVC5Core.Controllers
                     };
 
                     int resultId = Convert.ToInt32(await _newService.insertMedia(_mapper.Map<MediaCreateViewModel, MediaDto>(model)));
-
-                    return Json(true);
+                    string url = "https://uploadslemonde.ikifikir.net/images/"+model.Slug;
+                    return Json(url);
 
                 }
                 else

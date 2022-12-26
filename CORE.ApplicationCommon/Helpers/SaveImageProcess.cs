@@ -18,15 +18,15 @@ namespace CORE.ApplicationCommon.Helpers
             switch (_admin)
             {
                 case "Admin":
-                    ftpInfo.Url = "ftp://uploadslemonde.ikifikir.net//uploadslemonde/images";
-                    ftpInfo.UserName = "ikifikir_sjiyalxtvog";
-                    ftpInfo.Password = "Ax491rr?6";
+                    ftpInfo.Url = "ftp://uploads.gazetekapi.com//uploads/images";
+                    ftpInfo.UserName = "gazeteka_nz0qbik9r6h";
+                    ftpInfo.Password = "VRzoAc58!cuikr9";
                     break;
 
                 case "Videos":
-                    ftpInfo.Url = "ftp://uploadslemonde.ikifikir.net//uploadslemonde/videos";
-                    ftpInfo.UserName = "ikifikir_sjiyalxtvog";
-                    ftpInfo.Password = "Ax491rr?6";
+                    ftpInfo.Url = "ftp://uploads.gazetekapi.com//uploads/videos";
+                    ftpInfo.UserName = "gazeteka_nz0qbik9r6h";
+                    ftpInfo.Password = "VRzoAc58!cuikr9";
                     break;
 
                 default:

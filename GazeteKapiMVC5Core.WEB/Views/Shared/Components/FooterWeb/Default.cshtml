@@ -82,7 +82,7 @@
                                         <ul class="list-unstyled option-content">
                                             @foreach (var item in listCategory.Where(x => x.TypeId == 1))
                                             {
-                                                <li> <a href="@Url.Action("kategori","Haber", new { Id = item.Id })">@item.CategoryName</a></li>
+                                                <li> <a href="@Url.Action("kategori","anasayfa", new { Id = item.Id })">@item.CategoryName</a></li>
                                             }
                                             @*<li>
                                                     <a class="color-list" href="#">BİLİM</a>

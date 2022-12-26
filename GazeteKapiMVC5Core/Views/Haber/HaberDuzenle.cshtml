@@ -203,51 +203,16 @@
                         </div>
                     </div>
                     <div class="mb-3" id="image_container">
-                        <p id="image_copy"></p>
-                        <button onclick="copyLink();"><i class="fa fa-copy"></i></button>
+                        <div style="display: flex; flex-direction: row; align-content: space-around; justify-content: space-between; align-items: center; flex-wrap: nowrap; background: #e9e9e9e6; padding: 15px; vertical-align: middle; ">
+                            <p style="margin-bottom: 0;" id="image_copy"></p>
+                            <p style="margin-bottom: 0; font-weight:bold;">Linki Kopyala!</p>
+                        </div>
                     </div>
                     <div class="mb-3">
                         <label for="example-text-input" class="col-sm-12 col-form-label">Haber İçerik</label>
                         <textarea asp-for="NewsContent" rows="3" cols="150" id="ckeditor" class="ckeditor"></textarea>
                         <span asp-validation-for="NewsContent" class="text-danger"></span>
                     </div>
-                    @*<div class="mb-3">
-            <label for="example-text-input" class="col-sm-12 col-form-label">Video</label>
-            <input asp-for="VideoUploaded" autocomplete="off" data-toggle="tooltip"
-                   maxlength="160" id="defaultconfig"
-                   data-placement="bottom" class="form-control" type="text"
-                   placeholder="Haber için video giriniz">
-
-        </div>*@
-                    @*@if (Model.VideoUploaded != null)
-        {
-            <div class="mb-3">
-                <label for="example-text-input" class="col-sm-12 col-form-label">Video Yükleyin (.mp4 formatında yükleyiniz)</label>
-                <button type="button" class="btn btn-info rounded-0" data-bs-toggle="modal" data-bs-target="#UploadVideo">
-                    <i class="fa fa-plus-circle"></i> Videoyu Değiştir
-                </button>
-                <a href="@Url.Action("deleteVideoFromNews","Haber", new { Id = Model.Id })" class="btn btn-danger rounded-0"><i class="fa fa-trash"></i> Videoyu Sil</a>
-            </div>
-        }
-        else
-        {
-            <div class="mb-3">
-                <label for="example-text-input" class="col-sm-12 col-form-label">Video Yükleyin (.mp4 formatında yükleyiniz)</label>
-                <button type="button" class="btn btn-info rounded-0" data-bs-toggle="modal" data-bs-target="#UploadVideo">
-                    <i class="fa fa-plus-circle"></i> Yeni Video
-                </button>
-            </div>
-        }*@
-
-
-                    @*@if (Model.VideoUploaded != null)
-        {
-            <div class="mb-3">
-                <video width="520" height="340" controls>
-                    <source src="https://uploadslemonde.ikifikir.net/videos/@Model.VideoUploaded" type="video/mp4">
-                </video>
-            </div>
-        }*@
                     <div class="mb-3">
                         <label for="example-text-input" class="col-sm-12 col-form-label">Video Haber Kapak IFrame Kodu</label>
                         <textarea asp-for="VideoUploaded" autocomplete="off" rows="4" cols="50" data-toggle="tooltip" data-placement="bottom" class="form-control" type="text" placeholder="Video Haber kapağı için iframe kodu giriniz" id="example-text-input"></textarea>
@@ -662,94 +627,13 @@
     }
 </script>
 
-@*<script>
-
-        class MyUploadAdapter {
-            constructor(loader) {
-                this.loader = loader;
-            }
-
-            upload() {
-                return this.loader.file
-                    .then(file => new Promise((resolve, reject) => {
-                        this._initRequest();
-                        this._initListeners(resolve, reject, file);
-                        this._sendRequest(file);
-                    }));
-            }
-
-            abort() {
-                if (this.xhr) {
-                    this.xhr.abort();
-                }
-            }
-
-            _initRequest() {
-                const xhr = this.xhr = new XMLHttpRequest();
-
-                xhr.open('POST', '@Url.Action("UploadImages","Haber")', true);
-                xhr.responseType = 'json';
-            }
-
-            // Initializes XMLHttpRequest listeners.
-            _initListeners(resolve, reject, file) {
-                const xhr = this.xhr;
-                const loader = this.loader;
-                const genericErrorText = `Couldn't upload file: ${file.name}.`;
-
-                xhr.addEventListener('error', () => reject(genericErrorText));
-                xhr.addEventListener('abort', () => reject());
-                xhr.addEventListener('load', () => {
-                    const response = xhr.response;
-
-                    if (!response || response.error) {
-                        return reject(response && response.error ? response.error.message : genericErrorText);
-                    }
-
-                    resolve({
-                        default: response.url
-                    });
-                });
-
-                if (xhr.upload) {
-                    xhr.upload.addEventListener('progress', evt => {
-                        if (evt.lengthComputable) {
-                            loader.uploadTotal = evt.total;
-                            loader.uploaded = evt.loaded;
-                        }
-                    });
-                }
-            }
-
-            _sendRequest(file) {
-                const data = new FormData();
-
-                data.append('upload', file);
-
-                this.xhr.send(data);
-            }
-        }
-
-        function MyCustomUploadAdapterPlugin(editor) {
-            editor.plugins.get('FileRepository').createUploadAdapter = (loader) => {
-                return new MyUploadAdapter(loader);
-            };
-        }
-
-        ClassicEditor
-            .create(document.querySelector('#editor'), {
-                extraPlugins: [MyCustomUploadAdapterPlugin],
-            }).then(editor => {
-                window.editor = editor;
-            })
-
-            .catch(error => {
-                console.error(error);
-            });
-
-    </script>*@
-
 <script>
+
+    var imageContainer = document.getElementById("image_container");
+    var imageCopy = document.getElementById("image_copy");
+
+    imageContainer.style.display = "none";
+
     $("#UploadImage").on("click", function ()
     {
         var newsId = @Model.Id;
@@ -772,9 +656,15 @@
             contentType: false,
             cache: false,
             processData: false,
-            success: function (data) {
-                if (data != false) {
-                    alert("Fotoğraf yüklendi")
+            success: function (url) {
+                if (url != null) {
+
+                    imageContainer.style.display = "block";
+                    imageCopy.innerHTML = url;
+                    imageCopy.innerText = url;
+
+                    buttonUpload.innerText = "Fotoğraf yüklendi";
+                    buttonUpload.innerHTML = "Fotoğraf yüklendi";
                 }
             },
             error: function (data) {
@@ -786,7 +676,6 @@
     })
 </script>
 
-
 <script>
     $("#slideCheck").on('change', function ()
     {
@@ -795,7 +684,7 @@
         if (_val == 'checked') {
             $.ajax({
                 type: 'GET',
-                url: '/Haber/sirayaEkle?Id=' +@Model.Id,
+                url: '/editor/Haber/sirayaEkle?Id=' +@Model.Id,
                 success: function (response) {
                     alert("Manşete Eklendi!");
                 }
@@ -805,7 +694,7 @@
         else if (_val == 'unchecked') {
             $.ajax({
                 type: 'GET',
-                url: '/Haber/siradanCikar?Id=' +@Model.Id,
+                url: '/editor/Haber/siradanCikar?Id=' +@Model.Id,
                 success: function (response) {
                      alert("Manşetten Çıktı!");
                 }

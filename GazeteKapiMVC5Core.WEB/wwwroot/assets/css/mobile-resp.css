@@ -5,6 +5,9 @@
         max-height: 125px;
         padding-right: 5px;
     }
+    .image-magazine-leMonde {
+        padding: 32px 13px !important;
+    }
     .image-banner-magazine {
         top: 20px !important;
         width: 80px !important;
@@ -15,10 +18,10 @@
         padding-top: 5px !important;
     }
     .magazine-desc{
-        font-size:12px !important;
+        font-size:9px !important;
     }
     .magazine-title{
-        font-size:12px !important;
+        font-size:10px !important;
     }
     .image-container{
         height:90px !important;
@@ -409,6 +412,10 @@
     }
     .card-title-mobile{
          overflow-wrap:normal !important;
+    }
+
+    .image-banner-pd{
+        padding:15px !important;
     }
 
 }

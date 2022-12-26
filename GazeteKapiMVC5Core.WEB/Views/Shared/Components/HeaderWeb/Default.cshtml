@@ -17,7 +17,6 @@
     BannerEditViewModelWeb bannerUst = ViewBag.BannerUst as BannerEditViewModelWeb;
 }
 
-
 <link href="~/assets/css/pagelineweb.css" rel="stylesheet" />
 @*<link href="~/assets/css/hamburger.css" rel="stylesheet" />*@
 <link href="~/assets/css/bannerImage.css" rel="stylesheet" />
@@ -272,12 +271,12 @@
         <div class="row" style="width:100%; margin:0;">
             <div class="col-sm-6">
                 <a href="@bannerUst.Link">
-                    <img class="banner-cs-img" style="float:left;" title="@bannerSol.BannerName" alt="@bannerSol.BannerName" loading="lazy" src="https://uploadslemonde.ikifikir.net/images/@bannerSol.BannerImage" />
+                    <img class="banner-cs-img" style="float:left;" title="@bannerSol.BannerName" alt="@bannerSol.BannerName" loading="lazy" src="https://uploads.gazetekapi.com/images/@bannerSol.BannerImage" />
                 </a>
             </div>
             <div class="col-sm-6">
                 <a href="@bannerUst.Link">
-                    <img class="banner-cs-img" style="float:right;" title="@bannerSag.BannerName" alt="@bannerSag.BannerName" loading="lazy" src="https://uploadslemonde.ikifikir.net/images/@bannerSag.BannerImage" />
+                    <img class="banner-cs-img" style="float:right;" title="@bannerSag.BannerName" alt="@bannerSag.BannerName" loading="lazy" src="https://uploads.gazetekapi.com/images/@bannerSag.BannerImage" />
                 </a>
             </div>
         </div>
@@ -288,8 +287,8 @@
             <div class="col-8 col-sm-8" style="padding-right: 0; padding-left: 0;">
                 @foreach (var item in banner)
                 {
-                <a href="@item.Link" class="image-container" style="text-decoration:none; cursor:pointer;">
-                    <img alt="banner-dergi" class="magazine image-banner-magazine" title="banner-dergi" loading="lazy" src="https://uploadslemonde.ikifikir.net/images/@item.BannerImage" />
+                <a href="@item.Link" class="image-container image-banner-pd" style="text-decoration:none; cursor:pointer;">
+                    <img alt="banner-dergi" class="magazine image-banner-magazine" title="banner-dergi" loading="lazy" src="https://uploads.gazetekapi.com/images/@item.BannerImage" />
                     <div class="image-parent-container" style="width: 60%; padding-left: 40px; padding-top: 15px; ">
                         <h5 class="magazine-title" style="font-weight:bold; color:#fff;">Le Monde diplomatique Türkçe</h5>
                         <h5 class="magazine-desc" style="color:#fff; font-weight:300;">Dijital Abonelik gerçekleştirerek düzenli okumak için burayı <span style="text-decoration:underline; color:#fff;">tıklayın..</span></h5>
@@ -303,7 +302,7 @@
             <div class="col-4 col-sm-4" style="padding-right: 0;">
                 <div class="wrap-magazine">
                     <a href="@Url.Action("aboneol","anasayfa")" style="cursor:pointer;">
-                        <img src="~/assets/images/lemonde-son-footer.png" style="padding: 53px 35px;" />
+                        <img class="image-magazine-leMonde" src="~/assets/images/lemonde-son-footer.png" style="padding: 53px 35px;" />
                     </a>
                 </div>
             </div>
@@ -313,7 +312,7 @@
         <div class="row">
             <div class="col-sm-12">
                 <a href="@bannerUst.Link">
-                    <img style="width:100%" title="@bannerUst.BannerName" alt="@bannerUst.BannerName" loading="lazy" src="https://uploadslemonde.ikifikir.net/images/@bannerUst.BannerImage" />
+                    <img style="width:100%" title="@bannerUst.BannerName" alt="@bannerUst.BannerName" loading="lazy" src="https://uploads.gazetekapi.com/images/@bannerUst.BannerImage" />
                 </a>
             </div>
         </div>
