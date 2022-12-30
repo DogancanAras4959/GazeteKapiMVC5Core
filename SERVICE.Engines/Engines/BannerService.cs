@@ -64,7 +64,7 @@ namespace SERVICE.Engine.Engines
             {
                 BannerImage = model.BannerImage,
                 CreatedTime = DateTime.Now,
-                IsActive = false,
+                IsActive = true,
                 Link = model.Link,
                 UpdatedTime = DateTime.Now,
                 BannerFrame = model.BannerFrame,

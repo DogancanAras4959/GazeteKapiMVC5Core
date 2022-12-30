@@ -81,9 +81,21 @@
     <div class="container boxed">
         <div class="row">
             <div class="col-sm-12">
-                <a href="@bannerOrta.Link">
-                    <img src="https://uploads.gazetekapi.com/images/@bannerOrta.BannerImage" title="@bannerOrta.BannerName" alt="@bannerOrta.BannerName" loading="lazy" />
-                </a>
+
+                @if (bannerOrta.IsActive == true)
+                {
+                    @if (bannerOrta.BannerFrame != null)
+                    {
+                        @Html.Raw(bannerOrta.BannerFrame)
+                    }
+                    else
+                    {
+                        <a href="@bannerOrta.Link">
+                            <img src="https://uploads.gazetekapi.com/images/@bannerOrta.BannerImage" title="@bannerOrta.BannerName" alt="@bannerOrta.BannerName" loading="lazy" />
+                        </a>
+                    }
+                }
+
             </div>
         </div>
     </div>
@@ -250,7 +262,7 @@
                 <div class="row">
                     <div class="col-md-12" style="background-color:#515d5e; padding:20px;">
                         <div class="rect-content-box-title">
-                            <span class="rect-title">@item.CategoryName.Substring(0,1)</span>
+                            <span class="rect-title">@item.CategoryName.Substring(0, 1)</span>
                         </div>
                         <h1 class="content-new-title" style="font-size:24px;">@item.CategoryName</h1>
 
@@ -293,7 +305,7 @@
                                     break;
                                 }
                             }
-                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -306,9 +318,21 @@
         <div class="container boxed">
             <div class="row">
                 <div class="col-sm-12">
-                    <a href="@bannerAlt.Link">
-                        <img src="https://uploads.gazetekapi.com/images/@bannerAlt.BannerImage" title="@bannerAlt.BannerName" alt="@bannerAlt.BannerName" loading="lazy" />
-                    </a>
+
+                    @if (bannerAlt.IsActive == true)
+                    {
+                        @if (bannerAlt.BannerFrame != null)
+                        {
+                           @Html.Raw(bannerAlt.BannerFrame)
+                        }
+                        else
+                        {
+                            <a href="@bannerAlt.Link">
+                                <img src="https://uploads.gazetekapi.com/images/@bannerAlt.BannerImage" title="@bannerAlt.BannerName" alt="@bannerAlt.BannerName" loading="lazy" />
+                            </a>
+                        }
+                    }
+
                 </div>
             </div>
         </div>

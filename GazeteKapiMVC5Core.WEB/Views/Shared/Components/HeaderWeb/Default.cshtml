@@ -148,7 +148,7 @@
                         <div class="col-sm-12">
                             <ul class="navbar-nav ml-auto">
 
-                                @foreach (var item in categories.Where(x=> x.isMenu == true))
+                                @foreach (var item in categories.Where(x => x.isMenu == true))
                                 {
                                     <li class="nav-item">
                                         <a asp-action="kategori" style="font-size:16px;" asp-controller="anasayfa" asp-route-id="@item.Id" class="menu-link"> @item.CategoryName.ToUpper() </a> <div class="menu-rect"></div>
@@ -270,14 +270,36 @@
     <div class="banner-cs" id="bnr" style="max-width:1367px;">
         <div class="row" style="width:100%; margin:0;">
             <div class="col-sm-6">
-                <a href="@bannerUst.Link">
-                    <img class="banner-cs-img" style="float:left;" title="@bannerSol.BannerName" alt="@bannerSol.BannerName" loading="lazy" src="https://uploads.gazetekapi.com/images/@bannerSol.BannerImage" />
-                </a>
+                @if (bannerSol.IsActive == true)
+                {
+                    @if (bannerSol.BannerFrame != null)
+                    {
+                        @Html.Raw(bannerSol.BannerFrame)
+                    }
+                    else
+                    {
+                        <a href="@bannerSol.Link">
+                            <img class="banner-cs-img" style="float:left;" title="@bannerSol.BannerName" alt="@bannerSol.BannerName" loading="lazy" src="https://uploads.gazetekapi.com/images/@bannerSol.BannerImage" />
+                        </a>
+                    }
+                }
             </div>
             <div class="col-sm-6">
-                <a href="@bannerUst.Link">
-                    <img class="banner-cs-img" style="float:right;" title="@bannerSag.BannerName" alt="@bannerSag.BannerName" loading="lazy" src="https://uploads.gazetekapi.com/images/@bannerSag.BannerImage" />
-                </a>
+                @if (bannerSag.IsActive == true)
+                {
+                    @if (bannerSag.BannerFrame != null)
+                    {
+                        @Html.Raw(bannerSag.BannerFrame)
+                    }
+
+                    else
+                    {
+                        <a href="@bannerSag.Link">
+                            <img class="banner-cs-img" style="float:right;" title="@bannerSag.BannerName" alt="@bannerSag.BannerName" loading="lazy" src="https://uploads.gazetekapi.com/images/@bannerSag.BannerImage" />
+                        </a>
+                    }
+                }
+
             </div>
         </div>
     </div>
@@ -287,14 +309,14 @@
             <div class="col-8 col-sm-8" style="padding-right: 0; padding-left: 0;">
                 @foreach (var item in banner)
                 {
-                <a href="@item.Link" class="image-container image-banner-pd" style="text-decoration:none; cursor:pointer;">
-                    <img alt="banner-dergi" class="magazine image-banner-magazine" title="banner-dergi" loading="lazy" src="https://uploads.gazetekapi.com/images/@item.BannerImage" />
-                    <div class="image-parent-container" style="width: 60%; padding-left: 40px; padding-top: 15px; ">
-                        <h5 class="magazine-title" style="font-weight:bold; color:#fff;">Le Monde diplomatique Türkçe</h5>
-                        <h5 class="magazine-desc" style="color:#fff; font-weight:300;">Dijital Abonelik gerçekleştirerek düzenli okumak için burayı <span style="text-decoration:underline; color:#fff;">tıklayın..</span></h5>
-                    </div>
-                </a>
-                    
+                    <a href="@item.Link" class="image-container image-banner-pd" style="text-decoration:none; cursor:pointer;">
+                        <img alt="banner-dergi" class="magazine image-banner-magazine" title="banner-dergi" loading="lazy" src="https://uploads.gazetekapi.com/images/@item.BannerImage" />
+                        <div class="image-parent-container" style="width: 60%; padding-left: 40px; padding-top: 15px; ">
+                            <h5 class="magazine-title" style="font-weight:bold; color:#fff;">Le Monde diplomatique Türkçe</h5>
+                            <h5 class="magazine-desc" style="color:#fff; font-weight:300;">Dijital Abonelik gerçekleştirerek düzenli okumak için burayı <span style="text-decoration:underline; color:#fff;">tıklayın..</span></h5>
+                        </div>
+                    </a>
+
                 }
 
                 <div class="clip-magazine"></div>
@@ -311,9 +333,21 @@
     <div class="container" id="banner-header" style="max-width:1030px;">
         <div class="row">
             <div class="col-sm-12">
-                <a href="@bannerUst.Link">
-                    <img style="width:100%" title="@bannerUst.BannerName" alt="@bannerUst.BannerName" loading="lazy" src="https://uploads.gazetekapi.com/images/@bannerUst.BannerImage" />
-                </a>
+                @if (bannerUst.IsActive == true)
+                {
+                    @if (bannerUst.BannerFrame != null)
+                    {
+                        @Html.Raw(bannerUst.BannerFrame)
+                    }
+                    else
+                    {
+                        <a href="@bannerUst.Link">
+                            <img style="width:100%" title="@bannerUst.BannerName" alt="@bannerUst.BannerName" loading="lazy" src="https://uploads.gazetekapi.com/images/@bannerUst.BannerImage" />
+                        </a>
+                    }
+                }
+
+
             </div>
         </div>
     </div>

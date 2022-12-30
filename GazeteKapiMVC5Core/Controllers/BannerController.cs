@@ -248,7 +248,7 @@ namespace GazeteKapiMVC5Core.Controllers
             try
             {
                 var getBanner = _mapper.Map<BannerDto, BannerEditViewModel>(_bannerService.getBanner(model.Id));
-                getBanner.IsActive = model.IsActive;
+                getBanner.IsActive = true;
                 getBanner.Link = model.Link;
                 getBanner.UpdatedTime = DateTime.Now;
                 getBanner.RotateId = model.RotateId;
