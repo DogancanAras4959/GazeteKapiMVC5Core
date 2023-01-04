@@ -92,6 +92,10 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
             ViewBag.HaberlerManset = haberlist;
             ViewBag.GuestList = guestList;
 
+            var category = _mapper.Map<CategoryDto, CategoryEditViewModelWeb>(_categoryService.GetCategoryStyleId(5));
+
+            ViewBag.CategoryIdOne = category;
+
             LoadJsonData();
 
             #endregion
@@ -299,9 +303,16 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
 
             int pageSize = 18;
 
-            List<NewListViewModelWeb> newList = _mapper.Map<List<NewsListItemDto>, List<NewListViewModelWeb>>(_newService.newsListByCategoryId(Id));
-
-            return View(PaginationList<NewListViewModelWeb>.Create(newList.ToList(), pageNumber ?? 1, pageSize));
+            if(category.Id == 25)
+            {
+                List<NewListViewModelWeb> newListView = _mapper.Map<List<NewsListItemDto>, List<NewListViewModelWeb>>(_newService.newsList());
+                return View(PaginationList<NewListViewModelWeb>.Create(newListView.ToList(), pageNumber ?? 1, pageSize));
+            }
+            else
+            {
+                List<NewListViewModelWeb> newList = _mapper.Map<List<NewsListItemDto>, List<NewListViewModelWeb>>(_newService.newsListByCategoryId(Id));
+                return View(PaginationList<NewListViewModelWeb>.Create(newList.ToList(), pageNumber ?? 1, pageSize));
+            }
         }
         public IActionResult yazaryazilari(int id, int? pageNumber)
         {

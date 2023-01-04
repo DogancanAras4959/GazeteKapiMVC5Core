@@ -1,18 +1,11 @@
 ﻿@using GazeteKapiMVC5Core.WEB.ViewModels.News;
-@using GazeteKapiMVC5Core.WEB.ViewModels.TagsNews
-@using GazeteKapiMVC5Core.WEB.ViewModels.Tags
-@using GazeteKapiMVC5Core.DataAccessLayer.Models;
+@using GazeteKapiMVC5Core.WEB.ViewModels.Categories;
 
 @{
     int count = 0;
 
     List<NewListViewModelWeb> haberlerManset = ViewBag.HaberlerManset as List<NewListViewModelWeb>;
-    //List<TagNewsListViewModelWeb> tagNewList = ViewBag.TagNews as List<TagNewsListViewModelWeb>;
-    //List<TagListViewModelWeb> tagList = new List<TagListViewModelWeb>();
-
-    //List<NewListViewModelWeb> titles = new List<NewListViewModelWeb>();
-    //List<NewListViewModelWeb> newListData = new List<NewListViewModelWeb>();
-
+    CategoryEditViewModelWeb categoryOne = ViewBag.CategoryIdOne as CategoryEditViewModelWeb;
 }
 
 <style>
@@ -27,17 +20,15 @@
 <div class="row" style="padding-bottom:5px;">
     <div class="col-sm-12">
         <div class="rect-content-box-title">
-            <span class="rect-title">G</span>
+            <span class="rect-title">@categoryOne.CategoryName.Substring(0,1)</span>
         </div>
-        <h3 class="content-box-title">GÜNDEM</h3>
+        <h3 class="content-box-title">@categoryOne.CategoryName</h3>
     </div>
 </div>
 <div class="row mb-2">
 
-    @foreach (var item in haberlerManset.OrderByDescending(x => x.Id).ToList().Where(x => x.IsActive == true && x.IsLock == false && x.GuestId == 8))
+    @foreach (var item in haberlerManset.OrderByDescending(x => x.Id).ToList().Where(x => x.IsActive == true && x.CategoryId == categoryOne.Id && x.IsLock == false && x.GuestId == 8))
     {
-        if (item.categories.CategoryName.Contains("GÜNDEM"))
-        {
             if (item.IsSlide == false)
             {
                 //foreach (var tags in tagNewList.Where(x => x.NewsId == item.Id))
@@ -84,7 +75,6 @@
                     break;
                 }
             }
-        }
     }
 
 </div>

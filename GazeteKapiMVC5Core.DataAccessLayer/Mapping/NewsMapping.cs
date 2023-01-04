@@ -15,7 +15,6 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Mapping
             builder.Property(x => x.Image).HasMaxLength(100).IsRequired();
             builder.Property(x => x.NewsContent).HasMaxLength(2000).IsRequired();
             builder.Property(x => x.Title).HasMaxLength(100).IsRequired();
-            builder.Property(x => x.Spot).HasMaxLength(500).IsRequired();
             builder.HasOne(x => x.users).WithMany(x => x.newsList).HasForeignKey(x => x.UserId);
             builder.HasOne(x => x.categories).WithMany(x => x.newList).HasForeignKey(x => x.CategoryId);
             builder.HasOne(x => x.guest).WithMany(x => x.newList).HasForeignKey(x => x.GuestId);

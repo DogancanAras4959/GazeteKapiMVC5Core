@@ -9,7 +9,7 @@
 
 <div class="top__news__slider">
 
-    @foreach (var item in haberlerManset.OrderByDescending(x => x.Id).Where(x => x.IsActive == true && x.IsLock == false).ToList())
+    @foreach (var item in haberlerManset.OrderByDescending(x => x.CreatedTime).Where(x => x.IsActive == true && x.IsLock == false).ToList())
     {
         if (item.IsSlide == false && item.fourthPlace == true)
         {

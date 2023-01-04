@@ -607,6 +607,8 @@ namespace SERVICE.Engine.Engines
                     IsSlide = getNews.IsSlide,
                     IsActive = getNews.IsActive,
                     VideoSlug = getNews.VideoSlug,
+                    fourthPlace = getNews.fourthPlace,
+                    isArchive = getNews.isArchive,
                     VideoUploaded = getNews.VideoUploaded,
                     IsLock = getNews.IsLock,
                     IsCommentActive = getNews.IsCommentActive,
@@ -686,8 +688,7 @@ namespace SERVICE.Engine.Engines
                     UpdatedTime = DateTime.Now,
                     CreatedTime = getNews.CreatedTime,
                     users = model.users,
-                    UserId = model.UserId,
-                   
+                    UserId = model.UserId,       
                     CategoryId = model.CategoryId,
                     ParentNewsId = model.ParentNewsId,
                     categories = model.categories,

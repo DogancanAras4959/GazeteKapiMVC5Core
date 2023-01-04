@@ -380,9 +380,8 @@ namespace GazeteKapiMVC5Core.Controllers
             }
             catch (Exception ex)
             {
-
                 TempData["HataMesaji"] = ex.ToString();
-                return RedirectToAction("ErrorPage", "Home");
+                return RedirectToAction(nameof(Yazarlar));
             }
         }
 
@@ -1172,7 +1171,7 @@ namespace GazeteKapiMVC5Core.Controllers
             {
                 filePath = SaveImageProcess.ImageInsert(photo, "Admin");
             }
-            return Json(new { url = "https://uploadslemonde.ikifikir.net/images/" + filePath });
+            return Json(new { url = "https://uploads.gazetekpai.com/images/" + filePath });
         }
 
         [Route("upload_editor")]
@@ -1457,7 +1456,7 @@ namespace GazeteKapiMVC5Core.Controllers
                     };
 
                     int resultId = Convert.ToInt32(await _newService.insertMedia(_mapper.Map<MediaCreateViewModel, MediaDto>(model)));
-                    string url = "https://uploadslemonde.ikifikir.net/images/"+model.Slug;
+                    string url = "https://uploads.gazetekapi.com/images/"+model.Slug;
                     return Json(url);
 
                 }

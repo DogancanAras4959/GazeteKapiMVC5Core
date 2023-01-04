@@ -43,7 +43,7 @@
                                     else
                                     {
                                         <tr id="tooltip-container" class="button-items">
-                                            <td><img src="https://uploadslemonde.ikifikir.net/images/@item.GuestImage" class="img img-fluid" width="30" height="30" /></td>
+                                            <td><img src="https://uploads.gazetekapi.com/images/@item.GuestImage" class="img img-fluid" width="30" height="30" /></td>
                                             <td>
                                                 <a data-bs-container="#tooltip-container"
                                                    data-bs-toggle="tooltip" data-bs-placement="top"
@@ -65,7 +65,7 @@
                                                        title="Yazar Düzenle" asp-action="YazarDuzenle" asp-route-id="@item.Id"><i class="mdi mdi-account-edit mdi-24px"></i></a>
                                                     <a style="padding:3px;" data-bs-container="#tooltip-container"
                                                        data-bs-toggle="tooltip" data-bs-placement="top"
-                                                       title="Yazar Sil" asp-action="YazarSil" asp-route-id="@item.Id" class="text-danger ml-1" onclick="return confirm('Bu yazarı silmek istiyor musunuz?')"><i class="mdi mdi-delete-circle mdi-24px"></i></a>
+                                                       title="Yazar Sil" asp-action="YazarSil" asp-route-id="@item.Id" class="text-danger ml-1" onclick="return confirm('Bu yazarı silmek istiyor musunuz? (Yazara ilişkin haber veya yazarlar varsa silme işlemi gerçekleşmez!)')"><i class="mdi mdi-delete-circle mdi-24px"></i></a>
                                                 </td>
                                             }
                                             else
@@ -80,7 +80,7 @@
                                                        title="Yazar Düzenle" asp-action="YazarDuzenle" class="link-disabled" asp-route-id="@item.Id"><i class="mdi mdi-account-edit mdi-24px"></i></a>
                                                     <a style="padding:3px;" data-bs-container="#tooltip-container"
                                                        data-bs-toggle="tooltip" data-bs-placement="top"
-                                                       title="Yazar Sil" asp-action="YazarSil" asp-route-id="@item.Id" class="text-danger ml-1 link-disabled" onclick="return confirm('Bu yazarı silmek istiyor musunuz?')"><i class="mdi mdi-delete-circle mdi-24px"></i></a>
+                                                       title="Yazar Sil" asp-action="YazarSil" asp-route-id="@item.Id" class="text-danger ml-1 link-disabled" onclick="return confirm('Bu yazarı silmek istiyor musunuz? (Yazara ilişkin haber veya yazarlar varsa silme işlemi gerçekleşmez!')"><i class="mdi mdi-delete-circle mdi-24px"></i></a>
                                                 </td>
                                             }
 

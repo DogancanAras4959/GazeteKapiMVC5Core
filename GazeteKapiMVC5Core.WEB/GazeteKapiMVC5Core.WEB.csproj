@@ -45,7 +45,7 @@
     <None Include="wwwroot\assets\images\social-media\telegram.svg" />
     <None Include="wwwroot\assets\images\social-media\twitter.svg" />
     <None Include="wwwroot\assets\images\social-media\youtube.svg" />
-    <None Include="wwwroot\assets\manifest.json" />
+    <None Include="wwwroot\manifest.json" />
   </ItemGroup>
 
 </Project>

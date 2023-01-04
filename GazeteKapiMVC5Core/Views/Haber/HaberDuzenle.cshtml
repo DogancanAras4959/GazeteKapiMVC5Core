@@ -325,13 +325,13 @@
                         <div class="card-body">
                             @if (Model.Image != null)
                             {
-                                <img id="img" style="width:100%" src="https://uploadslemonde.ikifikir.net/images/@Model.Image" />
+                                <img id="img" style="width:100%" src="https://uploads.gazetekapi.com/images/@Model.Image" />
                             }
                             else
                             {
                                 <img id="img" style="width:100%" src="~/assets/images/imgdefault.jpg" />
                             }
-                            <label style="margin-top:10px;" class="col-sm-12 text-center">*(835x510 dosya boyutu)</label>
+                            <label style="margin-top:10px;" class="col-sm-12 text-center">*(1280x720 dosya boyutu)</label>
                             <label for="example-text-input" class="col-sm-12 col-form-label text-center" style="margin-top:10px;">Öne Çıkan Görseli Güncelle</label>
                             <input type="file" class="filestyle" id="upload" data-input="false" name="file" data-buttonname="btn-secondary">
                         </div>
@@ -649,7 +649,7 @@
         }
 
         $.ajax({
-            url: "/Haber/uploadImageForNews",
+            url: "/editor/Haber/uploadImageForNews",
             type: "POST",
             dataType: "json",
             data: formdata,

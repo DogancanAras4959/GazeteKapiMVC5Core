@@ -209,7 +209,7 @@
                                                         </ul>
                                                     </div>
                                                     <div class="card__post__title">
-                                                        @if (item2.Title.Length > 80)
+                                                       @if (item2.Title.Length > 80)
                                                         {
                                                             <h5>
                                                                 <a id="btn-article" style="color:#515d5e;" href="@Url.Action("haber", "anasayfa", new { Id = item2.Id, Title = item2.GenerateSlug() })">

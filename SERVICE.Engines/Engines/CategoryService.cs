@@ -199,6 +199,34 @@ namespace SERVICES.Engine.Engines
             };
         }
 
+        public CategoryDto GetCategoryStyleId(int styleId)
+        {
+            Categories getCategory = _unitOfWork.GetRepository<Categories>().FindAsync(x => x.StyleId == styleId).Result;
+
+            if (getCategory == null)
+            {
+                return new CategoryDto();
+            }
+
+            return new CategoryDto
+            {
+                Id = getCategory.Id,
+                CategoryName = getCategory.CategoryName,
+                Description = getCategory.Description,
+                ParentCategoryId = getCategory.ParentCategoryId,
+                IsActive = getCategory.IsActive,
+                UpdatedTime = getCategory.UpdatedTime,
+                CreatedTime = getCategory.CreatedTime,
+                isMenu = getCategory.isMenu,
+                Image = getCategory.Image,
+                TypeId = getCategory.TypeId,
+                StyleId = getCategory.StyleId,
+                Sorted = getCategory.Sorted,
+                Position = getCategory.Position,
+                UserId = getCategory.UserId,
+            };
+        }
+
         public List<CategoryListItemDto> GetParentCategoryList()
         {
             IEnumerable<Categories> parentCategories = _unitOfWork.GetRepository<Categories>().Filter(x => x.ParentCategoryId == 0, y => y.OrderBy(t => t.Id), "user", 1, 100);
