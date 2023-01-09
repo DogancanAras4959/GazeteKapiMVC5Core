@@ -4,14 +4,14 @@
 
 .card__post .card__post__body .card__post__content .card__post__category {
     clear: both;
-    color: #fff;
+    color: #000;
     display: inline-block;
-    font-size: 10px;
+    font-size: 13px;
     margin-bottom: 5px;
     padding: 5px 8px;
     background: #f4c625;
     line-height: 15px;
-    text-transform: uppercase;
+    text-transform: capitalize;
     font-family: "Montserrat",sans-serif;
     font-weight: 600;
 }
