@@ -83,17 +83,17 @@
                         <!-- Post Article -->
                         <div class="article__entry">
                             <div class="article__image">
-                                <a href="@Url.Action("haber", "anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
+                                <a href="@Url.Action("haber", "anasayfa", new { Id = item.Id, MetaTitle = item.GenerateSlug() })">
                                     <img src="https://uploads.gazetekapi.com/images/@item.Image" alt="@item.Image" title="@item.Image" class="img-fluid" />
                                 </a>
                             </div>
                             <div class="article__content">
                                 <h5 style="font-size:15px;">
                                     @if (item.Title.Length > 50)
-                                    {<a href="@Url.Action("haber", "anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">@item.Title.Substring(0, 50)<span>...</span> </a>}
+                                    {<a href="@Url.Action("haber", "anasayfa", new { Id = item.Id, MetaTitle = item.GenerateSlug() })">@item.Title.Substring(0, 50)<span>...</span> </a>}
                                 else
                                 {
-                                    <a href="@Url.Action("haber", "anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">@item.Title</a>
+                                    <a href="@Url.Action("haber", "anasayfa", new { Id = item.Id, MetaTitle = item.GenerateSlug() })">@item.Title</a>
                                 }
                                 </h5>
                             </div>

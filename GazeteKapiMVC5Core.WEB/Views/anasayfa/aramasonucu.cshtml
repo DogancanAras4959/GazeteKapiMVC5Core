@@ -34,15 +34,13 @@
                             <div class="row ">
                                 <div class="col-md-5">
                                     <div class="card__post__transition">
-                                        <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
-                                            <img style="height:180px;" src="https://uploads.gazetekapi.com/images/@item.Image" class="img-fluid w-100" title="@item.Image" alt="@item.Image" />
-                                        </a>
+                                            <img style="height: 150px; width: 375px !important;" src="https://uploads.gazetekapi.com/images/@item.Image" class="img-fluid w-100" title="@item.Image" alt="@item.Image" />
                                     </div>
                                 </div>
                                 <div class="col-md-7 my-auto pl-0">
-                                    <div class="card__post__body ">
-                                        <div class="card__post__content  ">
-                                            <div class="card__post__category ">
+                                    <div class="card__post__body">
+                                        <div class="card__post__content">
+                                            <div class="card__post__category">
 
                                                 @foreach (var category in categories)
                                                 {
@@ -61,7 +59,7 @@
                                                 <ul class="list-inline">
                                                     <li class="list-inline-item">
                                                         <span class="text-dark text-capitalize">
-                                                            @item.PublishedTime
+                                                            @item.PublishedTime.ToString("dd/MM/yyyy HH:mm")
                                                         </span>
                                                     </li>
 
@@ -69,14 +67,14 @@
                                             </div>
                                             <div class="card__post__title">
                                                 <h5>
-                                                    <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
+                                                    <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, MetaTitle = item.GenerateSlug() })">
                                                         @item.Title
                                                     </a>
                                                 </h5>
                                                 @if (item.Spot.Length > 120)
                                                 {
                                                     <p class="d-none d-lg-block d-xl-block mb-0">
-                                                        @item.Spot.Substring(0, 125)<span>...</span>  <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">devamını okumak için</a>
+                                                        @item.Spot.Substring(0, 125)<span>...</span>  <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, MetaTitle = item.GenerateSlug() })">devamını okumak için</a>
                                                     </p>
                                                 }
 

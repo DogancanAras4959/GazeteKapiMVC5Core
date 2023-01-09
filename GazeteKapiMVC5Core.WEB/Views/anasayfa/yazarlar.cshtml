@@ -13,7 +13,7 @@
             <div class="col-md-12">
                 <!-- team member -->
                 <div class="team-member row">
-                    @foreach (var item in Model)
+                    @foreach (var item in Model.Where(x=> x.IsActive == true))
                     {
                         if (item.GuestName != "Yazar Yok")
                         {

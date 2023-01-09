@@ -568,7 +568,7 @@ namespace SERVICE.Engine.Engines
                     MetaTitle = model.MetaTitle,
                     CreatedTime = DateTime.Now,
                     IsTitle = model.IsTitle,
-                    
+                    PublishedTime = DateTime.Now,
                     Views = 0,
                     VideoUploaded = model.VideoUploaded,
                     CategoryId = model.CategoryId,
@@ -696,7 +696,7 @@ namespace SERVICE.Engine.Engines
                     GuestId = model.GuestId,
                     PublishTypeId = model.PublishTypeId,
                     publishtype = model.publishtype,
-                    PublishedTime = model.PublishedTime,
+                    PublishedTime = DateTime.Now,
                     Sound = model.Sound,
                 });
 

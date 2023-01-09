@@ -25,9 +25,9 @@ namespace GazeteKapiMVC5Core.Models.News.NewsModel
         public int ParentNewsId { get; set; }
         public string Image { get; set; }
         public string Tag { get; set; }
-        public DateTime? UpdatedTime { get; set; }
-        public DateTime? CreatedTime { get; set; }
-        public DateTime? PublishedTime { get; set; }
+        public DateTime UpdatedTime { get; set; }
+        public DateTime CreatedTime { get; set; }
+        public DateTime PublishedTime { get; set; }
         public bool IsActive { get; set; }
         public bool IsTitle { get; set; }
         public bool IsLock { get; set; }

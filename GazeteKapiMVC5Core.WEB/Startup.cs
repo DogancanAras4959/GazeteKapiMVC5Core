@@ -95,6 +95,25 @@ namespace GazeteKapiMVC5Core.WEB
             {
                 ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
             });
+
+
+            app.Use(async (context, next) =>
+            {
+                if (context.Request.Path.StartsWithSegments("/robots.txt"))
+                {
+                    var robotsTxtPath = Path.Combine(env.ContentRootPath, "robots.txt");
+                    string output = "User-agent: *  \nallow: /";
+                    if (File.Exists(robotsTxtPath))
+                    {
+                        output = await File.ReadAllTextAsync(robotsTxtPath);
+                    }
+                    context.Response.ContentType = "text/plain";
+                    await context.Response.WriteAsync(output);
+                }
+                else await next();
+            });
+
+
             app.UseStaticFiles();
             app.UseRouting();
             app.UseAuthentication();
@@ -108,8 +127,8 @@ namespace GazeteKapiMVC5Core.WEB
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
-                name: "news",
-                pattern: "/news/{Id}/{Title}", new { controller = "anasayfa", action = "haber" }
+                name: "haber",
+                pattern: "/haber/{Id}/{MetaTitle}", new { controller = "anasayfa", action = "haber" }
             );
 
                 endpoints.MapControllerRoute(

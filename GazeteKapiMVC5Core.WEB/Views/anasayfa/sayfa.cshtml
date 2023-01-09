@@ -129,20 +129,20 @@
                                 <!-- Post Article -->
                                 <div class="card__post ">
                                     <div class="card__post__body">
-                                        <a href="@Url.Action("haber", "anasayfa", new { Id = item2.Id, Title = item2.GenerateSlug() })">
+                                        <a href="@Url.Action("haber", "anasayfa", new { Id = item2.Id, MetaTitle = item2.GenerateSlug() })">
                                             <img src="https://uploads.gazetekapi.com/images/@item2.Image" class="img-fluid news-height-m" title="@item2.Image" loading="lazy" style="height: 185px;" alt="@item2.Image" />
                                         </a>
                                         <div style="margin-top:15px;">
                                             <h6>
                                                 @if (item2.Title.Length > 80)
                                                 {
-                                                    <a id="btn-article" style="color:#515d5e;" href="@Url.Action("haber", "anasayfa", new { Id = item2.Id, Title = item2.GenerateSlug() })">
+                                                    <a id="btn-article" style="color:#515d5e;" href="@Url.Action("haber", "anasayfa", new { Id = item2.Id, MetaTitle = item2.GenerateSlug() })">
                                                         @item2.Title.Substring(0, 80)<span>...</span>
                                                     </a>
                                                 }
                                                 else
                                                 {
-                                                    <a id="btn-article" style="color:#515d5e;" href="@Url.Action("haber", "anasayfa", new { Id = item2.Id, Title = item2.GenerateSlug() })">
+                                                    <a id="btn-article" style="color:#515d5e;" href="@Url.Action("haber", "anasayfa", new { Id = item2.Id, MetaTitle = item2.GenerateSlug() })">
                                                         @item2.Title
                                                     </a>
                                                 }
@@ -186,7 +186,7 @@
                                     <div class="row ">
                                         <div class="col-md-5">
                                             <div class="card__post__transition">
-                                                <a href="@Url.Action("haber", "anasayfa", new { Id = item2.Id, Title = item2.GenerateSlug() })">
+                                                <a href="@Url.Action("haber", "anasayfa", new { Id = item2.Id, MetaTitle = item2.GenerateSlug() })">
                                                     <img src="https://uploads.gazetekapi.com/images/@item2.Image" class="img-fluid w-100 news-height-m" alt="@item2.Title" title="@item2.Title" style="height: 230px;" loading="lazy">
                                                 </a>
                                             </div>
@@ -202,7 +202,7 @@
 
                                                             <li class="list-inline-item">
                                                                 <span class="text-dark text-capitalize">
-                                                                    @item2.PublishedTime.Value.ToString("dd/MM/yyyy HH:mm")
+                                                                    @item2.PublishedTime.ToString("dd/MM/yyyy HH:mm")
                                                                 </span>
                                                             </li>
 
@@ -212,7 +212,7 @@
                                                        @if (item2.Title.Length > 80)
                                                         {
                                                             <h5>
-                                                                <a id="btn-article" style="color:#515d5e;" href="@Url.Action("haber", "anasayfa", new { Id = item2.Id, Title = item2.GenerateSlug() })">
+                                                                <a id="btn-article" style="color:#515d5e;" href="@Url.Action("haber", "anasayfa", new { Id = item2.Id, MetaTitle = item2.GenerateSlug() })">
                                                                     @item2.Title.Substring(0, 80)<span>...</span>
                                                                 </a>
                                                             </h5>
@@ -220,7 +220,7 @@
                                                         else
                                                         {
                                                             <h5>
-                                                                <a id="btn-article" style="color:#515d5e;" href="@Url.Action("haber", "anasayfa", new { Id = item2.Id, Title = item2.GenerateSlug() })">
+                                                                <a id="btn-article" style="color:#515d5e;" href="@Url.Action("haber", "anasayfa", new { Id = item2.Id, MetaTitle = item2.GenerateSlug() })">
                                                                     @item2.Title
                                                                 </a>
                                                             </h5>
@@ -275,20 +275,20 @@
                                     <!-- Post Article -->
                                     <div class="card__post ">
                                         <div class="card__post__body">
-                                            <a href="@Url.Action("haber", "anasayfa", new { Id = item2.Id, Title = item2.GenerateSlug() })">
+                                            <a href="@Url.Action("haber", "anasayfa", new { Id = item2.Id, MetaTitle = item2.GenerateSlug() })">
                                                 <img style="height: 175px;" src="https://uploads.gazetekapi.com/images/@item2.Image" title="@item2.Image" class="img-fluid news-height-m" loading="lazy" alt="@item2.Image" />
                                             </a>
                                             <div style=" margin-top: 0px; background-color: #fff; padding: 15px;">
                                                 <h6>
                                                     @if (item2.Title.Length > 55)
                                                     {
-                                                        <a style="color:#515d5e;" href="@Url.Action("haber", "anasayfa", new { Id = item2.Id, Title = item2.GenerateSlug() })">
+                                                        <a style="color:#515d5e;" href="@Url.Action("haber", "anasayfa", new { Id = item2.Id, MetaTitle = item2.GenerateSlug() })">
                                                             @item2.Title.Substring(0, 55)<span>...</span>
                                                         </a>
                                                     }
                                                     else
                                                     {
-                                                        <a style="color:#515d5e;" href="@Url.Action("haber", "anasayfa", new { Id = item2.Id, Title = item2.GenerateSlug() })">
+                                                        <a style="color:#515d5e;" href="@Url.Action("haber", "anasayfa", new { Id = item2.Id, MetaTitle = item2.GenerateSlug() })">
                                                             @item2.Title
                                                         </a>
                                                     }

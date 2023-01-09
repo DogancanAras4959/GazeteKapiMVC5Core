@@ -19,11 +19,9 @@ namespace GazeteKapiMVC5Core.WEB.Models.ConfigreCaptcha
 
         public virtual async Task<resPo> RecVer(string _token)
         {
-            reCaptchaData data = new reCaptchaData
-            {
-                response = _token,
-                secret = _settings.RecaptchaV3SecretKey
-            };
+            reCaptchaData data = new reCaptchaData();
+            data.response = _token;
+            data.secret = _settings.RecaptchaV3SecretKey;
 
             HttpClient client = new HttpClient();
             var response = await client.GetStringAsync($"https://www.google.com/recaptcha/api/siteverify?=secret{data.secret}&response={data.response}");
@@ -39,7 +37,7 @@ namespace GazeteKapiMVC5Core.WEB.Models.ConfigreCaptcha
         public string secret { get; set; }
     }
 
-    public class resPo 
+    public class resPo
     {
         public bool success { get; set; }
         public double score { get; set; }

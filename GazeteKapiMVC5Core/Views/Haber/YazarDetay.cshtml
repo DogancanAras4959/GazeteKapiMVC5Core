@@ -80,8 +80,8 @@
                                         {
                                             <tr>
                                                 <td>@Html.DisplayFor(modelItem => item.MetaTitle)</td>
-                                                <td>@Html.DisplayFor(modelItem => item.CreatedTime)</td>
-                                                <td>@Html.DisplayFor(modelItem => item.UpdatedTime)</td>
+                                                <td>@item.CreatedTime.ToString("dd/MM/yyyy HH:mm:ss")</td>
+                                                <td>@item.UpdatedTime.ToString("dd/MM/yyyy HH:mm:ss")</td>
                                                 @if (item.IsActive == true)
                                                 {
                                                     <td><strong class="text-success">Aktif</strong></td>

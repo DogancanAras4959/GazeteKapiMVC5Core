@@ -81,7 +81,7 @@
                                                 <div>
                                                     <h6>
 
-                                                        <a id="btn-article" style="color:#515d5e;" href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
+                                                        <a id="btn-article" style="color:#515d5e;" href="@Url.Action("haber","anasayfa", new { Id = item.Id, MetaTitle = item.GenerateSlug() })">
                                                             @item.Title
                                                         </a>
 
@@ -89,7 +89,7 @@
                                                     </h6>
                                                     <ul class="list-inline article__post__author">
                                                         <li class="list-inline-item">
-                                                            <span style="font-size:14px;">@item.PublishedTime.Value.ToString("dd/MM/yyyy HH:mm")</span>
+                                                            <span style="font-size:14px;">@item.PublishedTime.ToString("dd/MM/yyyy HH:mm")</span>
                                                         </li>
                                                     </ul>
                                                 </div>

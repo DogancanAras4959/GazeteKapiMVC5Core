@@ -19,7 +19,7 @@
                 <!-- Post Article -->
                 <div class="card__post ">
                     <div class="card__post__body">
-                        <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
+                        <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, MetaTitle = item.GenerateSlug() })">
                             <img src="https://uploads.gazetekapi.com/images/@item.Image" title="@item.Image" class="img-fluid" alt="@item.Image" />
                         </a>
                         <div style="margin-top:15px;">

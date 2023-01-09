@@ -27,9 +27,9 @@ namespace GazeteKapiMVC5Core.DataAccessLayer.Models
         public bool doublePlace { get; set; }
         public bool fourthPlace { get; set; }
         public string VideoUploaded { get; set; }
-        public DateTime? CreatedTime { get; set; }
-        public DateTime? UpdatedTime { get; set; }
-        public DateTime? PublishedTime { get; set; }
+        public DateTime CreatedTime { get; set; }
+        public DateTime UpdatedTime { get; set; }
+        public DateTime PublishedTime { get; set; }
         public bool IsActive { get; set; }
         public bool IsTitle { get; set; }
         public bool isArchive { get; set; }

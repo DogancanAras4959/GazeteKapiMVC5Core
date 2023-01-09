@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Text;
 
-namespace GazeteKapiMVC5Core.WEB.ViewModels.Members
+namespace CORE.ApplicationCommon.Helpers
 {
-    public class MembersBaseViewModelWeb
+    public class EmailConfig
     {
         public string nameSurname { get; set; }
         public string phoneNumber { get; set; }
@@ -15,7 +14,5 @@ namespace GazeteKapiMVC5Core.WEB.ViewModels.Members
         public string to { get; set; }
         public string subject { get; set; }
         public string content { get; set; }
-        public string ReCaptchaToken { get; set; }
-        public DateTime submitDate { get; set; }
     }
 }

@@ -20,12 +20,12 @@
                         <h6>
                             @if (item.Title.Length > 50)
                             {
-                                <a style="font-size:25px; font-weight:700" href="@Url.Action("haber", "anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
+                                <a style="font-size:25px; font-weight:700" href="@Url.Action("haber", "anasayfa", new { Id = item.Id, MetaTitle = item.GenerateSlug() })">
                                     @item.Title.Substring(0, 45)<span>...</span>
                                 </a>
                             }
                             else
-                            { <a style="font-size:25px; font-weight:700" href="@Url.Action("haber", "anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
+                            { <a style="font-size:25px; font-weight:700" href="@Url.Action("haber", "anasayfa", new { Id = item.Id, MetaTitle = item.GenerateSlug() })">
                                     @item.Title
                                 </a>
                             }

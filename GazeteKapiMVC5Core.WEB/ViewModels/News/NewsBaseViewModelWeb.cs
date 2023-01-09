@@ -20,9 +20,9 @@ namespace GazeteKapiMVC5Core.WEB.ViewModels.News
         public string Image { get; set; }
         public string Tag { get; set; }
         public int ParentNewsId { get; set; }
-        public DateTime? UpdatedTime { get; set; }
-        public DateTime? CreatedTime { get; set; }
-        public DateTime? PublishedTime { get; set; }
+        public DateTime UpdatedTime { get; set; }
+        public DateTime CreatedTime { get; set; }
+        public DateTime PublishedTime { get; set; }
         public bool IsActive { get; set; }
         public bool IsLock { get; set; }
         public bool IsOpenNotifications { get; set; }

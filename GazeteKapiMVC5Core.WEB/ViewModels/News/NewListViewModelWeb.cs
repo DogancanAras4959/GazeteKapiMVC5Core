@@ -12,7 +12,7 @@ namespace GazeteKapiMVC5Core.WEB.ViewModels.News
 
         public string GenerateSlug()
         {
-            string phrase = string.Format("{0}", Title);
+            string phrase = string.Format("{0}", MetaTitle);
 
             string str = RemoveAccent(phrase).ToLower();
             // invalid chars           
@@ -20,7 +20,7 @@ namespace GazeteKapiMVC5Core.WEB.ViewModels.News
             // convert multiple spaces into one space   
             str = Regex.Replace(str, @"\s+", " ").Trim();
             // cut and trim 
-            str = str.Substring(0, str.Length <= 45 ? str.Length : 45).Trim();
+            //str = str.Substring(0, str.Length <= 45 ? str.Length : 45).Trim();
             str = Regex.Replace(str, @"\s", "-"); // hyphens   
             return str;
         }

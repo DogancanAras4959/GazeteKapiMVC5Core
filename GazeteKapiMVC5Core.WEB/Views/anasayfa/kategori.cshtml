@@ -90,21 +90,21 @@
                                                 @item.categories.CategoryName
                                             </div>*@
                                         <div class="article__image articel__image__transition">
-                                            <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
-                                                <img src="https://uploads.gazetekapi.com/images/@item.Image" alt="@item.Image" title="@item.Image" class="img-fluid" style="height: 180px; object-fit:cover;" />
+                                            <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, MetaTitle = item.GenerateSlug() })">
+                                                <img src="https://uploads.gazetekapi.com/images/@item.Image" alt="@item.Image" title="@item.Image" class="img-fluid" style="width: 100%; object-fit: cover;" />
                                             </a>
                                         </div>
                                         <div class="text-cat">
                                             <h5>
                                                 @if (item.Title.Length > 40)
                                                 {
-                                                    <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
+                                                    <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, MetaTitle = item.GenerateSlug() })">
                                                         @item.Title.Substring(0, 40)<span>...</span>
                                                     </a>
                                                 }
                                                 else
                                                 {
-                                                    <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
+                                                    <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, MetaTitle = item.GenerateSlug() })">
                                                         @item.Title
                                                     </a>
                                                 }
@@ -128,21 +128,21 @@
                                                 @item.categories.CategoryName
                                             </div>*@
                                         <div class="article__image articel__image__transition">
-                                            <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
-                                                <img src="https://uploads.gazetekapi.com/images/@item.Image" alt="@item.Image" title="@item.Image" class="img-fluid" style="height: 180px; object-fit:cover;" />
+                                            <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, MetaTitle = item.GenerateSlug() })">
+                                                <img src="https://uploads.gazetekapi.com/images/@item.Image" alt="@item.Image" title="@item.Image" class="img-fluid" style="width: 100%; object-fit:cover;" />
                                             </a>
                                         </div>
                                         <div class="text-cat">
                                             <h5>
                                                 @if (item.Title.Length > 40)
                                                 {
-                                                    <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
+                                                    <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, MetaTitle = item.GenerateSlug() })">
                                                         @item.Title.Substring(0, 40)<span>...</span>
                                                     </a>
                                                 }
                                                 else
                                                 {
-                                                    <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
+                                                    <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, MetaTitle = item.GenerateSlug() })">
                                                         @item.Title
                                                     </a>
                                                 }

@@ -27,7 +27,7 @@
         <div class="row justify-content-center">
             <div class="col-sm-9">
                 <h3 style="font-size:25px;" class="heading mb-2">Abone Olun!</h3>
-                <p style="margin-bottom:5px;">Le Monde Diplomatiqe Türkçe gazetesini basılı almak için aşağıdaki formu doldurabilirsiniz</p>
+                <p style="margin-bottom:5px;">Le Monde diplomatique Türkçe gazetesine basılı olmak için aşağıdaki formu doldurabilirsiniz...</p>
             </div>
             <div class="col-md-3">
                 <img alt="subscribe" src="~/assets/images/lemonde-son-footer.png" title="subscribeimage" class="img-fluid" />
@@ -64,15 +64,14 @@
                     </div>
                     <div class="row">
                         <div class="col-12">
-                            <input type="submit" value="Abone Olun" id="btnsubsc" class="btn btn-primary rounded-0 py-2 px-4">
+                            <input type="submit" value="Abone Olun" style="float:right;" id="btnsubsc" class="btn btn-primary rounded-0 py-2 px-4">
                             <span class="submitting"></span>
                         </div>
                     </div>
                     <input type="hidden" name="ReCaptchaToken" id="hdnGoogleRecaptcha" required><br />
                 </form>
-                <div id="form-message-warning mt-4"></div>
                 <div id="form-message-success">
-                    Mesajınız bize ulaştı! En kısa sürede size dönüş sağlayacağız
+                    @ViewBag.Message
                 </div>
             </div>
         </div>

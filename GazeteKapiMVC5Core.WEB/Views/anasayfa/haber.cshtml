@@ -53,7 +53,7 @@
                             <li class="list-inline-item">
                                 <span class="text-dark text-capitalize ml-1">
                                     <i class="fa fa-clock-o"></i>
-                                    @Model.PublishedTime.ToString("dd/MM/yyyy HH:mm")
+                                    @Model.PublishedTime.ToString("dd/MM/yyyy HH:mm:ss")
                                 </span>
                             </li>
                             <li class="list-inline-item" style="float:right;">
@@ -95,6 +95,7 @@
                     <figure>
                         @if (Model.VideoUploaded != null)
                         {
+                            <div style="margin-bottom:15px; height:3px; width:100%;"></div>
                             @Html.Raw(Model.VideoUploaded)
                         }
                         else
@@ -113,45 +114,46 @@
                 </div>
             </div>
 
-            <div class="wrap__article-detail-content">
+                <div class="wrap__article-detail-content">
 
-                <div class="share-post">
-                    <div class="a2a_kit a2a_kit_size_32 a2a_default_style">
-                        <a class="a2a_button_facebook a2a_counter"></a>
-                        <a class="a2a_button_twitter"></a>
-                        <a class="a2a_button_telegram"></a>
-                        <a class="a2a_button_whatsapp"></a>
-                        <a class="a2a_button_email"></a>
-                        <a class="a2a_button_google_plus"></a>
-                        <div class="fb-like" data-send="false" data-layout="button_count" data-width="100" data-show-faces="false"></div>
-                        <g:plusone size="large" annotation="bubble" width="90"></g:plusone>
+                    <div class="share-post">
+                        <div class="a2a_kit a2a_kit_size_32 a2a_default_style">
+                            <a class="a2a_button_facebook a2a_counter"></a>
+                            <a class="a2a_button_twitter"></a>
+                            <a class="a2a_button_telegram"></a>
+                            <a class="a2a_button_whatsapp"></a>
+                            <a class="a2a_button_email"></a>
+                            <a class="a2a_button_google_plus"></a>
+                            <div class="fb-like" data-send="false" data-layout="button_count" data-width="100" data-show-faces="false"></div>
+                            <g:plusone size="large" annotation="bubble" width="90"></g:plusone>
+                        </div>
+                        <script type="text/javascript" src="//static.addtoany.com/menu/page.js"></script>
+
                     </div>
-                    <script type="text/javascript" src="//static.addtoany.com/menu/page.js"></script>
 
+                    @if (guest.Id != 0 && guest.GuestName != "Yazar Yok")
+                    {
+                        <div class="guest-content">
+                            <span class="fa fa-user"></span> <a href="@Url.Action("yazaryazilari","anasayfa", new { Id = guest.Id })">@guest.GuestName</a>
+                        </div>
+                    }
+                    else
+                    {
+
+                    }
+
+                    <p @*id="contentnews"*@>
+                        @Html.Raw(Model.NewsContent)
+                    </p>
+
+                    @if (Model.VideoSlug != null)
+                    {
+                        <br />
+                        @Html.Raw(Model.VideoSlug)
+                    }
+
+                    <!-- Blockquote  -->
                 </div>
-
-                @if (guest.Id != 0 && guest.GuestName != "Yazar Yok")
-                {
-                    <div class="guest-content">
-                        <span class="fa fa-user"></span> <a href="@Url.Action("yazaryazilari","anasayfa", new { Id = guest.Id })">@guest.GuestName</a>
-                    </div>
-                }
-                else
-                {
-
-                }
-
-                <p @*id="contentnews"*@>
-                    @Html.Raw(Model.NewsContent)
-                </p>
-
-                @if (Model.VideoSlug != null)
-                {
-                    @Html.Raw(Model.VideoSlug)
-                }
-
-                <!-- Blockquote  -->
-            </div>
 
             <div class="blog-tags">
                 <ul class="list-inline">
@@ -175,7 +177,7 @@
                     <h4 class="border_section mt-4" style="margin-bottom: 0; margin-top: 50px !important;">İlgili Haberler</h4>
                 </div>
                 <div class="article__entry" style="display: flex; flex-direction: row; flex-wrap: nowrap; justify-content: flex-start; width: 100%; align-items: flex-start;">
-                    @foreach (var item in newListAll.Where(x => x.ParentNewsId == Model.Id && x.IsActive == true && x.GuestId == 8).Take(3))
+                    @foreach (var item in newListAll.Where(x => x.ParentNewsId == Model.Id && x.IsActive == true && x.GuestId == 8))
                     {
                         if (item.Id != Model.Id)
                         {
@@ -184,7 +186,7 @@
                                 <!-- Post Article -->
                                 <div class="article__entry">
                                     <div class="article__image">
-                                        <a href="@Url.Action("haber", "anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
+                                        <a href="@Url.Action("haber", "anasayfa", new { Id = item.Id, MetaTitle = item.GenerateSlug() })">
                                             <img style="height:135px; width:200px; object-fit:cover;" src="https://uploads.gazetekapi.com/images/@item.Image" alt="@item.Image" title="@item.Image" class="img-fluid">
                                         </a>
                                     </div>
@@ -192,7 +194,7 @@
                                         <ul class="list-inline">
                                             <li class="list-inline-item">
                                                 <span>
-                                                    @item.PublishedTime.Value.ToString("dd/MM/yyyy HH:mm")
+                                                    @item.PublishedTime.ToString("dd/MM/yyyy HH:mm")
                                                 </span>
                                             </li>
 
@@ -200,13 +202,13 @@
                                         <h5 style="margin-top:10px;">
                                             @if (item.Title.Length > 50)
                                             {
-                                                <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
+                                                <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, MetaTitle = item.GenerateSlug() })">
                                                     @item.Title.Substring(0, 50)<span>...</span>
                                                 </a>
                                             }
                                             else
                                             {
-                                                <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
+                                                <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, MetaTitle = item.GenerateSlug() })">
                                                     @item.Title
                                                 </a>
                                             }
@@ -259,7 +261,7 @@
                             <!-- Post Article -->
                             <div class="card__post card__post-list">
                                 <div class="image-sm">
-                                    <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
+                                    <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, MetaTitle = item.GenerateSlug() })">
                                         <img src="https://uploads.gazetekapi.com/images/@item.Image" class="img-fluid" title="@item.Image" alt="@item.Image">
                                     </a>
                                 </div>
@@ -279,7 +281,7 @@
                                                 <li class="list-inline-item">
                                                     <i class="fa fa-clock-o"></i>
                                                     <span class="text-dark text-capitalize">
-                                                        @item.PublishedTime.Value.ToString("dd/MM/yyyy HH:mm")
+                                                        @item.PublishedTime.ToString("dd/MM/yyyy HH:mm")
                                                     </span>
                                                 </li>
                                             </ul>
@@ -288,13 +290,13 @@
                                             <h6>
                                                 @if (item.Title.Length > 40)
                                                 {
-                                                    <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
+                                                    <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, MetaTitle = item.GenerateSlug() })">
                                                         @item.Title.Substring(0, 40)<span>...</span>
                                                     </a>
                                                 }
                                                 else
                                                 {
-                                                    <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
+                                                    <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, MetaTitle = item.GenerateSlug() })">
                                                         @item.Title
                                                     </a>
                                                 }
@@ -332,7 +334,7 @@
                             <!-- Post Article -->
                             <div class="card__post card__post-list">
                                 <div class="image-sm">
-                                    <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
+                                    <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, MetaTitle = item.GenerateSlug() })">
                                         <img src="https://uploads.gazetekapi.com/images/@item.Image" title="@item.Image" class="img-fluid" alt="@item.Image" />
                                     </a>
                                 </div>
@@ -353,7 +355,7 @@
                                                 <li class="list-inline-item">
                                                     <i class="fa fa-clock-o"></i>
                                                     <span class="text-dark text-capitalize">
-                                                        @item.PublishedTime.Value.ToString("dd/MM/yyyy HH:mm")
+                                                        @item.PublishedTime.ToString("dd/MM/yyyy HH:mm")
                                                     </span>
                                                 </li>
                                             </ul>
@@ -362,13 +364,13 @@
                                             <h6>
                                                 @if (item.Title.Length > 40)
                                                 {
-                                                    <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
+                                                    <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, MetaTitle = item.GenerateSlug() })">
                                                         @item.Title.Substring(0, 40)<span>...</span>
                                                     </a>
                                                 }
                                                 else
                                                 {
-                                                    <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
+                                                    <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, MetaTitle = item.GenerateSlug() })">
                                                         @item.Title
                                                     </a>
                                                 }

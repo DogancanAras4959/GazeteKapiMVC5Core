@@ -48,7 +48,7 @@
                                     <tr>
                                         <td style="text-align:center;">@Html.DisplayFor(model => item.RowNo)</td>
                                         <td>@Html.DisplayFor(modelItem => item.Id)</td>
-                                        <td>@Html.DisplayFor(modelItem => item.PublishedTime)</td>
+                                        <td>@item.PublishedTime.ToString("dd/MM/yyyy HH:mm")</td>
                                         <td class="taskSingleInline" id="task@(item.Id)" data-taskid="@(item.Id)">
                                             <a asp-action="HaberDuzenle" asp-controller="Haber" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.MetaTitle)</a>
                                         </td>

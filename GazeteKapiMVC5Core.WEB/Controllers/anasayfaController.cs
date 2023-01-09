@@ -55,11 +55,12 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
         private readonly IIPAddresService _ipAddressService;
         private readonly INewsIpService _newsIpService;
         private readonly IBannerService _bannerService;
+        private readonly IContactService _contactService;
         private readonly reCaptchaService _repService;
         private int BATCH_SIZE = 1;
 
         [Obsolete]
-        public anasayfaController(INewsService newService, ICategoryService categoryService, IMapper mapper, ISettingService settingService, IViewRenderService viewRender, reCaptchaService repService, IIPAddresService ipAddressService, INewsIpService newsIpService, IBannerService bannerService)
+        public anasayfaController(INewsService newService, ICategoryService categoryService, IMapper mapper, ISettingService settingService, IViewRenderService viewRender, reCaptchaService repService, IIPAddresService ipAddressService, IContactService contactService, INewsIpService newsIpService, IBannerService bannerService)
         {
             _newService = newService;
             _categoryService = categoryService;
@@ -157,6 +158,7 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
                         Id = item.Id,
                         Image = item.Image,
                         Title = item.Title,
+                        MetaTitle = item.MetaTitle,
                         Spot = item.Spot,
                         PublishedTime = item.PublishedTime,
                         CategoryId = item.CategoryId
@@ -172,6 +174,7 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
                         Id = item.news.Id,
                         Image = item.news.Image,
                         Title = item.news.Title,
+                        MetaTitle = item.news.MetaTitle,
                         Spot = item.news.Spot,
                         PublishedTime = item.news.PublishedTime,
                         CategoryId = item.news.CategoryId
@@ -221,6 +224,7 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
                         Id = item.news.Id,
                         Image = item.news.Image,
                         Title = item.news.Title,
+                        MetaTitle = item.news.MetaTitle,
                         Spot = item.news.Spot,
                         PublishedTime = item.news.PublishedTime,
                         CategoryId = item.news.CategoryId
@@ -369,9 +373,9 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
             return View(guestList);
         }
 
-        [HttpGet("haber/{Id}/{Title}", Name = "haber")]
+        [HttpGet("haber/{Id}/{MetaTitle}", Name = "haber")]
         [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
-        public async Task<IActionResult> haber(int Id, string Title)
+        public async Task<IActionResult> haber(int Id, string MetaTitle)
         {
             var bannerSagAlt = _mapper.Map<BannerDto, BannerEditViewModelWeb>(_bannerService.getBanner(8));
             ViewBag.BannerSagAlt = bannerSagAlt;
@@ -435,7 +439,7 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
 
             #region Datas
 
-            string friendlyTitle = Title;
+            string friendlyTitle = MetaTitle;
             List<TagNewsListViewModelWeb> tagNewsList = _mapper.Map<List<TagNewsListItemDto>, List<TagNewsListViewModelWeb>>(_newService.tagsListWithNewsByNewsId(Id));
             ViewBag.TagNews = tagNewsList;
 
@@ -492,9 +496,9 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
 
             #endregion
 
-            if (!string.Equals(friendlyTitle, Title, StringComparison.Ordinal))
+            if (!string.Equals(friendlyTitle, MetaTitle, StringComparison.Ordinal))
             {
-                return this.RedirectToRoutePermanent("haber", new { id = Id, title = friendlyTitle });
+                return this.RedirectToRoutePermanent("haber", new { id = Id, metatitle = friendlyTitle });
             }
 
             return View(newsGet);
@@ -596,7 +600,7 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
             #endregion
 
             return View(getTermsOfUs);
-        }
+        }   
         public IActionResult kunye()
         {
 
@@ -906,16 +910,33 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
 
         [ValidateAntiForgeryToken]
         [HttpPost]
-        public IActionResult aboneol(MembersCreateViewModel model)
+        public async Task<IActionResult> aboneol(MembersCreateViewModel model)
         {
             var rep = _repService.RecVer(model.ReCaptchaToken);
+            string messageForm = null;
 
             if (!rep.Result.success && rep.Result.score < 0.5)
             {
                 ViewBag.Hata = "Siz gerçek kullanıcı değilsiniz!";
                 return View(aboneol());
             }
+            else
+            {
+                var message = new EmailConfig()
+                {
+                    to = "editor@gazetekapi.com",
+                    subject = "Le Monde Diplomatique Abonelik Başvurusu " + DateTime.Now.ToString("dd MMMM yyyy | hh:mm"),
+                    phoneNumber = model.phoneNumber,
+                    emailAdress = model.emailAdress,
+                    nameSurname = model.nameSurname,
+                    description = model.description,
+                    content = $@"<p>{model.nameSurname}, abonelik başvurusu yaptı. (Bu form https://www.gazetekapi.org.tr/anasayfa/aboneol sayfası üzerinden gelmiştir.) </p> </hr><p><strong>Email Adresi:</strong> {model.emailAdress}</p> </hr> <p><strong>Telefon No:</strong> {model.phoneNumber}</p> <hr/> <p><strong>Mesaj:</strong></p> <p>{model.content}</p>",
+                };
 
+                messageForm = await _contactService.SendFormToSubscribe(message); 
+            }
+
+            ViewBag.Message = messageForm;
             return View(aboneol());
         }
 
@@ -946,6 +967,8 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
             }
 
         }
+
+
         #endregion
 
     }

@@ -599,12 +599,7 @@ namespace GazeteKapiMVC5Core.Controllers
                     {
                         if (file != null && file.Length > 0)
                         {
-                            string[] allowImageTypes = new string[] { "image/jpeg", "image(png" };
 
-                            if (!allowImageTypes.Contains(file.ContentType.ToLower()))
-                            {
-                                return View(model);
-                            }
                             model.Image = SaveImageProcess.ImageInsert(file, "Admin");
 
                         }
@@ -629,7 +624,6 @@ namespace GazeteKapiMVC5Core.Controllers
                                 model.RowNo = 0;
                                 model.Sorted = 0;
                                 model.UserId = yoneticiGetir.Id;
-                                model.PublishedTime = DateTime.Now;
 
                             }
                             else
@@ -762,125 +756,111 @@ namespace GazeteKapiMVC5Core.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public async Task<IActionResult> HaberDuzenle(NewsEditViewModel model, IFormFile file)
         {
-            try
-            {
-                if (ModelState.IsValid)
-                {
-                    var news = _mapper.Map<NewsDto, NewsEditViewModel>(_newService.getNews(model.Id));
 
-                    if (model.PublishedTime == null)
+            var news = _mapper.Map<NewsDto, NewsEditViewModel>(_newService.getNews(model.Id));
+
+            //if (model.PublishedTime == null || model.PublishedTime.ToString() == "1.01.0001 00:00:00")
+            //{
+            //    model.PublishedTime = DateTime.Now;
+            //}
+
+            //else
+            //{
+            //    if (model.PublishedTime != DateTime.Now)
+            //    {
+            //        if (model.PublishedTime.Day < DateTime.Now.Day)
+            //        {
+            //            ViewBag.Hata = "Zamanlayıcı için yayınlanma tarihi bugünden önce olamaz!";
+            //            LoadData();
+            //            return RedirectToAction("HaberDuzenle", "Haber", new { Id = news.Id });
+            //        }
+            //        else
+            //        {
+            //            model.IsActive = false;
+            //        }
+            //    }
+            //}
+
+            if (model.PublishTypeId == 999)
+            {
+                ViewBag.Hata = "Haber tipi seçimiyle ilgili bir sorun çıktı. Haber tipi seçiniz"!;
+                LoadData();
+                return RedirectToAction("HaberDuzenle", "Haber", new { Id = news.Id });
+            }
+           
+            else
+            {
+                if (model.CategoryId != 0)
+                {
+                    AccountEditViewModel yoneticiGetir = SessionExtensionMethod.GetObject<AccountEditViewModel>(HttpContext.Session, "user");
+                    model.UserId = yoneticiGetir.Id;
+
+                    //if (model.Sound == null)
+                    //{
+                    //    string friendlyUrl = GoogleTTS.GenerateSlug(model.Title, model.Id);
+                    //    string content = GoogleTTS.HtmlToPlainTextTTS(model.NewsContent);
+                    //    string outputSound = GoogleTTS.Speak(model.Spot, model.Title, friendlyUrl, content, "Admin");
+
+                    //    model.Sound = outputSound;
+                    //}
+
+                    if (file != null)
                     {
-                        model.PublishedTime = DateTime.Now;
+
+                        model.Image = SaveImageProcess.ImageInsert(file, "Admin");
+
+                        int resultId = Convert.ToInt32(await _newService.editNews(_mapper.Map<NewsEditViewModel, NewsDto>(model)));
+
+                        if (resultId > 0)
+                        {
+
+                            if (!string.IsNullOrEmpty(model.Tag))
+                            {
+                                if (model.Tag[^1] == ',')
+                                {
+                                    await _newService.InsertTagToProduct(model.Tag[0..^1], resultId);
+                                }
+                                else
+                                {
+                                    await _newService.InsertTagToProduct(model.Tag, resultId);
+                                }
+                            }
+                            return RedirectToAction("HaberDuzenle", "Haber", new { Id = news.Id });
+                        }
                     }
 
                     else
                     {
-                        if (model.PublishedTime != DateTime.Now)
+
+                        int resultId = Convert.ToInt32(await _newService.editNews(_mapper.Map<NewsEditViewModel, NewsDto>(model)));
+
+                        if (resultId > 0)
                         {
-                            if (model.PublishedTime.Value.Day < DateTime.Now.Day)
+
+                            if (!string.IsNullOrEmpty(model.Tag))
                             {
-                                ViewBag.Hata = "Zamanlayıcı için yayınlanma tarihi bugünden önce olamaz!";
-                                LoadData();
-                                return RedirectToAction("HaberDuzenle", "Haber", new { Id = news.Id });
-                            }
-                            else
-                            {
-                                model.IsActive = false;
-                            }
-                        }
-                    }
-
-                    if (model.PublishTypeId == 999)
-                    {
-                        ViewBag.Hata = "Haber tipi seçimiyle ilgili bir sorun çıktı. Haber tipi seçiniz"!;
-                        LoadData();
-                        return RedirectToAction("HaberDuzenle", "Haber", new { Id = news.Id });
-                    }
-                    else
-                    {
-                        if (model.CategoryId != 0)
-                        {
-                            AccountEditViewModel yoneticiGetir = SessionExtensionMethod.GetObject<AccountEditViewModel>(HttpContext.Session, "user");
-                            model.UserId = yoneticiGetir.Id;
-
-                            //if (model.Sound == null)
-                            //{
-                            //    string friendlyUrl = GoogleTTS.GenerateSlug(model.Title, model.Id);
-                            //    string content = GoogleTTS.HtmlToPlainTextTTS(model.NewsContent);
-                            //    string outputSound = GoogleTTS.Speak(model.Spot, model.Title, friendlyUrl, content, "Admin");
-
-                            //    model.Sound = outputSound;
-                            //}
-
-                            if (file != null)
-                            {
-
-                                model.Image = SaveImageProcess.ImageInsert(file, "Admin");
-
-                                int resultId = Convert.ToInt32(await _newService.editNews(_mapper.Map<NewsEditViewModel, NewsDto>(model)));
-
-                                if (resultId > 0)
+                                if (model.Tag[^1] == ',')
                                 {
-
-                                    if (!string.IsNullOrEmpty(model.Tag))
-                                    {
-                                        if (model.Tag[^1] == ',')
-                                        {
-                                            await _newService.InsertTagToProduct(model.Tag[0..^1], resultId);
-                                        }
-                                        else
-                                        {
-                                            await _newService.InsertTagToProduct(model.Tag, resultId);
-                                        }
-                                    }
-                                    return RedirectToAction("HaberDuzenle", "Haber", new { Id = news.Id });
+                                    await _newService.InsertTagToProduct(model.Tag[0..^1], resultId);
+                                }
+                                else
+                                {
+                                    await _newService.InsertTagToProduct(model.Tag, resultId);
                                 }
                             }
-
-                            else
-                            {
-
-                                int resultId = Convert.ToInt32(await _newService.editNews(_mapper.Map<NewsEditViewModel, NewsDto>(model)));
-
-                                if (resultId > 0)
-                                {
-
-                                    if (!string.IsNullOrEmpty(model.Tag))
-                                    {
-                                        if (model.Tag[^1] == ',')
-                                        {
-                                            await _newService.InsertTagToProduct(model.Tag[0..^1], resultId);
-                                        }
-                                        else
-                                        {
-                                            await _newService.InsertTagToProduct(model.Tag, resultId);
-                                        }
-                                    }
-                                    return RedirectToAction("HaberDuzenle", "Haber", new { Id = news.Id });
-
-                                }
-                            }
+                            return RedirectToAction("HaberDuzenle", "Haber", new { Id = news.Id });
 
                         }
                     }
+                }
+            }
 
-                    LoadData();
-                    return RedirectToAction("HaberDuzenle", "Haber", new { Id = news.Id });
-                }
-                else
-                {
-                    LoadData();
-                    return RedirectToAction("HaberDuzenle", "Haber", new { Id = model.Id });
-                }
-            }
-            catch (Exception ex)
-            {
-                TempData["HataMesaji"] = ex.ToString();
-                return RedirectToAction("ErrorPage", "Home");
-            }
+            LoadData();
+            return RedirectToAction("HaberDuzenle", "Haber", new { Id = news.Id });
+
         }
 
         public async Task<IActionResult> HaberCogalt(int Id)

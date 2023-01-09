@@ -97,7 +97,7 @@
                                                asp-action="HaberDuzenle" asp-controller="Haber" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.MetaTitle)</a>
                                         </td>
 
-                                        <td>@Html.DisplayFor(model => item.PublishedTime)</td>
+                                        <td>@item.PublishedTime.ToString("dd/MM/yyyy HH:mm:ss")</td>
                                         <td>@Html.DisplayFor(model => item.categories.CategoryName)</td>
                                         <td>@Html.DisplayFor(model => item.Views)</td>
                                         <td>@Html.DisplayFor(model => item.users.DisplayName)</td>

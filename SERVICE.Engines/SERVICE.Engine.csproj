@@ -5,6 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MimeKit" Version="3.4.3" />
+    <PackageReference Include="NETCore.MailKit" Version="2.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\CORE.ApplicationCommon\CORE.ApplicationCommon.csproj" />
     <ProjectReference Include="..\CORE.ApplicationCore\CORE.ApplicationCore.csproj" />
   </ItemGroup>

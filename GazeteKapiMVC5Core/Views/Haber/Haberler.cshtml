@@ -60,7 +60,7 @@
                                             </td>
                                         }
 
-                                        <td>@Html.DisplayFor(model => item.PublishedTime)</td>
+                                    <td> @item.PublishedTime.ToString("dd/MM/yyyy HH:mm")</td>
                                         <td>@Html.DisplayFor(model => item.Views)</td>
                                         @if (item.IsSlide == true)
                                         {

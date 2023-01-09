@@ -17,7 +17,7 @@
 </div>
 <aside class="wrapper__list__article">
     <div class="wrapper__list-number">
-        @foreach (var item in guestList)
+        @foreach (var item in guestList.Where(x=> x.IsActive == true))
         {
             @if (item.GuestName != "Yazar Yok")
             {
@@ -50,13 +50,13 @@
                                         <h6>
                                             @if (item2.Title.Length > 40)
                                             {
-                                                <a href="@Url.Action("haber","anasayfa", new { Id = item2.Id, Title = item2.GenerateSlug() })">
+                                                <a href="@Url.Action("haber","anasayfa", new { Id = item2.Id, MetaTitle = item2.GenerateSlug() })">
                                                     @item2.Title.Substring(0, 40)
                                                 </a>
                                             }
                                             else
                                             {
-                                                <a href="@Url.Action("haber","anasayfa", new { Id = item2.Id, Title = item2.GenerateSlug() })">
+                                                <a href="@Url.Action("haber","anasayfa", new { Id = item2.Id, MetaTitle = item2.GenerateSlug() })">
                                                     @item2.Title
                                                 </a>
                                             }
