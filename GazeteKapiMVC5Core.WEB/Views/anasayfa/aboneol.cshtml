@@ -68,7 +68,7 @@
                             <span class="submitting"></span>
                         </div>
                     </div>
-                    <input type="hidden" name="ReCaptchaToken" id="hdnGoogleRecaptcha" required><br />
+                    @*<input type="hidden" name="ReCaptchaToken" id="hdnGoogleRecaptcha" required><br />*@
                 </form>
                 <div id="form-message-success">
                     @ViewBag.Message
@@ -82,7 +82,7 @@
 
 <script src="~/popper.min.js"></script>
 
-@section Scripts {
+@*@section Scripts {
 
     <script src="https://www.google.com/recaptcha/api.js?render=@Google.Value.RecaptchaV3SiteKey"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
@@ -94,4 +94,4 @@
             });
         });
     </script>
-}
+}*@

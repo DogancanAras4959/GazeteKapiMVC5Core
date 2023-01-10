@@ -1,11 +1,13 @@
 ﻿@using GazeteKapiMVC5Core.WEB.ViewModels.News;
 @using GazeteKapiMVC5Core.WEB.ViewModels.Categories;
+@using GazeteKapiMVC5Core.WEB.ViewModels.TagsNews; 
 
 @{
     int count = 0;
 
     List<NewListViewModelWeb> haberlerManset = ViewBag.HaberlerManset as List<NewListViewModelWeb>;
     CategoryEditViewModelWeb categoryOne = ViewBag.CategoryIdOne as CategoryEditViewModelWeb;
+    //List<TagNewsListViewModelWeb> tagNewList
 }
 
 <style>
@@ -29,17 +31,17 @@
 
     @foreach (var item in haberlerManset.OrderByDescending(x => x.Id).ToList().Where(x => x.IsActive == true && x.CategoryId == categoryOne.Id && x.IsLock == false && x.GuestId == 8))
     {
-            if (item.IsSlide == false)
-            {
-                //foreach (var tags in tagNewList.Where(x => x.NewsId == item.Id))
-                //{
-                //    TagListViewModelWeb newTags = new TagListViewModelWeb();
-                //    newTags.Id = tags.Id;
-                //    newTags.TagName = tags.tag.TagName;
-                //    tagList.Add(newTags);
-                //}
+        if (item.IsSlide == false)
+        {
+            //foreach (var tags in tagNewList.Where(x => x.NewsId == item.Id))
+            //{
+            //    TagListViewModelWeb newTags = new TagListViewModelWeb();
+            //    newTags.Id = tags.Id;
+            //    newTags.TagName = tags.tag.TagName;
+            //    tagList.Add(newTags);
+            //}
 
-                count++;
+            count++;
                 <div class="col-sm-12 col-md-6 mb-2">
                     <!-- Post Article -->
                     <div class="card__post ">
@@ -101,7 +103,7 @@
                         NewListViewModelWeb[] tagsList = newListData.ToArray();
                     }*@
 
-                @foreach (var item in haberlerManset.OrderByDescending(x=> x.Id).Where(x => x.categories.CategoryName == "EKONOMİ" && x.IsLock == false && x.IsActive == true).Take(4))
+                @foreach (var item in haberlerManset.OrderByDescending(x=> x.Id).Where(x => x.CategoryId == 3 && x.IsLock == false && x.IsActive == true).Take(8))
                 {
 
                     <div class="col-sm-6">

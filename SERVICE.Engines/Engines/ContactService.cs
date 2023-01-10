@@ -15,10 +15,8 @@ namespace SERVICE.Engine.Engines
     public class ContactService : IContactService
     {
         private readonly EmailConfiguration emailConfig;
-        private readonly IUnitOfWork<NewsAppContext> _unitOfWork;
-        public ContactService(IUnitOfWork<NewsAppContext> unitOfWork, IOptions<EmailConfiguration> emailConfiguration)
+        public ContactService(IOptions<EmailConfiguration> emailConfiguration)
         {
-            _unitOfWork = unitOfWork;
             emailConfig = emailConfiguration.Value;
         }
         public async Task<string> SendFormToSubscribe(EmailConfig config)

@@ -70,6 +70,7 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
             _repService = repService;
             _ipAddressService = ipAddressService;
             _newsIpService = newsIpService;
+            _contactService = contactService;
             _bannerService = bannerService;
         }
 
@@ -912,16 +913,16 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
         [HttpPost]
         public async Task<IActionResult> aboneol(MembersCreateViewModel model)
         {
-            var rep = _repService.RecVer(model.ReCaptchaToken);
-            string messageForm = null;
+            //var rep = _repService.RecVer(model.ReCaptchaToken);
+            string messageForm = "";
 
-            if (!rep.Result.success && rep.Result.score < 0.5)
-            {
-                ViewBag.Hata = "Siz gerçek kullanıcı değilsiniz!";
-                return View(aboneol());
-            }
-            else
-            {
+            //if (!rep.Result.success && rep.Result.score < 0.5)
+            //{
+            //    ViewBag.Hata = "Siz gerçek kullanıcı değilsiniz!";
+            //    return View(aboneol());
+            //}
+            //else
+            //{
                 var message = new EmailConfig()
                 {
                     to = "editor@gazetekapi.com",
@@ -934,7 +935,7 @@ namespace GazeteKapiMVC5Core.WEB.Controllers
                 };
 
                 messageForm = await _contactService.SendFormToSubscribe(message); 
-            }
+            //}
 
             ViewBag.Message = messageForm;
             return View(aboneol());

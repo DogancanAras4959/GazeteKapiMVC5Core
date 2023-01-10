@@ -12,9 +12,9 @@
     <div class="wrapper__section__components">
         <!-- Footer -->
         <footer id="myFooter">
-            @*<div class="wrapper__footer bg__footer-dark container boxed cookie-background" style="position: relative; top: 31px;">
+            <div class="wrapper__footer bg__footer-dark container boxed cookie-background" style="position: relative; top: 31px;">
                      <partial name="_CookieConsentPartial" />
-                </div>*@
+                </div>
             <div class="wrapper__footer bg__footer-dark" style="padding-bottom:60px;">
                 <div class="container" style="margin-top:20px">
                     <div class="row">
@@ -82,7 +82,7 @@
                                         <ul class="list-unstyled option-content">
                                             @foreach (var item in listCategory.Where(x => x.TypeId == 1 && x.IsActive == true))
                                             {
-                                                <li> <a style="text-transform:uppercase;" target="_blank" href="@Url.Action("kategori","anasayfa", new { Id = item.Id })">@item.CategoryName</a></li>
+                                                <li> <a target="_blank" href="@Url.Action("kategori","anasayfa", new { Id = item.Id })">@item.CategoryName.ToUpper()</a></li>
                                             }
                                             @*<li>
                                                     <a class="color-list" href="#">BİLİM</a>
@@ -116,7 +116,7 @@
                                         <ul class="list-unstyled option-content">
                                             @foreach (var item in listCategory.Where(x => x.TypeId == 2 && x.IsActive == true))
                                             {
-                                                <li> <a target="_blank" href="@Url.Action("kategori","anasayfa", new { Id = item.Id })">@item.CategoryName</a></li>
+                                                <li> <a target="_blank" href="@Url.Action("kategori","anasayfa", new { Id = item.Id })">@item.CategoryName.ToUpper()</a></li>
                                             }
                                             @*<li>
                                                     <a href="#">KONUK YAZAR</a>
@@ -147,7 +147,7 @@
                                         <ul class="list-unstyled option-content">
                                             @foreach (var item in listCategory.Where(x => x.TypeId == 3 && x.IsActive == true))
                                             {
-                                                <li> <a href="@Url.Action("kategori","anasayfa", new { Id = item.Id })">@item.CategoryName</a></li>
+                                                <li> <a href="@Url.Action("kategori","anasayfa", new { Id = item.Id })">@item.CategoryName.ToUpper()</a></li>
                                             }
                                             @*<li>
                                                     <a href="#">GALERİ</a>

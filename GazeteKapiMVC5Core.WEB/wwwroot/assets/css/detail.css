@@ -31,7 +31,7 @@
     font-size: 11px !important;
     color: #54626b !important;
     font-weight: 700;
-    text-transform: uppercase;
+    text-transform: capitalize;
 }
 
 .wrap__article-detail-content .total-views .list-inline {

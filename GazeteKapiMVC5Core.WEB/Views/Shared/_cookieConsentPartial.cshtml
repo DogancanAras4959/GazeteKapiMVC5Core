@@ -74,6 +74,8 @@
             var button = document.querySelector("#cookieConsent button[data-cookie-string]");
             button.addEventListener("click", function (event) {
                 document.cookie = button.dataset.cookieString;
+                var id = document.getElementById("cookieConsent");
+                id.style.display = "none";
             }, false);
         })();
     </script>

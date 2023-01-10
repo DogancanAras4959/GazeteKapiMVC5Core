@@ -798,14 +798,14 @@ namespace GazeteKapiMVC5Core.Controllers
                     AccountEditViewModel yoneticiGetir = SessionExtensionMethod.GetObject<AccountEditViewModel>(HttpContext.Session, "user");
                     model.UserId = yoneticiGetir.Id;
 
-                    //if (model.Sound == null)
-                    //{
-                    //    string friendlyUrl = GoogleTTS.GenerateSlug(model.Title, model.Id);
-                    //    string content = GoogleTTS.HtmlToPlainTextTTS(model.NewsContent);
-                    //    string outputSound = GoogleTTS.Speak(model.Spot, model.Title, friendlyUrl, content, "Admin");
+                    if (model.Sound == null)
+                    {
+                        string friendlyUrl = GoogleTTS.GenerateSlug(model.Title, model.Id);
+                        string content = GoogleTTS.HtmlToPlainTextTTS(model.NewsContent);
+                        string outputSound = GoogleTTS.Speak(model.Spot, model.Title, friendlyUrl, content, "Admin");
 
-                    //    model.Sound = outputSound;
-                    //}
+                        model.Sound = outputSound;
+                    }
 
                     if (file != null)
                     {

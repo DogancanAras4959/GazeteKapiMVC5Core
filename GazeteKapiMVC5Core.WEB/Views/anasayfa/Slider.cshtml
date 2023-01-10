@@ -36,6 +36,12 @@
         background-color:#ffc107;
         border-color:#ffc107;
     }
+    .btn-slider-custom {
+        margin-top: 3px;
+        cursor: pointer;
+        color: #fff;
+        padding: 0.75rem 1.6rem;
+    }
 </style>
 
 <link href="~/assets/css/slider.css" rel="stylesheet" />
@@ -81,7 +87,10 @@
         <div style="display: flex; margin: 0 auto; flex-wrap: nowrap; justify-content: space-between;">
             @foreach (var item in haberlerManset.OrderBy(x => x.RowNo).Where(x => x.IsActive == true && x.IsSlide == true && x.IsLock == false).Take(10))
             {
-                <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, MetaTitle = item.GenerateSlug() })" target="_blank" style="margin-top:3px; cursor:pointer; color:#fff; padding: 0.75rem 1.6rem;" class="btn btn-dark slider-button-m buttonIndex" onclick="currentSlide(@item.RowNo)">@item.RowNo</a>
+                <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, MetaTitle = item.GenerateSlug() })" 
+                   target="_blank" class="btn btn-dark slider-button-m buttonIndex btn-slider-custom" 
+                   onclick="currentSlide(@item.RowNo)" 
+                   onmouseover="currentSlide(@item.RowNo)">@item.RowNo</a>
             }
         </div>
 

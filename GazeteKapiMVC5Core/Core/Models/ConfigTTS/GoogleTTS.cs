@@ -23,8 +23,8 @@ namespace GazeteKapiMVC5Core.Core.Models.ConfigTTS
             {
                 case "Admin":
                     ftpInfo.Url = "ftp://uploads.gazetekapi.com//uploads/sounds";
-                    ftpInfo.UserName = "sysuser_8";
-                    ftpInfo.Password = "1g1*j0Ld";
+                    ftpInfo.UserName = "gazeteka_nz0qbik9r6h";
+                    ftpInfo.Password = "VRzoAc58!cuikr9";
                     break;
 
                 default:

@@ -1,4 +1,5 @@
 using AutoMapper;
+using CORE.ApplicationCommon.Helpers;
 using GazeteKapiMVC5Core.WEB.CoreInjection;
 using GazeteKapiMVC5Core.WEB.Models.ConfigreCaptcha;
 using GazeteKapiMVC5Core.WEB.Profiles.WEB;
@@ -48,7 +49,8 @@ namespace GazeteKapiMVC5Core.WEB
             services.AddControllersWithViews().SetCompatibilityVersion(CompatibilityVersion.Latest);
             services.AddDistributedMemoryCache();
             services.Configure<reCaptchaSettings>(_configuration.GetSection("Google"));
-          
+            services.Configure<EmailConfiguration>(_configuration.GetSection("EmailConfiguration"));
+
             var mappingConfig = new MapperConfiguration(mc =>
             {
                 mc.AddProfile(new NewsProfileWeb());
