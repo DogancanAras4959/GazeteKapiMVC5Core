@@ -756,33 +756,11 @@ namespace GazeteKapiMVC5Core.Controllers
         }
 
         [HttpPost]
-        //[ValidateAntiForgeryToken]
+    
         public async Task<IActionResult> HaberDuzenle(NewsEditViewModel model, IFormFile file)
         {
 
             var news = _mapper.Map<NewsDto, NewsEditViewModel>(_newService.getNews(model.Id));
-
-            //if (model.PublishedTime == null || model.PublishedTime.ToString() == "1.01.0001 00:00:00")
-            //{
-            //    model.PublishedTime = DateTime.Now;
-            //}
-
-            //else
-            //{
-            //    if (model.PublishedTime != DateTime.Now)
-            //    {
-            //        if (model.PublishedTime.Day < DateTime.Now.Day)
-            //        {
-            //            ViewBag.Hata = "Zamanlayıcı için yayınlanma tarihi bugünden önce olamaz!";
-            //            LoadData();
-            //            return RedirectToAction("HaberDuzenle", "Haber", new { Id = news.Id });
-            //        }
-            //        else
-            //        {
-            //            model.IsActive = false;
-            //        }
-            //    }
-            //}
 
             if (model.PublishTypeId == 999)
             {
@@ -798,14 +776,14 @@ namespace GazeteKapiMVC5Core.Controllers
                     AccountEditViewModel yoneticiGetir = SessionExtensionMethod.GetObject<AccountEditViewModel>(HttpContext.Session, "user");
                     model.UserId = yoneticiGetir.Id;
 
-                    if (model.Sound == null)
-                    {
-                        string friendlyUrl = GoogleTTS.GenerateSlug(model.Title, model.Id);
-                        string content = GoogleTTS.HtmlToPlainTextTTS(model.NewsContent);
-                        string outputSound = GoogleTTS.Speak(model.Spot, model.Title, friendlyUrl, content, "Admin");
+                    //if (model.Sound == null)
+                    //{
+                    //    string friendlyUrl = GoogleTTS.GenerateSlug(model.Title, model.Id);
+                    //    string content = GoogleTTS.HtmlToPlainTextTTS(model.NewsContent);
+                    //    string outputSound = GoogleTTS.Speak(model.Spot, model.Title, friendlyUrl, content, "Admin");
 
-                        model.Sound = outputSound;
-                    }
+                    //    model.Sound = outputSound;
+                    //}
 
                     if (file != null)
                     {

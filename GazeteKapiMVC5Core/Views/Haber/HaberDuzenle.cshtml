@@ -11,13 +11,13 @@
     SeoScoreBaseViewModel seoScore = ViewBag.SeoScore as SeoScoreBaseViewModel;
 }
 
-@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Xsrf
+@*@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Xsrf
 @functions{
     public string GetAntiXsrfRequestToken()
     {
         return Xsrf.GetAndStoreTokens(Context).RequestToken;
     }
-}
+}*@
 
 <style>
     #post-score {
