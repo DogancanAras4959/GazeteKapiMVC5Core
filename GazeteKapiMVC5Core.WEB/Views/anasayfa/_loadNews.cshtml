@@ -8,13 +8,11 @@
     <div class="mb-3">
         <!-- Post Article -->
         <div class="card__post card__post-list">
-            @*<div class="image-sm">
-                    <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, Title = item.GenerateSlug() })">
-                        <img style="height:100px;" src="https://uploads.gazetekapi.com/images/@item.Image" class="img-fluid" alt="">
-                    </a>
-                </div>*@
             <div class="card__post__body ">
-                <div class="card__post__content">
+                <div class="card__post__content" style="padding:0px !important;">
+                   
+                    <img style="height:100%; margin-bottom:20px;" src="https://uploads.gazetekapi.com/images/@item.Image" class="img-fluid" alt="@item.Title" title="@item.Title" loading="lazy">
+
                     <div class="card__post__title">
                         @*<p style="margin-bottom:10px;"><i class="fa fa-clock-o"></i> @item.PublishedTime.Value.ToString("MM/dd/yyyy HH:mm")</p>*@
                         <h6>
@@ -25,7 +23,8 @@
                                 </a>
                             }
                             else
-                            { <a style="font-size:25px; font-weight:700" href="@Url.Action("haber", "anasayfa", new { Id = item.Id, MetaTitle = item.GenerateSlug() })">
+                            {
+                                <a style="font-size:25px; font-weight:700" href="@Url.Action("haber", "anasayfa", new { Id = item.Id, MetaTitle = item.GenerateSlug() })">
                                     @item.Title
                                 </a>
                             }

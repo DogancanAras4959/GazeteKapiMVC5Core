@@ -7,13 +7,23 @@
 
 <link href="~/assets/css/slider.css" rel="stylesheet" />
 
+<style>
+    .team-member .member img {
+        position: relative;
+        display: block;
+        width: 225px;
+        height: 225px;
+        margin: 0;
+    }
+</style>
+
 <section>
     <div class="container boxed">
         <div class="row">
             <div class="col-md-12">
                 <!-- team member -->
                 <div class="team-member row">
-                    @foreach (var item in Model.Where(x=> x.IsActive == true))
+                    @foreach (var item in Model)
                     {
                         if (item.GuestName != "Yazar Yok")
                         {
@@ -23,7 +33,7 @@
                                          class="img-fluid" alt="@item.GuestImage" title="@item.GuestImage" />
                                     <figcaption>
                                         <a asp-action="yazaryazilari" asp-controller="anasayfa" asp-route-id="@item.Id"><h4>@item.GuestName</h4></a>
-                                        <small>Yazar</small>
+                                        @*<small>Yazar</small>
                                         <ul class="list-inline">
                                             <li class="list-inline-item">
                                                 <a href="#">
@@ -44,7 +54,7 @@
                                                 </a>
                                             </li>
                                            
-                                        </ul>
+                                        </ul>*@
                                     </figcaption>
                                 </figure>
                             </div>

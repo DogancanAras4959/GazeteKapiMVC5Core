@@ -9,15 +9,19 @@
   <ItemGroup>
     <Compile Remove="wwwroot\assets\css\ckeditor\**" />
     <Compile Remove="wwwroot\assets\fckeditor\**" />
+    <Compile Remove="wwwroot\assets\uploads\**" />
     <Compile Remove="wwwroot\sound\**" />
     <Content Remove="wwwroot\assets\css\ckeditor\**" />
     <Content Remove="wwwroot\assets\fckeditor\**" />
+    <Content Remove="wwwroot\assets\uploads\**" />
     <Content Remove="wwwroot\sound\**" />
     <EmbeddedResource Remove="wwwroot\assets\css\ckeditor\**" />
     <EmbeddedResource Remove="wwwroot\assets\fckeditor\**" />
+    <EmbeddedResource Remove="wwwroot\assets\uploads\**" />
     <EmbeddedResource Remove="wwwroot\sound\**" />
     <None Remove="wwwroot\assets\css\ckeditor\**" />
     <None Remove="wwwroot\assets\fckeditor\**" />
+    <None Remove="wwwroot\assets\uploads\**" />
     <None Remove="wwwroot\sound\**" />
   </ItemGroup>
 
@@ -1536,10 +1540,6 @@
     <ProjectReference Include="..\CORE.ApplicationCore\CORE.ApplicationCore.csproj" />
     <ProjectReference Include="..\GazeteKapiMVC5Core.DataAccessLayer\GazeteKapiMVC5Core.DataAccessLayer.csproj" />
     <ProjectReference Include="..\SERVICE.Engines\SERVICE.Engine.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="wwwroot\assets\uploads\" />
   </ItemGroup>
 
 </Project>

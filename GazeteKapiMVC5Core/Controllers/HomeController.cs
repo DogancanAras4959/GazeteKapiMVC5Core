@@ -63,12 +63,12 @@ namespace GazeteKapiMVC5Core.Controllers
             return View();
         }
 
-        [Route("/home/hata/{code:int}")]
-        public IActionResult hata(int code)
-        {
-            ViewData["ErrorCode"] = $"{code}";
-            return View("~/Views/Home/hata.cshtml");
-        }
+        //[Route("/home/hata/{code:int}")]
+        //public IActionResult hata(int code)
+        //{
+        //    ViewData["ErrorCode"] = $"{code}";
+        //    return View("~/Views/Home/hata.cshtml");
+        //}
 
         public void CountData()
         {

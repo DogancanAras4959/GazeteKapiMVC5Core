@@ -154,7 +154,9 @@
                                         <a asp-action="kategori" style="font-size:16px;" asp-controller="anasayfa" asp-route-id="@item.Id" class="menu-link"> @item.CategoryName.ToUpper() </a> <div class="menu-rect"></div>
                                     </li>
                                 }
-
+                                <li class="nav-item">
+                                    <a asp-action="yazarlar" style="font-size:16px;" asp-controller="anasayfa" class="menu-link"> YAZARLAR </a> <div class="menu-rect"></div>
+                                </li>
                                 @*<li class="nav-item dropdown has-megamenu" style="margin-left:13px; margin-right:0px; margin-top:3px; cursor:pointer;">
                                         <a class="menu-link dropdown-toggle" data-toggle="dropdown">
                                             <img alt="hamburger_icon" title="hamburger-menu" class="hamburger-light" src="~/assets/images/hamburgerMenu.png" />

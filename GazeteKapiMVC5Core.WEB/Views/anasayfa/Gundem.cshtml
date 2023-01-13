@@ -50,7 +50,7 @@
                                 <img style="height: 185px;" src="https://uploads.gazetekapi.com/images/@item.Image" class="img-fluid news-height-m" title="@item.Image" loading="lazy" alt="@item.Image" />
                             </a>
                             <div style="margin-top: 15px; overflow-wrap: anywhere;">
-                                <h6>
+                                <h6 style="text-transform:none;">
                                     @if (item.Title.Length > 80)
                                     {
                                         <a id="btn-article" style="color:#515d5e;" href="@Url.Action("haber","anasayfa", new { Id = item.Id, MetaTitle = item.GenerateSlug() })">

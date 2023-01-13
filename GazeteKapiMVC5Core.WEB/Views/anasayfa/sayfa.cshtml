@@ -197,7 +197,7 @@
                                                     <div class="card__post__category ">
                                                         @item2.categories.CategoryName
                                                     </div>
-                                                    <div class="card__post__author-info mb-2">
+                                                 @*   <div class="card__post__author-info mb-2">
                                                         <ul class="list-inline">
 
                                                             <li class="list-inline-item">
@@ -207,7 +207,7 @@
                                                             </li>
 
                                                         </ul>
-                                                    </div>
+                                                    </div>*@
                                                     <div class="card__post__title">
                                                        @if (item2.Title.Length > 80)
                                                         {
@@ -225,18 +225,18 @@
                                                                 </a>
                                                             </h5>
                                                         }
-                                                        @if (item2.Spot.Length > 120)
+                                                       @* @if (item2.Spot.Length > 30)
                                                         {
                                                             <p class="d-none d-lg-block d-xl-block mb-0">
-                                                                @item2.Spot.Substring(0, 120) <span>...</span>
+                                                                @item2.Spot.Substring(0, 30) <span>...</span>
                                                             </p>
                                                         }
                                                         else
-                                                        {
+                                                        {*@
                                                             <p class="d-none d-lg-block d-xl-block mb-0">
                                                                 @item2.Spot
                                                             </p>
-                                                        }
+                                                     @*   }*@
                                                     </div>
 
                                                 </div>
