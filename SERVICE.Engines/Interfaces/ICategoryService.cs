@@ -14,6 +14,7 @@ namespace SERVICES.Engine.Interfaces
         Task<bool> CategoryIfExists(string categoryName);
         Task<bool> CategoryIfExists(string categoryName, int id);
         CategoryDto GetCategoryById(int id);
+        CategoryDto GetCategoryFirstOrDefault();
         CategoryDto GetCategoryStyleId(int styleId);
         List<CategoryListItemDto> GetAllCategory();
         Task<bool> UpdateCategory(CategoryDto model);

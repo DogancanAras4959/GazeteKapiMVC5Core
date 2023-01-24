@@ -2,6 +2,11 @@
     min-height: 186px;
 }
 
+.img-optimized {
+    content-visibility: auto;
+
+}
+
 .boxed {
     max-width: 1030px;
 }

@@ -3,12 +3,14 @@ using CORE.ApplicationCommon.DTOS.BannersDTO;
 using CORE.ApplicationCommon.DTOS.CategoryDTO;
 using CORE.ApplicationCommon.DTOS.CurrencyDTO;
 using CORE.ApplicationCommon.DTOS.MagazineBannerDTO;
+using CORE.ApplicationCommon.DTOS.NewsDTO;
 using CORE.ApplicationCommon.DTOS.SetingsDTO;
 using GazeteKapiMVC5Core.WEB.Models;
 using GazeteKapiMVC5Core.WEB.ViewModels.Banner;
 using GazeteKapiMVC5Core.WEB.ViewModels.Categories;
 using GazeteKapiMVC5Core.WEB.ViewModels.Currencies;
 using GazeteKapiMVC5Core.WEB.ViewModels.MagazineBanner;
+using GazeteKapiMVC5Core.WEB.ViewModels.News;
 using GazeteKapiMVC5Core.WEB.ViewModels.Settings;
 using Microsoft.AspNetCore.Mvc;
 using SERVICE.Engine.Interfaces;
@@ -26,21 +28,30 @@ namespace GazeteKapiMVC5Core.WEB.Components
         private readonly ISettingService _siteSetting;
         private readonly IMagazineBannerService _magazineBannerService;
         private readonly IBannerService _bannerService;
+        private readonly INewsService _newsService;
         private readonly IMapper _mapper;
 
-        public HeaderWebViewComponent(ICategoryService categoryService, IMapper mapper, ISettingService siteSetting, IMagazineBannerService magazineBannerService, IBannerService bannerService)
+        public HeaderWebViewComponent(ICategoryService categoryService, IMapper mapper, ISettingService siteSetting, IMagazineBannerService magazineBannerService, IBannerService bannerService, INewsService newsService)
         {
             _bannerService = bannerService;
             _categoryService = categoryService;
             _magazineBannerService = magazineBannerService;
             _siteSetting = siteSetting;
             _mapper = mapper;
+            _newsService = newsService;
         }
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
+
+            ViewBag.CategoryActive = _mapper.Map<CategoryDto, CategoryEditViewModelWeb>(_categoryService.GetCategoryFirstOrDefault());
+
             List<CategoryListViewModelWeb> categoryList = _mapper.Map<List<CategoryListItemDto>, List<CategoryListViewModelWeb>>(_categoryService.GetAllCategory());
             ViewBag.CategoryList = categoryList;
+
+            List<NewListViewModelWeb> news = _mapper.Map<List<NewsListItemDto>, List<NewListViewModelWeb>>(_newsService.newsListWithWeb());
+            ViewBag.News = news;
+
 
             List<MagazineBannerListViewModelWeb> getMagazineBanner = _mapper.Map<List<MagazineBannerListItemDto>, List<MagazineBannerListViewModelWeb>>(_magazineBannerService.magazineListTakeOneToWeb(1));
 

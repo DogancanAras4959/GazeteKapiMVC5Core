@@ -11,7 +11,6 @@
 
     <meta charset="utf-8" />
     <meta http-equiv="content-language" content="tr" />
-    <meta http-equiv="refresh" content="180, url='@Url.Action("sayfa","anasayfa")'" />
     <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1" />
     <link rel="canonical" href="https://gazetekapi.com" />
     <meta name="rating" content="general" />
@@ -51,6 +50,7 @@
     <link href="~/assets/css/base/layoutbase.css" rel="stylesheet" />
     <link href="~/assets/css/modeservicestyle.css" rel="stylesheet" />
     <link href="~/assets/css/mobile-resp.css" rel="stylesheet" />
+    <link href="~/assets/css/hamburger.css" rel="stylesheet" />
     <link href="~/assets/css/base/home.css" rel="stylesheet" />
     <link rel="manifest" href="~/manifest.json" crossorigin="use-credentials" />
 
@@ -83,47 +83,92 @@
     <script src="~/assets/js/modeservice.js"></script>
     <script src="~/assets/js/home.js"></script>
 
-    @*<script>  
 
-        function notifyMe() {
+    @*<script>
 
-            if (!Notification) {
-                alert('Lütfen Chrome, Firefox, Opera, Internet Explorer veya Spartan\'ın güncel bir versiyonunu kullanınız...');
-                return;
-            }
+    function notifyMe() {
 
-            if (Notification.permission === "granted")
-                Notification.requestPermission();
+    if (!Notification) {
+    alert('Lütfen Chrome, Firefox, Opera, Internet Explorer veya Spartan\'ın güncel bir versiyonunu kullanınız...');
+    return;
+    }
 
-            else {
+    if (Notification.permission === "granted")
+    Notification.requestPermission();
 
-            }
+    else {
 
-            var myArray = '@Html.Raw(ViewData["data"])';
+    }
 
-            if (myArray != '') {
-                $.each(JSON.parse(myArray), function (i, val) {
-                    if (val.IsOpenNotifications == true) {
-                        var notification = new Notification(val.Title, {
-                            icon: 'https://uploads.gazetekapi.com/images/' + val.Image,
-                            body: "Haberi okumak için tıklayın!",
-                        });
+    var myArray = '@Html.Raw(ViewData["data"])';
 
-                        notification.onclick = function () {
-                            window.open("https://www.gazetekapi.com/haber/" + val.CategoryId + "/" + val.Title);
-                        }
+    if (myArray != '') {
+    $.each(JSON.parse(myArray), function (i, val) {
+    if (val.IsOpenNotifications == true) {
+    var notification = new Notification(val.Title, {
+    icon: 'https://uploads.gazetekapi.com/images/' + val.Image,
+    body: "Haberi okumak için tıklayın!",
+    });
 
-                        setTimeout(notification.close, 10000);
+    notification.onclick = function () {
+    window.open("https://www.gazetekapi.com/haber/" + val.CategoryId + "/" + val.Title);
+    }
 
-                    }
-                });
-            }
+    setTimeout(notification.close, 10000);
 
-        }
+    }
+    });
+    }
 
-        window.onload = notifyMe;
+    }
+
+    window.onload = notifyMe;
 
     </script>*@
+
+    <script>
+        $(window).scroll(function () {
+            var scroll = $(window).scrollTop();
+            if (scroll > 100) {
+                $("#drop").addClass("active");
+                $("#currency-section").addClass("pos-move-right");
+            }
+
+            else if (scroll < 80) {
+                $("#drop").removeClass("active");
+                $("#currency-section").removeClass("pos-move-right");
+            }
+        });
+
+        $("#drop, .list-navigate-hamburger ~ ul li").click(function () {
+            $(".list-navigate-hamburger, #drop span").toggleClass("open");
+            $("body").toggleClass("hidden");
+            $(window).scrollTop(0); //cheating
+        });
+
+        /*active button class onclick*/
+
+        function currentClick(Id) {
+            var profile = 'category_' + Id;
+            $('.nav-tab a').removeClass('active-tab');
+            $(this).addClass('active-tab');
+            $('.profile-tab_' + Id).removeClass('noshow-tab');
+            $('.rightbox-tab').children().not('.profile-tab_' + Id).addClass('noshow-tab');
+        }
+
+                //$('.nav-tab a').click(function (e) {
+                //    e.preventDefault();
+                //    $('.nav-tab a').removeClass('active-tab');
+                //    $(this).addClass('active-tab');
+                //    if (this.id === 'profile') {
+                //        $('.profile-tab').removeClass('noshow-tab');
+                //        $('.rightbox-tab').children().not('.profile-tab').addClass('noshow-tab');
+
+                //});
+
+    </script>
+
+
 
     @RenderSection("scripts", false)
 

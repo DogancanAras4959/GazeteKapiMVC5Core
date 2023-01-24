@@ -31,7 +31,7 @@
                                         </div>*@
                                     <div class="article__image articel__image__transition">
                                         <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, MetaTitle = item.GenerateSlug() })">
-                                            <img src="https://uploads.gazetekapi.com/images/@item.Image" alt="@item.Image" title="@item.Image" class="img-fluid" style="height: 180px; object-fit:cover;" />
+                                            <img decoding="async" loading="lazy" src="https://uploads.gazetekapi.com/images/@item.Image" alt="@item.Image" title="@item.Image" class="img-fluid" style="height: 180px; object-fit:cover;" />
                                         </a>
                                     </div>
                                     <div class="text-cat">

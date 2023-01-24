@@ -111,7 +111,7 @@
                                 }
                                 else
                                 {
-                                    <img src="https://uploads.gazetekapi.com/images/@Model.Image" title="@Model.Image" alt="@Model.Image" class="img-fluid" />
+                                    <img src="https://uploads.gazetekapi.com/images/@Model.Image" title="@Model.Image" decoding="async" loading="lazy" alt="@Model.Image" class="img-fluid" />
                                 }
                             }
 
@@ -194,7 +194,7 @@
                                         <div class="article__entry">
                                             <div class="article__image">
                                                 <a href="@Url.Action("haber", "anasayfa", new { Id = item.Id, MetaTitle = item.GenerateSlug() })">
-                                                    <img style="height:135px; width:200px; object-fit:cover;" src="https://uploads.gazetekapi.com/images/@item.Image" alt="@item.Image" title="@item.Image" class="img-fluid">
+                                                    <img decoding="async" loading="lazy" style="height:135px; width:200px; object-fit:cover;" src="https://uploads.gazetekapi.com/images/@item.Image" alt="@item.Image" title="@item.Image" class="img-fluid">
                                                 </a>
                                             </div>
                                             <div class="article__content">
@@ -271,7 +271,8 @@
                                 <div class="card__post card__post-list">
                                     <div class="image-sm">
                                         <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, MetaTitle = item.GenerateSlug() })">
-                                            <img src="https://uploads.gazetekapi.com/images/@item.Image" class="img-fluid" title="@item.Image" alt="@item.Image">
+                                            <img src="https://uploads.gazetekapi.com/images/@item.Image"
+                                             class="img-fluid" title="@item.Image" alt="@item.Image" decoding="async" loading="lazy">
                                         </a>
                                     </div>
 
@@ -296,7 +297,7 @@
                                                 </ul>
                                             </div>
                                             <div class="card__post__title">
-                                                <h6>
+                                                <h6 style="text-transform:none;">
                                                     @if (item.Title.Length > 40)
                                                     {
                                                         <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, MetaTitle = item.GenerateSlug() })">
@@ -326,7 +327,8 @@
 
                         <a href="@bannerSagAlt.Link">
                             <figure>
-                                <img src="https://uploads.gazetekapi.com/images/@bannerSagAlt.BannerImage" alt="@bannerSagAlt.BannerName" title="@bannerSagAlt.BannerName" loading="lazy" class="img-fluid" />
+                                <img src="https://uploads.gazetekapi.com/images/@bannerSagAlt.BannerImage"
+                                     alt="@bannerSagAlt.BannerName" title="@bannerSagAlt.BannerName" decoding="async" loading="lazy" class="img-fluid" />
                             </figure>
                         </a>
 
@@ -344,7 +346,8 @@
                                 <div class="card__post card__post-list">
                                     <div class="image-sm">
                                         <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, MetaTitle = item.GenerateSlug() })">
-                                            <img src="https://uploads.gazetekapi.com/images/@item.Image" title="@item.Image" class="img-fluid" alt="@item.Image" />
+                                            <img src="https://uploads.gazetekapi.com/images/@item.Image" title="@item.Image"
+                                             class="img-fluid" alt="@item.Image" decoding="async" loading="lazy" />
                                         </a>
                                     </div>
 
@@ -370,7 +373,7 @@
                                                 </ul>
                                             </div>
                                             <div class="card__post__title">
-                                                <h6>
+                                                <h6 style="text-transform:none;">
                                                     @if (item.Title.Length > 40)
                                                     {
                                                         <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, MetaTitle = item.GenerateSlug() })">

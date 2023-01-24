@@ -91,7 +91,8 @@
                     else
                     {
                         <a href="@bannerOrta.Link">
-                            <img src="https://uploads.gazetekapi.com/images/@bannerOrta.BannerImage" title="@bannerOrta.BannerName" alt="@bannerOrta.BannerName" loading="lazy" />
+                            <img src="https://uploads.gazetekapi.com/images/@bannerOrta.BannerImage" title="@bannerOrta.BannerName"
+                         alt="@bannerOrta.BannerName" decoding="async" loading="lazy" />
                         </a>
                     }
                 }
@@ -130,10 +131,11 @@
                                 <div class="card__post ">
                                     <div class="card__post__body">
                                         <a href="@Url.Action("haber", "anasayfa", new { Id = item2.Id, MetaTitle = item2.GenerateSlug() })">
-                                            <img src="https://uploads.gazetekapi.com/images/@item2.Image" class="img-fluid news-height-m" title="@item2.Image" loading="lazy" style="height: 185px;" alt="@item2.Image" />
+                                            <img src="https://uploads.gazetekapi.com/images/@item2.Image" class="img-fluid news-height-m"
+                                 title="@item2.Image" decoding="async" loading="lazy" style="height: 185px;" alt="@item2.Image" />
                                         </a>
                                         <div style="margin-top:15px;">
-                                            <h6>
+                                            <h6 style="text-transform:none;">
                                                 @if (item2.Title.Length > 80)
                                                 {
                                                     <a id="btn-article" style="color:#515d5e;" href="@Url.Action("haber", "anasayfa", new { Id = item2.Id, MetaTitle = item2.GenerateSlug() })">
@@ -187,7 +189,8 @@
                                         <div class="col-md-5">
                                             <div class="card__post__transition">
                                                 <a href="@Url.Action("haber", "anasayfa", new { Id = item2.Id, MetaTitle = item2.GenerateSlug() })">
-                                                    <img src="https://uploads.gazetekapi.com/images/@item2.Image" class="img-fluid w-100 news-height-m" alt="@item2.Title" title="@item2.Title" style="height: 230px;" loading="lazy">
+                                                    <img src="https://uploads.gazetekapi.com/images/@item2.Image" class="img-fluid w-100 news-height-m"
+                                         alt="@item2.Title" title="@item2.Title" style="height: 230px;" decoding="async" loading="lazy">
                                                 </a>
                                             </div>
                                         </div>
@@ -276,7 +279,8 @@
                                     <div class="card__post ">
                                         <div class="card__post__body">
                                             <a href="@Url.Action("haber", "anasayfa", new { Id = item2.Id, MetaTitle = item2.GenerateSlug() })">
-                                                <img style="height: 175px;" src="https://uploads.gazetekapi.com/images/@item2.Image" title="@item2.Image" class="img-fluid news-height-m" loading="lazy" alt="@item2.Image" />
+                                                <img style="height: 175px;" src="https://uploads.gazetekapi.com/images/@item2.Image"
+                                         title="@item2.Image" class="img-fluid news-height-m" decoding="async" loading="lazy" alt="@item2.Image" />
                                             </a>
                                             <div style=" margin-top: 0px; background-color: #fff; padding: 15px;">
                                                 <h6>
@@ -328,7 +332,8 @@
                         else
                         {
                             <a href="@bannerAlt.Link">
-                                <img src="https://uploads.gazetekapi.com/images/@bannerAlt.BannerImage" title="@bannerAlt.BannerName" alt="@bannerAlt.BannerName" loading="lazy" />
+                                <img src="https://uploads.gazetekapi.com/images/@bannerAlt.BannerImage" title="@bannerAlt.BannerName"
+                             alt="@bannerAlt.BannerName" decoding="async" loading="lazy" />
                             </a>
                         }
                     }

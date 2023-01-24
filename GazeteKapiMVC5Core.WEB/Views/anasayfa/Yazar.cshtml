@@ -17,7 +17,7 @@
 </div>
 <aside class="wrapper__list__article">
     <div class="wrapper__list-number">
-        @foreach (var item in guestList.Where(x=> x.IsActive == true))
+        @foreach (var item in guestList.Where(x => x.IsActive == true))
         {
             @if (item.GuestName != "Yazar Yok")
             {
@@ -27,7 +27,8 @@
                     <div class="card__post card__post-list">
                         <div class="image-sm">
                             <a asp-action="yazaryazilari" asp-controller="anasayfa" asp-route-id="@item.Id">
-                                <img src="https://uploads.gazetekapi.com/images/@item.GuestImage" class="img-fluid" title="@item.GuestImage" alt="@item.GuestImage" />
+                                <img src="https://uploads.gazetekapi.com/images/@item.GuestImage" class="img-fluid"
+                             title="@item.GuestImage" alt="@item.GuestImage" decoding="async" loading="lazy" />
                             </a>
                         </div>
                         <div class="card__post__body ">
@@ -47,20 +48,10 @@
                                     count2++;
 
                                     <div class="card__post__title">
-                                        <h6>
-                                            @if (item2.Title.Length > 40)
-                                            {
-                                                <a href="@Url.Action("haber","anasayfa", new { Id = item2.Id, MetaTitle = item2.GenerateSlug() })">
-                                                    @item2.Title.Substring(0, 40)
-                                                </a>
-                                            }
-                                            else
-                                            {
-                                                <a href="@Url.Action("haber","anasayfa", new { Id = item2.Id, MetaTitle = item2.GenerateSlug() })">
-                                                    @item2.Title
-                                                </a>
-                                            }
-
+                                        <h6 style="text-transform:none;">
+                                            <a href="@Url.Action("haber","anasayfa", new { Id = item2.Id, MetaTitle = item2.GenerateSlug() })">
+                                                @item2.Title
+                                            </a>
                                         </h6>
                                     </div>
 

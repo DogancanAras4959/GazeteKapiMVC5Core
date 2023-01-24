@@ -2,12 +2,16 @@
 @using GazeteKapiMVC5Core.WEB.ViewModels.Currencies;
 @using GazeteKapiMVC5Core.WEB.ViewModels.MagazineBanner;
 @using GazeteKapiMVC5Core.WEB.ViewModels.Banner;
+@using GazeteKapiMVC5Core.WEB.ViewModels.News;
 @model GazeteKapiMVC5Core.WEB.ViewModels.Settings.SettingsBaseViewModelWeb;
 
 @{
     List<CategoryListViewModelWeb> categories = ViewBag.CategoryList as List<CategoryListViewModelWeb>;
     List<CurrencyListViewModelWeb> currencies = ViewBag.CurrencyList as List<CurrencyListViewModelWeb>;
     List<MagazineBannerListViewModelWeb> banner = ViewBag.Magazine as List<MagazineBannerListViewModelWeb>;
+    List<NewListViewModelWeb> news = ViewBag.News as List<NewListViewModelWeb>;
+    CategoryEditViewModelWeb categoryActive = ViewBag.CategoryActive as CategoryEditViewModelWeb;
+
     List<doviz> dovizlist = ViewBag.dovizler as List<doviz>;
 }
 
@@ -59,10 +63,10 @@
                                 <a class="sm-link" rel="nofollow" target="_blank" href="https://www.instagram.com/gzt4kapi/"><img style="height:25px;" title="instagram" alt="instagram" src="~/assets/images/social-media/instagram.svg" /></a>
                             </li>
                             @*<li>
-                                    <a class="sm-link" target="_blank" href="https://web.telegram.org/"><img style="height:25px;" src="https://uploads.gazetekapi.com/images/social-media/telegram.svg" /></a>
-                                </li>*@
+                            <a class="sm-link" target="_blank" href="https://web.telegram.org/"><img style="height:25px;" src="https://uploads.gazetekapi.com/images/social-media/telegram.svg" /></a>
+                            </li>*@
                             @*<li>
-                                <a class="sm-link" rel="nofollow" target="_blank" href="https://www.google.com.tr/"><img style="height:25px;" title="gmail" alt="gmail" src="~/assets/images/social-media/mail.svg" /></a>
+                            <a class="sm-link" rel="nofollow" target="_blank" href="https://www.google.com.tr/"><img style="height:25px;" title="gmail" alt="gmail" src="~/assets/images/social-media/mail.svg" /></a>
                             </li>*@
                             <li>
                                 <a class="sm-link" target="_blank" href="@Url.Action("Rss", "anasayfa")"><img style="height:25px;" title="rss" alt="rss" src="~/assets/images/social-media/rss.svg" /></a>
@@ -73,6 +77,113 @@
             </div>
         </div>
     </div>
+
+    <nav class="list-navigate-hamburger">
+        <div id="drop">
+            <div>
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+    <ul>
+        <div class="container-tab">
+            <div class="leftbox-tab">
+                <nav class="nav-tab">
+                    <a id="#category_@categoryActive.Id" onclick="currentClick(@categoryActive.Id)" class="active-tab">@categoryActive.CategoryName</a>
+                    @foreach (var item in categories.Where(x => x.IsActive == true && x.Id != categoryActive.Id))
+                    {
+                        <a onclick="currentClick(@item.Id)" id="#category_@item.Id">@item.CategoryName</a>
+                    }
+                </nav>
+            </div>
+            <div class="rightbox-tab">
+
+                <div class="profile-tab_@categoryActive.Id tab-position">
+                    <div class="container boxed">
+                        <div class="row mb-2">
+                            @foreach (var item in news.Where(x => x.IsActive == true && x.IsLock == false && x.CategoryId == categoryActive.Id).OrderByDescending(x => x.CreatedTime).Take(9))
+                            {
+                                <div class="col-sm-12 col-md-4 mb-2">
+                                    <!-- Post Article -->
+                                    <div class="card__post ">
+                                        <div class="card__post__body">
+                                            <a href="@Url.Action("haber", "anasayfa", new { Id = item.Id, MetaTitle = item.GenerateSlug() })">
+                                                <img src="https://uploads.gazetekapi.com/images/@item.Image" class="img-fluid news-height-m"
+                                                 title="@item.Image" decoding="async" loading="lazy" style="height: auto;" alt="@item.Image" />
+                                            </a>
+                                            <div style="margin-top:15px;">
+                                                <h6 style="text-transform:none; font-size:14px;">
+                                                    @if (item.Title.Length > 80)
+                                                    {
+                                                        <a id="btn-article" style="color:#515d5e;" href="@Url.Action("haber", "anasayfa", new { Id = item.Id, MetaTitle = item.GenerateSlug() })">
+                                                            @item.Title.Substring(0, 80)<span>...</span>
+                                                        </a>
+                                                    }
+                                                    else
+                                                    {
+                                                        <a id="btn-article" style="color:#515d5e;" href="@Url.Action("haber", "anasayfa", new { Id = item.Id, MetaTitle = item.GenerateSlug() })">
+                                                            @item.Title
+                                                        </a>
+                                                    }
+
+                                                </h6>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                @foreach (var item in categories.Where(x => x.IsActive == true && x.Id != categoryActive.Id))
+                {
+                    <div class="profile-tab_@item.Id tab-position noshow-tab">
+                        <div class="container boxed">
+                        <div class="row mb-2">
+                            @foreach (var item3 in news.Where(x => x.IsActive == true && x.IsLock == false && x.CategoryId == item.Id).OrderByDescending(x => x.CreatedTime).Take(9))
+                            {
+                                <div class="col-sm-12 col-md-4 mb-2">
+                                    <!-- Post Article -->
+                                    <div class="card__post ">
+                                        <div class="card__post__body">
+                                            <a href="@Url.Action("haber", "anasayfa", new { Id = item.Id, MetaTitle = item3.GenerateSlug() })">
+                                                <img src="https://uploads.gazetekapi.com/images/@item3.Image" class="img-fluid news-height-m"
+                                                 title="@item.Image" decoding="async" loading="lazy" style="height: auto;" alt="@item.Image" />
+                                            </a>
+                                            <div style="margin-top:15px;">
+                                                <h6 style="text-transform:none; font-size:14px;">
+                                                    @if (item3.Title.Length > 80)
+                                                    {
+                                                        <a id="btn-article" style="color:#515d5e;" href="@Url.Action("haber", "anasayfa", new { Id = item3.Id, MetaTitle = item3.GenerateSlug() })">
+                                                            @item3.Title.Substring(0, 80)<span>...</span>
+                                                        </a>
+                                                    }
+                                                    else
+                                                    {
+                                                        <a id="btn-article" style="color:#515d5e;" href="@Url.Action("haber", "anasayfa", new { Id = item3.Id, MetaTitle = item3.GenerateSlug() })">
+                                                            @item3.Title
+                                                        </a>
+                                                    }
+
+                                                </h6>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                    </div>
+                }
+
+            </div>
+        </div>
+    </ul>
     <!-- End Navbar Top  -->
     <!-- Navbar  -->
     <!-- Navbar menu  -->
@@ -81,8 +192,8 @@
             <div class="container boxed">
                 <figure class="mb-0">
                     <a asp-action="sayfa" asp-controller="anasayfa">
-                        <img src="~/assets/images/placeholder/kapi-logo.png" alt="gkapi_logo" title="gkapi_logo" id="img-shrink" class="logo logo-img logo-light" />
-                        <img src="~/assets/images/logo-footer-son223354760.webp" style="display:none;" title="gkapi_footer" alt="gkapi_footer" id="img-shrink" class="logo logo-img logo-dark" />
+                        <img src="~/assets/images/placeholder/kapi-logo.png" alt="gkapi_logo" decoding="async" loading="lazy" title="gkapi_logo" id="img-shrink" class="logo logo-img logo-light" />
+                        <img src="~/assets/images/logo-footer-son223354760.webp" style="display:none;" decoding="async" loading="lazy" title="gkapi_footer" alt="gkapi_footer" id="img-shrink" class="logo logo-img logo-dark" />
                     </a>
                 </figure>
                 <div class="offcanvas-header">
@@ -94,7 +205,7 @@
                 <div class="justify-content-between" id="main_nav99">
                     <div class="row currency-m">
                         <div class="col-sm-12" style="padding-right: 10px;">
-                            <ul class="navbar-nav ml-auto" style="float:right;">
+                            <ul class="navbar-nav ml-auto" style="float:right;" id="currency-section">
 
                                 @if (ViewData["dovizler"] == null || dovizlist == null)
                                 {
@@ -158,19 +269,19 @@
                                     <a asp-action="yazarlar" style="font-size:16px;" asp-controller="anasayfa" class="menu-link"> YAZARLAR </a> <div class="menu-rect"></div>
                                 </li>
                                 @*<li class="nav-item dropdown has-megamenu" style="margin-left:13px; margin-right:0px; margin-top:3px; cursor:pointer;">
-                                        <a class="menu-link dropdown-toggle" data-toggle="dropdown">
-                                            <img alt="hamburger_icon" title="hamburger-menu" class="hamburger-light" src="~/assets/images/hamburgerMenu.png" />
-                                            <img alt="hamburger_icon_dark" class="hamburger-dark" title="hamburger-menu-dark" src="~/assets/images/hamburgerMenuWhite.png" />
-                                        </a>
-                                        <div class="dropdown-menu animate fade-down megamenu mx-auto" role="menu">
-                                            <div class="container wrap__mobile-megamenu">
-                                                <div class="col-megamenu">
-                                                    @{ await Html.RenderPartialAsync("HamburgerMenuContent");}
+                                <a class="menu-link dropdown-toggle" data-toggle="dropdown">
+                                <img alt="hamburger_icon" title="hamburger-menu" class="hamburger-light" src="~/assets/images/hamburgerMenu.png" />
+                                <img alt="hamburger_icon_dark" class="hamburger-dark" title="hamburger-menu-dark" src="~/assets/images/hamburgerMenuWhite.png" />
+                                </a>
+                                <div class="dropdown-menu animate fade-down megamenu mx-auto" role="menu">
+                                <div class="container wrap__mobile-megamenu">
+                                <div class="col-megamenu">
+                                @{ await Html.RenderPartialAsync("HamburgerMenuContent");}
 
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>*@
+                                </div>
+                                </div>
+                                </div>
+                                </li>*@
                             </ul>
                         </div>
 
@@ -281,7 +392,8 @@
                     else
                     {
                         <a href="@bannerSol.Link">
-                            <img class="banner-cs-img" style="float:left;" title="@bannerSol.BannerName" alt="@bannerSol.BannerName" loading="lazy" src="https://uploads.gazetekapi.com/images/@bannerSol.BannerImage" />
+                            <img class="banner-cs-img" style="float:left;"
+                         title="@bannerSol.BannerName" alt="@bannerSol.BannerName" decoding="async" loading="lazy" src="https://uploads.gazetekapi.com/images/@bannerSol.BannerImage" />
                         </a>
                     }
                 }
@@ -297,7 +409,8 @@
                     else
                     {
                         <a href="@bannerSag.Link">
-                            <img class="banner-cs-img" style="float:right;" title="@bannerSag.BannerName" alt="@bannerSag.BannerName" loading="lazy" src="https://uploads.gazetekapi.com/images/@bannerSag.BannerImage" />
+                            <img class="banner-cs-img" style="float:right;" title="@bannerSag.BannerName"
+                         alt="@bannerSag.BannerName" decoding="async" loading="lazy" src="https://uploads.gazetekapi.com/images/@bannerSag.BannerImage" />
                         </a>
                     }
                 }
@@ -312,7 +425,7 @@
                 @foreach (var item in banner)
                 {
                     <a href="@item.Link" class="image-container image-banner-pd" style="text-decoration:none; cursor:pointer;">
-                        <img alt="banner-dergi" class="magazine image-banner-magazine" title="banner-dergi" loading="lazy" src="https://uploads.gazetekapi.com/images/@item.BannerImage" />
+                        <img alt="banner-dergi" class="magazine image-banner-magazine" title="banner-dergi" decoding="async" loading="lazy" src="https://uploads.gazetekapi.com/images/@item.BannerImage" />
                         <div class="image-parent-container" style="width: 60%; padding-left: 40px; padding-top: 15px; ">
                             <h5 class="magazine-title" style="font-weight:bold; color:#fff;">Le Monde diplomatique Türkçe</h5>
                             <h5 class="magazine-desc" style="color:#fff; font-weight:300;">Dijital abonelik için <span style="text-decoration:underline; color:#fff;">tıklayın..</span></h5>
@@ -326,7 +439,8 @@
             <div class="col-4 col-sm-4" style="padding-right: 0;">
                 <div class="wrap-magazine">
                     <a href="@Url.Action("aboneol","anasayfa")" class="img-magazine-wrap" style="cursor: pointer; text-decoration: none; padding: 24px 0px;">
-                        <img class="image-magazine-leMonde" src="~/assets/images/lemonde-son-footer.png" style="padding: 0px 25px 10px 25px;" />
+                        <img class="image-magazine-leMonde" src="~/assets/images/lemonde-son-footer.png"
+                             style="padding: 0px 25px 10px 25px;" decoding="async" loading="lazy" />
                         <p class="image-lm-p" style="text-align:center; color:#000; padding:0 20px; margin:0;">Basılı gazeteye abonelik için tıklayın...</p>
                     </a>
                 </div>
@@ -345,7 +459,7 @@
                     else
                     {
                         <a href="@bannerUst.Link">
-                            <img style="width:100%" title="@bannerUst.BannerName" alt="@bannerUst.BannerName" loading="lazy" src="https://uploads.gazetekapi.com/images/@bannerUst.BannerImage" />
+                            <img style="width:100%" title="@bannerUst.BannerName" alt="@bannerUst.BannerName" decoding="async" loading="lazy" src="https://uploads.gazetekapi.com/images/@bannerUst.BannerImage" />
                         </a>
                     }
                 }

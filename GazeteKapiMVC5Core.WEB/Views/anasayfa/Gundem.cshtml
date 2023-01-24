@@ -112,13 +112,13 @@
                             <div class="card__post card__post-list">
                                 <div class="image-sm">
                                     <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, MetaTitle = item.GenerateSlug() })">
-                                        <img style="height:65px;" src="https://uploads.gazetekapi.com/images/@item.Image" class="img-fluid" title="@item.Image" alt="@item.Image" />
+                                        <img decoding="async" style="height:65px;" src="https://uploads.gazetekapi.com/images/@item.Image" loading="lazy" class="img-fluid" title="@item.Image" alt="@item.Image" />
                                     </a>
                                 </div>
                                 <div class="card__post__body ">
                                     <div class="card__post__content">
                                         <div class="card__post__title">
-                                            <h6>
+                                            <h6 style="text-transform:none;">
                                                 @if (item.Title.Length > 50)
                                                 {
                                                     <a href="@Url.Action("haber", "anasayfa", new { Id = item.Id, MetaTitle = item.GenerateSlug() })">

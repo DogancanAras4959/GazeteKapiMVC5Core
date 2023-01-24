@@ -56,12 +56,12 @@
                             <h2>@item.RowNo</h2>
                         </div>*@
                     <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, MetaTitle = item.GenerateSlug() })" target="_blank">
-                        <img src="https://uploads.gazetekapi.com/images/@item.Image" loading="lazy" title="@item.Image" alt="@item.Image" class="img-slide" />
+                        <img src="https://uploads.gazetekapi.com/images/@item.Image" decoding="async" loading="lazy" title="@item.Image" alt="@item.Image" class="img-slide" />
                     </a>
 
                     <div class="text">
                         <div class="title-word-big-right">
-                            <a class="next" onclick="plusSlides(1)"><img src="~/assets/images/chevron_next.png" title="chevron-next" alt="chevron-next" width="20" /></a>
+                            <a class="next" onclick="plusSlides(1)"><img loading="lazy" decoding="async" src="~/assets/images/chevron_next.png" title="chevron-next" alt="chevron-next" width="20" /></a>
                         </div>
                         @if (item.IsTitle == true)
                         {
@@ -78,7 +78,7 @@
                         }
 
                         <div class="title-word-big">
-                            <a class="next" onclick="plusSlides(-1)"><img src="~/assets/images/chevron_prev.png" title="chevron-prev" alt="chevron-prev" width="20" /></a>
+                            <a class="next" onclick="plusSlides(-1)"><img loading="lazy" decoding="async" src="~/assets/images/chevron_prev.png" title="chevron-prev" alt="chevron-prev" width="20" /></a>
                         </div>
                     </div>
                 </div>
@@ -110,7 +110,7 @@
                 <div class="card__post card-mobile-type" style="margin-top:2px;">
                     <div class="card__post__body card__post__transition card-mobile-type-content">
                         <a href="@Url.Action("haber","anasayfa", new { Id = item.Id, MetaTitle = item.GenerateSlug() })">
-                            <img src="https://uploads.gazetekapi.com/images/@item.Image" title="@item.Image" class="img-fluid card-mobile-image" alt="@item.Image" loading="lazy" />
+                            <img src="https://uploads.gazetekapi.com/images/@item.Image" decoding="async" title="@item.Image" class="img-fluid card-mobile-image" alt="@item.Image" loading="lazy" />
                         </a>
                         <div class="text-sm">
                             <div class="title-word-big-sm">
